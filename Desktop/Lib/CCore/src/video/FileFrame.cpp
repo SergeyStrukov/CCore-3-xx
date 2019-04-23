@@ -1396,15 +1396,12 @@ void FileWindow::close()
 
 /* class FileFrame */
 
-FileFrame::FileFrame(Desktop *desktop,const Config &cfg_,const FileWindowParam &param)
- : DragFrame(desktop,cfg_.frame_cfg),
-   cfg(cfg_),
-   sub_win(*this,cfg_.file_cfg,param)
+FileFrame::FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param)
+ : FrameClient<FileWindow>(desktop,cfg,param)
  {
-  bindClient(sub_win);
  }
 
-FileFrame::FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param,Signal<> &update)
+FileFrame::FileFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const FileWindowParam &param)
  : FileFrame(desktop,cfg,param)
  {
   connectUpdate(update);
@@ -1412,24 +1409,6 @@ FileFrame::FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &p
 
 FileFrame::~FileFrame()
  {
- }
-
- // create
-
-Pane FileFrame::getPane(StrLen title,Point base) const
- {
-  Point size=getMinSize(false,title,sub_win.getMinSize());
-
-  Point screen_size=getScreenSize();
-
-  return FitToScreen(base,size,screen_size);
- }
-
-Pane FileFrame::getPane(StrLen title) const
- {
-  Point size=getMinSize(false,title,sub_win.getMinSize());
-
-  return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }
 
 } // namespace Video

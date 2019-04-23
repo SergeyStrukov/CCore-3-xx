@@ -235,74 +235,19 @@ class DirWindow : public ComboWindow
 
 /* class DirFrame */
 
-class DirFrame : public DragFrame
+class DirFrame : public FrameClient<DirWindow>
  {
-  public:
-
-   struct Config
-    {
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-     CtorRefVal<DirWindow::ConfigType> dir_cfg;
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     Config() noexcept {}
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       frame_cfg.bind(proxy);
-       dir_cfg.bind(proxy);
-
-       pos_ry.bind(bag.frame_pos_ry);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   DirWindow sub_win;
-
   public:
 
    DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param={});
 
-   DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param,Signal<> &update);
+   DirFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const DirWindowParam &param={});
 
    virtual ~DirFrame();
 
    // methods
 
-   StrLen getPath() const { return sub_win.getPath(); } // available after the signal "destroyed"
-
-   // create
-
-   Pane getPane(StrLen title,Point base) const;
-
-   Pane getPane(StrLen title) const;
-
-   void create(Point base,const String &title)
-    {
-     DragFrame::create(getPane(Range(title),base),title);
-    }
-
-   void create(FrameWindow *parent,Point base,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title),base),title);
-    }
-
-   void create(const String &title)
-    {
-     DragFrame::create(getPane(Range(title)),title);
-    }
-
-   void create(FrameWindow *parent,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title)),title);
-    }
+   StrLen getPath() const { return client.getPath(); } // available after the signal "destroyed"
  };
 
 } // namespace Video

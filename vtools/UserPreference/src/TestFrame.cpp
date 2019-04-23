@@ -327,7 +327,7 @@ TestClient::TestClient(SubWindowHost &host,const UserPreference &pref,Signal<> &
    menu(wlist,pref.getSmartConfig(),menu_data),
    cascade_menu(host.getFrameDesktop(),pref.getSmartConfig()),
    test(wlist,pref),
-   file_window(host.getFrameDesktop(),pref.getSmartConfig(),{true},update),
+   file_window(host.getFrameDesktop(),pref.getSmartConfig(),update,{true}),
 
    connector_menu_selected(this,&TestClient::menu_selected,menu.selected),
    connector_cascade_menu_selected(this,&TestClient::cascade_menu_selected,cascade_menu.selected),

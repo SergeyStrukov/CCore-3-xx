@@ -380,15 +380,12 @@ void DirWindow::close()
 
 /* class DirFrame */
 
-DirFrame::DirFrame(Desktop *desktop,const Config &cfg_,const DirWindowParam &param)
- : DragFrame(desktop,cfg_.frame_cfg),
-   cfg(cfg_),
-   sub_win(*this,cfg_.dir_cfg,param)
+DirFrame::DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param)
+ : FrameClient<DirWindow>(desktop,cfg,param)
  {
-  bindClient(sub_win);
  }
 
-DirFrame::DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param,Signal<> &update)
+DirFrame::DirFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const DirWindowParam &param)
  : DirFrame(desktop,cfg,param)
  {
   connectUpdate(update);
@@ -396,24 +393,6 @@ DirFrame::DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &para
 
 DirFrame::~DirFrame()
  {
- }
-
- // create
-
-Pane DirFrame::getPane(StrLen title,Point base) const
- {
-  Point size=getMinSize(false,title,sub_win.getMinSize());
-
-  Point screen_size=getScreenSize();
-
-  return FitToScreen(base,size,screen_size);
- }
-
-Pane DirFrame::getPane(StrLen title) const
- {
-  Point size=getMinSize(false,title,sub_win.getMinSize());
-
-  return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
  }
 
 } // namespace Video

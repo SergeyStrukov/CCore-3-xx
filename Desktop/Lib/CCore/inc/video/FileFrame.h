@@ -20,6 +20,7 @@
 #include <CCore/inc/video/Menu.h>
 #include <CCore/inc/video/FileBoss.h>
 #include <CCore/inc/video/ExceptionFrame.h>
+#include <CCore/inc/video/FrameClient.h>
 
 #include <CCore/inc/FunctorType.h>
 #include <CCore/inc/MakeFileName.h>
@@ -666,52 +667,23 @@ class FileWindow : public ComboWindow
 
 /* class FileFrame */
 
-class FileFrame : public DragFrame
+class FileFrame : public FrameClient<FileWindow>
  {
-  public:
-
-   struct Config
-    {
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-     CtorRefVal<FileWindow::ConfigType> file_cfg;
-
-     Config() noexcept {}
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-       file_cfg.bind(proxy);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   FileWindow sub_win;
-
   public:
 
    FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param={false});
 
-   FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param,Signal<> &update);
+   FileFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const FileWindowParam &param={false});
 
    virtual ~FileFrame();
 
    // methods
 
-   void setNewFile(bool on,String auto_ext) { sub_win.setNewFile(on,auto_ext); }
+   void setNewFile(bool on,String auto_ext) { client.setNewFile(on,auto_ext); }
 
-   void setNewFile(bool on) { sub_win.setNewFile(on); }
+   void setNewFile(bool on) { client.setNewFile(on); }
 
-   void addFilter(StrLen filter,bool check=true) { sub_win.addFilter(filter,check); }
+   void addFilter(StrLen filter,bool check=true) { client.addFilter(filter,check); }
 
    template <class ... TT>
    void addFilters(TT ... filters)
@@ -719,33 +691,7 @@ class FileFrame : public DragFrame
      ( addFilter(filters) , ... );
     }
 
-   StrLen getFilePath() const { return sub_win.getFilePath(); } // available after the signal "destroyed"
-
-   // create
-
-   Pane getPane(StrLen title,Point base) const;
-
-   Pane getPane(StrLen title) const;
-
-   void create(Point base,const String &title)
-    {
-     DragFrame::create(getPane(Range(title),base),title);
-    }
-
-   void create(FrameWindow *parent,Point base,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title),base),title);
-    }
-
-   void create(const String &title)
-    {
-     DragFrame::create(getPane(Range(title)),title);
-    }
-
-   void create(FrameWindow *parent,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title)),title);
-    }
+   StrLen getFilePath() const { return client.getFilePath(); } // available after the signal "destroyed"
  };
 
 } // namespace Video
