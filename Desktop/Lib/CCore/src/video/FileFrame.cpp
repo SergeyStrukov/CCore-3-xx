@@ -1390,6 +1390,8 @@ void FileWindow::open()
 void FileWindow::close()
  {
   hit_list.save(param.file_boss->getHitDirFile());
+
+  ComboWindow::close();
  }
 
 /* class FileFrame */
