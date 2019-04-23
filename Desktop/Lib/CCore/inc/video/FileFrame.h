@@ -672,20 +672,20 @@ class FileFrame : public DragFrame
 
    struct Config
     {
+     RefVal<Ratio> pos_ry = Div(5,12) ;
+
      CtorRefVal<DragFrame::ConfigType> frame_cfg;
      CtorRefVal<FileWindow::ConfigType> file_cfg;
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
 
      Config() noexcept {}
 
      template <class Bag,class Proxy>
      void bind(const Bag &bag,Proxy proxy)
       {
+       pos_ry.bind(bag.frame_pos_ry);
+
        frame_cfg.bind(proxy);
        file_cfg.bind(proxy);
-
-       pos_ry.bind(bag.frame_pos_ry);
       }
     };
 
