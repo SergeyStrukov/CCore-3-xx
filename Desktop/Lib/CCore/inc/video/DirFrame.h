@@ -48,8 +48,8 @@ class DirWindow : public ComboWindow
 
      RefVal<VColor> back = Silver ;
 
-     RefVal<String> text_Ok       = "Ok"_str ;
-     RefVal<String> text_Cancel   = "Cancel"_str ;
+     RefVal<String> text_Ok     = "Ok"_str ;
+     RefVal<String> text_Cancel = "Cancel"_str ;
 
      RefVal<String> hint_FileHitList   = "Open/close the hit directory list"_str ;
      RefVal<String> hint_FileAddHit    = "Add the current directory to the hit list"_str ;

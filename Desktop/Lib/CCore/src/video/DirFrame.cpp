@@ -376,6 +376,8 @@ void DirWindow::open()
 void DirWindow::close()
  {
   hit_list.save(param.file_boss->getHitDirFile());
+
+  ComboWindow::close();
  }
 
 /* class DirFrame */
