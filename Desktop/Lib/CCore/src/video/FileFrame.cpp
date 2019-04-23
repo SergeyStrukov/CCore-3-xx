@@ -300,7 +300,7 @@ void DirHitList::del(int id)
 
 void DirHitList::prepare(MenuData &data)
  {
-  data.list.erase();
+  data.erase();
 
   for(ulen i=0; i<hit_len ;i++)
     {
@@ -321,7 +321,7 @@ void DirHitList::prepare(MenuData &data)
 
 StrLen DirEditShape::SampleDir()
  {
-  return "/cygdrive/d/active/home/C++/CCore-2-99/vtools/DDLDisplay"_c;
+  return "/cygdrive/d/active/home/C++/CCore-3-xx/vtools/Book"_c;
  }
 
 void DirEditShape::drawText(Font font,const DrawBuf &buf,Pane pane,TextPlace place,PtrLen<const Char> text,ulen,VColor vc) const
@@ -501,7 +501,7 @@ Point FileFilterListWindow::getMinSize() const
 
      Coord delta=BoxExt(size.y);
 
-     return Point( Sup(size.x,knob_dxy) , delta*CountToCoord(count)+knob_dxy );
+     return Point( Sup(size.x,knob_dxy) , MulSize(count,delta)+knob_dxy );
     }
   else
     {
@@ -579,9 +579,10 @@ void FileCheckShape::draw(const DrawBuf &buf,DrawParam draw_param) const
   temp_cfg.gray=cfg.gray;
   temp_cfg.snow=cfg.snow;
   temp_cfg.snowUp=cfg.snowUp;
-  temp_cfg.face=check?cfg.faceRight:cfg.faceDown;
 
-  KnobShape temp(temp_cfg,check?KnobShape::FaceRight:KnobShape::FaceDown);
+  temp_cfg.face = check? cfg.faceRight : cfg.faceDown ;
+
+  KnobShape temp(temp_cfg, check? KnobShape::FaceRight : KnobShape::FaceDown );
 
   temp.pane=pane;
 

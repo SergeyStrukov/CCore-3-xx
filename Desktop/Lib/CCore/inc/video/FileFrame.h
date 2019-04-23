@@ -146,7 +146,7 @@ class FileFilterWindow : public ComboWindow
      RefVal<String> hint_FileFilter = "Filename filter, use * or ?"_str ;
 
      CtorRefVal<CheckWindow::ConfigType> check_cfg;
-     CtorRefVal<LineEditWindow::ConfigType> edit_cfg;
+     LineEditWindow::ConfigType edit_cfg;
      CtorRefVal<KnobWindow::ConfigType> knob_cfg;
 
      Config() noexcept {}
@@ -161,11 +161,9 @@ class FileFilterWindow : public ComboWindow
        check_cfg.bind(proxy);
        knob_cfg.bind(proxy);
 
-       auto &cfg=edit_cfg.refVal();
-
-       cfg.bind(bag);
-       cfg.text.bind(bag.file_filter_text);
-       cfg.font.bind(bag.file_filter_font.font);
+       edit_cfg.bind(bag);
+       edit_cfg.text.bind(bag.file_filter_text);
+       edit_cfg.font.bind(bag.file_filter_font.font);
       }
     };
 

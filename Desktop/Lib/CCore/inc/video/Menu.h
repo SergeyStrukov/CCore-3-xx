@@ -118,6 +118,13 @@ struct MenuData : NoCopy
 
   // methods
 
+  MenuData & erase()
+   {
+    list.erase();
+
+    return *this;
+   }
+
   template <class ... SS>
   MenuData & operator () (SS && ... ss)
    {
