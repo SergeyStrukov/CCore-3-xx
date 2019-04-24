@@ -207,7 +207,7 @@ Dir Dir4=
     { "FrameOf.cpp" , Green },
     { "Layout.cpp" , Red },
     { "LayoutCombo.cpp" , Red },
-    { "Menu.cpp" , Red },
+    { "Menu.cpp" , Green },
     { "MessageFrame.cpp" , Green },
     { "MinSizeType.cpp" , Green },
     { "ShapeLib.cpp" , Ignore },

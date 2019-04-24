@@ -296,6 +296,8 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
   SmoothDrawArt art(buf.cut(pane));
 
+  const DrawBuf &abuf=art.getBuf();
+
   // back
 
   {
@@ -326,7 +328,7 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
             {
              FigureBox(point_pane).loop(art,HalfPos,width,select);
 
-             drawText(buf,point,point_pane,font,AlignX_Center,hilight,focus);
+             drawText(abuf,point,point_pane,font,AlignX_Center,hilight,focus);
             }
           else if( BitTest(state,MenuHilight) && hilight_index==i )
             {
@@ -334,18 +336,18 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
              art.path(HalfPos,width,hilight,p.getBottomLeft(),p.getBottomRight());
 
-             drawText(buf,point,point_pane,font,AlignX_Center,hilight,focus);
+             drawText(abuf,point,point_pane,font,AlignX_Center,hilight,focus);
             }
           else
             {
-             drawText(buf,point,point_pane,font,AlignX_Center,text,focus);
+             drawText(abuf,point,point_pane,font,AlignX_Center,text,focus);
             }
          }
         break;
 
         case MenuDisabled :
          {
-          drawText(buf,point,point_pane,font,AlignX_Center,inactive);
+          drawText(abuf,point,point_pane,font,AlignX_Center,inactive);
          }
         break;
 
@@ -357,7 +359,7 @@ void SimpleTopMenuShape::draw(const DrawBuf &buf,DrawParam draw_param) const
 
         case MenuSeparator :
          {
-          drawY(buf,point_pane);
+          drawY(abuf,point_pane);
          }
        }
     }
@@ -411,6 +413,8 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
 
   SmoothDrawArt art(buf);
 
+  const DrawBuf &abuf=art.getBuf();
+
   // text
 
   auto r=Range(data->list);
@@ -429,7 +433,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
             {
              FigureBox(pane).loop(art,HalfPos,width,select);
 
-             drawText(buf,point,pane,font,AlignX_Left,hilight,focus);
+             drawText(abuf,point,pane,font,AlignX_Left,hilight,focus);
             }
           else if( BitTest(state,MenuHilight) && hilight_index==i )
             {
@@ -437,18 +441,18 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
 
              art.path(HalfPos,width,hilight,p.getBottomLeft(),p.getBottomRight());
 
-             drawText(buf,point,pane,font,AlignX_Left,hilight,focus);
+             drawText(abuf,point,pane,font,AlignX_Left,hilight,focus);
             }
           else
             {
-             drawText(buf,point,pane,font,AlignX_Left,text,focus);
+             drawText(abuf,point,pane,font,AlignX_Left,text,focus);
             }
          }
         break;
 
         case MenuDisabled :
          {
-          drawText(buf,point,pane,font,AlignX_Left,inactive);
+          drawText(abuf,point,pane,font,AlignX_Left,inactive);
          }
         break;
 
@@ -460,7 +464,7 @@ void SimpleCascadeMenuShape::drawMenu(const DrawBuf &buf) const
 
         case MenuSeparator :
          {
-          drawX(buf,pane);
+          drawX(abuf,pane);
          }
        }
     }
