@@ -281,7 +281,7 @@ void FrameShapeBase::drawBar(const DrawBuf &buf,Pane pane) const
 
      Pane tpane=pane.shrink(RoundUpLen(ex),RoundUpLen(width));
 
-     cfg.font->text(buf,tpane,TextPlace(AlignX_Left,AlignY_Center),Range(title),+cfg.title);
+     cfg.font->textOn(art,tpane,TextPlace(AlignX_Left,AlignY_Center),Range(title),+cfg.title);
     }
  }
 
@@ -516,7 +516,7 @@ void FrameShapeBase::drawHint(const DrawBuf &buf,Pane title,Hint hint) const
          text=Range(cfg.text_No_hint.get());
         }
 
-      cfg.fontHint->text(buf,pane,TextPlace(AlignX_Left,AlignY_Center),text,hintText);
+      cfg.fontHint->textOn(art,pane,TextPlace(AlignX_Left,AlignY_Center),text,hintText);
      }
 
      // 3

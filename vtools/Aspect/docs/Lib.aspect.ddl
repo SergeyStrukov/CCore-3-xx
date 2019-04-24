@@ -5,7 +5,7 @@ Aspect Data=
   "../../../Desktop/Lib",
   {
    "",
-   Red,
+   New,
    {
     &Dir0
    },
@@ -17,7 +17,7 @@ Aspect Data=
 Dir Dir0=
   {
    "CCore",
-   Red,
+   New,
    {
     &Dir1,
     &Dir2
@@ -29,7 +29,7 @@ Dir Dir0=
 Dir Dir1=
   {
    "inc",
-   Red,
+   New,
    {
     &Dir3
    },
@@ -40,7 +40,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "src",
-   Red,
+   New,
    {
     &Dir4
    },
@@ -51,7 +51,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "video",
-   Red,
+   New,
    {
     &Dir5,
     &Dir6,
@@ -70,7 +70,7 @@ Dir Dir3=
     { "FigureLib.h" , Yellow },
     { "FileFrame.h" , Green },
     { "FontReplace.h" , Green },
-    { "FrameBase.h" , Red },
+    { "FrameBase.h" , Green },
     { "FrameClient.h" , Yellow },
     { "FrameOf.h" , Yellow },
     { "Layout.h" , Red },
@@ -79,7 +79,7 @@ Dir Dir3=
     { "MessageFrame.h" , Green },
     { "MinSizeType.h" , Green },
     { "ShapeLib.h" , Ignore },
-    { "ToolFrame.h" , Red },
+    { "ToolFrame.h" , Green },
     { "UserPreference.h" , Red },
     { "WindowLib.h" , Ignore }
    }
@@ -88,7 +88,7 @@ Dir Dir3=
 Dir Dir5=
   {
    "book",
-   Red,
+   New,
    {
    },
    {
@@ -120,11 +120,11 @@ Dir Dir6=
     { "Shape.CheckState.h" , Green },
     { "Shape.Contour.h" , Green },
     { "Window.Decor.h" , Green },
-    { "Shape.DragFrame.h" , Yellow },
-    { "Window.DragFrame.h" , Yellow },
+    { "Shape.DragFrame.h" , Green },
+    { "Window.DragFrame.h" , Green },
     { "Window.FireButton.h" , Green },
-    { "Shape.FixedFrame.h" , Yellow },
-    { "Shape.FrameBase.h" , Yellow },
+    { "Shape.FixedFrame.h" , Green },
+    { "Shape.FrameBase.h" , Green },
     { "Shape.Info.h" , Green },
     { "Window.Info.h" , Green },
     { "Shape.Label.h" , Green },
@@ -165,7 +165,7 @@ Dir Dir6=
 Dir Dir7=
   {
    "pref",
-   Red,
+   New,
    {
    },
    {
@@ -183,7 +183,7 @@ Dir Dir7=
 Dir Dir4=
   {
    "video",
-   Red,
+   New,
    {
     &Dir8,
     &Dir9,
@@ -202,7 +202,7 @@ Dir Dir4=
     { "FigureLib.cpp" , Yellow },
     { "FileFrame.cpp" , Green },
     { "FontReplace.cpp" , Green },
-    { "FrameBase.cpp" , Red },
+    { "FrameBase.cpp" , Green },
     { "FrameClient.cpp" , Yellow },
     { "FrameOf.cpp" , Green },
     { "Layout.cpp" , Red },
@@ -211,7 +211,7 @@ Dir Dir4=
     { "MessageFrame.cpp" , Green },
     { "MinSizeType.cpp" , Green },
     { "ShapeLib.cpp" , Ignore },
-    { "ToolFrame.cpp" , Red },
+    { "ToolFrame.cpp" , Green },
     { "UserPreference.cpp" , Red },
     { "WindowLib.cpp" , Ignore },
     { "ConfigTypes.ddl" , Ignore },
@@ -230,7 +230,7 @@ Dir Dir4=
 Dir Dir8=
   {
    "book",
-   Red,
+   New,
    {
    },
    {
@@ -250,7 +250,7 @@ Dir Dir8=
 Dir Dir9=
   {
    "lib",
-   Yellow,
+   Green,
    {
    },
    {
@@ -264,11 +264,11 @@ Dir Dir9=
     { "Shape.CheckState.cpp" , Green },
     { "Shape.Contour.cpp" , Green },
     { "Window.Decor.cpp" , Ignore },
-    { "Shape.DragFrame.cpp" , Yellow },
+    { "Shape.DragFrame.cpp" , Green },
     { "Window.DragFrame.cpp" , Ignore },
     { "Window.FireButton.cpp" , Ignore },
-    { "Shape.FixedFrame.cpp" , Yellow },
-    { "Shape.FrameBase.cpp" , Yellow },
+    { "Shape.FixedFrame.cpp" , Green },
+    { "Shape.FrameBase.cpp" , Green },
     { "Shape.Info.cpp" , Green },
     { "Window.Info.cpp" , Ignore },
     { "Shape.Label.cpp" , Green },
@@ -309,7 +309,7 @@ Dir Dir9=
 Dir Dir10=
   {
    "pref",
-   Red,
+   New,
    {
    },
    {

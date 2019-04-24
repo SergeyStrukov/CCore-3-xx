@@ -213,7 +213,7 @@ Point ToolFrame::getScreenOrigin() noexcept
 
 void ToolFrame::redraw(Pane pane) noexcept
  {
-  try { if( redraw_set.add(pane) ) input.redrawSet(); } catch(...) {}
+  try { if( redraw_set.add(Inf(pane,Pane(Null,size))) ) input.redrawSet(); } catch(...) {}
  }
 
 void ToolFrame::setFocus(SubWindow *) noexcept

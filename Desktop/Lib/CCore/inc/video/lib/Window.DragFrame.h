@@ -78,7 +78,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
      cur_hint=Nothing;
     }
 
-   void assert_moved(Point from,Point to)
+   void assertMoved(Point from,Point to)
     {
      if( from!=to ) moved.assert(to-from);
     }
@@ -112,7 +112,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
            host->invalidate(1);
 
-           assert_moved(base,place.getBase());
+           assertMoved(base,place.getBase());
           }
        }
     }
@@ -785,7 +785,7 @@ class DragFrameOf : public FrameWindow , public SubWindowHost
 
    virtual void redraw(Pane pane)  noexcept
     {
-     try { if( redraw_set.add(pane) ) input.redrawSet(); } catch(...) {}
+     try { if( redraw_set.add(Inf(pane,Pane(Null,size))) ) input.redrawSet(); } catch(...) {}
     }
 
    virtual void setFocus(SubWindow *) noexcept
