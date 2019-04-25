@@ -19,7 +19,7 @@
 #include <CCore/inc/StrKey.h>
 #include <CCore/inc/CompactMap.h>
 
-#include <CCore/inc/video/FrameOf.h>
+#include <CCore/inc/video/FrameClient.h>
 
 #include <CCore/inc/video/pref/FontEdit.h>
 
@@ -275,7 +275,7 @@ class FontSelectWindow : public ComboWindow
 
 /* class FontSelectFrame */
 
-class FontSelectFrame : public FrameOf<FontSelectWindow>
+class FontSelectFrame : public FrameClientPlace<FontSelectWindow>
  {
   public:
 
@@ -426,7 +426,7 @@ class FontReplaceWindow : public ComboWindow
 
 /* class FontReplaceFrame */
 
-class FontReplaceFrame : public FrameOf<FontReplaceWindow>
+class FontReplaceFrame : public FrameClientPlace<FontReplaceWindow>
  {
   public:
 

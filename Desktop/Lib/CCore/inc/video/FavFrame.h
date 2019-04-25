@@ -18,7 +18,7 @@
 
 #include <CCore/inc/video/FavList.h>
 #include <CCore/inc/video/WindowLib.h>
-#include <CCore/inc/video/FrameOf.h>
+#include <CCore/inc/video/FrameClient.h>
 
 namespace CCore {
 namespace Video {

@@ -148,7 +148,6 @@ OBJ_LIST = \
 .obj/FrameBase.o \
 .obj/FrameBuf.o \
 .obj/FrameClient.o \
-.obj/FrameOf.o \
 .obj/FrameWindow.o \
 .obj/FreeType.o \
 .obj/FreeTypeFont.o \
@@ -643,7 +642,6 @@ ASM_LIST = \
 .obj/FrameBase.s \
 .obj/FrameBuf.s \
 .obj/FrameClient.s \
-.obj/FrameOf.s \
 .obj/FrameWindow.s \
 .obj/FreeType.s \
 .obj/FreeTypeFont.s \
@@ -1138,7 +1136,6 @@ DEP_LIST = \
 .obj/FrameBase.dep \
 .obj/FrameBuf.dep \
 .obj/FrameClient.dep \
-.obj/FrameOf.dep \
 .obj/FrameWindow.dep \
 .obj/FreeType.dep \
 .obj/FreeTypeFont.dep \
@@ -1941,9 +1938,6 @@ include $(RULES_FILE)
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FrameClient.o : ../../Desktop/Lib/CCore/src/video/FrameClient.cpp
-	$(CC) $(CCOPT) $< -o $@
-
-.obj/FrameOf.o : ../../Desktop/Lib/CCore/src/video/FrameOf.cpp
 	$(CC) $(CCOPT) $< -o $@
 
 .obj/FrameWindow.o : ../../Desktop/Core/CCore/src/video/FrameWindow.cpp
@@ -3421,9 +3415,6 @@ include $(RULES_FILE)
 .obj/FrameClient.s : ../../Desktop/Lib/CCore/src/video/FrameClient.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
-.obj/FrameOf.s : ../../Desktop/Lib/CCore/src/video/FrameOf.cpp
-	$(CC) -S $(CCOPT) $< -o $@
-
 .obj/FrameWindow.s : ../../Desktop/Core/CCore/src/video/FrameWindow.cpp
 	$(CC) -S $(CCOPT) $< -o $@
 
@@ -4898,9 +4889,6 @@ include $(RULES_FILE)
 
 .obj/FrameClient.dep : ../../Desktop/Lib/CCore/src/video/FrameClient.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FrameClient.o $< -MF $@
-
-.obj/FrameOf.dep : ../../Desktop/Lib/CCore/src/video/FrameOf.cpp
-	$(CC) $(CCOPT) -MM -MT .obj/FrameOf.o $< -MF $@
 
 .obj/FrameWindow.dep : ../../Desktop/Core/CCore/src/video/FrameWindow.cpp
 	$(CC) $(CCOPT) -MM -MT .obj/FrameWindow.o $< -MF $@
