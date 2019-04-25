@@ -480,9 +480,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            DirEditWindow::ConfigType,
                                            FileFilterListWindow::ConfigType,
                                            FileCheckShape::Config,
-                                           FileWindow::ConfigType,
                                            FileFrame::ConfigType,
-                                           DirWindow::ConfigType,
                                            DirFrame::ConfigType,
 
                                            CoordEditWindow::ConfigType,

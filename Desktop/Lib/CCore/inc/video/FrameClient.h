@@ -101,17 +101,36 @@ class FrameClient : public DragFrame
      RefVal<Ratio> pos_ry = Div(5,12) ;
 
      CtorRefVal<DragFrame::ConfigType> frame_cfg;
-     CtorRefVal<typename W::ConfigType> client_cfg;
+
+     typename W::ConfigType client_cfg;
+
+     // lib
 
      Config() noexcept {}
 
      template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
+     void bindUser(const Bag &bag,Proxy proxy)
       {
        pos_ry.bind(bag.frame_pos_ry);
 
        frame_cfg.bind(proxy);
-       client_cfg.bind(proxy);
+      }
+
+     template <class Bag,class Proxy>
+     void bind(const Bag &bag,Proxy proxy)
+      {
+       BindBagProxy(client_cfg,bag,proxy);
+
+       bindUser(bag,proxy);
+      }
+
+     // app
+
+     template <class UserPref,class AppPref>
+     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
+      : client_cfg(user_pref,app_pref)
+      {
+       bindUser(user_pref.get(),user_pref.getSmartConfig());
       }
     };
 
