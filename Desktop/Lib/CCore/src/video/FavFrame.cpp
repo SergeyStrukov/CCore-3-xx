@@ -527,9 +527,11 @@ Pane FavFrame::getPane(StrLen title) const
  {
   Point size=getMinSize(false,title,sub_win.getMinSize());
 
-  if( place.ok ) return place.get(size);
+  Pane outer=getMaxPane();
 
-  return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
+  if( place.fit(size,outer) ) return place.get();
+
+  return GetWindowPlace(outer,+cfg.pos_ry,size);
  }
 
 } // namespace Video

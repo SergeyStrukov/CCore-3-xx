@@ -254,6 +254,8 @@ class FrameWindow : public NoCopyBase<MemBase,UserInput>
 
    Point getScreenSize() const { return desktop->getScreenSize(); }
 
+   Pane getMaxPane() const { return desktop->getMaxPane(); }
+
    // focus
 
    void grabFocus() { host->setFocus(); }

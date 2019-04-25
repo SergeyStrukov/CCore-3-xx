@@ -65,7 +65,12 @@ struct FramePlace
       }
    }
 
-  Pane get(Point size) const { Used(size); return place; }
+  bool fit(Point size,Pane outer) const
+   {
+    return ok && place.getSize()>=size && outer.contains(place) ;
+   }
+
+  Pane get() const { return place; }
 
   void print(PrinterType &out) const
    {
@@ -310,13 +315,27 @@ class FrameClientPlace : public DragFrame
 
    // create
 
-   Pane getPane(StrLen title) const
+   Pane getPane(StrLen title) const requires ( !CapSizeType<W> )
     {
      Point size=getMinSize(false,title,client.getMinSize());
 
-     if( place.ok ) return place.get(size);
+     Pane outer=getMaxPane();
 
-     return GetWindowPlace(desktop,+cfg.pos_ry,size);
+     if( place.fit(size,outer) ) return place.get();
+
+     return GetWindowPlace(outer,+cfg.pos_ry,size);
+    }
+
+   Pane getPane(StrLen title) const requires ( CapSizeType<W> )
+    {
+     Point cap=Div(9,10)*getScreenSize();
+     Point size=getMinSize(false,title,client.getMinSize(cap));
+
+     Pane outer=getMaxPane();
+
+     if( place.fit(size,outer) ) return place.get();
+
+     return GetWindowPlace(outer,+cfg.pos_ry,size);
     }
 
    void create(FrameWindow *parent)
