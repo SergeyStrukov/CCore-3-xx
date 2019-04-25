@@ -121,6 +121,13 @@ class FrameClient : public DragFrame
      bindClient(client);
     }
 
+   template <class ... TT>
+   FrameClient(Desktop *desktop,const Config &cfg,Signal<> &update,TT && ... tt)
+    : FrameClient(desktop,cfg, std::forward<TT>(tt)... )
+    {
+     connectUpdate(update);
+    }
+
    virtual ~FrameClient()
     {
     }
