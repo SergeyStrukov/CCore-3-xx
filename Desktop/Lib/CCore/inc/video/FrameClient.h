@@ -76,6 +76,14 @@ struct FramePlace
    }
  };
 
+/* concept CapSizeType<W> */
+
+template <class W> // ref extended
+concept bool CapSizeType = requires (Meta::ToConst<W> &cobj,Point cap)
+ {
+  { cobj.getMinSize(cap) } -> Point ;
+ } ;
+
 /* class FrameClient<W> */
 
 template <class W>
@@ -134,16 +142,33 @@ class FrameClient : public DragFrame
 
    // create
 
-   Pane getPane(StrLen title,Point base) const
+   Pane getPane(StrLen title,Point base) const requires ( !CapSizeType<W> )
     {
      Point size=getMinSize(false,title,client.getMinSize());
 
      return FitToScreen(base,size,getScreenSize());
     }
 
-   Pane getPane(StrLen title) const
+   Pane getPane(StrLen title) const requires ( !CapSizeType<W> )
     {
      Point size=getMinSize(false,title,client.getMinSize());
+
+     return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
+    }
+
+   Pane getPane(StrLen title,Point base) const requires ( CapSizeType<W> )
+    {
+     Point screen_size=getScreenSize();
+     Point cap=Div(9,10)*screen_size;
+     Point size=getMinSize(false,title,client.getMinSize(cap));
+
+     return FitToScreen(base,size,screen_size);
+    }
+
+   Pane getPane(StrLen title) const requires ( CapSizeType<W> )
+    {
+     Point cap=Div(9,10)*getScreenSize();
+     Point size=getMinSize(false,title,client.getMinSize(cap));
 
      return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
     }
