@@ -20,6 +20,7 @@
 
 #include <CCore/inc/video/MessageFrame.h>
 #include <CCore/inc/video/FavFrame.h>
+#include <CCore/inc/video/FrameClient.h>
 
 #include <CCore/inc/video/AppOpt.h>
 
@@ -327,8 +328,7 @@ class DisplayBookFrame : public DragFrame
 
    DisplayBookWindow client;
 
-   Pane place;
-   bool has_place = false ;
+   FramePlace place;
 
   public:
 
@@ -344,17 +344,7 @@ class DisplayBookFrame : public DragFrame
 
    void setScale(Ratio scale);
 
-   bool getPlace(Pane &ret) const
-    {
-     if( has_place )
-       {
-        ret=place;
-
-        return true;
-       }
-
-     return false;
-    }
+   bool getPlace(Pane &ret) const;
 
    // base
 

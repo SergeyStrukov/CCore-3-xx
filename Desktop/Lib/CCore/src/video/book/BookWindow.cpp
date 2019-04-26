@@ -428,11 +428,11 @@ void InnerBookWindow::layout()
   sy.adjustPos();
  }
 
-void InnerBookWindow::draw(DrawBuf buf,DrawParam draw_param) const
+void InnerBookWindow::draw(DrawBuf buf,DrawParam) const
  {
   if( !cache() )
     {
-     draw_param.erase(buf,Black);
+     buf.erase(Black);
 
      return;
     }
@@ -440,8 +440,6 @@ void InnerBookWindow::draw(DrawBuf buf,DrawParam draw_param) const
   Scope scope("App::InnerBookWindow::draw()"_c);
 
   Pane pane=getPane();
-
-  buf=buf.cut(pane);
 
   SmoothDrawArt art(buf);
 
@@ -452,23 +450,28 @@ void InnerBookWindow::draw(DrawBuf buf,DrawParam draw_param) const
   VColor back=DrawBook::Combine(this->back,+cfg.back);
   VColor fore=DrawBook::Combine(this->fore,+cfg.fore);
 
-  draw_param.erase(buf,back);
+  art.erase(back);
 
   // border
 
   {
    MPane p(pane);
 
-   FigureBox fig(p);
+   if( +p )
+     {
+      FigureBox fig(p);
 
-   VColor vc = focus? +cfg.focus : +cfg.border ;
+      VColor vc = focus? +cfg.focus : +cfg.border ;
 
-   fig.loop(art,width,vc);
+      fig.loop(art,width,vc);
+     }
   }
 
   // frames
 
   Pane inner=pane.shrink(RoundUpLen(width));
+
+  if( !inner ) return;
 
   buf=buf.cutRebase(inner);
 
@@ -744,15 +747,25 @@ void DisplayBookFrame::setScale(Ratio scale)
   client.setScale(scale);
  }
 
+bool DisplayBookFrame::getPlace(Pane &ret) const
+ {
+  if( place.ok )
+    {
+     ret=place.get();
+
+     return true;
+    }
+
+  return false;
+ }
+
  // base
 
 void DisplayBookFrame::dying()
  {
   DragFrame::dying();
 
-  place=getFrameHost()->getPlace();
-
-  has_place=true;
+  place.set(getFrameHost()->getPlace());
  }
 
 /* class BookWindow */
@@ -1300,10 +1313,7 @@ void BookWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
     {
      PaneSub sub(getPane(),book.getPlace());
 
-     buf.erase(sub.top,back);
-     buf.erase(sub.bottom,back);
-     buf.erase(sub.left,back);
-     buf.erase(sub.right,back);
+     draw_param.erase(buf,sub,back);
     }
   else
     {

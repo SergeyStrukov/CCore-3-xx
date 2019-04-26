@@ -118,6 +118,19 @@ struct DrawParam
     back_done=true;
     back=back_;
    }
+
+  void erase(DrawBuf buf,const PaneSub &obj,VColor back_)
+   {
+    if( back_done && back==back_ ) return;
+
+    buf.erase(obj.top,back_);
+    buf.erase(obj.bottom,back_);
+    buf.erase(obj.left,back_);
+    buf.erase(obj.right,back_);
+
+    back_done=true;
+    back=back_;
+   }
  };
 
 } // namespace Video
