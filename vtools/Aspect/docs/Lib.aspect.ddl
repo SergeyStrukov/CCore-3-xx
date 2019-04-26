@@ -5,7 +5,7 @@ Aspect Data=
   "../../../Desktop/Lib",
   {
    "",
-   New,
+   Red,
    {
     &Dir0
    },
@@ -17,7 +17,7 @@ Aspect Data=
 Dir Dir0=
   {
    "CCore",
-   New,
+   Red,
    {
     &Dir1,
     &Dir2
@@ -29,7 +29,7 @@ Dir Dir0=
 Dir Dir1=
   {
    "inc",
-   New,
+   Red,
    {
     &Dir3
    },
@@ -40,7 +40,7 @@ Dir Dir1=
 Dir Dir2=
   {
    "src",
-   New,
+   Red,
    {
     &Dir4
    },
@@ -51,7 +51,7 @@ Dir Dir2=
 Dir Dir3=
   {
    "video",
-   New,
+   Red,
    {
     &Dir5,
     &Dir6,
@@ -59,7 +59,7 @@ Dir Dir3=
    },
    {
     { "BindBagProxy.h" , Green },
-    { "BookFrame.h" , Red },
+    { "BookFrame.h" , Green },
     { "ConfigBinder.h" , Green },
     { "ConfigEditor.h" , Red },
     { "ConfigStore.h" , Green },
@@ -87,12 +87,12 @@ Dir Dir3=
 Dir Dir5=
   {
    "book",
-   New,
+   Green,
    {
    },
    {
     { "Book.h" , Green },
-    { "BookClient.h" , Red },
+    { "BookClient.h" , Green },
     { "BookWindow.h" , Green },
     { "DrawBook.h" , Green },
     { "DrawBookTools.h" , Green },
@@ -164,7 +164,7 @@ Dir Dir6=
 Dir Dir7=
   {
    "pref",
-   New,
+   Red,
    {
    },
    {
@@ -182,7 +182,7 @@ Dir Dir7=
 Dir Dir4=
   {
    "video",
-   New,
+   Red,
    {
     &Dir8,
     &Dir9,
@@ -190,7 +190,7 @@ Dir Dir4=
    },
    {
     { "BindBagProxy.cpp" , Ignore },
-    { "BookFrame.cpp" , Red },
+    { "BookFrame.cpp" , Green },
     { "ConfigBinder.cpp" , Green },
     { "ConfigEditor.cpp" , Red },
     { "ConfigStore.cpp" , Green },
@@ -228,12 +228,12 @@ Dir Dir4=
 Dir Dir8=
   {
    "book",
-   New,
+   Green,
    {
    },
    {
     { "Book.cpp" , Green },
-    { "BookClient.cpp" , Red },
+    { "BookClient.cpp" , Green },
     { "BookWindow.cpp" , Green },
     { "DrawBook.cpp" , Green },
     { "DrawBookTools.cpp" , Green },
@@ -307,7 +307,7 @@ Dir Dir9=
 Dir Dir10=
   {
    "pref",
-   New,
+   Red,
    {
    },
    {
