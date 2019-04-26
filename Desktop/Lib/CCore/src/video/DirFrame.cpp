@@ -382,12 +382,12 @@ void DirWindow::close()
 
 /* class DirFrame */
 
-DirFrame::DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param)
+DirFrame::DirFrame(Desktop *desktop,const ConfigType &cfg,const DirWindowParam &param)
  : FrameClient<DirWindow>(desktop,cfg,param)
  {
  }
 
-DirFrame::DirFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const DirWindowParam &param)
+DirFrame::DirFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,const DirWindowParam &param)
  : DirFrame(desktop,cfg,param)
  {
   connectUpdate(update);

@@ -279,7 +279,7 @@ class FontSelectFrame : public FrameClientPlace<FontSelectWindow>
  {
   public:
 
-   FontSelectFrame(Desktop *desktop,const Config &cfg,Signal<> &update);
+   FontSelectFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update);
 
    virtual ~FontSelectFrame();
 
@@ -430,7 +430,7 @@ class FontReplaceFrame : public FrameClientPlace<FontReplaceWindow>
  {
   public:
 
-   FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplaceMap &map,Signal<> &update);
+   FontReplaceFrame(Desktop *desktop,const ConfigType &cfg,FontReplaceMap &map,Signal<> &update);
 
    virtual ~FontReplaceFrame();
 

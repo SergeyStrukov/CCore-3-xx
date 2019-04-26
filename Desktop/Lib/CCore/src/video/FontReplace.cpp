@@ -491,7 +491,7 @@ void FontSelectWindow::react(UserAction action)
 
 /* class FontSelectFrame */
 
-FontSelectFrame::FontSelectFrame(Desktop *desktop,const Config &cfg,Signal<> &update)
+FontSelectFrame::FontSelectFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update)
  : FrameClientPlace<FontSelectWindow>(desktop,cfg,update),
 
    selected(client.selected)
@@ -652,7 +652,7 @@ void FontReplaceWindow::react(UserAction action)
 
 /* class FontReplaceFrame */
 
-FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const Config &cfg,FontReplaceMap &map,Signal<> &update)
+FontReplaceFrame::FontReplaceFrame(Desktop *desktop,const ConfigType &cfg,FontReplaceMap &map,Signal<> &update)
  : FrameClientPlace<FontReplaceWindow>(desktop,cfg,update,map,update),
 
    apply(client.apply)

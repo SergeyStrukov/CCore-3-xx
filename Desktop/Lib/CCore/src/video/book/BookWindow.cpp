@@ -1094,7 +1094,7 @@ BookWindow::BookWindow(SubWindowHost &host,const Config &cfg_,OptFileName opt_,S
 
    replace_frame(host.getFrameDesktop(),cfg.replace_cfg,replace_map,update),
 
-   fav_frame(host.getFrameDesktop(),cfg.fav_cfg,HomeKey(),FavFile(),update),
+   fav_frame(host.getFrameDesktop(),cfg.fav_cfg,update,HomeKey(),FavFile()),
 
    progress_control(progress),
    font_inc(progress_control),

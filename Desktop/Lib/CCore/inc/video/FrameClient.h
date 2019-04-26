@@ -23,9 +23,27 @@
 namespace CCore {
 namespace Video {
 
+/* concept CapSizeType<W> */
+
+template <class W> // ref extended
+concept bool CapSizeType = requires (Meta::ToConst<W> &cobj,Point cap)
+ {
+  { cobj.getMinSize(cap) } -> Point ;
+ } ;
+
+/* concept Has_FrameConfig<W> */
+
+template <class W>
+concept bool Has_FrameConfig = requires()
+ {
+  typename W::FrameConfig;
+ } ;
+
 /* classes */
 
 struct FramePlace;
+
+template <class W> struct FrameConfig;
 
 template <class W> class FrameClient;
 
@@ -81,13 +99,89 @@ struct FramePlace
    }
  };
 
-/* concept CapSizeType<W> */
+/* struct FrameConfig<W> */
 
-template <class W> // ref extended
-concept bool CapSizeType = requires (Meta::ToConst<W> &cobj,Point cap)
+template <class W> requires ( !Has_FrameConfig<W> )
+struct FrameConfig<W>
  {
-  { cobj.getMinSize(cap) } -> Point ;
- } ;
+  RefVal<Ratio> pos_ry = Div(5,12) ;
+
+  CtorRefVal<DragFrame::ConfigType> frame_cfg;
+
+  typename W::ConfigType client_cfg;
+
+  // lib
+
+  FrameConfig() noexcept {}
+
+  template <class Bag,class Proxy>
+  void bindUser(const Bag &bag,Proxy proxy)
+   {
+    pos_ry.bind(bag.frame_pos_ry);
+
+    frame_cfg.bind(proxy);
+   }
+
+  template <class Bag,class Proxy>
+  void bind(const Bag &bag,Proxy proxy)
+   {
+    BindBagProxy(client_cfg,bag,proxy);
+
+    bindUser(bag,proxy);
+   }
+
+  // app
+
+  template <class UserPref,class AppPref>
+  FrameConfig(const UserPref &user_pref,const AppPref &app_pref) noexcept
+   : client_cfg(user_pref,app_pref)
+   {
+    bindUser(user_pref.get(),user_pref.getSmartConfig());
+   }
+ };
+
+template <class W> requires ( Has_FrameConfig<W> )
+struct FrameConfig<W> : W::FrameConfig
+ {
+  RefVal<Ratio> pos_ry = Div(5,12) ;
+
+  CtorRefVal<DragFrame::ConfigType> frame_cfg;
+
+  typename W::ConfigType client_cfg;
+
+  // lib
+
+  FrameConfig() noexcept {}
+
+  template <class Bag,class Proxy>
+  void bindUser(const Bag &bag,Proxy proxy)
+   {
+    pos_ry.bind(bag.frame_pos_ry);
+
+    frame_cfg.bind(proxy);
+   }
+
+  template <class Bag,class Proxy>
+  void bind(const Bag &bag,Proxy proxy)
+   {
+    BindBagProxy(client_cfg,bag,proxy);
+
+    bindUser(bag,proxy);
+
+    this->bindUserFrame(bag,proxy);
+   }
+
+  // app
+
+  template <class UserPref,class AppPref>
+  FrameConfig(const UserPref &user_pref,const AppPref &app_pref) noexcept
+   : client_cfg(user_pref,app_pref)
+   {
+    bindUser(user_pref.get(),user_pref.getSmartConfig());
+
+    this->bindAppFrame(app_pref.get());
+   }
+ };
 
 /* class FrameClient<W> */
 
@@ -96,56 +190,18 @@ class FrameClient : public DragFrame
  {
   public:
 
-   struct Config
-    {
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     typename W::ConfigType client_cfg;
-
-     // lib
-
-     Config() noexcept {}
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       BindBagProxy(client_cfg,bag,proxy);
-
-       bindUser(bag,proxy);
-      }
-
-     // app
-
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-      }
-    };
-
-   using ConfigType = Config ;
+   using ConfigType = FrameConfig<W> ;
 
   protected:
 
-   const Config &cfg;
+   const ConfigType &cfg;
 
    W client;
 
   public:
 
    template <class ... TT>
-   FrameClient(Desktop *desktop,const Config &cfg_,TT && ... tt)
+   FrameClient(Desktop *desktop,const ConfigType &cfg_,TT && ... tt)
     : DragFrame(desktop,cfg_.frame_cfg),
       cfg(cfg_),
       client(*this,cfg_.client_cfg, std::forward<TT>(tt)... )
@@ -154,7 +210,7 @@ class FrameClient : public DragFrame
     }
 
    template <class ... TT>
-   FrameClient(Desktop *desktop,const Config &cfg,Signal<> &update,TT && ... tt)
+   FrameClient(Desktop *desktop,const ConfigType &cfg,Signal<> &update,TT && ... tt)
     : FrameClient(desktop,cfg, std::forward<TT>(tt)... )
     {
      connectUpdate(update);
@@ -225,53 +281,11 @@ class FrameClientPlace : public DragFrame
  {
   public:
 
-   struct Config : W::FrameConfig
-    {
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     typename W::ConfigType client_cfg;
-
-     // lib
-
-     Config() noexcept {}
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       BindBagProxy(client_cfg,bag,proxy);
-
-       bindUser(bag,proxy);
-
-       this->bindUserFrame(bag,proxy);
-      }
-
-     // app
-
-     template <class UserPref,class AppPref>
-     Config(const UserPref &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-
-       this->bindAppFrame(app_pref.get());
-      }
-    };
-
-   using ConfigType = Config ;
+   using ConfigType = FrameConfig<W> ;
 
   protected:
 
-   const Config &cfg;
+   const ConfigType &cfg;
 
    W client;
    P place;
@@ -289,7 +303,7 @@ class FrameClientPlace : public DragFrame
   public:
 
    template <class ... TT>
-   FrameClientPlace(Desktop *desktop,const Config &cfg_,TT && ... tt)
+   FrameClientPlace(Desktop *desktop,const ConfigType &cfg_,TT && ... tt)
     : DragFrame(desktop,cfg_.frame_cfg),
       cfg(cfg_),
 
@@ -299,7 +313,7 @@ class FrameClientPlace : public DragFrame
     }
 
    template <class ... TT>
-   FrameClientPlace(Desktop *desktop,const Config &cfg,Signal<> &update,TT && ... tt)
+   FrameClientPlace(Desktop *desktop,const ConfigType &cfg,Signal<> &update,TT && ... tt)
     : FrameClientPlace(desktop,cfg, std::forward<TT>(tt)... )
     {
      connectUpdate(update);
@@ -311,12 +325,12 @@ class FrameClientPlace : public DragFrame
 
    // methods
 
-   void prepare(const P &state)
+   void preparePlace(const P &state)
     {
      place=state;
     }
 
-   void save(P &state)
+   void savePlace(P &state)
     {
      if( isAlive() ) setPlace();
 
@@ -357,10 +371,27 @@ class FrameClientPlace : public DragFrame
      return GetWindowPlace(outer,+cfg.pos_ry,size);
     }
 
+   void create()
+    {
+     String title=+cfg.title;
+
+     DragFrame::create(getPane(Range(title)),title);
+    }
+
    void create(FrameWindow *parent)
     {
      String title=+cfg.title;
 
+     DragFrame::create(parent,getPane(Range(title)),title);
+    }
+
+   void create(const String &title)
+    {
+     DragFrame::create(getPane(Range(title)),title);
+    }
+
+   void create(FrameWindow *parent,const String &title)
+    {
      DragFrame::create(parent,getPane(Range(title)),title);
     }
  };

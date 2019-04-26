@@ -499,7 +499,6 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            FontSelectFrame::ConfigType,
                                            FontReplaceFrame::ConfigType,
                                            FavListWindow::ConfigType,
-                                           FavWindow::ConfigType,
                                            FavFrame::ConfigType
                                           >
  {

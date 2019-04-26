@@ -65,8 +65,8 @@ Dir Dir3=
     { "ConfigStore.h" , Green },
     { "DirFrame.h" , Green },
     { "ExceptionFrame.h" , Green },
-    { "FavFrame.h" , Red },
-    { "FavList.h" , Red },
+    { "FavFrame.h" , Green },
+    { "FavList.h" , Green },
     { "FigureLib.h" , Yellow },
     { "FileFrame.h" , Green },
     { "FontReplace.h" , Green },
@@ -91,13 +91,13 @@ Dir Dir5=
    {
    },
    {
-    { "Book.h" , New },
+    { "Book.h" , Green },
     { "BookClient.h" , New },
     { "BookWindow.h" , New },
     { "DrawBook.h" , New },
     { "DrawBookTools.h" , New },
-    { "SelectFrames.h" , New },
-    { "SpanLenEngine.h" , New },
+    { "SelectFrames.h" , Green },
+    { "SpanLenEngine.h" , Green },
     { "Book1.TypeDef.gen.h" , Ignore }
    }
   };
@@ -196,8 +196,8 @@ Dir Dir4=
     { "ConfigStore.cpp" , Green },
     { "DirFrame.cpp" , Green },
     { "ExceptionFrame.cpp" , Green },
-    { "FavFrame.cpp" , Red },
-    { "FavList.cpp" , Red },
+    { "FavFrame.cpp" , Green },
+    { "FavList.cpp" , Green },
     { "FigureLib.cpp" , Yellow },
     { "FileFrame.cpp" , Green },
     { "FontReplace.cpp" , Green },
@@ -232,16 +232,16 @@ Dir Dir8=
    {
    },
    {
-    { "Book.cpp" , New },
+    { "Book.cpp" , Green },
     { "BookClient.cpp" , New },
     { "BookWindow.cpp" , New },
     { "DrawBook.cpp" , New },
     { "DrawBookTools.cpp" , New },
-    { "SelectFrames.cpp" , New },
-    { "SpanLenEngine.cpp" , New },
-    { "Book1.ddl" , New },
-    { "Book1.Pretext.gen.h" , New },
-    { "Book1.TypeSet.gen.h" , New }
+    { "SelectFrames.cpp" , Green },
+    { "SpanLenEngine.cpp" , Green },
+    { "Book1.ddl" , Ignore },
+    { "Book1.Pretext.gen.h" , Ignore },
+    { "Book1.TypeSet.gen.h" , Ignore }
    }
   };
 

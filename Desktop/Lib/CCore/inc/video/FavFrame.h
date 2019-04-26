@@ -843,97 +843,32 @@ class FavWindow : public ComboWindow
 
 /* class FavFrame */
 
-class FavFrame : public DragFrame
+class FavFrame : public FrameClientPlace<FavWindow>
  {
   public:
 
-   struct Config
-    {
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-     CtorRefVal<FavWindow::ConfigType> fav_cfg;
+   FavFrame(Desktop *desktop,const ConfigType &cfg,StrLen key,StrLen file); // persistent
 
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     Config() noexcept {}
-
-     template <class Bag,class Proxy>
-     void bind(const Bag &bag,Proxy proxy)
-      {
-       frame_cfg.bind(proxy);
-       fav_cfg.bind(proxy);
-
-       pos_ry.bind(bag.frame_pos_ry);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   FavWindow sub_win;
-
-   FramePlace place;
-
-  private:
-
-   void setPlace();
-
-  public:
-
-   FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file); // persistent
-
-   FavFrame(Desktop *desktop,const Config &cfg,StrLen key,StrLen file,Signal<> &update); // persistent
+   FavFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,StrLen key,StrLen file); // persistent
 
    virtual ~FavFrame();
 
    // methods
 
    template <class AppState>
-   void prepare(const AppState &app_state) { place=app_state.fav_place; }
+   void prepare(const AppState &app_state) { preparePlace(app_state.fav_place); }
 
    template <class AppState>
-   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.fav_place=place; }
+   void save(AppState &app_state) { savePlace(app_state.fav_place); }
 
    void setInsData(const String &title,const String &path)
     {
-     sub_win.setInsData(title,path);
+     client.setInsData(title,path);
     }
 
    const String & getSelectedPath() const
     {
-     return sub_win.getSelectedPath();
-    }
-
-   // base
-
-   virtual void dying();
-
-   // create
-
-   Pane getPane(StrLen title,Point base) const;
-
-   Pane getPane(StrLen title) const;
-
-   void create(Point base,const String &title)
-    {
-     DragFrame::create(getPane(Range(title),base),title);
-    }
-
-   void create(FrameWindow *parent,Point base,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title),base),title);
-    }
-
-   void create(const String &title)
-    {
-     DragFrame::create(getPane(Range(title)),title);
-    }
-
-   void create(FrameWindow *parent,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title)),title);
+     return client.getSelectedPath();
     }
  };
 

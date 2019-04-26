@@ -239,9 +239,9 @@ class DirFrame : public FrameClient<DirWindow>
  {
   public:
 
-   DirFrame(Desktop *desktop,const Config &cfg,const DirWindowParam &param={});
+   DirFrame(Desktop *desktop,const ConfigType &cfg,const DirWindowParam &param={});
 
-   DirFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const DirWindowParam &param={});
+   DirFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,const DirWindowParam &param={});
 
    virtual ~DirFrame();
 

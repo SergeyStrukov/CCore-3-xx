@@ -1396,12 +1396,12 @@ void FileWindow::close()
 
 /* class FileFrame */
 
-FileFrame::FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param)
+FileFrame::FileFrame(Desktop *desktop,const ConfigType &cfg,const FileWindowParam &param)
  : FrameClient<FileWindow>(desktop,cfg,param)
  {
  }
 
-FileFrame::FileFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const FileWindowParam &param)
+FileFrame::FileFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,const FileWindowParam &param)
  : FileFrame(desktop,cfg,param)
  {
   connectUpdate(update);

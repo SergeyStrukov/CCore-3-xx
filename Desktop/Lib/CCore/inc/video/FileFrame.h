@@ -671,9 +671,9 @@ class FileFrame : public FrameClient<FileWindow>
  {
   public:
 
-   FileFrame(Desktop *desktop,const Config &cfg,const FileWindowParam &param={false});
+   FileFrame(Desktop *desktop,const ConfigType &cfg,const FileWindowParam &param={false});
 
-   FileFrame(Desktop *desktop,const Config &cfg,Signal<> &update,const FileWindowParam &param={false});
+   FileFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,const FileWindowParam &param={false});
 
    virtual ~FileFrame();
 
