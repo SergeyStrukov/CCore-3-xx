@@ -712,6 +712,13 @@ ulen DisplayBookWindow::getFrameIndex() const
   return window.getFrameIndex();
  }
 
+ // drawing
+
+void DisplayBookWindow::drawBack(DrawBuf,DrawParam &draw_param) const
+ {
+  draw_param.back_done=false;
+ }
+
 /* class DisplayBookFrame */
 
 DisplayBookFrame::DisplayBookFrame(Desktop *desktop,const Config &cfg_,DrawBook::ExtMap &map,Signal<> &update)
@@ -901,6 +908,13 @@ void BookWindow::push(Book::TypeDef::Page *page,RefArray<ulen> index_list)
     }
  }
 
+void BookWindow::pushCur()
+ {
+  RefArray<ulen> index_list(DoFill(1),book.getFrameIndex());
+
+  push(cur,index_list);
+ }
+
 void BookWindow::goTo(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list)
  {
   if( page )
@@ -936,19 +950,17 @@ void BookWindow::link(Book::TypeDef::Link dst,RefArray<ulen> index_list)
     }
  }
 
-void BookWindow::link(Book::TypeDef::Page *page)
+void BookWindow::gotoNav(Book::TypeDef::Page *page)
  {
   if( page )
     {
-     RefArray<ulen> index_list(DoFill(1),book.getFrameIndex());
-
-     push(cur,index_list);
+     pushCur();
 
      goTo<ulen>(page,Empty);
     }
  }
 
-void BookWindow::link(History obj)
+void BookWindow::gotoHistory(History obj)
  {
   goTo(obj.page,Range_const(obj.index_list));
  }
@@ -957,7 +969,14 @@ void BookWindow::back()
  {
   if( history_index>0 )
     {
-     link(history[--history_index]);
+     if( history_index==history.getLen() )
+       {
+        pushCur();
+
+        history_index--;
+       }
+
+     gotoHistory(history[--history_index]);
 
      back_btn.enable( history_index>0 );
      fore_btn.enable( history.getLen()-history_index > 1u );
@@ -968,7 +987,7 @@ void BookWindow::fore()
  {
   if( history.getLen()-history_index > 1u )
     {
-     link(history[++history_index]);
+     gotoHistory(history[++history_index]);
 
      back_btn.enable();
      fore_btn.enable( history.getLen()-history_index > 1u );
@@ -1005,17 +1024,17 @@ void BookWindow::hint(Book::TypeDef::Page *page)
 
 void BookWindow::gotoPrev()
  {
-  link(prev);
+  gotoNav(prev);
  }
 
 void BookWindow::gotoUp()
  {
-  link(up);
+  gotoNav(up);
  }
 
 void BookWindow::gotoNext()
  {
-  link(next);
+  gotoNav(next);
  }
 
 void BookWindow::setScale(int scale_)

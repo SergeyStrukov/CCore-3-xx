@@ -92,8 +92,8 @@ Dir Dir5=
    },
    {
     { "Book.h" , Green },
-    { "BookClient.h" , New },
-    { "BookWindow.h" , New },
+    { "BookClient.h" , Red },
+    { "BookWindow.h" , Green },
     { "DrawBook.h" , Green },
     { "DrawBookTools.h" , Green },
     { "SelectFrames.h" , Green },
@@ -168,14 +168,14 @@ Dir Dir7=
    {
    },
    {
-    { "ColorEdit.h" , New },
-    { "ColorListWindow.h" , New },
-    { "CoordEdit.h" , New },
-    { "FontEdit.h" , New },
-    { "MCoordEdit.h" , New },
-    { "MixColorWindow.h" , New },
-    { "PointEdit.h" , New },
-    { "RatioEdit.h" , New }
+    { "ColorEdit.h" , Red },
+    { "ColorListWindow.h" , Red },
+    { "CoordEdit.h" , Red },
+    { "FontEdit.h" , Red },
+    { "MCoordEdit.h" , Red },
+    { "MixColorWindow.h" , Red },
+    { "PointEdit.h" , Red },
+    { "RatioEdit.h" , Red }
    }
   };
 
@@ -233,8 +233,8 @@ Dir Dir8=
    },
    {
     { "Book.cpp" , Green },
-    { "BookClient.cpp" , New },
-    { "BookWindow.cpp" , New },
+    { "BookClient.cpp" , Red },
+    { "BookWindow.cpp" , Green },
     { "DrawBook.cpp" , Green },
     { "DrawBookTools.cpp" , Green },
     { "SelectFrames.cpp" , Green },
@@ -311,14 +311,14 @@ Dir Dir10=
    {
    },
    {
-    { "ColorEdit.cpp" , New },
-    { "ColorListWindow.cpp" , New },
-    { "CoordEdit.cpp" , New },
-    { "FontEdit.cpp" , New },
-    { "MCoordEdit.cpp" , New },
-    { "MixColorWindow.cpp" , New },
-    { "PointEdit.cpp" , New },
-    { "RatioEdit.cpp" , New }
+    { "ColorEdit.cpp" , Red },
+    { "ColorListWindow.cpp" , Red },
+    { "CoordEdit.cpp" , Red },
+    { "FontEdit.cpp" , Red },
+    { "MCoordEdit.cpp" , Red },
+    { "MixColorWindow.cpp" , Red },
+    { "PointEdit.cpp" , Red },
+    { "RatioEdit.cpp" , Red }
    }
   };
 

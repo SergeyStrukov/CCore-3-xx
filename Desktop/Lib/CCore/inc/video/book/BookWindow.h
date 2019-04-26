@@ -277,6 +277,10 @@ class DisplayBookWindow : public ScrollableWindow<InnerBookWindow>
 
    ulen getFrameIndex() const;
 
+   // drawing
+
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
+
    // signals
 
    Signal<Book::TypeDef::Link,RefArray<ulen> > &link;
@@ -634,15 +638,17 @@ class BookWindow : public ComboWindow
 
    void push(Book::TypeDef::Page *page,RefArray<ulen> index_list);
 
+   void pushCur();
+
    void goTo(Book::TypeDef::Page *page,PtrLen<const UIntType> index_list);
 
    void link(Book::TypeDef::Link dst,RefArray<ulen> index_list);
 
-   void link(Book::TypeDef::Page *page);
+   void gotoNav(Book::TypeDef::Page *page);
 
    SignalConnector<BookWindow,Book::TypeDef::Link,RefArray<ulen> > connector_link;
 
-   void link(History obj);
+   void gotoHistory(History obj);
 
    void back();
 
