@@ -410,7 +410,7 @@ Text t1_3 = { { {'List'},{'of'},{'operations'} } , &fmt1 } ;
 
 Text t2_1 = { { {'int'} } } ;
 
-Text t2_2 = { { {'long'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'LLLLL',&fmt_u,&link3} } } ;
+Text t2_2 = { { {'long'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'XXXXX'},{'LLLLL',&fmt_u,&Page2#page} } } ;
 
 Text t2_3 = { { {'cast'},{'+'},{'-'} } } ;
 
