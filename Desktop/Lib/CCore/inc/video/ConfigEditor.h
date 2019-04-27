@@ -17,6 +17,7 @@
 #define CCore_inc_video_ConfigEditor_h
 
 #include <CCore/inc/video/WindowLib.h>
+#include <CCore/inc/video/FrameClient.h>
 
 #include <CCore/inc/video/pref/CoordEdit.h>
 #include <CCore/inc/video/pref/MCoordEdit.h>
@@ -540,82 +541,17 @@ class ConfigEditorWindow : public ComboWindow
 
 /* class ConfigEditorFrame */
 
-class ConfigEditorFrame : public DragFrame
+class ConfigEditorFrame : public FrameClient<ConfigEditorWindow>
  {
- public:
-
-  struct Config
-   {
-    RefVal<Ratio> pos_ry = Div(5,12) ;
-
-    CtorRefVal<DragFrame::ConfigType> frame_cfg;
-    CtorRefVal<ConfigEditorWindow::ConfigType> editor_cfg;
-
-    Config() noexcept {}
-
-    template <class Bag,class Proxy>
-    void bind(const Bag &bag,Proxy proxy)
-     {
-      pos_ry.bind(bag.frame_pos_ry);
-
-      frame_cfg.bind(proxy);
-      editor_cfg.bind(proxy);
-     }
-   };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   ConfigEditorWindow client;
-
   public:
 
-   ConfigEditorFrame(Desktop *desktop,const Config &cfg,bool use_self);
+   ConfigEditorFrame(Desktop *desktop,const ConfigType &cfg,bool use_self);
 
    virtual ~ConfigEditorFrame();
 
    // methods
 
    void bindConfig(ConfigItemHost &host) { client.bindConfig(host); }
-
-   // create
-
-   Pane getPane(StrLen title,Point base) const;
-
-   Pane getPane(bool is_main,StrLen title) const;
-
-   void create(Point base,const String &title)
-    {
-     DragFrame::create(getPane(Range(title),base),title);
-    }
-
-   void create(FrameWindow *parent,Point base,const String &title)
-    {
-     DragFrame::create(parent,getPane(Range(title),base),title);
-    }
-
-   void create(const String &title)
-    {
-     DragFrame::create(getPane(false,Range(title)),title);
-    }
-
-   void create(FrameWindow *parent,const String &title)
-    {
-     DragFrame::create(parent,getPane(false,Range(title)),title);
-    }
-
-   void createMain(const String &title)
-    {
-     DragFrame::createMain(CmdDisplay_Normal,getPane(true,Range(title)),title);
-    }
-
-   void createMain(CmdDisplay cmd_display,Pane pane,const String &title)
-    {
-     DragFrame::createMain(cmd_display,pane,title);
-    }
 
    // signals
 

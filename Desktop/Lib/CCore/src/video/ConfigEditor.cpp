@@ -1174,45 +1174,17 @@ void ConfigEditorWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
 
 /* class ConfigEditorFrame */
 
-ConfigEditorFrame::ConfigEditorFrame(Desktop *desktop,const Config &cfg_,bool use_self)
- : DragFrame(desktop,cfg_.frame_cfg),
-   cfg(cfg_),
-
-   client(*this,cfg_.editor_cfg,use_self),
+ConfigEditorFrame::ConfigEditorFrame(Desktop *desktop,const ConfigType &cfg,bool use_self)
+ : FrameClient<ConfigEditorWindow>(desktop,cfg,use_self),
 
    updated(client.updated),
    doSave(client.doSave),
    doSelf(client.doSelf)
  {
-  bindClient(client);
  }
 
 ConfigEditorFrame::~ConfigEditorFrame()
  {
- }
-
- // create
-
-Pane ConfigEditorFrame::getPane(StrLen title,Point base) const
- {
-  Point screen_size=getScreenSize();
-
-  Point cap=Div(9,10)*screen_size-getDeltaSize();
-
-  Point size=getMinSize(false,title,client.getMinSize(cap));
-
-  return FitToScreen(base,size,screen_size);
- }
-
-Pane ConfigEditorFrame::getPane(bool is_main,StrLen title) const
- {
-  Point screen_size=getScreenSize();
-
-  Point cap=Div(9,10)*screen_size-getDeltaSize();
-
-  Point size=getMinSize(is_main,title,client.getMinSize(cap));
-
-  return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
 
 } // namespace Video

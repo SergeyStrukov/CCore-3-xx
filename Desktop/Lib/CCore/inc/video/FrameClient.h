@@ -236,10 +236,17 @@ class FrameClient : public DragFrame
      return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
     }
 
+   Pane getMainPane(StrLen title) const requires ( !CapSizeType<W> )
+    {
+     Point size=getMinSize(true,title,client.getMinSize());
+
+     return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
+    }
+
    Pane getPane(StrLen title,Point base) const requires ( CapSizeType<W> )
     {
      Point screen_size=getScreenSize();
-     Point cap=Div(9,10)*screen_size;
+     Point cap=getCap(Div(9,10)*screen_size);
      Point size=getMinSize(false,title,client.getMinSize(cap));
 
      return FitToScreen(base,size,screen_size);
@@ -247,8 +254,16 @@ class FrameClient : public DragFrame
 
    Pane getPane(StrLen title) const requires ( CapSizeType<W> )
     {
-     Point cap=Div(9,10)*getScreenSize();
+     Point cap=getCap(Div(9,10)*getScreenSize());
      Point size=getMinSize(false,title,client.getMinSize(cap));
+
+     return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
+    }
+
+   Pane getMainPane(StrLen title) const requires ( CapSizeType<W> )
+    {
+     Point cap=getCap(Div(9,10)*getScreenSize());
+     Point size=getMinSize(true,title,client.getMinSize(cap));
 
      return GetWindowPlace(getDesktop(),+cfg.pos_ry,size);
     }
@@ -271,6 +286,16 @@ class FrameClient : public DragFrame
    void create(FrameWindow *parent,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title)),title);
+    }
+
+   void createMain(const String &title)
+    {
+     DragFrame::createMain(CmdDisplay_Normal,getMainPane(Range(title)),title);
+    }
+
+   void createMain(CmdDisplay cmd_display,Pane pane,const String &title)
+    {
+     DragFrame::createMain(cmd_display,pane,title);
     }
  };
 
@@ -361,7 +386,7 @@ class FrameClientPlace : public DragFrame
 
    Pane getPane(StrLen title) const requires ( CapSizeType<W> )
     {
-     Point cap=Div(9,10)*getScreenSize();
+     Point cap=getCap(Div(9,10)*getScreenSize());
      Point size=getMinSize(false,title,client.getMinSize(cap));
 
      Pane outer=getMaxPane();

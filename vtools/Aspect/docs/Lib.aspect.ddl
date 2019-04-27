@@ -61,7 +61,7 @@ Dir Dir3=
     { "BindBagProxy.h" , Green },
     { "BookFrame.h" , Green },
     { "ConfigBinder.h" , Green },
-    { "ConfigEditor.h" , Red },
+    { "ConfigEditor.h" , Green },
     { "ConfigStore.h" , Green },
     { "DirFrame.h" , Green },
     { "ExceptionFrame.h" , Green },
@@ -164,18 +164,18 @@ Dir Dir6=
 Dir Dir7=
   {
    "pref",
-   Red,
+   Green,
    {
    },
    {
-    { "ColorEdit.h" , Red },
-    { "ColorListWindow.h" , Red },
-    { "CoordEdit.h" , Red },
-    { "FontEdit.h" , Red },
-    { "MCoordEdit.h" , Red },
-    { "MixColorWindow.h" , Red },
-    { "PointEdit.h" , Red },
-    { "RatioEdit.h" , Red }
+    { "ColorEdit.h" , Green },
+    { "ColorListWindow.h" , Green },
+    { "CoordEdit.h" , Green },
+    { "FontEdit.h" , Green },
+    { "MCoordEdit.h" , Green },
+    { "MixColorWindow.h" , Green },
+    { "PointEdit.h" , Green },
+    { "RatioEdit.h" , Green }
    }
   };
 
@@ -192,7 +192,7 @@ Dir Dir4=
     { "BindBagProxy.cpp" , Ignore },
     { "BookFrame.cpp" , Green },
     { "ConfigBinder.cpp" , Green },
-    { "ConfigEditor.cpp" , Red },
+    { "ConfigEditor.cpp" , Green },
     { "ConfigStore.cpp" , Green },
     { "DirFrame.cpp" , Green },
     { "ExceptionFrame.cpp" , Green },
@@ -307,18 +307,18 @@ Dir Dir9=
 Dir Dir10=
   {
    "pref",
-   Red,
+   Green,
    {
    },
    {
-    { "ColorEdit.cpp" , Red },
-    { "ColorListWindow.cpp" , Red },
-    { "CoordEdit.cpp" , Red },
-    { "FontEdit.cpp" , Red },
-    { "MCoordEdit.cpp" , Red },
-    { "MixColorWindow.cpp" , Red },
-    { "PointEdit.cpp" , Red },
-    { "RatioEdit.cpp" , Red }
+    { "ColorEdit.cpp" , Green },
+    { "ColorListWindow.cpp" , Green },
+    { "CoordEdit.cpp" , Green },
+    { "FontEdit.cpp" , Green },
+    { "MCoordEdit.cpp" , Green },
+    { "MixColorWindow.cpp" , Green },
+    { "PointEdit.cpp" , Green },
+    { "RatioEdit.cpp" , Green }
    }
   };
 
