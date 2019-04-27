@@ -30,17 +30,14 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET) docs/test.book.ddl
 
+#----------------------------------------------------------------------------------------
+
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 MakeString = $(HOME)/bin/CCore-MakeString.exe
 
-inc/Book1.TypeDef.gen.h : docs/Book1.ddl
-	$(TypeSet) docs/Book1.ddl inc/Book1.TypeDef.gen.h src/Book1.TypeSet.gen.h Font Frame Bitmap
+src/./AppState.TypeDef.gen.h : src/AppState.ddl
+	$(TypeSet) src/AppState.ddl src/AppState.TypeDef.gen.h src/AppState.TypeSet.gen.h
 
-src/./Book1.Pretext.gen.h : docs/Book1.ddl
-	$(MakeString) -s docs/Book1.ddl src/Book1.Pretext.gen.h
-
-.PHONY: font
-
-font:
-	$(TypeSet) src/FontMap.ddl src/FontMap.TypeDef.gen.h src/FontMap.TypeSet.gen.h
+src/./AppState.Pretext.gen.h : src/AppState.ddl
+	$(MakeString) -s src/AppState.ddl src/AppState.Pretext.gen.h
