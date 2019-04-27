@@ -68,6 +68,17 @@ void RecentList::save(DynArray<String> &ret) const
   for(const MenuPoint &point : list ) ret.append_copy(point.text);
  }
 
+void RecentList::load(const DynArray<String> &data)
+ {
+  list.erase();
+
+  for(const String &f : data ) list.append_fill(MenuTextNoHot,f,0);
+
+  setInd(0);
+
+  updated.assert();
+ }
+
 /* class ClientWindow */
 
 void ClientWindow::menuOff()
@@ -486,11 +497,7 @@ ClientWindow::~ClientWindow()
 
 void ClientWindow::prepare(const AppState &app_state)
  {
-  menu_recent_data.erase();
-
-  for(const String &f : app_state.recent_files ) menu_recent_data.add(f);
-
-  menu_recent_data.updated.assert();
+  menu_recent_data.load(app_state.recent_files);
  }
 
  // base

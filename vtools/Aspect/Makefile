@@ -30,9 +30,22 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET)
 
+#----------------------------------------------------------------------------------------
+
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
-ddl:
-	cd src && $(TypeSet) Aspect.ddl Aspect.TypeDef.gen.h Aspect.TypeSet.gen.h
-	cd src && $(TypeSet) AppState.ddl AppState.TypeDef.gen.h AppState.TypeSet.gen.h
+MakeString = $(HOME)/bin/CCore-MakeString.exe
+
+src/./AppState.TypeDef.gen.h : src/AppState.ddl
+	$(TypeSet) src/AppState.ddl src/AppState.TypeDef.gen.h src/AppState.TypeSet.gen.h
+
+src/./AppState.Pretext.gen.h : src/AppState.ddl
+	$(MakeString) -s src/AppState.ddl src/AppState.Pretext.gen.h
+
+
+src/./Aspect.TypeDef.gen.h : src/Aspect.ddl
+	$(TypeSet) src/Aspect.ddl src/Aspect.TypeDef.gen.h src/Aspect.TypeSet.gen.h
+
+src/./Aspect.Pretext.gen.h : src/Aspect.ddl
+	$(MakeString) -s src/Aspect.ddl src/Aspect.Pretext.gen.h
 

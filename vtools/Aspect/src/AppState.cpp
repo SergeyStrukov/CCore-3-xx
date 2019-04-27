@@ -35,31 +35,10 @@ StrLen AppState::File() { return "/AppState.ddl"_c; }
 StrLen AppState::Pretext()
  {
   return
-"type Coord = sint32 ;\r\n"
-"\r\n"
-"type Bool = uint8 ;\r\n"
-"\r\n"
-"Bool True = 1 ;\r\n"
-"\r\n"
-"Bool False = 0 ;\r\n"
-"\r\n"
-"struct Place\r\n"
-" {\r\n"
-"  Coord x;\r\n"
-"  Coord y;\r\n"
-"  Coord dx;\r\n"
-"  Coord dy;\r\n"
-"  \r\n"
-"  Bool ok = False ;\r\n"
-" };\r\n"
-"\r\n"
-"struct AppState\r\n"
-" {\r\n"
-"  Place place;\r\n"
-"\r\n"
-"  text[] recent_files;\r\n"
-" };\r\n"
-""_c;
+
+#include "AppState.Pretext.gen.h"
+
+  ""_c;
  }
 
 AppState::AppState()

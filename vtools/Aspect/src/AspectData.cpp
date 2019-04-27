@@ -791,35 +791,10 @@ using namespace AspectTypes;
 StrLen AspectData::Pretext()
  {
   return
-"type Status = uint8 ;"
 
-"Status New    = 0 ;"
-"Status Ignore = 1 ;"
-"Status Red    = 2 ;"
-"Status Yellow = 3 ;"
-"Status Green  = 4 ;"
+#include "Aspect.Pretext.gen.h"
 
-"struct File"
-" {"
-"  text name;"
-"  Status status;"
-" };"
-
-"struct Dir"
-" {"
-"  text name;"
-"  Status status;"
-
-"  Dir * [] dirs;"
-"  File[] files;"
-" };"
-
-"struct Aspect"
-" {"
-"  text path;"
-
-"  Dir root;"
-" };"_c;
+  ""_c;
  }
 
 template <class Dir>

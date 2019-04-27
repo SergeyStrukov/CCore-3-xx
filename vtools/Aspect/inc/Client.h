@@ -47,6 +47,8 @@ struct RecentList : MenuData
   StrLen get(int id) const;
 
   void save(DynArray<String> &ret) const;
+
+  void load(const DynArray<String> &data);
  };
 
 /* class ClientWindow */
