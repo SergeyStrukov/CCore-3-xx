@@ -759,7 +759,7 @@ class DisplayWindow : public ComboWindow
 
    // signals
 
-   Signal<StrLen,bool> opened; // file_name ,  ok
+   Signal<StrLen,bool> opened; // file_name , ok
  };
 
 } // namespace App

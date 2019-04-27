@@ -1685,9 +1685,9 @@ class DDLInnerWindow::DrawProc : ClipProc
     }
  };
 
-void DDLInnerWindow::draw(DrawBuf buf,DrawParam) const
+void DDLInnerWindow::draw(DrawBuf buf,DrawParam draw_param) const
  {
-  buf.erase(+cfg.back);
+  draw_param.erase(buf,+cfg.back);
 
   Point size=getSize();
 

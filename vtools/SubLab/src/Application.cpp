@@ -126,16 +126,16 @@ int Main(CmdDisplay cmd_display)
     {
      TaskMemStack tms(64_KByte);
 
-     Param param;
-     WindowReport report(param);
+     StackObject<Param> param;
+     WindowReport report(*param);
 
      SetAppIcon(DefaultAppIcon());
 
-     param.pref.sync();
+     param->pref.sync();
 
-     Application app(report,param,cmd_display);
+     StackObject<Application> app(report,*param,cmd_display);
 
-     return app.run();
+     return app->run();
     }
   catch(CatchType)
     {
