@@ -161,71 +161,17 @@ class InsWindow : public ComboWindow
 
 /* class InsFrame */
 
-class InsFrame : public DragFrame
+class InsFrame : public FrameClientPlace<InsWindow>
  {
   public:
 
-   struct Config
-    {
-     // user
-
-     CtorRefVal<DragFrame::ConfigType> drag_cfg;
-
-     // app
-
-     CtorRefVal<InsWindow::ConfigType> ins_cfg;
-
-     Config() noexcept {}
-
-     template <class AppPref>
-     Config(const UserPreference &pref,const AppPref &app_pref) noexcept
-      : ins_cfg(pref,app_pref)
-      {
-       bindUser(pref.get(),pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       Used(bag);
-
-       drag_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       Used(bag);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   InsWindow client;
-
-  public:
-
-   InsFrame(Desktop *desktop,const Config &cfg);
+   InsFrame(Desktop *desktop,const ConfigType &cfg);
 
    virtual ~InsFrame();
 
    // methods
 
    void set(InsWindow::Builder::Result result) { client.set(result); }
-
-   // create
-
-   Pane getPane(StrLen title,Point base) const;
-
-   using DragFrame::create;
-
-   void create(FrameWindow *parent,Point base,const String &title)
-    {
-     create(parent,getPane(Range(title),base),title);
-    }
 
    // signals
 

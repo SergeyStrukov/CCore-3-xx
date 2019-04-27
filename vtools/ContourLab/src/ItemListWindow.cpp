@@ -88,26 +88,15 @@ void InsWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
 
 /* class InsFrame */
 
-InsFrame::InsFrame(Desktop *desktop,const Config &cfg)
- : DragFrame(desktop,cfg.drag_cfg),
-   client(*this,cfg.ins_cfg),
+InsFrame::InsFrame(Desktop *desktop,const ConfigType &cfg)
+ : FrameClientPlace<InsWindow>(desktop,cfg),
 
    selected(client.selected)
  {
-  bindClient(client);
  }
 
 InsFrame::~InsFrame()
  {
- }
-
-Pane InsFrame::getPane(StrLen title,Point base) const
- {
-  Point screen_size=getScreenSize();
-
-  Point size=getMinSize(false,title,client.getMinSize(screen_size));
-
-  return FitToScreen(base,size,screen_size);
  }
 
 /* class EditFormulaShape */

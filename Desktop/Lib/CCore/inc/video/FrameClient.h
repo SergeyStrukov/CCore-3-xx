@@ -396,6 +396,30 @@ class FrameClientPlace : public DragFrame
      return GetWindowPlace(outer,+cfg.pos_ry,size);
     }
 
+   Pane getPane(StrLen title,Point base) const requires ( !CapSizeType<W> )
+    {
+     Point size=getMinSize(false,title,client.getMinSize());
+
+     Pane outer=getMaxPane();
+
+     if( place.fit(size,outer) ) return place.get();
+
+     return FitToScreen(base,size,getScreenSize());
+    }
+
+   Pane getPane(StrLen title,Point base) const requires ( CapSizeType<W> )
+    {
+     Point screen_size=getScreenSize();
+     Point cap=getCap(Div(9,10)*screen_size);
+     Point size=getMinSize(false,title,client.getMinSize(cap));
+
+     Pane outer=getMaxPane();
+
+     if( place.fit(size,outer) ) return place.get();
+
+     return FitToScreen(base,size,screen_size);
+    }
+
    void create()
     {
      String title=+cfg.title;
@@ -418,6 +442,16 @@ class FrameClientPlace : public DragFrame
    void create(FrameWindow *parent,const String &title)
     {
      DragFrame::create(parent,getPane(Range(title)),title);
+    }
+
+   void create(Point base,const String &title)
+    {
+     DragFrame::create(getPane(Range(title),base),title);
+    }
+
+   void create(FrameWindow *parent,Point base,const String &title)
+    {
+     DragFrame::create(parent,getPane(Range(title),base),title);
     }
  };
 
