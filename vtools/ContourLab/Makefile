@@ -30,5 +30,15 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET)
 
+#----------------------------------------------------------------------------------------
 
+TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
+
+MakeString = $(HOME)/bin/CCore-MakeString.exe
+
+src/./Contour.TypeDef.gen.h : src/Contour.ddl
+	$(TypeSet) src/Contour.ddl src/Contour.TypeDef.gen.h src/Contour.TypeSet.gen.h
+
+src/./Contour.Pretext.gen.h : src/Contour.ddl
+	$(MakeString) -s src/Contour.ddl src/Contour.Pretext.gen.h
 
