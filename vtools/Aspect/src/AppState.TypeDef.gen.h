@@ -1,26 +1,14 @@
-/* AppState.TypeDef.gen.h */
-//----------------------------------------------------------------------------------------
-//
-//  Project: Aspect 1.01
-//
-//  License: Boost Software License - Version 1.0 - August 17th, 2003
-//
-//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
-//
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
-//
-//----------------------------------------------------------------------------------------
-
 /* struct TypeDefCore */
 
 struct TypeDefCore
  {
   // types
 
-  struct S1; // #Pane
-  struct S2; // #AppState
+  struct S1; // #Place 
+  struct S2; // #AppState 
 
-  using A1 = sint32 ; // #Coord
+  using A1 = uint8 ; // #Bool
+  using A2 = sint32 ; // #Coord
 
 
   using XXX8226D906_9898_43AA_B1BE_D60B0A6E31C8 = TypeDefCore ;
@@ -29,10 +17,11 @@ struct TypeDefCore
 
   struct S1
    {
-    A1 x;
-    A1 y;
-    A1 dx;
-    A1 dy;
+    A2 x;
+    A2 y;
+    A2 dx;
+    A2 dy;
+    A1 ok;
 
     struct Ext;
    };
@@ -53,9 +42,10 @@ using XXX212CD757_09B3_4D89_BE20_65C1E4E5A819 = TypeDefCore ;
 
 namespace TypeDef {
 
-    using Coord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A1 ;
-    using Pane = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
+    using Bool = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A1 ;
+    using Coord = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::A2 ;
     using AppState = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S2 ;
+    using Place = XXX212CD757_09B3_4D89_BE20_65C1E4E5A819::S1 ;
 
 } // namespace TypeDef
 

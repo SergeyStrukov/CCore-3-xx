@@ -584,7 +584,7 @@ void ClientWindow::dying()
  {
   AppState app_state;
 
-  app_state.place=getFrameHost()->getPlace();
+  app_state.place.set(getFrameHost()->getPlace());
 
   menu_recent_data.save(app_state.recent_files);
 

@@ -13,17 +13,25 @@
 
 type Coord = sint32 ;
 
-struct Pane
+type Bool = uint8 ;
+
+Bool True = 1 ;
+
+Bool False = 0 ;
+
+struct Place
  {
   Coord x;
   Coord y;
   Coord dx;
   Coord dy;
+  
+  Bool ok = False ;
  };
 
 struct AppState
  {
-  Pane place;
+  Place place;
 
   text[] recent_files;
  };

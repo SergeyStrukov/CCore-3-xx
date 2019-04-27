@@ -29,7 +29,7 @@ struct AppState;
 
 struct AppState
  {
-  Pane place;
+  FramePlace place;
 
   DynArray<String> recent_files;
 

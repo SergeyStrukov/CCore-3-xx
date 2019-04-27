@@ -17,6 +17,7 @@
 #define CCore_inc_video_AppMain_h
 
 #include <CCore/inc/video/UserPreference.h>
+#include <CCore/inc/video/FrameClient.h>
 
 #include <CCore/inc/video/ApplicationBase.h>
 #include <CCore/inc/video/WindowReport.h>
@@ -191,7 +192,9 @@ class ApplicationOf : public ApplicationBase
 
    ExceptionClient exception_client;
 
-   typename AppProp::ClientWindow client;
+   using ClientWindow = typename AppProp::ClientWindow ;
+
+   ClientWindow client;
 
    UserPreference editor_pref;
    ConfigEditorFrame user_frame;
@@ -214,6 +217,18 @@ class ApplicationOf : public ApplicationBase
      exception_client.show();
     }
 
+   Point getMinSize(StrLen title) const requires ( !CapSizeType<ClientWindow> )
+    {
+     return main_frame.getMinSize(true,title,client.getMinSize());
+    }
+
+   Point getMinSize(StrLen title) const requires ( CapSizeType<ClientWindow> )
+    {
+     Point cap=main_frame.getCap(Div(9,10)*desktop->getScreenSize());
+
+     return main_frame.getMinSize(true,title,client.getMinSize(cap));
+    }
+
    void prepareMain() requires ( AppProp::Prepare==PrepareRandom )
     {
      String title=param.app_pref.get().title;
@@ -224,9 +239,10 @@ class ApplicationOf : public ApplicationBase
    void prepareMain() requires ( AppProp::Prepare==PrepareCenter )
     {
      String title=param.app_pref.get().title;
+
      Ratio frame_pos_ry=param.user_pref.get().frame_pos_ry;
 
-     Point size=main_frame.getMinSize(true,Range(title),client.getMinSize());
+     Point size=getMinSize(Range(title));
 
      Pane pane=GetWindowPlace(desktop,frame_pos_ry,size);
 
@@ -243,12 +259,10 @@ class ApplicationOf : public ApplicationBase
        {
         client.prepare(persist);
 
-        Point size=main_frame.getMinSize(true,Range(title),client.getMinSize());
+        Point size=getMinSize(Range(title));
 
-        Pane pane=persist.place;
-
-        if( pane.getSize()>=size )
-          main_frame.createMain(cmd_display,pane,title);
+        if( persist.place.fit(size,desktop->getMaxPane()) )
+          main_frame.createMain(cmd_display,persist.place.get(),title);
         else
           main_frame.createMain(cmd_display,title);
        }

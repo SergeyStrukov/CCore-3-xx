@@ -82,11 +82,7 @@ bool AppState::load(StrLen file_name)
 
      TypeDef::AppState data=map.takeConst<TypeDef::AppState>("Data"_c);
 
-     place.x=data.place.x;
-     place.y=data.place.y;
-     place.dx=data.place.dx;
-     place.dy=data.place.dy;
-
+     place.set(data.place);
      temp_place.set(data.temp_place);
      edit_place.set(data.edit_place);
 
@@ -104,7 +100,7 @@ void AppState::save(StrLen file_name) const
 
   Printf(out,"AppState Data=\n {\n");
 
-  Printf(out,"  .place = #;",DDLPane(place));
+  Printf(out,"  .place = #;",place);
 
   if( temp_place.ok ) Printf(out,",\n  .temp_place = #;",temp_place);
 

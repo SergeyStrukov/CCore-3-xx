@@ -36,7 +36,7 @@ struct AppProp;
 
 struct AppState
  {
-  Pane place;
+  FramePlace place;
 
   FramePlace fav_place;
 

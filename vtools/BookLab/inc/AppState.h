@@ -20,57 +20,13 @@ namespace App {
 
 /* classes */
 
-struct FramePlace;
-
 struct AppState;
-
-/* struct FramePlace */
-
-struct FramePlace
- {
-  Pane place;
-  bool ok = false ;
-
-  void set(Pane pane)
-   {
-    place=pane;
-    ok=true;
-   }
-
-  template <class T>
-  void set(T data)
-   {
-    if( data.ok )
-      {
-       place.x=data.x;
-       place.y=data.y;
-       place.dx=data.dx;
-       place.dy=data.dy;
-
-       ok=true;
-      }
-    else
-      {
-       ok=false;
-      }
-   }
-
-  Pane get(Point size) const { Used(size); return place; }
-
-  void print(PrinterType &out) const
-   {
-    if( ok )
-      Printf(out,"{ #; , #; , #; , #; , True }",place.x,place.y,place.dx,place.dy);
-    else
-      Putobj(out,"{ .ok = False }"_c);
-   }
- };
 
 /* struct AppState */
 
 struct AppState
  {
-  Pane place;
+  FramePlace place;
   FramePlace temp_place;
   FramePlace edit_place;
 

@@ -35,22 +35,31 @@ StrLen AppState::File() { return "/AppState.ddl"_c; }
 StrLen AppState::Pretext()
  {
   return
-"type Coord = sint32 ;"
-
-"struct Pane"
-" {"
-"  Coord x;"
-"  Coord y;"
-"  Coord dx;"
-"  Coord dy;"
-" };"
-
-"struct AppState"
-" {"
-"  Pane place;"
-
-"  text[] recent_files;"
-" };"_c;
+"type Coord = sint32 ;\r\n"
+"\r\n"
+"type Bool = uint8 ;\r\n"
+"\r\n"
+"Bool True = 1 ;\r\n"
+"\r\n"
+"Bool False = 0 ;\r\n"
+"\r\n"
+"struct Place\r\n"
+" {\r\n"
+"  Coord x;\r\n"
+"  Coord y;\r\n"
+"  Coord dx;\r\n"
+"  Coord dy;\r\n"
+"  \r\n"
+"  Bool ok = False ;\r\n"
+" };\r\n"
+"\r\n"
+"struct AppState\r\n"
+" {\r\n"
+"  Place place;\r\n"
+"\r\n"
+"  text[] recent_files;\r\n"
+" };\r\n"
+""_c;
  }
 
 AppState::AppState()
@@ -94,9 +103,7 @@ bool AppState::load(StrLen file_name)
 
      TypeDef::AppState data=map.takeConst<TypeDef::AppState>("Data"_c);
 
-     auto p=data.place;
-
-     place=Pane(p.x,p.y,p.dx,p.dy);
+     place.set(data.place);
 
      recent_files.erase();
 
@@ -116,7 +123,7 @@ void AppState::save(StrLen file_name) const
 
   Printf(out,"AppState Data=\n {\n\n");
 
-  Printf(out,"  { #; , #; , #; , #; },\n\n",place.x,place.y,place.dx,place.dy);
+  Printf(out,"  #;,\n\n",place);
 
   Printf(out,"  {");
 

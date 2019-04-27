@@ -19,14 +19,6 @@ Bool True = 1 ;
 
 Bool False = 0 ;
 
-struct Pane
- {
-  Coord x;
-  Coord y;
-  Coord dx;
-  Coord dy;
- };
-
 struct Place
  {
   Coord x;
@@ -39,6 +31,6 @@ struct Place
  
 struct AppState
  {
-  Pane place;
+  Place place;
   Place fav_place;
  };

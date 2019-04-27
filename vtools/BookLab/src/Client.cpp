@@ -466,7 +466,7 @@ void ClientWindow::dying()
  {
   AppState app_state;
 
-  app_state.place=getFrameHost()->getPlace();
+  app_state.place.set(getFrameHost()->getPlace());
 
   sub_win.save(app_state);
 

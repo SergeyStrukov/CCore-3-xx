@@ -628,7 +628,7 @@ Pane TempFrame::getPane(StrLen title) const
  {
   Point size=getMinSize(false,title,client.getMinSize());
 
-  if( place.ok ) return place.get(size);
+  if( place.fit(size,getMaxPane()) ) return place.get();
 
   return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }

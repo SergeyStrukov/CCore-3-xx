@@ -1,16 +1,3 @@
-/* AppState.TypeSet.gen.h */
-//----------------------------------------------------------------------------------------
-//
-//  Project: Aspect 1.01
-//
-//  License: Boost Software License - Version 1.0 - August 17th, 2003
-//
-//            see http://www.boost.org/LICENSE_1_0.txt or the local copy
-//
-//  Copyright (c) 2017 Sergey Strukov. All rights reserved.
-//
-//----------------------------------------------------------------------------------------
-
 /* struct TypeSet */
 
 struct TypeSet : TypeDefCore
@@ -26,7 +13,7 @@ struct TypeSet : TypeDefCore
     Range(indexes).set(ulen(-1));
 
     map.add(2,"AppState");
-    map.add(1,"Pane");
+    map.add(1,"Place");
 
     map.complete();
    }
@@ -62,7 +49,8 @@ struct TypeSet : TypeDefCore
                                "x",offsetof(S1,x),
                                "y",offsetof(S1,y),
                                "dx",offsetof(S1,dx),
-                               "dy",offsetof(S1,dy)
+                               "dy",offsetof(S1,dy),
+                               "ok",offsetof(S1,ok)
                               );
         }
        return ret;
@@ -92,9 +80,10 @@ struct TypeSet : TypeDefCore
        case 1 :
         {
          DDL::GuardFieldTypes<
-                               A1,
-                               A1,
-                               A1,
+                               A2,
+                               A2,
+                               A2,
+                               A2,
                                A1
                               >(*this,struct_node);
         }
