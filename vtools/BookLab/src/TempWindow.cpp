@@ -591,46 +591,17 @@ void TempWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 /* class TempFrame */
 
-void TempFrame::setPlace()
- {
-  if( notMaximized() ) place.set(host->getPlace());
- }
-
-TempFrame::TempFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
- : DragFrame(desktop,cfg_.frame_cfg,update),
-   cfg(cfg_),
-
-   client(*this,cfg.client_cfg,book),
+TempFrame::TempFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,BookLab::Book &book)
+ : FrameClientPlace<TempWindow>(desktop,cfg,update,book),
 
    askCopy(client.askCopy),
    askPast(client.askPast),
    askProbe(client.askProbe)
  {
-  bindClient(client);
  }
 
 TempFrame::~TempFrame()
  {
- }
-
- // base
-
-void TempFrame::dying()
- {
-  DragFrame::dying();
-
-  setPlace();
- }
-
- // create
-
-Pane TempFrame::getPane(StrLen title) const
- {
-  Point size=getMinSize(false,title,client.getMinSize());
-
-  if( place.fit(size,getMaxPane()) ) return place.get();
-
-  return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
 
 } // namespace App

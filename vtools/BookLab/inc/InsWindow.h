@@ -30,6 +30,17 @@ class InsWindow : public ComboWindow
  {
   public:
 
+   struct FrameConfig
+    {
+     RefVal<String> title = "Select element"_str ;
+
+     template <class Bag>
+     void bindAppFrame(const Bag &bag)
+      {
+       title.bind(bag.ins_title);
+      }
+    };
+
    struct Config
     {
      // user
@@ -213,61 +224,11 @@ class InsWindow : public ComboWindow
 
 /* class InsFrame */
 
-class InsFrame : public DragFrame
+class InsFrame : public FrameClientPlace<InsWindow>
  {
   public:
 
-   struct Config
-    {
-     // user
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     // app
-
-     RefVal<String> title = "Select element"_str ;
-
-     InsWindow::ConfigType client_cfg;
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       title.bind(bag.ins_title);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   InsWindow client;
-
-   Pane place;
-   bool has_place = false ;
-
-  public:
-
-   InsFrame(Desktop *desktop,const Config &cfg,Signal<> &update);
+   InsFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update);
 
    virtual ~InsFrame();
 
@@ -276,21 +237,6 @@ class InsFrame : public DragFrame
    void enablePlace(bool all,bool inside,bool extern_flag) { client.enablePlace(all,inside,extern_flag); }
 
    BookLab::InsData getData() const { return client.getData(); }
-
-   // base
-
-   virtual void dying();
-
-   // create
-
-   Pane getPane(StrLen title) const;
-
-   void create(FrameWindow *parent)
-    {
-     String title=+cfg.title;
-
-     DragFrame::create(parent,getPane(Range(title)),title);
-    }
  };
 
 } // namespace App

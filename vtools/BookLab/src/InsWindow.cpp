@@ -325,38 +325,13 @@ void InsWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
 
 /* class InsFrame */
 
-InsFrame::InsFrame(Desktop *desktop,const Config &cfg_,Signal<> &update)
- : DragFrame(desktop,cfg_.frame_cfg,update),
-   cfg(cfg_),
-
-   client(*this,cfg.client_cfg)
+InsFrame::InsFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update)
+ : FrameClientPlace<InsWindow>(desktop,cfg,update)
  {
-  bindClient(client);
  }
 
 InsFrame::~InsFrame()
  {
- }
-
- // base
-
-void InsFrame::dying()
- {
-  DragFrame::dying();
-
-  place=host->getPlace();
-  has_place=true;
- }
-
- // create
-
-Pane InsFrame::getPane(StrLen title) const
- {
-  Point size=getMinSize(false,title,client.getMinSize());
-
-  if( has_place ) return Pane(place.getBase(),Sup(place.getSize(),size));
-
-  return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
 
 } // namespace App

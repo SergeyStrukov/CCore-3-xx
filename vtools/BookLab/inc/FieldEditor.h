@@ -1356,6 +1356,17 @@ class FieldWindow : public ComboWindow
  {
   public:
 
+   struct FrameConfig
+    {
+     RefVal<String> title = "Edit field"_str ;
+
+     template <class Bag>
+     void bindAppFrame(const Bag &bag)
+      {
+       title.bind(bag.field_title);
+      }
+    };
+
    struct Config
     {
      // user
@@ -1584,93 +1595,25 @@ class FieldWindow : public ComboWindow
 
 /* class FieldFrame */
 
-class FieldFrame : public DragFrame
+class FieldFrame : public FrameClientPlace<FieldWindow>
  {
   public:
 
-   struct Config
-    {
-     // user
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     // app
-
-     RefVal<String> title = "Edit field"_str ;
-
-     FieldWindow::ConfigType client_cfg;
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       title.bind(bag.field_title);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   FieldWindow client;
-
-   FramePlace place;
-
-  private:
-
-   void setPlace();
-
-  public:
-
-   FieldFrame(Desktop *desktop,const Config &cfg,BookLab::Book &book,Signal<> &update);
+   FieldFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,BookLab::Book &book);
 
    virtual ~FieldFrame();
 
    // methods
 
-   void prepare(const AppState &app_state) { place=app_state.edit_place; }
+   void prepare(const AppState &app_state) { preparePlace(app_state.edit_place); }
 
-   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.edit_place=place; }
+   void save(AppState &app_state) { savePlace(app_state.edit_place); }
 
    void setField(BookLab::PadType pad) { client.setField(pad); }
 
    void link() { client.link(); }
 
    void flush() { client.flush(); }
-
-   // base
-
-   virtual void dying();
-
-   // create
-
-   Pane getPane(StrLen title) const;
-
-   void create(FrameWindow *parent)
-    {
-     String title=+cfg.title;
-
-     DragFrame::create(parent,getPane(Range(title)),title);
-    }
 
    // signals
 

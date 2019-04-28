@@ -1972,6 +1972,8 @@ FieldWindow::~FieldWindow()
 
 Point FieldWindow::getMinSize() const
  {
+  return Point(100,100);
+
   Coord space=+cfg.space_dxy;
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
@@ -2052,45 +2054,16 @@ void FieldWindow::react_Key(VKey vkey,KeyMod kmod,unsigned repeat)
 
 /* class FieldFrame */
 
-void FieldFrame::setPlace()
- {
-  if( notMaximized() ) place.set(host->getPlace());
- }
-
-FieldFrame::FieldFrame(Desktop *desktop,const Config &cfg_,BookLab::Book &book,Signal<> &update)
- : DragFrame(desktop,cfg_.frame_cfg,update),
-   cfg(cfg_),
-
-   client(*this,cfg.client_cfg,book),
+FieldFrame::FieldFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,BookLab::Book &book)
+ : FrameClientPlace<FieldWindow>(desktop,cfg,update,book),
 
    modified(client.modified),
    keyPressed(client.keyPressed)
  {
-  bindClient(client);
  }
 
 FieldFrame::~FieldFrame()
  {
- }
-
- // base
-
-void FieldFrame::dying()
- {
-  DragFrame::dying();
-
-  setPlace();
- }
-
- // create
-
-Pane FieldFrame::getPane(StrLen title) const
- {
-  Point size=getMinSize(false,title,client.getMinSize());
-
-  if( place.fit(size,getMaxPane()) ) return place.get();
-
-  return GetWindowPlace(desktop,+cfg.pos_ry,size);
  }
 
 } // namespace App

@@ -30,6 +30,8 @@ include $(CCORE_ROOT)/Target/Makefile.app
 run: $(TARGET)
 	$(TARGET) docs/test1.booklab.ddl
 
+#----------------------------------------------------------------------------------------
+
 TypeSet = $(HOME)/bin/CCore-DDLTypeSet.exe
 
 MakeString = $(HOME)/bin/CCore-MakeString.exe

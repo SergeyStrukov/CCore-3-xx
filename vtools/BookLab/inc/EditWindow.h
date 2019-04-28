@@ -370,6 +370,10 @@ class BookLabWindow : public ScrollableWindow<InnerBookLabWindow>
 
    void delItem() { window.delItem(); }
 
+   // drawing
+
+   virtual void drawBack(DrawBuf buf,DrawParam &draw_param) const;
+
    // signals
 
    Signal<> &modified;

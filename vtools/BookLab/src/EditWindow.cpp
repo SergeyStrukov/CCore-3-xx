@@ -408,8 +408,8 @@ InnerBookLabWindow::InnerBookLabWindow(SubWindowHost &host,const Config &cfg_,Si
    cfg(cfg_),
 
    ins_frame(host.getFrameDesktop(),cfg.ins_cfg,update),
-   field_frame(host.getFrameDesktop(),cfg.field_cfg,book,update),
-   temp_frame(host.getFrameDesktop(),cfg.temp_cfg,book,update),
+   field_frame(host.getFrameDesktop(),cfg.field_cfg,update,book),
+   temp_frame(host.getFrameDesktop(),cfg.temp_cfg,update,book),
 
    connector_posX(this,&InnerBookLabWindow::posX),
    connector_posY(this,&InnerBookLabWindow::posY),
@@ -874,6 +874,13 @@ BookLabWindow::~BookLabWindow()
  {
  }
 
+ // drawing
+
+void BookLabWindow::drawBack(DrawBuf,DrawParam &draw_param) const
+ {
+  draw_param.back_done=false;
+ }
+
 /* class EditWindow */
 
 void EditWindow::errorMsg(StrLen etext)
@@ -1189,23 +1196,18 @@ void EditWindow::layout()
   lay.setPlace(getPane(),space);
  }
 
-void EditWindow::drawBack(DrawBuf buf,DrawParam &) const
+void EditWindow::drawBack(DrawBuf buf,DrawParam &draw_param) const
  {
-  VColor back=+cfg.back;
-
   PaneSub sub(getPane(),book.getPlace());
 
-  buf.erase(sub.top,back);
-  buf.erase(sub.bottom,back);
-  buf.erase(sub.left,back);
-  buf.erase(sub.right,back);
+  draw_param.erase(buf,sub,+cfg.back);
  }
 
  // base
 
 void EditWindow::open()
  {
-  wlist.open();
+  ComboWindow::open();
 
   book.setFocus();
 
@@ -1218,7 +1220,7 @@ void EditWindow::close()
  {
   defer_tick.stop();
 
-  wlist.close();
+  ComboWindow::close();
  }
 
 } // namespace App

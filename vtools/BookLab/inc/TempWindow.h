@@ -191,6 +191,17 @@ class TempWindow : public ComboWindow
  {
   public:
 
+   struct FrameConfig
+    {
+     RefVal<String> title = "Temp pad"_str ;
+
+     template <class Bag>
+     void bindAppFrame(const Bag &bag)
+      {
+       title.bind(bag.temp_title);
+      }
+    };
+
    struct Config
     {
      // user
@@ -329,72 +340,19 @@ class TempWindow : public ComboWindow
 
 /* class TempFrame */
 
-class TempFrame : public DragFrame
+class TempFrame : public FrameClientPlace<TempWindow>
  {
   public:
 
-   struct Config
-    {
-     // user
-
-     RefVal<Ratio> pos_ry = Div(5,12) ;
-
-     CtorRefVal<DragFrame::ConfigType> frame_cfg;
-
-     // app
-
-     RefVal<String> title = "Temp pad"_str ;
-
-     TempWindow::ConfigType client_cfg;
-
-     template <class AppPref>
-     Config(const UserPreference &user_pref,const AppPref &app_pref) noexcept
-      : client_cfg(user_pref,app_pref)
-      {
-       bindUser(user_pref.get(),user_pref.getSmartConfig());
-       bindApp(app_pref.get());
-      }
-
-     template <class Bag,class Proxy>
-     void bindUser(const Bag &bag,Proxy proxy)
-      {
-       pos_ry.bind(bag.frame_pos_ry);
-
-       frame_cfg.bind(proxy);
-      }
-
-     template <class Bag>
-     void bindApp(const Bag &bag)
-      {
-       title.bind(bag.temp_title);
-      }
-    };
-
-   using ConfigType = Config ;
-
-  private:
-
-   const Config &cfg;
-
-   TempWindow client;
-
-   FramePlace place;
-
-  private:
-
-   void setPlace();
-
-  public:
-
-   TempFrame(Desktop *desktop,const Config &cfg,BookLab::Book &book,Signal<> &update);
+   TempFrame(Desktop *desktop,const ConfigType &cfg,Signal<> &update,BookLab::Book &book);
 
    virtual ~TempFrame();
 
    // methods
 
-   void prepare(const AppState &app_state) { place=app_state.temp_place; }
+   void prepare(const AppState &app_state) { preparePlace(app_state.temp_place); }
 
-   void save(AppState &app_state) { if( isAlive() ) setPlace(); app_state.temp_place=place; }
+   void save(AppState &app_state) { savePlace(app_state.temp_place); }
 
    bool copy(BookLab::Ref cursor) { return client.copy(cursor); }
 
@@ -403,21 +361,6 @@ class TempFrame : public DragFrame
    bool past(ulen slot,BookLab::Ref cursor) { return client.past(slot,cursor); }
 
    void probe(BookLab::Ref cursor) { client.probe(cursor); }
-
-   // base
-
-   virtual void dying();
-
-   // create
-
-   Pane getPane(StrLen title) const;
-
-   void create(FrameWindow *parent)
-    {
-     String title=+cfg.title;
-
-     DragFrame::create(parent,getPane(Range(title)),title);
-    }
 
    // signals
 
