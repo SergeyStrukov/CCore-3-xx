@@ -1972,15 +1972,19 @@ FieldWindow::~FieldWindow()
 
 Point FieldWindow::getMinSize() const
  {
-  return Point(100,100);
-
   Coord space=+cfg.space_dxy;
 
   LayToRightCenter lay1{Lay(check_def),LayLeft(lab_def)};
 
-  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),Lay(field_Color),
+  LaySame lay2{Lay(field_bool),Lay(field_Coord),Lay(field_String),Lay(field_ulen),
                Lay(field_Strength),Lay(field_Align),Lay(field_Effect),Lay(field_Point),Lay(field_Ratio),
-               Lay(field_Named),Lay(field_Unnamed),Lay(field_Element),Lay(field_Text)};
+               Lay(field_Named),Lay(field_Unnamed)};
+
+  //
+  // Lay(field_Color)
+  // Lay(field_Text)
+  // Lay(field_Element)
+  //
 
   LayToBottom lay{LayLeft(btn_set),lay1,lay2};
 
