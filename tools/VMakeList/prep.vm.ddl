@@ -1,4 +1,4 @@
-text CC = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text CC = "D:/cygwin/opt/gcc-9.1.0/bin/g++-9.1.0" ;
 
 text VMDEP = "D:/active/home/bin/CCore-VMakeDep.exe" ;
 

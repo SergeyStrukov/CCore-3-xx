@@ -1,10 +1,10 @@
 text OBJ_PATH = ".obj" ;
 
-text CC = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text CC = "D:/cygwin/opt/gcc-9.1.0/bin/g++-9.1.0" ;
 
 text AS = "as" ;
 
-text LD = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text LD = "D:/cygwin/opt/gcc-9.1.0/bin/g++-9.1.0" ;
 
 text AR = "ar" ;
 
