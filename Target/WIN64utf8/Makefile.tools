@@ -29,7 +29,7 @@ CAT = /usr/bin/cat
 
 TOUCH = /usr/bin/touch
 
-CC_ = /opt/gcc-8.1.0/bin/g++-8.1.0
+CC_ = /opt/gcc-9.1.0/bin/g++-9.1.0
 
 CC = @$(ECHO) CC $< ; $(CC_)
 
@@ -71,7 +71,9 @@ CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
         -I$(CCORE_ROOT)/Desktop/App \
 
 
-CCOPT = -c -std=c++17 -fconcepts -fwrapv -O3 -march=ivybridge -mmmx -msse -msse2 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
+CCCPU = -march=ivybridge -mmmx -msse -msse2
+
+CCOPT = -c -std=c++17 -fconcepts -fwrapv -O3 $(CCCPU) -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
 
 ASOPT =
 
