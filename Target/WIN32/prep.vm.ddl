@@ -1,4 +1,4 @@
-text CC = "D:/cygwin/opt/gcc-8.3.0/bin/g++-8.3.0" ;
+text CC = "D:/cygwin/opt/gcc-9.1.0/bin/g++-9.1.0" ;
 
 text VMDEP = "D:/active/home/bin/CCore-VMakeDep.exe" ;
 
@@ -3419,10 +3419,64 @@ Target vdcpp125 = { "FastMutex.vm.dep" , OBJ_PATH+"/FastMutex.vm.dep" } ;
 Rule rvdcpp125 = { {&dcpp125} , {&vdcpp125} , {&exedcpp125} } ;
 Exe exedcpp125 = { "CC-VM-DEP FastMutex.cpp" , VMDEP , { OBJ_PATH+"/FastMutex.dep" , OBJ_PATH+"/FastMutex.vm.dep" , '125' } } ;
 
-Target cpp126 = { "FeedBuf.cpp" , "../../Simple/CCore/src/FeedBuf.cpp" } ;
-Target dcpp126 = { "FeedBuf.dep" , OBJ_PATH+"/FeedBuf.dep" } ;
+Target cpp126 = { "FavFrame.cpp" , "../../Desktop/Lib/CCore/src/video/FavFrame.cpp" } ;
+Target dcpp126 = { "FavFrame.dep" , OBJ_PATH+"/FavFrame.dep" } ;
 Rule rdcpp126 = { {&cpp126,&obj} , {&dcpp126} , {&execpp126} } ;
-Exe execpp126 = { "CC-DEP FeedBuf.cpp" , CC , {
+Exe execpp126 = { "CC-DEP FavFrame.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/FavFrame.o"
+ ,"../../Desktop/Lib/CCore/src/video/FavFrame.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/FavFrame.dep"
+} } ;
+
+Target vdcpp126 = { "FavFrame.vm.dep" , OBJ_PATH+"/FavFrame.vm.dep" } ;
+Rule rvdcpp126 = { {&dcpp126} , {&vdcpp126} , {&exedcpp126} } ;
+Exe exedcpp126 = { "CC-VM-DEP FavFrame.cpp" , VMDEP , { OBJ_PATH+"/FavFrame.dep" , OBJ_PATH+"/FavFrame.vm.dep" , '126' } } ;
+
+Target cpp127 = { "FavList.cpp" , "../../Desktop/Lib/CCore/src/video/FavList.cpp" } ;
+Target dcpp127 = { "FavList.dep" , OBJ_PATH+"/FavList.dep" } ;
+Rule rdcpp127 = { {&cpp127,&obj} , {&dcpp127} , {&execpp127} } ;
+Exe execpp127 = { "CC-DEP FavList.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/FavList.o"
+ ,"../../Desktop/Lib/CCore/src/video/FavList.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/FavList.dep"
+} } ;
+
+Target vdcpp127 = { "FavList.vm.dep" , OBJ_PATH+"/FavList.vm.dep" } ;
+Rule rvdcpp127 = { {&dcpp127} , {&vdcpp127} , {&exedcpp127} } ;
+Exe exedcpp127 = { "CC-VM-DEP FavList.cpp" , VMDEP , { OBJ_PATH+"/FavList.dep" , OBJ_PATH+"/FavList.vm.dep" , '127' } } ;
+
+Target cpp128 = { "FeedBuf.cpp" , "../../Simple/CCore/src/FeedBuf.cpp" } ;
+Target dcpp128 = { "FeedBuf.dep" , OBJ_PATH+"/FeedBuf.dep" } ;
+Rule rdcpp128 = { {&cpp128,&obj} , {&dcpp128} , {&execpp128} } ;
+Exe execpp128 = { "CC-DEP FeedBuf.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3442,14 +3496,14 @@ Exe execpp126 = { "CC-DEP FeedBuf.cpp" , CC , {
  ,OBJ_PATH+"/FeedBuf.dep"
 } } ;
 
-Target vdcpp126 = { "FeedBuf.vm.dep" , OBJ_PATH+"/FeedBuf.vm.dep" } ;
-Rule rvdcpp126 = { {&dcpp126} , {&vdcpp126} , {&exedcpp126} } ;
-Exe exedcpp126 = { "CC-VM-DEP FeedBuf.cpp" , VMDEP , { OBJ_PATH+"/FeedBuf.dep" , OBJ_PATH+"/FeedBuf.vm.dep" , '126' } } ;
+Target vdcpp128 = { "FeedBuf.vm.dep" , OBJ_PATH+"/FeedBuf.vm.dep" } ;
+Rule rvdcpp128 = { {&dcpp128} , {&vdcpp128} , {&exedcpp128} } ;
+Exe exedcpp128 = { "CC-VM-DEP FeedBuf.cpp" , VMDEP , { OBJ_PATH+"/FeedBuf.dep" , OBJ_PATH+"/FeedBuf.vm.dep" , '128' } } ;
 
-Target cpp127 = { "Fifo.cpp" , "../../Simple/CCore/src/Fifo.cpp" } ;
-Target dcpp127 = { "Fifo.dep" , OBJ_PATH+"/Fifo.dep" } ;
-Rule rdcpp127 = { {&cpp127,&obj} , {&dcpp127} , {&execpp127} } ;
-Exe execpp127 = { "CC-DEP Fifo.cpp" , CC , {
+Target cpp129 = { "Fifo.cpp" , "../../Simple/CCore/src/Fifo.cpp" } ;
+Target dcpp129 = { "Fifo.dep" , OBJ_PATH+"/Fifo.dep" } ;
+Rule rdcpp129 = { {&cpp129,&obj} , {&dcpp129} , {&execpp129} } ;
+Exe execpp129 = { "CC-DEP Fifo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3469,14 +3523,14 @@ Exe execpp127 = { "CC-DEP Fifo.cpp" , CC , {
  ,OBJ_PATH+"/Fifo.dep"
 } } ;
 
-Target vdcpp127 = { "Fifo.vm.dep" , OBJ_PATH+"/Fifo.vm.dep" } ;
-Rule rvdcpp127 = { {&dcpp127} , {&vdcpp127} , {&exedcpp127} } ;
-Exe exedcpp127 = { "CC-VM-DEP Fifo.cpp" , VMDEP , { OBJ_PATH+"/Fifo.dep" , OBJ_PATH+"/Fifo.vm.dep" , '127' } } ;
+Target vdcpp129 = { "Fifo.vm.dep" , OBJ_PATH+"/Fifo.vm.dep" } ;
+Rule rvdcpp129 = { {&dcpp129} , {&vdcpp129} , {&exedcpp129} } ;
+Exe exedcpp129 = { "CC-VM-DEP Fifo.cpp" , VMDEP , { OBJ_PATH+"/Fifo.dep" , OBJ_PATH+"/Fifo.vm.dep" , '129' } } ;
 
-Target cpp128 = { "FigureLib.cpp" , "../../Desktop/Lib/CCore/src/video/FigureLib.cpp" } ;
-Target dcpp128 = { "FigureLib.dep" , OBJ_PATH+"/FigureLib.dep" } ;
-Rule rdcpp128 = { {&cpp128,&obj} , {&dcpp128} , {&execpp128} } ;
-Exe execpp128 = { "CC-DEP FigureLib.cpp" , CC , {
+Target cpp130 = { "FigureLib.cpp" , "../../Desktop/Lib/CCore/src/video/FigureLib.cpp" } ;
+Target dcpp130 = { "FigureLib.dep" , OBJ_PATH+"/FigureLib.dep" } ;
+Rule rdcpp130 = { {&cpp130,&obj} , {&dcpp130} , {&execpp130} } ;
+Exe execpp130 = { "CC-DEP FigureLib.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3496,14 +3550,14 @@ Exe execpp128 = { "CC-DEP FigureLib.cpp" , CC , {
  ,OBJ_PATH+"/FigureLib.dep"
 } } ;
 
-Target vdcpp128 = { "FigureLib.vm.dep" , OBJ_PATH+"/FigureLib.vm.dep" } ;
-Rule rvdcpp128 = { {&dcpp128} , {&vdcpp128} , {&exedcpp128} } ;
-Exe exedcpp128 = { "CC-VM-DEP FigureLib.cpp" , VMDEP , { OBJ_PATH+"/FigureLib.dep" , OBJ_PATH+"/FigureLib.vm.dep" , '128' } } ;
+Target vdcpp130 = { "FigureLib.vm.dep" , OBJ_PATH+"/FigureLib.vm.dep" } ;
+Rule rvdcpp130 = { {&dcpp130} , {&vdcpp130} , {&exedcpp130} } ;
+Exe exedcpp130 = { "CC-VM-DEP FigureLib.cpp" , VMDEP , { OBJ_PATH+"/FigureLib.dep" , OBJ_PATH+"/FigureLib.vm.dep" , '130' } } ;
 
-Target cpp129 = { "FileBoss.cpp" , "../../Desktop/Tools/CCore/src/video/FileBoss.cpp" } ;
-Target dcpp129 = { "FileBoss.dep" , OBJ_PATH+"/FileBoss.dep" } ;
-Rule rdcpp129 = { {&cpp129,&obj} , {&dcpp129} , {&execpp129} } ;
-Exe execpp129 = { "CC-DEP FileBoss.cpp" , CC , {
+Target cpp131 = { "FileBoss.cpp" , "../../Desktop/Tools/CCore/src/video/FileBoss.cpp" } ;
+Target dcpp131 = { "FileBoss.dep" , OBJ_PATH+"/FileBoss.dep" } ;
+Rule rdcpp131 = { {&cpp131,&obj} , {&dcpp131} , {&execpp131} } ;
+Exe execpp131 = { "CC-DEP FileBoss.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3523,14 +3577,14 @@ Exe execpp129 = { "CC-DEP FileBoss.cpp" , CC , {
  ,OBJ_PATH+"/FileBoss.dep"
 } } ;
 
-Target vdcpp129 = { "FileBoss.vm.dep" , OBJ_PATH+"/FileBoss.vm.dep" } ;
-Rule rvdcpp129 = { {&dcpp129} , {&vdcpp129} , {&exedcpp129} } ;
-Exe exedcpp129 = { "CC-VM-DEP FileBoss.cpp" , VMDEP , { OBJ_PATH+"/FileBoss.dep" , OBJ_PATH+"/FileBoss.vm.dep" , '129' } } ;
+Target vdcpp131 = { "FileBoss.vm.dep" , OBJ_PATH+"/FileBoss.vm.dep" } ;
+Rule rvdcpp131 = { {&dcpp131} , {&vdcpp131} , {&exedcpp131} } ;
+Exe exedcpp131 = { "CC-VM-DEP FileBoss.cpp" , VMDEP , { OBJ_PATH+"/FileBoss.dep" , OBJ_PATH+"/FileBoss.vm.dep" , '131' } } ;
 
-Target cpp130 = { "FileFrame.cpp" , "../../Desktop/Lib/CCore/src/video/FileFrame.cpp" } ;
-Target dcpp130 = { "FileFrame.dep" , OBJ_PATH+"/FileFrame.dep" } ;
-Rule rdcpp130 = { {&cpp130,&obj} , {&dcpp130} , {&execpp130} } ;
-Exe execpp130 = { "CC-DEP FileFrame.cpp" , CC , {
+Target cpp132 = { "FileFrame.cpp" , "../../Desktop/Lib/CCore/src/video/FileFrame.cpp" } ;
+Target dcpp132 = { "FileFrame.dep" , OBJ_PATH+"/FileFrame.dep" } ;
+Rule rdcpp132 = { {&cpp132,&obj} , {&dcpp132} , {&execpp132} } ;
+Exe execpp132 = { "CC-DEP FileFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3550,14 +3604,14 @@ Exe execpp130 = { "CC-DEP FileFrame.cpp" , CC , {
  ,OBJ_PATH+"/FileFrame.dep"
 } } ;
 
-Target vdcpp130 = { "FileFrame.vm.dep" , OBJ_PATH+"/FileFrame.vm.dep" } ;
-Rule rvdcpp130 = { {&dcpp130} , {&vdcpp130} , {&exedcpp130} } ;
-Exe exedcpp130 = { "CC-VM-DEP FileFrame.cpp" , VMDEP , { OBJ_PATH+"/FileFrame.dep" , OBJ_PATH+"/FileFrame.vm.dep" , '130' } } ;
+Target vdcpp132 = { "FileFrame.vm.dep" , OBJ_PATH+"/FileFrame.vm.dep" } ;
+Rule rvdcpp132 = { {&dcpp132} , {&vdcpp132} , {&exedcpp132} } ;
+Exe exedcpp132 = { "CC-VM-DEP FileFrame.cpp" , VMDEP , { OBJ_PATH+"/FileFrame.dep" , OBJ_PATH+"/FileFrame.vm.dep" , '132' } } ;
 
-Target cpp131 = { "FileName.cpp" , "../../Applied/CCore/src/FileName.cpp" } ;
-Target dcpp131 = { "FileName.dep" , OBJ_PATH+"/FileName.dep" } ;
-Rule rdcpp131 = { {&cpp131,&obj} , {&dcpp131} , {&execpp131} } ;
-Exe execpp131 = { "CC-DEP FileName.cpp" , CC , {
+Target cpp133 = { "FileName.cpp" , "../../Applied/CCore/src/FileName.cpp" } ;
+Target dcpp133 = { "FileName.dep" , OBJ_PATH+"/FileName.dep" } ;
+Rule rdcpp133 = { {&cpp133,&obj} , {&dcpp133} , {&execpp133} } ;
+Exe execpp133 = { "CC-DEP FileName.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3577,14 +3631,14 @@ Exe execpp131 = { "CC-DEP FileName.cpp" , CC , {
  ,OBJ_PATH+"/FileName.dep"
 } } ;
 
-Target vdcpp131 = { "FileName.vm.dep" , OBJ_PATH+"/FileName.vm.dep" } ;
-Rule rvdcpp131 = { {&dcpp131} , {&vdcpp131} , {&exedcpp131} } ;
-Exe exedcpp131 = { "CC-VM-DEP FileName.cpp" , VMDEP , { OBJ_PATH+"/FileName.dep" , OBJ_PATH+"/FileName.vm.dep" , '131' } } ;
+Target vdcpp133 = { "FileName.vm.dep" , OBJ_PATH+"/FileName.vm.dep" } ;
+Rule rvdcpp133 = { {&dcpp133} , {&vdcpp133} , {&exedcpp133} } ;
+Exe exedcpp133 = { "CC-VM-DEP FileName.cpp" , VMDEP , { OBJ_PATH+"/FileName.dep" , OBJ_PATH+"/FileName.vm.dep" , '133' } } ;
 
-Target cpp132 = { "FileNameCmp.cpp" , "../../Desktop/Tools/CCore/src/video/FileNameCmp.cpp" } ;
-Target dcpp132 = { "FileNameCmp.dep" , OBJ_PATH+"/FileNameCmp.dep" } ;
-Rule rdcpp132 = { {&cpp132,&obj} , {&dcpp132} , {&execpp132} } ;
-Exe execpp132 = { "CC-DEP FileNameCmp.cpp" , CC , {
+Target cpp134 = { "FileNameCmp.cpp" , "../../Desktop/Tools/CCore/src/video/FileNameCmp.cpp" } ;
+Target dcpp134 = { "FileNameCmp.dep" , OBJ_PATH+"/FileNameCmp.dep" } ;
+Rule rdcpp134 = { {&cpp134,&obj} , {&dcpp134} , {&execpp134} } ;
+Exe execpp134 = { "CC-DEP FileNameCmp.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3604,14 +3658,14 @@ Exe execpp132 = { "CC-DEP FileNameCmp.cpp" , CC , {
  ,OBJ_PATH+"/FileNameCmp.dep"
 } } ;
 
-Target vdcpp132 = { "FileNameCmp.vm.dep" , OBJ_PATH+"/FileNameCmp.vm.dep" } ;
-Rule rvdcpp132 = { {&dcpp132} , {&vdcpp132} , {&exedcpp132} } ;
-Exe exedcpp132 = { "CC-VM-DEP FileNameCmp.cpp" , VMDEP , { OBJ_PATH+"/FileNameCmp.dep" , OBJ_PATH+"/FileNameCmp.vm.dep" , '132' } } ;
+Target vdcpp134 = { "FileNameCmp.vm.dep" , OBJ_PATH+"/FileNameCmp.vm.dep" } ;
+Rule rvdcpp134 = { {&dcpp134} , {&vdcpp134} , {&exedcpp134} } ;
+Exe exedcpp134 = { "CC-VM-DEP FileNameCmp.cpp" , VMDEP , { OBJ_PATH+"/FileNameCmp.dep" , OBJ_PATH+"/FileNameCmp.vm.dep" , '134' } } ;
 
-Target cpp133 = { "FileNameMatch.cpp" , "../../Applied/CCore/src/FileNameMatch.cpp" } ;
-Target dcpp133 = { "FileNameMatch.dep" , OBJ_PATH+"/FileNameMatch.dep" } ;
-Rule rdcpp133 = { {&cpp133,&obj} , {&dcpp133} , {&execpp133} } ;
-Exe execpp133 = { "CC-DEP FileNameMatch.cpp" , CC , {
+Target cpp135 = { "FileNameMatch.cpp" , "../../Applied/CCore/src/FileNameMatch.cpp" } ;
+Target dcpp135 = { "FileNameMatch.dep" , OBJ_PATH+"/FileNameMatch.dep" } ;
+Rule rdcpp135 = { {&cpp135,&obj} , {&dcpp135} , {&execpp135} } ;
+Exe execpp135 = { "CC-DEP FileNameMatch.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3631,14 +3685,14 @@ Exe execpp133 = { "CC-DEP FileNameMatch.cpp" , CC , {
  ,OBJ_PATH+"/FileNameMatch.dep"
 } } ;
 
-Target vdcpp133 = { "FileNameMatch.vm.dep" , OBJ_PATH+"/FileNameMatch.vm.dep" } ;
-Rule rvdcpp133 = { {&dcpp133} , {&vdcpp133} , {&exedcpp133} } ;
-Exe exedcpp133 = { "CC-VM-DEP FileNameMatch.cpp" , VMDEP , { OBJ_PATH+"/FileNameMatch.dep" , OBJ_PATH+"/FileNameMatch.vm.dep" , '133' } } ;
+Target vdcpp135 = { "FileNameMatch.vm.dep" , OBJ_PATH+"/FileNameMatch.vm.dep" } ;
+Rule rvdcpp135 = { {&dcpp135} , {&vdcpp135} , {&exedcpp135} } ;
+Exe exedcpp135 = { "CC-VM-DEP FileNameMatch.cpp" , VMDEP , { OBJ_PATH+"/FileNameMatch.dep" , OBJ_PATH+"/FileNameMatch.vm.dep" , '135' } } ;
 
-Target cpp134 = { "FileSystem.cpp" , "../../HCore/CCore/src/FileSystem.cpp" } ;
-Target dcpp134 = { "FileSystem.dep" , OBJ_PATH+"/FileSystem.dep" } ;
-Rule rdcpp134 = { {&cpp134,&obj} , {&dcpp134} , {&execpp134} } ;
-Exe execpp134 = { "CC-DEP FileSystem.cpp" , CC , {
+Target cpp136 = { "FileSystem.cpp" , "../../HCore/CCore/src/FileSystem.cpp" } ;
+Target dcpp136 = { "FileSystem.dep" , OBJ_PATH+"/FileSystem.dep" } ;
+Rule rdcpp136 = { {&cpp136,&obj} , {&dcpp136} , {&execpp136} } ;
+Exe execpp136 = { "CC-DEP FileSystem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3658,14 +3712,14 @@ Exe execpp134 = { "CC-DEP FileSystem.cpp" , CC , {
  ,OBJ_PATH+"/FileSystem.dep"
 } } ;
 
-Target vdcpp134 = { "FileSystem.vm.dep" , OBJ_PATH+"/FileSystem.vm.dep" } ;
-Rule rvdcpp134 = { {&dcpp134} , {&vdcpp134} , {&exedcpp134} } ;
-Exe exedcpp134 = { "CC-VM-DEP FileSystem.cpp" , VMDEP , { OBJ_PATH+"/FileSystem.dep" , OBJ_PATH+"/FileSystem.vm.dep" , '134' } } ;
+Target vdcpp136 = { "FileSystem.vm.dep" , OBJ_PATH+"/FileSystem.vm.dep" } ;
+Rule rvdcpp136 = { {&dcpp136} , {&vdcpp136} , {&exedcpp136} } ;
+Exe exedcpp136 = { "CC-VM-DEP FileSystem.cpp" , VMDEP , { OBJ_PATH+"/FileSystem.dep" , OBJ_PATH+"/FileSystem.vm.dep" , '136' } } ;
 
-Target cpp135 = { "FileToMem.cpp" , "../../HCore/CCore/src/FileToMem.cpp" } ;
-Target dcpp135 = { "FileToMem.dep" , OBJ_PATH+"/FileToMem.dep" } ;
-Rule rdcpp135 = { {&cpp135,&obj} , {&dcpp135} , {&execpp135} } ;
-Exe execpp135 = { "CC-DEP FileToMem.cpp" , CC , {
+Target cpp137 = { "FileToMem.cpp" , "../../HCore/CCore/src/FileToMem.cpp" } ;
+Target dcpp137 = { "FileToMem.dep" , OBJ_PATH+"/FileToMem.dep" } ;
+Rule rdcpp137 = { {&cpp137,&obj} , {&dcpp137} , {&execpp137} } ;
+Exe execpp137 = { "CC-DEP FileToMem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3685,14 +3739,14 @@ Exe execpp135 = { "CC-DEP FileToMem.cpp" , CC , {
  ,OBJ_PATH+"/FileToMem.dep"
 } } ;
 
-Target vdcpp135 = { "FileToMem.vm.dep" , OBJ_PATH+"/FileToMem.vm.dep" } ;
-Rule rvdcpp135 = { {&dcpp135} , {&vdcpp135} , {&exedcpp135} } ;
-Exe exedcpp135 = { "CC-VM-DEP FileToMem.cpp" , VMDEP , { OBJ_PATH+"/FileToMem.dep" , OBJ_PATH+"/FileToMem.vm.dep" , '135' } } ;
+Target vdcpp137 = { "FileToMem.vm.dep" , OBJ_PATH+"/FileToMem.vm.dep" } ;
+Rule rvdcpp137 = { {&dcpp137} , {&vdcpp137} , {&exedcpp137} } ;
+Exe exedcpp137 = { "CC-VM-DEP FileToMem.cpp" , VMDEP , { OBJ_PATH+"/FileToMem.dep" , OBJ_PATH+"/FileToMem.vm.dep" , '137' } } ;
 
-Target cpp136 = { "FileToRead.cpp" , "../../HCore/CCore/src/FileToRead.cpp" } ;
-Target dcpp136 = { "FileToRead.dep" , OBJ_PATH+"/FileToRead.dep" } ;
-Rule rdcpp136 = { {&cpp136,&obj} , {&dcpp136} , {&execpp136} } ;
-Exe execpp136 = { "CC-DEP FileToRead.cpp" , CC , {
+Target cpp138 = { "FileToRead.cpp" , "../../HCore/CCore/src/FileToRead.cpp" } ;
+Target dcpp138 = { "FileToRead.dep" , OBJ_PATH+"/FileToRead.dep" } ;
+Rule rdcpp138 = { {&cpp138,&obj} , {&dcpp138} , {&execpp138} } ;
+Exe execpp138 = { "CC-DEP FileToRead.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3712,14 +3766,14 @@ Exe execpp136 = { "CC-DEP FileToRead.cpp" , CC , {
  ,OBJ_PATH+"/FileToRead.dep"
 } } ;
 
-Target vdcpp136 = { "FileToRead.vm.dep" , OBJ_PATH+"/FileToRead.vm.dep" } ;
-Rule rvdcpp136 = { {&dcpp136} , {&vdcpp136} , {&exedcpp136} } ;
-Exe exedcpp136 = { "CC-VM-DEP FileToRead.cpp" , VMDEP , { OBJ_PATH+"/FileToRead.dep" , OBJ_PATH+"/FileToRead.vm.dep" , '136' } } ;
+Target vdcpp138 = { "FileToRead.vm.dep" , OBJ_PATH+"/FileToRead.vm.dep" } ;
+Rule rvdcpp138 = { {&dcpp138} , {&vdcpp138} , {&exedcpp138} } ;
+Exe exedcpp138 = { "CC-VM-DEP FileToRead.cpp" , VMDEP , { OBJ_PATH+"/FileToRead.dep" , OBJ_PATH+"/FileToRead.vm.dep" , '138' } } ;
 
-Target cpp137 = { "Font.cpp" , "../../Desktop/Font/CCore/src/video/Font.cpp" } ;
-Target dcpp137 = { "Font.dep" , OBJ_PATH+"/Font.dep" } ;
-Rule rdcpp137 = { {&cpp137,&obj} , {&dcpp137} , {&execpp137} } ;
-Exe execpp137 = { "CC-DEP Font.cpp" , CC , {
+Target cpp139 = { "Font.cpp" , "../../Desktop/Font/CCore/src/video/Font.cpp" } ;
+Target dcpp139 = { "Font.dep" , OBJ_PATH+"/Font.dep" } ;
+Rule rdcpp139 = { {&cpp139,&obj} , {&dcpp139} , {&execpp139} } ;
+Exe execpp139 = { "CC-DEP Font.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3739,14 +3793,14 @@ Exe execpp137 = { "CC-DEP Font.cpp" , CC , {
  ,OBJ_PATH+"/Font.dep"
 } } ;
 
-Target vdcpp137 = { "Font.vm.dep" , OBJ_PATH+"/Font.vm.dep" } ;
-Rule rvdcpp137 = { {&dcpp137} , {&vdcpp137} , {&exedcpp137} } ;
-Exe exedcpp137 = { "CC-VM-DEP Font.cpp" , VMDEP , { OBJ_PATH+"/Font.dep" , OBJ_PATH+"/Font.vm.dep" , '137' } } ;
+Target vdcpp139 = { "Font.vm.dep" , OBJ_PATH+"/Font.vm.dep" } ;
+Rule rvdcpp139 = { {&dcpp139} , {&vdcpp139} , {&exedcpp139} } ;
+Exe exedcpp139 = { "CC-VM-DEP Font.cpp" , VMDEP , { OBJ_PATH+"/Font.dep" , OBJ_PATH+"/Font.vm.dep" , '139' } } ;
 
-Target cpp138 = { "FontDatabase.cpp" , "../../Desktop/Tools/CCore/src/video/FontDatabase.cpp" } ;
-Target dcpp138 = { "FontDatabase.dep" , OBJ_PATH+"/FontDatabase.dep" } ;
-Rule rdcpp138 = { {&cpp138,&obj} , {&dcpp138} , {&execpp138} } ;
-Exe execpp138 = { "CC-DEP FontDatabase.cpp" , CC , {
+Target cpp140 = { "FontDatabase.cpp" , "../../Desktop/Tools/CCore/src/video/FontDatabase.cpp" } ;
+Target dcpp140 = { "FontDatabase.dep" , OBJ_PATH+"/FontDatabase.dep" } ;
+Rule rdcpp140 = { {&cpp140,&obj} , {&dcpp140} , {&execpp140} } ;
+Exe execpp140 = { "CC-DEP FontDatabase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3766,14 +3820,14 @@ Exe execpp138 = { "CC-DEP FontDatabase.cpp" , CC , {
  ,OBJ_PATH+"/FontDatabase.dep"
 } } ;
 
-Target vdcpp138 = { "FontDatabase.vm.dep" , OBJ_PATH+"/FontDatabase.vm.dep" } ;
-Rule rvdcpp138 = { {&dcpp138} , {&vdcpp138} , {&exedcpp138} } ;
-Exe exedcpp138 = { "CC-VM-DEP FontDatabase.cpp" , VMDEP , { OBJ_PATH+"/FontDatabase.dep" , OBJ_PATH+"/FontDatabase.vm.dep" , '138' } } ;
+Target vdcpp140 = { "FontDatabase.vm.dep" , OBJ_PATH+"/FontDatabase.vm.dep" } ;
+Rule rvdcpp140 = { {&dcpp140} , {&vdcpp140} , {&exedcpp140} } ;
+Exe exedcpp140 = { "CC-VM-DEP FontDatabase.cpp" , VMDEP , { OBJ_PATH+"/FontDatabase.dep" , OBJ_PATH+"/FontDatabase.vm.dep" , '140' } } ;
 
-Target cpp139 = { "FontEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/FontEdit.cpp" } ;
-Target dcpp139 = { "FontEdit.dep" , OBJ_PATH+"/FontEdit.dep" } ;
-Rule rdcpp139 = { {&cpp139,&obj} , {&dcpp139} , {&execpp139} } ;
-Exe execpp139 = { "CC-DEP FontEdit.cpp" , CC , {
+Target cpp141 = { "FontEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/FontEdit.cpp" } ;
+Target dcpp141 = { "FontEdit.dep" , OBJ_PATH+"/FontEdit.dep" } ;
+Rule rdcpp141 = { {&cpp141,&obj} , {&dcpp141} , {&execpp141} } ;
+Exe execpp141 = { "CC-DEP FontEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3793,14 +3847,14 @@ Exe execpp139 = { "CC-DEP FontEdit.cpp" , CC , {
  ,OBJ_PATH+"/FontEdit.dep"
 } } ;
 
-Target vdcpp139 = { "FontEdit.vm.dep" , OBJ_PATH+"/FontEdit.vm.dep" } ;
-Rule rvdcpp139 = { {&dcpp139} , {&vdcpp139} , {&exedcpp139} } ;
-Exe exedcpp139 = { "CC-VM-DEP FontEdit.cpp" , VMDEP , { OBJ_PATH+"/FontEdit.dep" , OBJ_PATH+"/FontEdit.vm.dep" , '139' } } ;
+Target vdcpp141 = { "FontEdit.vm.dep" , OBJ_PATH+"/FontEdit.vm.dep" } ;
+Rule rvdcpp141 = { {&dcpp141} , {&vdcpp141} , {&exedcpp141} } ;
+Exe exedcpp141 = { "CC-VM-DEP FontEdit.cpp" , VMDEP , { OBJ_PATH+"/FontEdit.dep" , OBJ_PATH+"/FontEdit.vm.dep" , '141' } } ;
 
-Target cpp140 = { "FontLookup.cpp" , "../../Desktop/Tools/CCore/src/video/FontLookup.cpp" } ;
-Target dcpp140 = { "FontLookup.dep" , OBJ_PATH+"/FontLookup.dep" } ;
-Rule rdcpp140 = { {&cpp140,&obj} , {&dcpp140} , {&execpp140} } ;
-Exe execpp140 = { "CC-DEP FontLookup.cpp" , CC , {
+Target cpp142 = { "FontLookup.cpp" , "../../Desktop/Tools/CCore/src/video/FontLookup.cpp" } ;
+Target dcpp142 = { "FontLookup.dep" , OBJ_PATH+"/FontLookup.dep" } ;
+Rule rdcpp142 = { {&cpp142,&obj} , {&dcpp142} , {&execpp142} } ;
+Exe execpp142 = { "CC-DEP FontLookup.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3820,14 +3874,14 @@ Exe execpp140 = { "CC-DEP FontLookup.cpp" , CC , {
  ,OBJ_PATH+"/FontLookup.dep"
 } } ;
 
-Target vdcpp140 = { "FontLookup.vm.dep" , OBJ_PATH+"/FontLookup.vm.dep" } ;
-Rule rvdcpp140 = { {&dcpp140} , {&vdcpp140} , {&exedcpp140} } ;
-Exe exedcpp140 = { "CC-VM-DEP FontLookup.cpp" , VMDEP , { OBJ_PATH+"/FontLookup.dep" , OBJ_PATH+"/FontLookup.vm.dep" , '140' } } ;
+Target vdcpp142 = { "FontLookup.vm.dep" , OBJ_PATH+"/FontLookup.vm.dep" } ;
+Rule rvdcpp142 = { {&dcpp142} , {&vdcpp142} , {&exedcpp142} } ;
+Exe exedcpp142 = { "CC-VM-DEP FontLookup.cpp" , VMDEP , { OBJ_PATH+"/FontLookup.dep" , OBJ_PATH+"/FontLookup.vm.dep" , '142' } } ;
 
-Target cpp141 = { "FontParam.cpp" , "../../Desktop/Tools/CCore/src/video/FontParam.cpp" } ;
-Target dcpp141 = { "FontParam.dep" , OBJ_PATH+"/FontParam.dep" } ;
-Rule rdcpp141 = { {&cpp141,&obj} , {&dcpp141} , {&execpp141} } ;
-Exe execpp141 = { "CC-DEP FontParam.cpp" , CC , {
+Target cpp143 = { "FontParam.cpp" , "../../Desktop/Tools/CCore/src/video/FontParam.cpp" } ;
+Target dcpp143 = { "FontParam.dep" , OBJ_PATH+"/FontParam.dep" } ;
+Rule rdcpp143 = { {&cpp143,&obj} , {&dcpp143} , {&execpp143} } ;
+Exe execpp143 = { "CC-DEP FontParam.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3847,14 +3901,14 @@ Exe execpp141 = { "CC-DEP FontParam.cpp" , CC , {
  ,OBJ_PATH+"/FontParam.dep"
 } } ;
 
-Target vdcpp141 = { "FontParam.vm.dep" , OBJ_PATH+"/FontParam.vm.dep" } ;
-Rule rvdcpp141 = { {&dcpp141} , {&vdcpp141} , {&exedcpp141} } ;
-Exe exedcpp141 = { "CC-VM-DEP FontParam.cpp" , VMDEP , { OBJ_PATH+"/FontParam.dep" , OBJ_PATH+"/FontParam.vm.dep" , '141' } } ;
+Target vdcpp143 = { "FontParam.vm.dep" , OBJ_PATH+"/FontParam.vm.dep" } ;
+Rule rvdcpp143 = { {&dcpp143} , {&vdcpp143} , {&exedcpp143} } ;
+Exe exedcpp143 = { "CC-VM-DEP FontParam.cpp" , VMDEP , { OBJ_PATH+"/FontParam.dep" , OBJ_PATH+"/FontParam.vm.dep" , '143' } } ;
 
-Target cpp142 = { "FontReplace.cpp" , "../../Desktop/Lib/CCore/src/video/FontReplace.cpp" } ;
-Target dcpp142 = { "FontReplace.dep" , OBJ_PATH+"/FontReplace.dep" } ;
-Rule rdcpp142 = { {&cpp142,&obj} , {&dcpp142} , {&execpp142} } ;
-Exe execpp142 = { "CC-DEP FontReplace.cpp" , CC , {
+Target cpp144 = { "FontReplace.cpp" , "../../Desktop/Lib/CCore/src/video/FontReplace.cpp" } ;
+Target dcpp144 = { "FontReplace.dep" , OBJ_PATH+"/FontReplace.dep" } ;
+Rule rdcpp144 = { {&cpp144,&obj} , {&dcpp144} , {&execpp144} } ;
+Exe execpp144 = { "CC-DEP FontReplace.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3874,14 +3928,14 @@ Exe execpp142 = { "CC-DEP FontReplace.cpp" , CC , {
  ,OBJ_PATH+"/FontReplace.dep"
 } } ;
 
-Target vdcpp142 = { "FontReplace.vm.dep" , OBJ_PATH+"/FontReplace.vm.dep" } ;
-Rule rvdcpp142 = { {&dcpp142} , {&vdcpp142} , {&exedcpp142} } ;
-Exe exedcpp142 = { "CC-VM-DEP FontReplace.cpp" , VMDEP , { OBJ_PATH+"/FontReplace.dep" , OBJ_PATH+"/FontReplace.vm.dep" , '142' } } ;
+Target vdcpp144 = { "FontReplace.vm.dep" , OBJ_PATH+"/FontReplace.vm.dep" } ;
+Rule rvdcpp144 = { {&dcpp144} , {&vdcpp144} , {&exedcpp144} } ;
+Exe exedcpp144 = { "CC-VM-DEP FontReplace.cpp" , VMDEP , { OBJ_PATH+"/FontReplace.dep" , OBJ_PATH+"/FontReplace.vm.dep" , '144' } } ;
 
-Target cpp143 = { "ForLoop.cpp" , "../../Simple/CCore/src/ForLoop.cpp" } ;
-Target dcpp143 = { "ForLoop.dep" , OBJ_PATH+"/ForLoop.dep" } ;
-Rule rdcpp143 = { {&cpp143,&obj} , {&dcpp143} , {&execpp143} } ;
-Exe execpp143 = { "CC-DEP ForLoop.cpp" , CC , {
+Target cpp145 = { "ForLoop.cpp" , "../../Simple/CCore/src/ForLoop.cpp" } ;
+Target dcpp145 = { "ForLoop.dep" , OBJ_PATH+"/ForLoop.dep" } ;
+Rule rdcpp145 = { {&cpp145,&obj} , {&dcpp145} , {&execpp145} } ;
+Exe execpp145 = { "CC-DEP ForLoop.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3901,14 +3955,14 @@ Exe execpp143 = { "CC-DEP ForLoop.cpp" , CC , {
  ,OBJ_PATH+"/ForLoop.dep"
 } } ;
 
-Target vdcpp143 = { "ForLoop.vm.dep" , OBJ_PATH+"/ForLoop.vm.dep" } ;
-Rule rvdcpp143 = { {&dcpp143} , {&vdcpp143} , {&exedcpp143} } ;
-Exe exedcpp143 = { "CC-VM-DEP ForLoop.cpp" , VMDEP , { OBJ_PATH+"/ForLoop.dep" , OBJ_PATH+"/ForLoop.vm.dep" , '143' } } ;
+Target vdcpp145 = { "ForLoop.vm.dep" , OBJ_PATH+"/ForLoop.vm.dep" } ;
+Rule rvdcpp145 = { {&dcpp145} , {&vdcpp145} , {&exedcpp145} } ;
+Exe exedcpp145 = { "CC-VM-DEP ForLoop.cpp" , VMDEP , { OBJ_PATH+"/ForLoop.dep" , OBJ_PATH+"/ForLoop.vm.dep" , '145' } } ;
 
-Target cpp144 = { "Forget.cpp" , "../../Applied/CCore/src/crypton/Forget.cpp" } ;
-Target dcpp144 = { "Forget.dep" , OBJ_PATH+"/Forget.dep" } ;
-Rule rdcpp144 = { {&cpp144,&obj} , {&dcpp144} , {&execpp144} } ;
-Exe execpp144 = { "CC-DEP Forget.cpp" , CC , {
+Target cpp146 = { "Forget.cpp" , "../../Applied/CCore/src/crypton/Forget.cpp" } ;
+Target dcpp146 = { "Forget.dep" , OBJ_PATH+"/Forget.dep" } ;
+Rule rdcpp146 = { {&cpp146,&obj} , {&dcpp146} , {&execpp146} } ;
+Exe execpp146 = { "CC-DEP Forget.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3928,14 +3982,14 @@ Exe execpp144 = { "CC-DEP Forget.cpp" , CC , {
  ,OBJ_PATH+"/Forget.dep"
 } } ;
 
-Target vdcpp144 = { "Forget.vm.dep" , OBJ_PATH+"/Forget.vm.dep" } ;
-Rule rvdcpp144 = { {&dcpp144} , {&vdcpp144} , {&exedcpp144} } ;
-Exe exedcpp144 = { "CC-VM-DEP Forget.cpp" , VMDEP , { OBJ_PATH+"/Forget.dep" , OBJ_PATH+"/Forget.vm.dep" , '144' } } ;
+Target vdcpp146 = { "Forget.vm.dep" , OBJ_PATH+"/Forget.vm.dep" } ;
+Rule rvdcpp146 = { {&dcpp146} , {&vdcpp146} , {&exedcpp146} } ;
+Exe exedcpp146 = { "CC-VM-DEP Forget.cpp" , VMDEP , { OBJ_PATH+"/Forget.dep" , OBJ_PATH+"/Forget.vm.dep" , '146' } } ;
 
-Target cpp145 = { "FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/FrameBase.cpp" } ;
-Target dcpp145 = { "FrameBase.dep" , OBJ_PATH+"/FrameBase.dep" } ;
-Rule rdcpp145 = { {&cpp145,&obj} , {&dcpp145} , {&execpp145} } ;
-Exe execpp145 = { "CC-DEP FrameBase.cpp" , CC , {
+Target cpp147 = { "FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/FrameBase.cpp" } ;
+Target dcpp147 = { "FrameBase.dep" , OBJ_PATH+"/FrameBase.dep" } ;
+Rule rdcpp147 = { {&cpp147,&obj} , {&dcpp147} , {&execpp147} } ;
+Exe execpp147 = { "CC-DEP FrameBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3955,14 +4009,14 @@ Exe execpp145 = { "CC-DEP FrameBase.cpp" , CC , {
  ,OBJ_PATH+"/FrameBase.dep"
 } } ;
 
-Target vdcpp145 = { "FrameBase.vm.dep" , OBJ_PATH+"/FrameBase.vm.dep" } ;
-Rule rvdcpp145 = { {&dcpp145} , {&vdcpp145} , {&exedcpp145} } ;
-Exe exedcpp145 = { "CC-VM-DEP FrameBase.cpp" , VMDEP , { OBJ_PATH+"/FrameBase.dep" , OBJ_PATH+"/FrameBase.vm.dep" , '145' } } ;
+Target vdcpp147 = { "FrameBase.vm.dep" , OBJ_PATH+"/FrameBase.vm.dep" } ;
+Rule rvdcpp147 = { {&dcpp147} , {&vdcpp147} , {&exedcpp147} } ;
+Exe exedcpp147 = { "CC-VM-DEP FrameBase.cpp" , VMDEP , { OBJ_PATH+"/FrameBase.dep" , OBJ_PATH+"/FrameBase.vm.dep" , '147' } } ;
 
-Target cpp146 = { "FrameBuf.cpp" , "../../Applied/CCore/src/video/FrameBuf.cpp" } ;
-Target dcpp146 = { "FrameBuf.dep" , OBJ_PATH+"/FrameBuf.dep" } ;
-Rule rdcpp146 = { {&cpp146,&obj} , {&dcpp146} , {&execpp146} } ;
-Exe execpp146 = { "CC-DEP FrameBuf.cpp" , CC , {
+Target cpp148 = { "FrameBuf.cpp" , "../../Applied/CCore/src/video/FrameBuf.cpp" } ;
+Target dcpp148 = { "FrameBuf.dep" , OBJ_PATH+"/FrameBuf.dep" } ;
+Rule rdcpp148 = { {&cpp148,&obj} , {&dcpp148} , {&execpp148} } ;
+Exe execpp148 = { "CC-DEP FrameBuf.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -3982,14 +4036,14 @@ Exe execpp146 = { "CC-DEP FrameBuf.cpp" , CC , {
  ,OBJ_PATH+"/FrameBuf.dep"
 } } ;
 
-Target vdcpp146 = { "FrameBuf.vm.dep" , OBJ_PATH+"/FrameBuf.vm.dep" } ;
-Rule rvdcpp146 = { {&dcpp146} , {&vdcpp146} , {&exedcpp146} } ;
-Exe exedcpp146 = { "CC-VM-DEP FrameBuf.cpp" , VMDEP , { OBJ_PATH+"/FrameBuf.dep" , OBJ_PATH+"/FrameBuf.vm.dep" , '146' } } ;
+Target vdcpp148 = { "FrameBuf.vm.dep" , OBJ_PATH+"/FrameBuf.vm.dep" } ;
+Rule rvdcpp148 = { {&dcpp148} , {&vdcpp148} , {&exedcpp148} } ;
+Exe exedcpp148 = { "CC-VM-DEP FrameBuf.cpp" , VMDEP , { OBJ_PATH+"/FrameBuf.dep" , OBJ_PATH+"/FrameBuf.vm.dep" , '148' } } ;
 
-Target cpp147 = { "FrameOf.cpp" , "../../Desktop/Lib/CCore/src/video/FrameOf.cpp" } ;
-Target dcpp147 = { "FrameOf.dep" , OBJ_PATH+"/FrameOf.dep" } ;
-Rule rdcpp147 = { {&cpp147,&obj} , {&dcpp147} , {&execpp147} } ;
-Exe execpp147 = { "CC-DEP FrameOf.cpp" , CC , {
+Target cpp149 = { "FrameClient.cpp" , "../../Desktop/Lib/CCore/src/video/FrameClient.cpp" } ;
+Target dcpp149 = { "FrameClient.dep" , OBJ_PATH+"/FrameClient.dep" } ;
+Rule rdcpp149 = { {&cpp149,&obj} , {&dcpp149} , {&execpp149} } ;
+Exe execpp149 = { "CC-DEP FrameClient.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4003,20 +4057,20 @@ Exe execpp147 = { "CC-DEP FrameOf.cpp" , CC , {
  ,"-I../../Desktop/App"
  ,"-MM"
  ,"-MT"
- ,OBJ_PATH+"/FrameOf.o"
- ,"../../Desktop/Lib/CCore/src/video/FrameOf.cpp"
+ ,OBJ_PATH+"/FrameClient.o"
+ ,"../../Desktop/Lib/CCore/src/video/FrameClient.cpp"
  ,"-MF"
- ,OBJ_PATH+"/FrameOf.dep"
+ ,OBJ_PATH+"/FrameClient.dep"
 } } ;
 
-Target vdcpp147 = { "FrameOf.vm.dep" , OBJ_PATH+"/FrameOf.vm.dep" } ;
-Rule rvdcpp147 = { {&dcpp147} , {&vdcpp147} , {&exedcpp147} } ;
-Exe exedcpp147 = { "CC-VM-DEP FrameOf.cpp" , VMDEP , { OBJ_PATH+"/FrameOf.dep" , OBJ_PATH+"/FrameOf.vm.dep" , '147' } } ;
+Target vdcpp149 = { "FrameClient.vm.dep" , OBJ_PATH+"/FrameClient.vm.dep" } ;
+Rule rvdcpp149 = { {&dcpp149} , {&vdcpp149} , {&exedcpp149} } ;
+Exe exedcpp149 = { "CC-VM-DEP FrameClient.cpp" , VMDEP , { OBJ_PATH+"/FrameClient.dep" , OBJ_PATH+"/FrameClient.vm.dep" , '149' } } ;
 
-Target cpp148 = { "FrameWindow.cpp" , "../../Desktop/Core/CCore/src/video/FrameWindow.cpp" } ;
-Target dcpp148 = { "FrameWindow.dep" , OBJ_PATH+"/FrameWindow.dep" } ;
-Rule rdcpp148 = { {&cpp148,&obj} , {&dcpp148} , {&execpp148} } ;
-Exe execpp148 = { "CC-DEP FrameWindow.cpp" , CC , {
+Target cpp150 = { "FrameWindow.cpp" , "../../Desktop/Core/CCore/src/video/FrameWindow.cpp" } ;
+Target dcpp150 = { "FrameWindow.dep" , OBJ_PATH+"/FrameWindow.dep" } ;
+Rule rdcpp150 = { {&cpp150,&obj} , {&dcpp150} , {&execpp150} } ;
+Exe execpp150 = { "CC-DEP FrameWindow.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4036,14 +4090,14 @@ Exe execpp148 = { "CC-DEP FrameWindow.cpp" , CC , {
  ,OBJ_PATH+"/FrameWindow.dep"
 } } ;
 
-Target vdcpp148 = { "FrameWindow.vm.dep" , OBJ_PATH+"/FrameWindow.vm.dep" } ;
-Rule rvdcpp148 = { {&dcpp148} , {&vdcpp148} , {&exedcpp148} } ;
-Exe exedcpp148 = { "CC-VM-DEP FrameWindow.cpp" , VMDEP , { OBJ_PATH+"/FrameWindow.dep" , OBJ_PATH+"/FrameWindow.vm.dep" , '148' } } ;
+Target vdcpp150 = { "FrameWindow.vm.dep" , OBJ_PATH+"/FrameWindow.vm.dep" } ;
+Rule rvdcpp150 = { {&dcpp150} , {&vdcpp150} , {&exedcpp150} } ;
+Exe exedcpp150 = { "CC-VM-DEP FrameWindow.cpp" , VMDEP , { OBJ_PATH+"/FrameWindow.dep" , OBJ_PATH+"/FrameWindow.vm.dep" , '150' } } ;
 
-Target cpp149 = { "FreeType.cpp" , "../../Desktop/Font/CCore/src/video/FreeType.cpp" } ;
-Target dcpp149 = { "FreeType.dep" , OBJ_PATH+"/FreeType.dep" } ;
-Rule rdcpp149 = { {&cpp149,&obj} , {&dcpp149} , {&execpp149} } ;
-Exe execpp149 = { "CC-DEP FreeType.cpp" , CC , {
+Target cpp151 = { "FreeType.cpp" , "../../Desktop/Font/CCore/src/video/FreeType.cpp" } ;
+Target dcpp151 = { "FreeType.dep" , OBJ_PATH+"/FreeType.dep" } ;
+Rule rdcpp151 = { {&cpp151,&obj} , {&dcpp151} , {&execpp151} } ;
+Exe execpp151 = { "CC-DEP FreeType.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4063,14 +4117,14 @@ Exe execpp149 = { "CC-DEP FreeType.cpp" , CC , {
  ,OBJ_PATH+"/FreeType.dep"
 } } ;
 
-Target vdcpp149 = { "FreeType.vm.dep" , OBJ_PATH+"/FreeType.vm.dep" } ;
-Rule rvdcpp149 = { {&dcpp149} , {&vdcpp149} , {&exedcpp149} } ;
-Exe exedcpp149 = { "CC-VM-DEP FreeType.cpp" , VMDEP , { OBJ_PATH+"/FreeType.dep" , OBJ_PATH+"/FreeType.vm.dep" , '149' } } ;
+Target vdcpp151 = { "FreeType.vm.dep" , OBJ_PATH+"/FreeType.vm.dep" } ;
+Rule rvdcpp151 = { {&dcpp151} , {&vdcpp151} , {&exedcpp151} } ;
+Exe exedcpp151 = { "CC-VM-DEP FreeType.cpp" , VMDEP , { OBJ_PATH+"/FreeType.dep" , OBJ_PATH+"/FreeType.vm.dep" , '151' } } ;
 
-Target cpp150 = { "FreeTypeFont.cpp" , "../../Desktop/Font/CCore/src/video/FreeTypeFont.cpp" } ;
-Target dcpp150 = { "FreeTypeFont.dep" , OBJ_PATH+"/FreeTypeFont.dep" } ;
-Rule rdcpp150 = { {&cpp150,&obj} , {&dcpp150} , {&execpp150} } ;
-Exe execpp150 = { "CC-DEP FreeTypeFont.cpp" , CC , {
+Target cpp152 = { "FreeTypeFont.cpp" , "../../Desktop/Font/CCore/src/video/FreeTypeFont.cpp" } ;
+Target dcpp152 = { "FreeTypeFont.dep" , OBJ_PATH+"/FreeTypeFont.dep" } ;
+Rule rdcpp152 = { {&cpp152,&obj} , {&dcpp152} , {&execpp152} } ;
+Exe execpp152 = { "CC-DEP FreeTypeFont.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4090,14 +4144,14 @@ Exe execpp150 = { "CC-DEP FreeTypeFont.cpp" , CC , {
  ,OBJ_PATH+"/FreeTypeFont.dep"
 } } ;
 
-Target vdcpp150 = { "FreeTypeFont.vm.dep" , OBJ_PATH+"/FreeTypeFont.vm.dep" } ;
-Rule rvdcpp150 = { {&dcpp150} , {&vdcpp150} , {&exedcpp150} } ;
-Exe exedcpp150 = { "CC-VM-DEP FreeTypeFont.cpp" , VMDEP , { OBJ_PATH+"/FreeTypeFont.dep" , OBJ_PATH+"/FreeTypeFont.vm.dep" , '150' } } ;
+Target vdcpp152 = { "FreeTypeFont.vm.dep" , OBJ_PATH+"/FreeTypeFont.vm.dep" } ;
+Rule rvdcpp152 = { {&dcpp152} , {&vdcpp152} , {&exedcpp152} } ;
+Exe exedcpp152 = { "CC-VM-DEP FreeTypeFont.cpp" , VMDEP , { OBJ_PATH+"/FreeTypeFont.dep" , OBJ_PATH+"/FreeTypeFont.vm.dep" , '152' } } ;
 
-Target cpp151 = { "FuncTask.cpp" , "../../Applied/CCore/src/task/FuncTask.cpp" } ;
-Target dcpp151 = { "FuncTask.dep" , OBJ_PATH+"/FuncTask.dep" } ;
-Rule rdcpp151 = { {&cpp151,&obj} , {&dcpp151} , {&execpp151} } ;
-Exe execpp151 = { "CC-DEP FuncTask.cpp" , CC , {
+Target cpp153 = { "FuncTask.cpp" , "../../Applied/CCore/src/task/FuncTask.cpp" } ;
+Target dcpp153 = { "FuncTask.dep" , OBJ_PATH+"/FuncTask.dep" } ;
+Rule rdcpp153 = { {&cpp153,&obj} , {&dcpp153} , {&execpp153} } ;
+Exe execpp153 = { "CC-DEP FuncTask.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4117,14 +4171,14 @@ Exe execpp151 = { "CC-DEP FuncTask.cpp" , CC , {
  ,OBJ_PATH+"/FuncTask.dep"
 } } ;
 
-Target vdcpp151 = { "FuncTask.vm.dep" , OBJ_PATH+"/FuncTask.vm.dep" } ;
-Rule rvdcpp151 = { {&dcpp151} , {&vdcpp151} , {&exedcpp151} } ;
-Exe exedcpp151 = { "CC-VM-DEP FuncTask.cpp" , VMDEP , { OBJ_PATH+"/FuncTask.dep" , OBJ_PATH+"/FuncTask.vm.dep" , '151' } } ;
+Target vdcpp153 = { "FuncTask.vm.dep" , OBJ_PATH+"/FuncTask.vm.dep" } ;
+Rule rvdcpp153 = { {&dcpp153} , {&vdcpp153} , {&exedcpp153} } ;
+Exe exedcpp153 = { "CC-VM-DEP FuncTask.cpp" , VMDEP , { OBJ_PATH+"/FuncTask.dep" , OBJ_PATH+"/FuncTask.vm.dep" , '153' } } ;
 
-Target cpp152 = { "Function.cpp" , "../../Simple/CCore/src/gadget/Function.cpp" } ;
-Target dcpp152 = { "Function.dep" , OBJ_PATH+"/Function.dep" } ;
-Rule rdcpp152 = { {&cpp152,&obj} , {&dcpp152} , {&execpp152} } ;
-Exe execpp152 = { "CC-DEP Function.cpp" , CC , {
+Target cpp154 = { "Function.cpp" , "../../Simple/CCore/src/gadget/Function.cpp" } ;
+Target dcpp154 = { "Function.dep" , OBJ_PATH+"/Function.dep" } ;
+Rule rdcpp154 = { {&cpp154,&obj} , {&dcpp154} , {&execpp154} } ;
+Exe execpp154 = { "CC-DEP Function.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4144,14 +4198,14 @@ Exe execpp152 = { "CC-DEP Function.cpp" , CC , {
  ,OBJ_PATH+"/Function.dep"
 } } ;
 
-Target vdcpp152 = { "Function.vm.dep" , OBJ_PATH+"/Function.vm.dep" } ;
-Rule rvdcpp152 = { {&dcpp152} , {&vdcpp152} , {&exedcpp152} } ;
-Exe exedcpp152 = { "CC-VM-DEP Function.cpp" , VMDEP , { OBJ_PATH+"/Function.dep" , OBJ_PATH+"/Function.vm.dep" , '152' } } ;
+Target vdcpp154 = { "Function.vm.dep" , OBJ_PATH+"/Function.vm.dep" } ;
+Rule rvdcpp154 = { {&dcpp154} , {&vdcpp154} , {&exedcpp154} } ;
+Exe exedcpp154 = { "CC-VM-DEP Function.cpp" , VMDEP , { OBJ_PATH+"/Function.dep" , OBJ_PATH+"/Function.vm.dep" , '154' } } ;
 
-Target cpp153 = { "FunctorType.cpp" , "../../Simple/CCore/src/FunctorType.cpp" } ;
-Target dcpp153 = { "FunctorType.dep" , OBJ_PATH+"/FunctorType.dep" } ;
-Rule rdcpp153 = { {&cpp153,&obj} , {&dcpp153} , {&execpp153} } ;
-Exe execpp153 = { "CC-DEP FunctorType.cpp" , CC , {
+Target cpp155 = { "FunctorType.cpp" , "../../Simple/CCore/src/FunctorType.cpp" } ;
+Target dcpp155 = { "FunctorType.dep" , OBJ_PATH+"/FunctorType.dep" } ;
+Rule rdcpp155 = { {&cpp155,&obj} , {&dcpp155} , {&execpp155} } ;
+Exe execpp155 = { "CC-DEP FunctorType.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4171,14 +4225,14 @@ Exe execpp153 = { "CC-DEP FunctorType.cpp" , CC , {
  ,OBJ_PATH+"/FunctorType.dep"
 } } ;
 
-Target vdcpp153 = { "FunctorType.vm.dep" , OBJ_PATH+"/FunctorType.vm.dep" } ;
-Rule rvdcpp153 = { {&dcpp153} , {&vdcpp153} , {&exedcpp153} } ;
-Exe exedcpp153 = { "CC-VM-DEP FunctorType.cpp" , VMDEP , { OBJ_PATH+"/FunctorType.dep" , OBJ_PATH+"/FunctorType.vm.dep" , '153' } } ;
+Target vdcpp155 = { "FunctorType.vm.dep" , OBJ_PATH+"/FunctorType.vm.dep" } ;
+Rule rvdcpp155 = { {&dcpp155} , {&vdcpp155} , {&exedcpp155} } ;
+Exe exedcpp155 = { "CC-VM-DEP FunctorType.cpp" , VMDEP , { OBJ_PATH+"/FunctorType.dep" , OBJ_PATH+"/FunctorType.vm.dep" , '155' } } ;
 
-Target cpp154 = { "GCDConst.cpp" , "../../Fundamental/CCore/src/algon/GCDConst.cpp" } ;
-Target dcpp154 = { "GCDConst.dep" , OBJ_PATH+"/GCDConst.dep" } ;
-Rule rdcpp154 = { {&cpp154,&obj} , {&dcpp154} , {&execpp154} } ;
-Exe execpp154 = { "CC-DEP GCDConst.cpp" , CC , {
+Target cpp156 = { "GCDConst.cpp" , "../../Fundamental/CCore/src/algon/GCDConst.cpp" } ;
+Target dcpp156 = { "GCDConst.dep" , OBJ_PATH+"/GCDConst.dep" } ;
+Rule rdcpp156 = { {&cpp156,&obj} , {&dcpp156} , {&execpp156} } ;
+Exe execpp156 = { "CC-DEP GCDConst.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4198,14 +4252,14 @@ Exe execpp154 = { "CC-DEP GCDConst.cpp" , CC , {
  ,OBJ_PATH+"/GCDConst.dep"
 } } ;
 
-Target vdcpp154 = { "GCDConst.vm.dep" , OBJ_PATH+"/GCDConst.vm.dep" } ;
-Rule rvdcpp154 = { {&dcpp154} , {&vdcpp154} , {&exedcpp154} } ;
-Exe exedcpp154 = { "CC-VM-DEP GCDConst.cpp" , VMDEP , { OBJ_PATH+"/GCDConst.dep" , OBJ_PATH+"/GCDConst.vm.dep" , '154' } } ;
+Target vdcpp156 = { "GCDConst.vm.dep" , OBJ_PATH+"/GCDConst.vm.dep" } ;
+Rule rvdcpp156 = { {&dcpp156} , {&vdcpp156} , {&exedcpp156} } ;
+Exe exedcpp156 = { "CC-VM-DEP GCDConst.cpp" , VMDEP , { OBJ_PATH+"/GCDConst.dep" , OBJ_PATH+"/GCDConst.vm.dep" , '156' } } ;
 
-Target cpp155 = { "Gadget.cpp" , "../../Simple/CCore/src/Gadget.cpp" } ;
-Target dcpp155 = { "Gadget.dep" , OBJ_PATH+"/Gadget.dep" } ;
-Rule rdcpp155 = { {&cpp155,&obj} , {&dcpp155} , {&execpp155} } ;
-Exe execpp155 = { "CC-DEP Gadget.cpp" , CC , {
+Target cpp157 = { "Gadget.cpp" , "../../Simple/CCore/src/Gadget.cpp" } ;
+Target dcpp157 = { "Gadget.dep" , OBJ_PATH+"/Gadget.dep" } ;
+Rule rdcpp157 = { {&cpp157,&obj} , {&dcpp157} , {&execpp157} } ;
+Exe execpp157 = { "CC-DEP Gadget.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4225,14 +4279,14 @@ Exe execpp155 = { "CC-DEP Gadget.cpp" , CC , {
  ,OBJ_PATH+"/Gadget.dep"
 } } ;
 
-Target vdcpp155 = { "Gadget.vm.dep" , OBJ_PATH+"/Gadget.vm.dep" } ;
-Rule rvdcpp155 = { {&dcpp155} , {&vdcpp155} , {&exedcpp155} } ;
-Exe exedcpp155 = { "CC-VM-DEP Gadget.cpp" , VMDEP , { OBJ_PATH+"/Gadget.dep" , OBJ_PATH+"/Gadget.vm.dep" , '155' } } ;
+Target vdcpp157 = { "Gadget.vm.dep" , OBJ_PATH+"/Gadget.vm.dep" } ;
+Rule rvdcpp157 = { {&dcpp157} , {&vdcpp157} , {&exedcpp157} } ;
+Exe exedcpp157 = { "CC-VM-DEP Gadget.cpp" , VMDEP , { OBJ_PATH+"/Gadget.dep" , OBJ_PATH+"/Gadget.vm.dep" , '157' } } ;
 
-Target cpp156 = { "Gamma.cpp" , "../../Applied/CCore/src/video/Gamma.cpp" } ;
-Target dcpp156 = { "Gamma.dep" , OBJ_PATH+"/Gamma.dep" } ;
-Rule rdcpp156 = { {&cpp156,&obj} , {&dcpp156} , {&execpp156} } ;
-Exe execpp156 = { "CC-DEP Gamma.cpp" , CC , {
+Target cpp158 = { "Gamma.cpp" , "../../Applied/CCore/src/video/Gamma.cpp" } ;
+Target dcpp158 = { "Gamma.dep" , OBJ_PATH+"/Gamma.dep" } ;
+Rule rdcpp158 = { {&cpp158,&obj} , {&dcpp158} , {&execpp158} } ;
+Exe execpp158 = { "CC-DEP Gamma.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4252,14 +4306,14 @@ Exe execpp156 = { "CC-DEP Gamma.cpp" , CC , {
  ,OBJ_PATH+"/Gamma.dep"
 } } ;
 
-Target vdcpp156 = { "Gamma.vm.dep" , OBJ_PATH+"/Gamma.vm.dep" } ;
-Rule rvdcpp156 = { {&dcpp156} , {&vdcpp156} , {&exedcpp156} } ;
-Exe exedcpp156 = { "CC-VM-DEP Gamma.cpp" , VMDEP , { OBJ_PATH+"/Gamma.dep" , OBJ_PATH+"/Gamma.vm.dep" , '156' } } ;
+Target vdcpp158 = { "Gamma.vm.dep" , OBJ_PATH+"/Gamma.vm.dep" } ;
+Rule rvdcpp158 = { {&dcpp158} , {&vdcpp158} , {&exedcpp158} } ;
+Exe exedcpp158 = { "CC-VM-DEP Gamma.cpp" , VMDEP , { OBJ_PATH+"/Gamma.dep" , OBJ_PATH+"/Gamma.vm.dep" , '158' } } ;
 
-Target cpp157 = { "GammaTable.cpp" , "../../Desktop/Draw/CCore/src/video/GammaTable.cpp" } ;
-Target dcpp157 = { "GammaTable.dep" , OBJ_PATH+"/GammaTable.dep" } ;
-Rule rdcpp157 = { {&cpp157,&obj} , {&dcpp157} , {&execpp157} } ;
-Exe execpp157 = { "CC-DEP GammaTable.cpp" , CC , {
+Target cpp159 = { "GammaTable.cpp" , "../../Desktop/Draw/CCore/src/video/GammaTable.cpp" } ;
+Target dcpp159 = { "GammaTable.dep" , OBJ_PATH+"/GammaTable.dep" } ;
+Rule rdcpp159 = { {&cpp159,&obj} , {&dcpp159} , {&execpp159} } ;
+Exe execpp159 = { "CC-DEP GammaTable.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4279,14 +4333,14 @@ Exe execpp157 = { "CC-DEP GammaTable.cpp" , CC , {
  ,OBJ_PATH+"/GammaTable.dep"
 } } ;
 
-Target vdcpp157 = { "GammaTable.vm.dep" , OBJ_PATH+"/GammaTable.vm.dep" } ;
-Rule rvdcpp157 = { {&dcpp157} , {&vdcpp157} , {&exedcpp157} } ;
-Exe exedcpp157 = { "CC-VM-DEP GammaTable.cpp" , VMDEP , { OBJ_PATH+"/GammaTable.dep" , OBJ_PATH+"/GammaTable.vm.dep" , '157' } } ;
+Target vdcpp159 = { "GammaTable.vm.dep" , OBJ_PATH+"/GammaTable.vm.dep" } ;
+Rule rvdcpp159 = { {&dcpp159} , {&vdcpp159} , {&exedcpp159} } ;
+Exe exedcpp159 = { "CC-VM-DEP GammaTable.cpp" , VMDEP , { OBJ_PATH+"/GammaTable.dep" , OBJ_PATH+"/GammaTable.vm.dep" , '159' } } ;
 
-Target cpp158 = { "GenFile.cpp" , "../../Fundamental/CCore/src/GenFile.cpp" } ;
-Target dcpp158 = { "GenFile.dep" , OBJ_PATH+"/GenFile.dep" } ;
-Rule rdcpp158 = { {&cpp158,&obj} , {&dcpp158} , {&execpp158} } ;
-Exe execpp158 = { "CC-DEP GenFile.cpp" , CC , {
+Target cpp160 = { "GenFile.cpp" , "../../Fundamental/CCore/src/GenFile.cpp" } ;
+Target dcpp160 = { "GenFile.dep" , OBJ_PATH+"/GenFile.dep" } ;
+Rule rdcpp160 = { {&cpp160,&obj} , {&dcpp160} , {&execpp160} } ;
+Exe execpp160 = { "CC-DEP GenFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4306,14 +4360,14 @@ Exe execpp158 = { "CC-DEP GenFile.cpp" , CC , {
  ,OBJ_PATH+"/GenFile.dep"
 } } ;
 
-Target vdcpp158 = { "GenFile.vm.dep" , OBJ_PATH+"/GenFile.vm.dep" } ;
-Rule rvdcpp158 = { {&dcpp158} , {&vdcpp158} , {&exedcpp158} } ;
-Exe exedcpp158 = { "CC-VM-DEP GenFile.cpp" , VMDEP , { OBJ_PATH+"/GenFile.dep" , OBJ_PATH+"/GenFile.vm.dep" , '158' } } ;
+Target vdcpp160 = { "GenFile.vm.dep" , OBJ_PATH+"/GenFile.vm.dep" } ;
+Rule rvdcpp160 = { {&dcpp160} , {&vdcpp160} , {&exedcpp160} } ;
+Exe exedcpp160 = { "CC-VM-DEP GenFile.cpp" , VMDEP , { OBJ_PATH+"/GenFile.dep" , OBJ_PATH+"/GenFile.vm.dep" , '160' } } ;
 
-Target cpp159 = { "HFSBase.cpp" , "../../Applied/CCore/src/net/HFSBase.cpp" } ;
-Target dcpp159 = { "HFSBase.dep" , OBJ_PATH+"/HFSBase.dep" } ;
-Rule rdcpp159 = { {&cpp159,&obj} , {&dcpp159} , {&execpp159} } ;
-Exe execpp159 = { "CC-DEP HFSBase.cpp" , CC , {
+Target cpp161 = { "HFSBase.cpp" , "../../Applied/CCore/src/net/HFSBase.cpp" } ;
+Target dcpp161 = { "HFSBase.dep" , OBJ_PATH+"/HFSBase.dep" } ;
+Rule rdcpp161 = { {&cpp161,&obj} , {&dcpp161} , {&execpp161} } ;
+Exe execpp161 = { "CC-DEP HFSBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4333,14 +4387,14 @@ Exe execpp159 = { "CC-DEP HFSBase.cpp" , CC , {
  ,OBJ_PATH+"/HFSBase.dep"
 } } ;
 
-Target vdcpp159 = { "HFSBase.vm.dep" , OBJ_PATH+"/HFSBase.vm.dep" } ;
-Rule rvdcpp159 = { {&dcpp159} , {&vdcpp159} , {&exedcpp159} } ;
-Exe exedcpp159 = { "CC-VM-DEP HFSBase.cpp" , VMDEP , { OBJ_PATH+"/HFSBase.dep" , OBJ_PATH+"/HFSBase.vm.dep" , '159' } } ;
+Target vdcpp161 = { "HFSBase.vm.dep" , OBJ_PATH+"/HFSBase.vm.dep" } ;
+Rule rvdcpp161 = { {&dcpp161} , {&vdcpp161} , {&exedcpp161} } ;
+Exe exedcpp161 = { "CC-VM-DEP HFSBase.cpp" , VMDEP , { OBJ_PATH+"/HFSBase.dep" , OBJ_PATH+"/HFSBase.vm.dep" , '161' } } ;
 
-Target cpp160 = { "HFSClientDevice.cpp" , "../../Applied/CCore/src/net/HFSClientDevice.cpp" } ;
-Target dcpp160 = { "HFSClientDevice.dep" , OBJ_PATH+"/HFSClientDevice.dep" } ;
-Rule rdcpp160 = { {&cpp160,&obj} , {&dcpp160} , {&execpp160} } ;
-Exe execpp160 = { "CC-DEP HFSClientDevice.cpp" , CC , {
+Target cpp162 = { "HFSClientDevice.cpp" , "../../Applied/CCore/src/net/HFSClientDevice.cpp" } ;
+Target dcpp162 = { "HFSClientDevice.dep" , OBJ_PATH+"/HFSClientDevice.dep" } ;
+Rule rdcpp162 = { {&cpp162,&obj} , {&dcpp162} , {&execpp162} } ;
+Exe execpp162 = { "CC-DEP HFSClientDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4360,14 +4414,14 @@ Exe execpp160 = { "CC-DEP HFSClientDevice.cpp" , CC , {
  ,OBJ_PATH+"/HFSClientDevice.dep"
 } } ;
 
-Target vdcpp160 = { "HFSClientDevice.vm.dep" , OBJ_PATH+"/HFSClientDevice.vm.dep" } ;
-Rule rvdcpp160 = { {&dcpp160} , {&vdcpp160} , {&exedcpp160} } ;
-Exe exedcpp160 = { "CC-VM-DEP HFSClientDevice.cpp" , VMDEP , { OBJ_PATH+"/HFSClientDevice.dep" , OBJ_PATH+"/HFSClientDevice.vm.dep" , '160' } } ;
+Target vdcpp162 = { "HFSClientDevice.vm.dep" , OBJ_PATH+"/HFSClientDevice.vm.dep" } ;
+Rule rvdcpp162 = { {&dcpp162} , {&vdcpp162} , {&exedcpp162} } ;
+Exe exedcpp162 = { "CC-VM-DEP HFSClientDevice.cpp" , VMDEP , { OBJ_PATH+"/HFSClientDevice.dep" , OBJ_PATH+"/HFSClientDevice.vm.dep" , '162' } } ;
 
-Target cpp161 = { "HFSFileSystemDevice.cpp" , "../../Applied/CCore/src/net/HFSFileSystemDevice.cpp" } ;
-Target dcpp161 = { "HFSFileSystemDevice.dep" , OBJ_PATH+"/HFSFileSystemDevice.dep" } ;
-Rule rdcpp161 = { {&cpp161,&obj} , {&dcpp161} , {&execpp161} } ;
-Exe execpp161 = { "CC-DEP HFSFileSystemDevice.cpp" , CC , {
+Target cpp163 = { "HFSFileSystemDevice.cpp" , "../../Applied/CCore/src/net/HFSFileSystemDevice.cpp" } ;
+Target dcpp163 = { "HFSFileSystemDevice.dep" , OBJ_PATH+"/HFSFileSystemDevice.dep" } ;
+Rule rdcpp163 = { {&cpp163,&obj} , {&dcpp163} , {&execpp163} } ;
+Exe execpp163 = { "CC-DEP HFSFileSystemDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4387,14 +4441,14 @@ Exe execpp161 = { "CC-DEP HFSFileSystemDevice.cpp" , CC , {
  ,OBJ_PATH+"/HFSFileSystemDevice.dep"
 } } ;
 
-Target vdcpp161 = { "HFSFileSystemDevice.vm.dep" , OBJ_PATH+"/HFSFileSystemDevice.vm.dep" } ;
-Rule rvdcpp161 = { {&dcpp161} , {&vdcpp161} , {&exedcpp161} } ;
-Exe exedcpp161 = { "CC-VM-DEP HFSFileSystemDevice.cpp" , VMDEP , { OBJ_PATH+"/HFSFileSystemDevice.dep" , OBJ_PATH+"/HFSFileSystemDevice.vm.dep" , '161' } } ;
+Target vdcpp163 = { "HFSFileSystemDevice.vm.dep" , OBJ_PATH+"/HFSFileSystemDevice.vm.dep" } ;
+Rule rvdcpp163 = { {&dcpp163} , {&vdcpp163} , {&exedcpp163} } ;
+Exe exedcpp163 = { "CC-VM-DEP HFSFileSystemDevice.cpp" , VMDEP , { OBJ_PATH+"/HFSFileSystemDevice.dep" , OBJ_PATH+"/HFSFileSystemDevice.vm.dep" , '163' } } ;
 
-Target cpp162 = { "Handle.cpp" , "../../Simple/CCore/src/gadget/Handle.cpp" } ;
-Target dcpp162 = { "Handle.dep" , OBJ_PATH+"/Handle.dep" } ;
-Rule rdcpp162 = { {&cpp162,&obj} , {&dcpp162} , {&execpp162} } ;
-Exe execpp162 = { "CC-DEP Handle.cpp" , CC , {
+Target cpp164 = { "Handle.cpp" , "../../Simple/CCore/src/gadget/Handle.cpp" } ;
+Target dcpp164 = { "Handle.dep" , OBJ_PATH+"/Handle.dep" } ;
+Rule rdcpp164 = { {&cpp164,&obj} , {&dcpp164} , {&execpp164} } ;
+Exe execpp164 = { "CC-DEP Handle.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4414,14 +4468,14 @@ Exe execpp162 = { "CC-DEP Handle.cpp" , CC , {
  ,OBJ_PATH+"/Handle.dep"
 } } ;
 
-Target vdcpp162 = { "Handle.vm.dep" , OBJ_PATH+"/Handle.vm.dep" } ;
-Rule rvdcpp162 = { {&dcpp162} , {&vdcpp162} , {&exedcpp162} } ;
-Exe exedcpp162 = { "CC-VM-DEP Handle.cpp" , VMDEP , { OBJ_PATH+"/Handle.dep" , OBJ_PATH+"/Handle.vm.dep" , '162' } } ;
+Target vdcpp164 = { "Handle.vm.dep" , OBJ_PATH+"/Handle.vm.dep" } ;
+Rule rvdcpp164 = { {&dcpp164} , {&vdcpp164} , {&exedcpp164} } ;
+Exe exedcpp164 = { "CC-VM-DEP Handle.cpp" , VMDEP , { OBJ_PATH+"/Handle.dep" , OBJ_PATH+"/Handle.vm.dep" , '164' } } ;
 
-Target cpp163 = { "HashFunction.cpp" , "../../Applied/CCore/src/crypton/HashFunction.cpp" } ;
-Target dcpp163 = { "HashFunction.dep" , OBJ_PATH+"/HashFunction.dep" } ;
-Rule rdcpp163 = { {&cpp163,&obj} , {&dcpp163} , {&execpp163} } ;
-Exe execpp163 = { "CC-DEP HashFunction.cpp" , CC , {
+Target cpp165 = { "HashFunction.cpp" , "../../Applied/CCore/src/crypton/HashFunction.cpp" } ;
+Target dcpp165 = { "HashFunction.dep" , OBJ_PATH+"/HashFunction.dep" } ;
+Rule rdcpp165 = { {&cpp165,&obj} , {&dcpp165} , {&execpp165} } ;
+Exe execpp165 = { "CC-DEP HashFunction.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4441,14 +4495,14 @@ Exe execpp163 = { "CC-DEP HashFunction.cpp" , CC , {
  ,OBJ_PATH+"/HashFunction.dep"
 } } ;
 
-Target vdcpp163 = { "HashFunction.vm.dep" , OBJ_PATH+"/HashFunction.vm.dep" } ;
-Rule rvdcpp163 = { {&dcpp163} , {&vdcpp163} , {&exedcpp163} } ;
-Exe exedcpp163 = { "CC-VM-DEP HashFunction.cpp" , VMDEP , { OBJ_PATH+"/HashFunction.dep" , OBJ_PATH+"/HashFunction.vm.dep" , '163' } } ;
+Target vdcpp165 = { "HashFunction.vm.dep" , OBJ_PATH+"/HashFunction.vm.dep" } ;
+Rule rvdcpp165 = { {&dcpp165} , {&vdcpp165} , {&exedcpp165} } ;
+Exe exedcpp165 = { "CC-VM-DEP HashFunction.cpp" , VMDEP , { OBJ_PATH+"/HashFunction.dep" , OBJ_PATH+"/HashFunction.vm.dep" , '165' } } ;
 
-Target cpp164 = { "HeapEngine.cpp" , "../../Fundamental/CCore/src/HeapEngine.cpp" } ;
-Target dcpp164 = { "HeapEngine.dep" , OBJ_PATH+"/HeapEngine.dep" } ;
-Rule rdcpp164 = { {&cpp164,&obj} , {&dcpp164} , {&execpp164} } ;
-Exe execpp164 = { "CC-DEP HeapEngine.cpp" , CC , {
+Target cpp166 = { "HeapEngine.cpp" , "../../Fundamental/CCore/src/HeapEngine.cpp" } ;
+Target dcpp166 = { "HeapEngine.dep" , OBJ_PATH+"/HeapEngine.dep" } ;
+Rule rdcpp166 = { {&cpp166,&obj} , {&dcpp166} , {&execpp166} } ;
+Exe execpp166 = { "CC-DEP HeapEngine.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4468,14 +4522,14 @@ Exe execpp164 = { "CC-DEP HeapEngine.cpp" , CC , {
  ,OBJ_PATH+"/HeapEngine.dep"
 } } ;
 
-Target vdcpp164 = { "HeapEngine.vm.dep" , OBJ_PATH+"/HeapEngine.vm.dep" } ;
-Rule rvdcpp164 = { {&dcpp164} , {&vdcpp164} , {&exedcpp164} } ;
-Exe exedcpp164 = { "CC-VM-DEP HeapEngine.cpp" , VMDEP , { OBJ_PATH+"/HeapEngine.dep" , OBJ_PATH+"/HeapEngine.vm.dep" , '164' } } ;
+Target vdcpp166 = { "HeapEngine.vm.dep" , OBJ_PATH+"/HeapEngine.vm.dep" } ;
+Rule rvdcpp166 = { {&dcpp166} , {&vdcpp166} , {&exedcpp166} } ;
+Exe exedcpp166 = { "CC-VM-DEP HeapEngine.cpp" , VMDEP , { OBJ_PATH+"/HeapEngine.dep" , OBJ_PATH+"/HeapEngine.vm.dep" , '166' } } ;
 
-Target cpp165 = { "HeapSort.cpp" , "../../Fundamental/CCore/src/sort/HeapSort.cpp" } ;
-Target dcpp165 = { "HeapSort.dep" , OBJ_PATH+"/HeapSort.dep" } ;
-Rule rdcpp165 = { {&cpp165,&obj} , {&dcpp165} , {&execpp165} } ;
-Exe execpp165 = { "CC-DEP HeapSort.cpp" , CC , {
+Target cpp167 = { "HeapSort.cpp" , "../../Fundamental/CCore/src/sort/HeapSort.cpp" } ;
+Target dcpp167 = { "HeapSort.dep" , OBJ_PATH+"/HeapSort.dep" } ;
+Rule rdcpp167 = { {&cpp167,&obj} , {&dcpp167} , {&execpp167} } ;
+Exe execpp167 = { "CC-DEP HeapSort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4495,14 +4549,14 @@ Exe execpp165 = { "CC-DEP HeapSort.cpp" , CC , {
  ,OBJ_PATH+"/HeapSort.dep"
 } } ;
 
-Target vdcpp165 = { "HeapSort.vm.dep" , OBJ_PATH+"/HeapSort.vm.dep" } ;
-Rule rvdcpp165 = { {&dcpp165} , {&vdcpp165} , {&exedcpp165} } ;
-Exe exedcpp165 = { "CC-VM-DEP HeapSort.cpp" , VMDEP , { OBJ_PATH+"/HeapSort.dep" , OBJ_PATH+"/HeapSort.vm.dep" , '165' } } ;
+Target vdcpp167 = { "HeapSort.vm.dep" , OBJ_PATH+"/HeapSort.vm.dep" } ;
+Rule rvdcpp167 = { {&dcpp167} , {&vdcpp167} , {&exedcpp167} } ;
+Exe exedcpp167 = { "CC-VM-DEP HeapSort.cpp" , VMDEP , { OBJ_PATH+"/HeapSort.dep" , OBJ_PATH+"/HeapSort.vm.dep" , '167' } } ;
 
-Target cpp166 = { "HomeFile.cpp" , "../../Desktop/Tools/CCore/src/video/HomeFile.cpp" } ;
-Target dcpp166 = { "HomeFile.dep" , OBJ_PATH+"/HomeFile.dep" } ;
-Rule rdcpp166 = { {&cpp166,&obj} , {&dcpp166} , {&execpp166} } ;
-Exe execpp166 = { "CC-DEP HomeFile.cpp" , CC , {
+Target cpp168 = { "HomeFile.cpp" , "../../Desktop/Tools/CCore/src/video/HomeFile.cpp" } ;
+Target dcpp168 = { "HomeFile.dep" , OBJ_PATH+"/HomeFile.dep" } ;
+Rule rdcpp168 = { {&cpp168,&obj} , {&dcpp168} , {&execpp168} } ;
+Exe execpp168 = { "CC-DEP HomeFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4522,14 +4576,14 @@ Exe execpp166 = { "CC-DEP HomeFile.cpp" , CC , {
  ,OBJ_PATH+"/HomeFile.dep"
 } } ;
 
-Target vdcpp166 = { "HomeFile.vm.dep" , OBJ_PATH+"/HomeFile.vm.dep" } ;
-Rule rvdcpp166 = { {&dcpp166} , {&vdcpp166} , {&exedcpp166} } ;
-Exe exedcpp166 = { "CC-VM-DEP HomeFile.cpp" , VMDEP , { OBJ_PATH+"/HomeFile.dep" , OBJ_PATH+"/HomeFile.vm.dep" , '166' } } ;
+Target vdcpp168 = { "HomeFile.vm.dep" , OBJ_PATH+"/HomeFile.vm.dep" } ;
+Rule rvdcpp168 = { {&dcpp168} , {&vdcpp168} , {&exedcpp168} } ;
+Exe exedcpp168 = { "CC-VM-DEP HomeFile.cpp" , VMDEP , { OBJ_PATH+"/HomeFile.dep" , OBJ_PATH+"/HomeFile.vm.dep" , '168' } } ;
 
-Target cpp167 = { "Incremental.cpp" , "../../Desktop/Tools/CCore/src/video/Incremental.cpp" } ;
-Target dcpp167 = { "Incremental.dep" , OBJ_PATH+"/Incremental.dep" } ;
-Rule rdcpp167 = { {&cpp167,&obj} , {&dcpp167} , {&execpp167} } ;
-Exe execpp167 = { "CC-DEP Incremental.cpp" , CC , {
+Target cpp169 = { "Incremental.cpp" , "../../Desktop/Tools/CCore/src/video/Incremental.cpp" } ;
+Target dcpp169 = { "Incremental.dep" , OBJ_PATH+"/Incremental.dep" } ;
+Rule rdcpp169 = { {&cpp169,&obj} , {&dcpp169} , {&execpp169} } ;
+Exe execpp169 = { "CC-DEP Incremental.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4549,14 +4603,14 @@ Exe execpp167 = { "CC-DEP Incremental.cpp" , CC , {
  ,OBJ_PATH+"/Incremental.dep"
 } } ;
 
-Target vdcpp167 = { "Incremental.vm.dep" , OBJ_PATH+"/Incremental.vm.dep" } ;
-Rule rvdcpp167 = { {&dcpp167} , {&vdcpp167} , {&exedcpp167} } ;
-Exe exedcpp167 = { "CC-VM-DEP Incremental.cpp" , VMDEP , { OBJ_PATH+"/Incremental.dep" , OBJ_PATH+"/Incremental.vm.dep" , '167' } } ;
+Target vdcpp169 = { "Incremental.vm.dep" , OBJ_PATH+"/Incremental.vm.dep" } ;
+Rule rvdcpp169 = { {&dcpp169} , {&vdcpp169} , {&exedcpp169} } ;
+Exe exedcpp169 = { "CC-VM-DEP Incremental.cpp" , VMDEP , { OBJ_PATH+"/Incremental.dep" , OBJ_PATH+"/Incremental.vm.dep" , '169' } } ;
 
-Target cpp168 = { "Info.cpp" , "../../Desktop/Tools/CCore/src/video/Info.cpp" } ;
-Target dcpp168 = { "Info.dep" , OBJ_PATH+"/Info.dep" } ;
-Rule rdcpp168 = { {&cpp168,&obj} , {&dcpp168} , {&execpp168} } ;
-Exe execpp168 = { "CC-DEP Info.cpp" , CC , {
+Target cpp170 = { "Info.cpp" , "../../Desktop/Tools/CCore/src/video/Info.cpp" } ;
+Target dcpp170 = { "Info.dep" , OBJ_PATH+"/Info.dep" } ;
+Rule rdcpp170 = { {&cpp170,&obj} , {&dcpp170} , {&execpp170} } ;
+Exe execpp170 = { "CC-DEP Info.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4576,14 +4630,14 @@ Exe execpp168 = { "CC-DEP Info.cpp" , CC , {
  ,OBJ_PATH+"/Info.dep"
 } } ;
 
-Target vdcpp168 = { "Info.vm.dep" , OBJ_PATH+"/Info.vm.dep" } ;
-Rule rvdcpp168 = { {&dcpp168} , {&vdcpp168} , {&exedcpp168} } ;
-Exe exedcpp168 = { "CC-VM-DEP Info.cpp" , VMDEP , { OBJ_PATH+"/Info.dep" , OBJ_PATH+"/Info.vm.dep" , '168' } } ;
+Target vdcpp170 = { "Info.vm.dep" , OBJ_PATH+"/Info.vm.dep" } ;
+Rule rvdcpp170 = { {&dcpp170} , {&vdcpp170} , {&exedcpp170} } ;
+Exe exedcpp170 = { "CC-VM-DEP Info.cpp" , VMDEP , { OBJ_PATH+"/Info.dep" , OBJ_PATH+"/Info.vm.dep" , '170' } } ;
 
-Target cpp169 = { "InfoSize.cpp" , "../../Desktop/Tools/CCore/src/video/InfoSize.cpp" } ;
-Target dcpp169 = { "InfoSize.dep" , OBJ_PATH+"/InfoSize.dep" } ;
-Rule rdcpp169 = { {&cpp169,&obj} , {&dcpp169} , {&execpp169} } ;
-Exe execpp169 = { "CC-DEP InfoSize.cpp" , CC , {
+Target cpp171 = { "InfoSize.cpp" , "../../Desktop/Tools/CCore/src/video/InfoSize.cpp" } ;
+Target dcpp171 = { "InfoSize.dep" , OBJ_PATH+"/InfoSize.dep" } ;
+Rule rdcpp171 = { {&cpp171,&obj} , {&dcpp171} , {&execpp171} } ;
+Exe execpp171 = { "CC-DEP InfoSize.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4603,14 +4657,14 @@ Exe execpp169 = { "CC-DEP InfoSize.cpp" , CC , {
  ,OBJ_PATH+"/InfoSize.dep"
 } } ;
 
-Target vdcpp169 = { "InfoSize.vm.dep" , OBJ_PATH+"/InfoSize.vm.dep" } ;
-Rule rvdcpp169 = { {&dcpp169} , {&vdcpp169} , {&exedcpp169} } ;
-Exe exedcpp169 = { "CC-VM-DEP InfoSize.cpp" , VMDEP , { OBJ_PATH+"/InfoSize.dep" , OBJ_PATH+"/InfoSize.vm.dep" , '169' } } ;
+Target vdcpp171 = { "InfoSize.vm.dep" , OBJ_PATH+"/InfoSize.vm.dep" } ;
+Rule rvdcpp171 = { {&dcpp171} , {&vdcpp171} , {&exedcpp171} } ;
+Exe exedcpp171 = { "CC-VM-DEP InfoSize.cpp" , VMDEP , { OBJ_PATH+"/InfoSize.dep" , OBJ_PATH+"/InfoSize.vm.dep" , '171' } } ;
 
-Target cpp170 = { "Init.cpp" , "../../Simple/CCore/src/gadget/Init.cpp" } ;
-Target dcpp170 = { "Init.dep" , OBJ_PATH+"/Init.dep" } ;
-Rule rdcpp170 = { {&cpp170,&obj} , {&dcpp170} , {&execpp170} } ;
-Exe execpp170 = { "CC-DEP Init.cpp" , CC , {
+Target cpp172 = { "Init.cpp" , "../../Simple/CCore/src/gadget/Init.cpp" } ;
+Target dcpp172 = { "Init.dep" , OBJ_PATH+"/Init.dep" } ;
+Rule rdcpp172 = { {&cpp172,&obj} , {&dcpp172} , {&execpp172} } ;
+Exe execpp172 = { "CC-DEP Init.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4630,14 +4684,14 @@ Exe execpp170 = { "CC-DEP Init.cpp" , CC , {
  ,OBJ_PATH+"/Init.dep"
 } } ;
 
-Target vdcpp170 = { "Init.vm.dep" , OBJ_PATH+"/Init.vm.dep" } ;
-Rule rvdcpp170 = { {&dcpp170} , {&vdcpp170} , {&exedcpp170} } ;
-Exe exedcpp170 = { "CC-VM-DEP Init.cpp" , VMDEP , { OBJ_PATH+"/Init.dep" , OBJ_PATH+"/Init.vm.dep" , '170' } } ;
+Target vdcpp172 = { "Init.vm.dep" , OBJ_PATH+"/Init.vm.dep" } ;
+Rule rvdcpp172 = { {&dcpp172} , {&vdcpp172} , {&exedcpp172} } ;
+Exe exedcpp172 = { "CC-VM-DEP Init.cpp" , VMDEP , { OBJ_PATH+"/Init.dep" , OBJ_PATH+"/Init.vm.dep" , '172' } } ;
 
-Target cpp171 = { "InputUtils.cpp" , "../../Applied/CCore/src/InputUtils.cpp" } ;
-Target dcpp171 = { "InputUtils.dep" , OBJ_PATH+"/InputUtils.dep" } ;
-Rule rdcpp171 = { {&cpp171,&obj} , {&dcpp171} , {&execpp171} } ;
-Exe execpp171 = { "CC-DEP InputUtils.cpp" , CC , {
+Target cpp173 = { "InputUtils.cpp" , "../../Applied/CCore/src/InputUtils.cpp" } ;
+Target dcpp173 = { "InputUtils.dep" , OBJ_PATH+"/InputUtils.dep" } ;
+Rule rdcpp173 = { {&cpp173,&obj} , {&dcpp173} , {&execpp173} } ;
+Exe execpp173 = { "CC-DEP InputUtils.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4657,14 +4711,14 @@ Exe execpp171 = { "CC-DEP InputUtils.cpp" , CC , {
  ,OBJ_PATH+"/InputUtils.dep"
 } } ;
 
-Target vdcpp171 = { "InputUtils.vm.dep" , OBJ_PATH+"/InputUtils.vm.dep" } ;
-Rule rvdcpp171 = { {&dcpp171} , {&vdcpp171} , {&exedcpp171} } ;
-Exe exedcpp171 = { "CC-VM-DEP InputUtils.cpp" , VMDEP , { OBJ_PATH+"/InputUtils.dep" , OBJ_PATH+"/InputUtils.vm.dep" , '171' } } ;
+Target vdcpp173 = { "InputUtils.vm.dep" , OBJ_PATH+"/InputUtils.vm.dep" } ;
+Rule rvdcpp173 = { {&dcpp173} , {&vdcpp173} , {&exedcpp173} } ;
+Exe exedcpp173 = { "CC-VM-DEP InputUtils.cpp" , VMDEP , { OBJ_PATH+"/InputUtils.dep" , OBJ_PATH+"/InputUtils.vm.dep" , '173' } } ;
 
-Target cpp172 = { "InstanceLock.cpp" , "../../Simple/CCore/src/InstanceLock.cpp" } ;
-Target dcpp172 = { "InstanceLock.dep" , OBJ_PATH+"/InstanceLock.dep" } ;
-Rule rdcpp172 = { {&cpp172,&obj} , {&dcpp172} , {&execpp172} } ;
-Exe execpp172 = { "CC-DEP InstanceLock.cpp" , CC , {
+Target cpp174 = { "InstanceLock.cpp" , "../../Simple/CCore/src/InstanceLock.cpp" } ;
+Target dcpp174 = { "InstanceLock.dep" , OBJ_PATH+"/InstanceLock.dep" } ;
+Rule rdcpp174 = { {&cpp174,&obj} , {&dcpp174} , {&execpp174} } ;
+Exe execpp174 = { "CC-DEP InstanceLock.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4684,14 +4738,14 @@ Exe execpp172 = { "CC-DEP InstanceLock.cpp" , CC , {
  ,OBJ_PATH+"/InstanceLock.dep"
 } } ;
 
-Target vdcpp172 = { "InstanceLock.vm.dep" , OBJ_PATH+"/InstanceLock.vm.dep" } ;
-Rule rvdcpp172 = { {&dcpp172} , {&vdcpp172} , {&exedcpp172} } ;
-Exe exedcpp172 = { "CC-VM-DEP InstanceLock.cpp" , VMDEP , { OBJ_PATH+"/InstanceLock.dep" , OBJ_PATH+"/InstanceLock.vm.dep" , '172' } } ;
+Target vdcpp174 = { "InstanceLock.vm.dep" , OBJ_PATH+"/InstanceLock.vm.dep" } ;
+Rule rvdcpp174 = { {&dcpp174} , {&vdcpp174} , {&exedcpp174} } ;
+Exe exedcpp174 = { "CC-VM-DEP InstanceLock.cpp" , VMDEP , { OBJ_PATH+"/InstanceLock.dep" , OBJ_PATH+"/InstanceLock.vm.dep" , '174' } } ;
 
-Target cpp173 = { "IntOp.cpp" , "../../Applied/CCore/src/video/IntOp.cpp" } ;
-Target dcpp173 = { "IntOp.dep" , OBJ_PATH+"/IntOp.dep" } ;
-Rule rdcpp173 = { {&cpp173,&obj} , {&dcpp173} , {&execpp173} } ;
-Exe execpp173 = { "CC-DEP IntOp.cpp" , CC , {
+Target cpp175 = { "IntOp.cpp" , "../../Applied/CCore/src/video/IntOp.cpp" } ;
+Target dcpp175 = { "IntOp.dep" , OBJ_PATH+"/IntOp.dep" } ;
+Rule rdcpp175 = { {&cpp175,&obj} , {&dcpp175} , {&execpp175} } ;
+Exe execpp175 = { "CC-DEP IntOp.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4711,14 +4765,14 @@ Exe execpp173 = { "CC-DEP IntOp.cpp" , CC , {
  ,OBJ_PATH+"/IntOp.dep"
 } } ;
 
-Target vdcpp173 = { "IntOp.vm.dep" , OBJ_PATH+"/IntOp.vm.dep" } ;
-Rule rvdcpp173 = { {&dcpp173} , {&vdcpp173} , {&exedcpp173} } ;
-Exe exedcpp173 = { "CC-VM-DEP IntOp.cpp" , VMDEP , { OBJ_PATH+"/IntOp.dep" , OBJ_PATH+"/IntOp.vm.dep" , '173' } } ;
+Target vdcpp175 = { "IntOp.vm.dep" , OBJ_PATH+"/IntOp.vm.dep" } ;
+Rule rvdcpp175 = { {&dcpp175} , {&vdcpp175} , {&exedcpp175} } ;
+Exe exedcpp175 = { "CC-VM-DEP IntOp.cpp" , VMDEP , { OBJ_PATH+"/IntOp.dep" , OBJ_PATH+"/IntOp.vm.dep" , '175' } } ;
 
-Target cpp174 = { "IntPrint.cpp" , "../../Fundamental/CCore/src/printf/IntPrint.cpp" } ;
-Target dcpp174 = { "IntPrint.dep" , OBJ_PATH+"/IntPrint.dep" } ;
-Rule rdcpp174 = { {&cpp174,&obj} , {&dcpp174} , {&execpp174} } ;
-Exe execpp174 = { "CC-DEP IntPrint.cpp" , CC , {
+Target cpp176 = { "IntPrint.cpp" , "../../Fundamental/CCore/src/printf/IntPrint.cpp" } ;
+Target dcpp176 = { "IntPrint.dep" , OBJ_PATH+"/IntPrint.dep" } ;
+Rule rdcpp176 = { {&cpp176,&obj} , {&dcpp176} , {&execpp176} } ;
+Exe execpp176 = { "CC-DEP IntPrint.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4738,14 +4792,14 @@ Exe execpp174 = { "CC-DEP IntPrint.cpp" , CC , {
  ,OBJ_PATH+"/IntPrint.dep"
 } } ;
 
-Target vdcpp174 = { "IntPrint.vm.dep" , OBJ_PATH+"/IntPrint.vm.dep" } ;
-Rule rvdcpp174 = { {&dcpp174} , {&vdcpp174} , {&exedcpp174} } ;
-Exe exedcpp174 = { "CC-VM-DEP IntPrint.cpp" , VMDEP , { OBJ_PATH+"/IntPrint.dep" , OBJ_PATH+"/IntPrint.vm.dep" , '174' } } ;
+Target vdcpp176 = { "IntPrint.vm.dep" , OBJ_PATH+"/IntPrint.vm.dep" } ;
+Rule rvdcpp176 = { {&dcpp176} , {&vdcpp176} , {&exedcpp176} } ;
+Exe exedcpp176 = { "CC-VM-DEP IntPrint.cpp" , VMDEP , { OBJ_PATH+"/IntPrint.dep" , OBJ_PATH+"/IntPrint.vm.dep" , '176' } } ;
 
-Target cpp175 = { "IntScan.cpp" , "../../Fundamental/CCore/src/scanf/IntScan.cpp" } ;
-Target dcpp175 = { "IntScan.dep" , OBJ_PATH+"/IntScan.dep" } ;
-Rule rdcpp175 = { {&cpp175,&obj} , {&dcpp175} , {&execpp175} } ;
-Exe execpp175 = { "CC-DEP IntScan.cpp" , CC , {
+Target cpp177 = { "IntScan.cpp" , "../../Fundamental/CCore/src/scanf/IntScan.cpp" } ;
+Target dcpp177 = { "IntScan.dep" , OBJ_PATH+"/IntScan.dep" } ;
+Rule rdcpp177 = { {&cpp177,&obj} , {&dcpp177} , {&execpp177} } ;
+Exe execpp177 = { "CC-DEP IntScan.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4765,14 +4819,14 @@ Exe execpp175 = { "CC-DEP IntScan.cpp" , CC , {
  ,OBJ_PATH+"/IntScan.dep"
 } } ;
 
-Target vdcpp175 = { "IntScan.vm.dep" , OBJ_PATH+"/IntScan.vm.dep" } ;
-Rule rvdcpp175 = { {&dcpp175} , {&vdcpp175} , {&exedcpp175} } ;
-Exe exedcpp175 = { "CC-VM-DEP IntScan.cpp" , VMDEP , { OBJ_PATH+"/IntScan.dep" , OBJ_PATH+"/IntScan.vm.dep" , '175' } } ;
+Target vdcpp177 = { "IntScan.vm.dep" , OBJ_PATH+"/IntScan.vm.dep" } ;
+Rule rvdcpp177 = { {&dcpp177} , {&vdcpp177} , {&exedcpp177} } ;
+Exe exedcpp177 = { "CC-VM-DEP IntScan.cpp" , VMDEP , { OBJ_PATH+"/IntScan.dep" , OBJ_PATH+"/IntScan.vm.dep" , '177' } } ;
 
-Target cpp176 = { "Integer.cpp" , "../../Applied/CCore/src/math/Integer.cpp" } ;
-Target dcpp176 = { "Integer.dep" , OBJ_PATH+"/Integer.dep" } ;
-Rule rdcpp176 = { {&cpp176,&obj} , {&dcpp176} , {&execpp176} } ;
-Exe execpp176 = { "CC-DEP Integer.cpp" , CC , {
+Target cpp178 = { "Integer.cpp" , "../../Applied/CCore/src/math/Integer.cpp" } ;
+Target dcpp178 = { "Integer.dep" , OBJ_PATH+"/Integer.dep" } ;
+Rule rdcpp178 = { {&cpp178,&obj} , {&dcpp178} , {&execpp178} } ;
+Exe execpp178 = { "CC-DEP Integer.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4792,14 +4846,14 @@ Exe execpp176 = { "CC-DEP Integer.cpp" , CC , {
  ,OBJ_PATH+"/Integer.dep"
 } } ;
 
-Target vdcpp176 = { "Integer.vm.dep" , OBJ_PATH+"/Integer.vm.dep" } ;
-Rule rvdcpp176 = { {&dcpp176} , {&vdcpp176} , {&exedcpp176} } ;
-Exe exedcpp176 = { "CC-VM-DEP Integer.cpp" , VMDEP , { OBJ_PATH+"/Integer.dep" , OBJ_PATH+"/Integer.vm.dep" , '176' } } ;
+Target vdcpp178 = { "Integer.vm.dep" , OBJ_PATH+"/Integer.vm.dep" } ;
+Rule rvdcpp178 = { {&dcpp178} , {&vdcpp178} , {&exedcpp178} } ;
+Exe exedcpp178 = { "CC-VM-DEP Integer.cpp" , VMDEP , { OBJ_PATH+"/Integer.dep" , OBJ_PATH+"/Integer.vm.dep" , '178' } } ;
 
-Target cpp177 = { "IntegerAlgo.cpp" , "../../Applied/CCore/src/math/IntegerAlgo.cpp" } ;
-Target dcpp177 = { "IntegerAlgo.dep" , OBJ_PATH+"/IntegerAlgo.dep" } ;
-Rule rdcpp177 = { {&cpp177,&obj} , {&dcpp177} , {&execpp177} } ;
-Exe execpp177 = { "CC-DEP IntegerAlgo.cpp" , CC , {
+Target cpp179 = { "IntegerAlgo.cpp" , "../../Applied/CCore/src/math/IntegerAlgo.cpp" } ;
+Target dcpp179 = { "IntegerAlgo.dep" , OBJ_PATH+"/IntegerAlgo.dep" } ;
+Rule rdcpp179 = { {&cpp179,&obj} , {&dcpp179} , {&execpp179} } ;
+Exe execpp179 = { "CC-DEP IntegerAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4819,14 +4873,14 @@ Exe execpp177 = { "CC-DEP IntegerAlgo.cpp" , CC , {
  ,OBJ_PATH+"/IntegerAlgo.dep"
 } } ;
 
-Target vdcpp177 = { "IntegerAlgo.vm.dep" , OBJ_PATH+"/IntegerAlgo.vm.dep" } ;
-Rule rvdcpp177 = { {&dcpp177} , {&vdcpp177} , {&exedcpp177} } ;
-Exe exedcpp177 = { "CC-VM-DEP IntegerAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerAlgo.dep" , OBJ_PATH+"/IntegerAlgo.vm.dep" , '177' } } ;
+Target vdcpp179 = { "IntegerAlgo.vm.dep" , OBJ_PATH+"/IntegerAlgo.vm.dep" } ;
+Rule rvdcpp179 = { {&dcpp179} , {&vdcpp179} , {&exedcpp179} } ;
+Exe exedcpp179 = { "CC-VM-DEP IntegerAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerAlgo.dep" , OBJ_PATH+"/IntegerAlgo.vm.dep" , '179' } } ;
 
-Target cpp178 = { "IntegerBuilder.cpp" , "../../Applied/CCore/src/math/IntegerBuilder.cpp" } ;
-Target dcpp178 = { "IntegerBuilder.dep" , OBJ_PATH+"/IntegerBuilder.dep" } ;
-Rule rdcpp178 = { {&cpp178,&obj} , {&dcpp178} , {&execpp178} } ;
-Exe execpp178 = { "CC-DEP IntegerBuilder.cpp" , CC , {
+Target cpp180 = { "IntegerBuilder.cpp" , "../../Applied/CCore/src/math/IntegerBuilder.cpp" } ;
+Target dcpp180 = { "IntegerBuilder.dep" , OBJ_PATH+"/IntegerBuilder.dep" } ;
+Rule rdcpp180 = { {&cpp180,&obj} , {&dcpp180} , {&execpp180} } ;
+Exe execpp180 = { "CC-DEP IntegerBuilder.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4846,14 +4900,14 @@ Exe execpp178 = { "CC-DEP IntegerBuilder.cpp" , CC , {
  ,OBJ_PATH+"/IntegerBuilder.dep"
 } } ;
 
-Target vdcpp178 = { "IntegerBuilder.vm.dep" , OBJ_PATH+"/IntegerBuilder.vm.dep" } ;
-Rule rvdcpp178 = { {&dcpp178} , {&vdcpp178} , {&exedcpp178} } ;
-Exe exedcpp178 = { "CC-VM-DEP IntegerBuilder.cpp" , VMDEP , { OBJ_PATH+"/IntegerBuilder.dep" , OBJ_PATH+"/IntegerBuilder.vm.dep" , '178' } } ;
+Target vdcpp180 = { "IntegerBuilder.vm.dep" , OBJ_PATH+"/IntegerBuilder.vm.dep" } ;
+Rule rvdcpp180 = { {&dcpp180} , {&vdcpp180} , {&exedcpp180} } ;
+Exe exedcpp180 = { "CC-VM-DEP IntegerBuilder.cpp" , VMDEP , { OBJ_PATH+"/IntegerBuilder.dep" , OBJ_PATH+"/IntegerBuilder.vm.dep" , '180' } } ;
 
-Target cpp179 = { "IntegerDivider.cpp" , "../../Applied/CCore/src/math/IntegerDivider.cpp" } ;
-Target dcpp179 = { "IntegerDivider.dep" , OBJ_PATH+"/IntegerDivider.dep" } ;
-Rule rdcpp179 = { {&cpp179,&obj} , {&dcpp179} , {&execpp179} } ;
-Exe execpp179 = { "CC-DEP IntegerDivider.cpp" , CC , {
+Target cpp181 = { "IntegerDivider.cpp" , "../../Applied/CCore/src/math/IntegerDivider.cpp" } ;
+Target dcpp181 = { "IntegerDivider.dep" , OBJ_PATH+"/IntegerDivider.dep" } ;
+Rule rdcpp181 = { {&cpp181,&obj} , {&dcpp181} , {&execpp181} } ;
+Exe execpp181 = { "CC-DEP IntegerDivider.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4873,14 +4927,14 @@ Exe execpp179 = { "CC-DEP IntegerDivider.cpp" , CC , {
  ,OBJ_PATH+"/IntegerDivider.dep"
 } } ;
 
-Target vdcpp179 = { "IntegerDivider.vm.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" } ;
-Rule rvdcpp179 = { {&dcpp179} , {&vdcpp179} , {&exedcpp179} } ;
-Exe exedcpp179 = { "CC-VM-DEP IntegerDivider.cpp" , VMDEP , { OBJ_PATH+"/IntegerDivider.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" , '179' } } ;
+Target vdcpp181 = { "IntegerDivider.vm.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" } ;
+Rule rvdcpp181 = { {&dcpp181} , {&vdcpp181} , {&exedcpp181} } ;
+Exe exedcpp181 = { "CC-VM-DEP IntegerDivider.cpp" , VMDEP , { OBJ_PATH+"/IntegerDivider.dep" , OBJ_PATH+"/IntegerDivider.vm.dep" , '181' } } ;
 
-Target cpp180 = { "IntegerFastAlgo.cpp" , "CCore/src/math/IntegerFastAlgo.cpp" } ;
-Target dcpp180 = { "IntegerFastAlgo.dep" , OBJ_PATH+"/IntegerFastAlgo.dep" } ;
-Rule rdcpp180 = { {&cpp180,&obj} , {&dcpp180} , {&execpp180} } ;
-Exe execpp180 = { "CC-DEP IntegerFastAlgo.cpp" , CC , {
+Target cpp182 = { "IntegerFastAlgo.cpp" , "CCore/src/math/IntegerFastAlgo.cpp" } ;
+Target dcpp182 = { "IntegerFastAlgo.dep" , OBJ_PATH+"/IntegerFastAlgo.dep" } ;
+Rule rdcpp182 = { {&cpp182,&obj} , {&dcpp182} , {&execpp182} } ;
+Exe execpp182 = { "CC-DEP IntegerFastAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4900,14 +4954,14 @@ Exe execpp180 = { "CC-DEP IntegerFastAlgo.cpp" , CC , {
  ,OBJ_PATH+"/IntegerFastAlgo.dep"
 } } ;
 
-Target vdcpp180 = { "IntegerFastAlgo.vm.dep" , OBJ_PATH+"/IntegerFastAlgo.vm.dep" } ;
-Rule rvdcpp180 = { {&dcpp180} , {&vdcpp180} , {&exedcpp180} } ;
-Exe exedcpp180 = { "CC-VM-DEP IntegerFastAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerFastAlgo.dep" , OBJ_PATH+"/IntegerFastAlgo.vm.dep" , '180' } } ;
+Target vdcpp182 = { "IntegerFastAlgo.vm.dep" , OBJ_PATH+"/IntegerFastAlgo.vm.dep" } ;
+Rule rvdcpp182 = { {&dcpp182} , {&vdcpp182} , {&exedcpp182} } ;
+Exe exedcpp182 = { "CC-VM-DEP IntegerFastAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerFastAlgo.dep" , OBJ_PATH+"/IntegerFastAlgo.vm.dep" , '182' } } ;
 
-Target cpp181 = { "IntegerFromString.cpp" , "../../Applied/CCore/src/math/IntegerFromString.cpp" } ;
-Target dcpp181 = { "IntegerFromString.dep" , OBJ_PATH+"/IntegerFromString.dep" } ;
-Rule rdcpp181 = { {&cpp181,&obj} , {&dcpp181} , {&execpp181} } ;
-Exe execpp181 = { "CC-DEP IntegerFromString.cpp" , CC , {
+Target cpp183 = { "IntegerFromString.cpp" , "../../Applied/CCore/src/math/IntegerFromString.cpp" } ;
+Target dcpp183 = { "IntegerFromString.dep" , OBJ_PATH+"/IntegerFromString.dep" } ;
+Rule rdcpp183 = { {&cpp183,&obj} , {&dcpp183} , {&execpp183} } ;
+Exe execpp183 = { "CC-DEP IntegerFromString.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4927,14 +4981,14 @@ Exe execpp181 = { "CC-DEP IntegerFromString.cpp" , CC , {
  ,OBJ_PATH+"/IntegerFromString.dep"
 } } ;
 
-Target vdcpp181 = { "IntegerFromString.vm.dep" , OBJ_PATH+"/IntegerFromString.vm.dep" } ;
-Rule rvdcpp181 = { {&dcpp181} , {&vdcpp181} , {&exedcpp181} } ;
-Exe exedcpp181 = { "CC-VM-DEP IntegerFromString.cpp" , VMDEP , { OBJ_PATH+"/IntegerFromString.dep" , OBJ_PATH+"/IntegerFromString.vm.dep" , '181' } } ;
+Target vdcpp183 = { "IntegerFromString.vm.dep" , OBJ_PATH+"/IntegerFromString.vm.dep" } ;
+Rule rvdcpp183 = { {&dcpp183} , {&vdcpp183} , {&exedcpp183} } ;
+Exe exedcpp183 = { "CC-VM-DEP IntegerFromString.cpp" , VMDEP , { OBJ_PATH+"/IntegerFromString.dep" , OBJ_PATH+"/IntegerFromString.vm.dep" , '183' } } ;
 
-Target cpp182 = { "IntegerGCD.cpp" , "../../Applied/CCore/src/math/IntegerGCD.cpp" } ;
-Target dcpp182 = { "IntegerGCD.dep" , OBJ_PATH+"/IntegerGCD.dep" } ;
-Rule rdcpp182 = { {&cpp182,&obj} , {&dcpp182} , {&execpp182} } ;
-Exe execpp182 = { "CC-DEP IntegerGCD.cpp" , CC , {
+Target cpp184 = { "IntegerGCD.cpp" , "../../Applied/CCore/src/math/IntegerGCD.cpp" } ;
+Target dcpp184 = { "IntegerGCD.dep" , OBJ_PATH+"/IntegerGCD.dep" } ;
+Rule rdcpp184 = { {&cpp184,&obj} , {&dcpp184} , {&execpp184} } ;
+Exe execpp184 = { "CC-DEP IntegerGCD.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4954,14 +5008,14 @@ Exe execpp182 = { "CC-DEP IntegerGCD.cpp" , CC , {
  ,OBJ_PATH+"/IntegerGCD.dep"
 } } ;
 
-Target vdcpp182 = { "IntegerGCD.vm.dep" , OBJ_PATH+"/IntegerGCD.vm.dep" } ;
-Rule rvdcpp182 = { {&dcpp182} , {&vdcpp182} , {&exedcpp182} } ;
-Exe exedcpp182 = { "CC-VM-DEP IntegerGCD.cpp" , VMDEP , { OBJ_PATH+"/IntegerGCD.dep" , OBJ_PATH+"/IntegerGCD.vm.dep" , '182' } } ;
+Target vdcpp184 = { "IntegerGCD.vm.dep" , OBJ_PATH+"/IntegerGCD.vm.dep" } ;
+Rule rvdcpp184 = { {&dcpp184} , {&vdcpp184} , {&exedcpp184} } ;
+Exe exedcpp184 = { "CC-VM-DEP IntegerGCD.cpp" , VMDEP , { OBJ_PATH+"/IntegerGCD.dep" , OBJ_PATH+"/IntegerGCD.vm.dep" , '184' } } ;
 
-Target cpp183 = { "IntegerMulAlgo.cpp" , "../../Applied/CCore/src/math/IntegerMulAlgo.cpp" } ;
-Target dcpp183 = { "IntegerMulAlgo.dep" , OBJ_PATH+"/IntegerMulAlgo.dep" } ;
-Rule rdcpp183 = { {&cpp183,&obj} , {&dcpp183} , {&execpp183} } ;
-Exe execpp183 = { "CC-DEP IntegerMulAlgo.cpp" , CC , {
+Target cpp185 = { "IntegerMulAlgo.cpp" , "../../Applied/CCore/src/math/IntegerMulAlgo.cpp" } ;
+Target dcpp185 = { "IntegerMulAlgo.dep" , OBJ_PATH+"/IntegerMulAlgo.dep" } ;
+Rule rdcpp185 = { {&cpp185,&obj} , {&dcpp185} , {&execpp185} } ;
+Exe execpp185 = { "CC-DEP IntegerMulAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -4981,14 +5035,14 @@ Exe execpp183 = { "CC-DEP IntegerMulAlgo.cpp" , CC , {
  ,OBJ_PATH+"/IntegerMulAlgo.dep"
 } } ;
 
-Target vdcpp183 = { "IntegerMulAlgo.vm.dep" , OBJ_PATH+"/IntegerMulAlgo.vm.dep" } ;
-Rule rvdcpp183 = { {&dcpp183} , {&vdcpp183} , {&exedcpp183} } ;
-Exe exedcpp183 = { "CC-VM-DEP IntegerMulAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerMulAlgo.dep" , OBJ_PATH+"/IntegerMulAlgo.vm.dep" , '183' } } ;
+Target vdcpp185 = { "IntegerMulAlgo.vm.dep" , OBJ_PATH+"/IntegerMulAlgo.vm.dep" } ;
+Rule rvdcpp185 = { {&dcpp185} , {&vdcpp185} , {&exedcpp185} } ;
+Exe exedcpp185 = { "CC-VM-DEP IntegerMulAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerMulAlgo.dep" , OBJ_PATH+"/IntegerMulAlgo.vm.dep" , '185' } } ;
 
-Target cpp184 = { "IntegerOctetBuilder.cpp" , "../../Applied/CCore/src/math/IntegerOctetBuilder.cpp" } ;
-Target dcpp184 = { "IntegerOctetBuilder.dep" , OBJ_PATH+"/IntegerOctetBuilder.dep" } ;
-Rule rdcpp184 = { {&cpp184,&obj} , {&dcpp184} , {&execpp184} } ;
-Exe execpp184 = { "CC-DEP IntegerOctetBuilder.cpp" , CC , {
+Target cpp186 = { "IntegerOctetBuilder.cpp" , "../../Applied/CCore/src/math/IntegerOctetBuilder.cpp" } ;
+Target dcpp186 = { "IntegerOctetBuilder.dep" , OBJ_PATH+"/IntegerOctetBuilder.dep" } ;
+Rule rdcpp186 = { {&cpp186,&obj} , {&dcpp186} , {&execpp186} } ;
+Exe execpp186 = { "CC-DEP IntegerOctetBuilder.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5008,14 +5062,14 @@ Exe execpp184 = { "CC-DEP IntegerOctetBuilder.cpp" , CC , {
  ,OBJ_PATH+"/IntegerOctetBuilder.dep"
 } } ;
 
-Target vdcpp184 = { "IntegerOctetBuilder.vm.dep" , OBJ_PATH+"/IntegerOctetBuilder.vm.dep" } ;
-Rule rvdcpp184 = { {&dcpp184} , {&vdcpp184} , {&exedcpp184} } ;
-Exe exedcpp184 = { "CC-VM-DEP IntegerOctetBuilder.cpp" , VMDEP , { OBJ_PATH+"/IntegerOctetBuilder.dep" , OBJ_PATH+"/IntegerOctetBuilder.vm.dep" , '184' } } ;
+Target vdcpp186 = { "IntegerOctetBuilder.vm.dep" , OBJ_PATH+"/IntegerOctetBuilder.vm.dep" } ;
+Rule rvdcpp186 = { {&dcpp186} , {&vdcpp186} , {&exedcpp186} } ;
+Exe exedcpp186 = { "CC-VM-DEP IntegerOctetBuilder.cpp" , VMDEP , { OBJ_PATH+"/IntegerOctetBuilder.dep" , OBJ_PATH+"/IntegerOctetBuilder.vm.dep" , '186' } } ;
 
-Target cpp185 = { "IntegerSlowAlgo.cpp" , "../../Applied/CCore/src/math/IntegerSlowAlgo.cpp" } ;
-Target dcpp185 = { "IntegerSlowAlgo.dep" , OBJ_PATH+"/IntegerSlowAlgo.dep" } ;
-Rule rdcpp185 = { {&cpp185,&obj} , {&dcpp185} , {&execpp185} } ;
-Exe execpp185 = { "CC-DEP IntegerSlowAlgo.cpp" , CC , {
+Target cpp187 = { "IntegerSlowAlgo.cpp" , "../../Applied/CCore/src/math/IntegerSlowAlgo.cpp" } ;
+Target dcpp187 = { "IntegerSlowAlgo.dep" , OBJ_PATH+"/IntegerSlowAlgo.dep" } ;
+Rule rdcpp187 = { {&cpp187,&obj} , {&dcpp187} , {&execpp187} } ;
+Exe execpp187 = { "CC-DEP IntegerSlowAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5035,14 +5089,14 @@ Exe execpp185 = { "CC-DEP IntegerSlowAlgo.cpp" , CC , {
  ,OBJ_PATH+"/IntegerSlowAlgo.dep"
 } } ;
 
-Target vdcpp185 = { "IntegerSlowAlgo.vm.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep" } ;
-Rule rvdcpp185 = { {&dcpp185} , {&vdcpp185} , {&exedcpp185} } ;
-Exe exedcpp185 = { "CC-VM-DEP IntegerSlowAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerSlowAlgo.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep" , '185' } } ;
+Target vdcpp187 = { "IntegerSlowAlgo.vm.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep" } ;
+Rule rvdcpp187 = { {&dcpp187} , {&vdcpp187} , {&exedcpp187} } ;
+Exe exedcpp187 = { "CC-VM-DEP IntegerSlowAlgo.cpp" , VMDEP , { OBJ_PATH+"/IntegerSlowAlgo.dep" , OBJ_PATH+"/IntegerSlowAlgo.vm.dep" , '187' } } ;
 
-Target cpp186 = { "InterfaceHost.cpp" , "../../Fundamental/CCore/src/InterfaceHost.cpp" } ;
-Target dcpp186 = { "InterfaceHost.dep" , OBJ_PATH+"/InterfaceHost.dep" } ;
-Rule rdcpp186 = { {&cpp186,&obj} , {&dcpp186} , {&execpp186} } ;
-Exe execpp186 = { "CC-DEP InterfaceHost.cpp" , CC , {
+Target cpp188 = { "InterfaceHost.cpp" , "../../Fundamental/CCore/src/InterfaceHost.cpp" } ;
+Target dcpp188 = { "InterfaceHost.dep" , OBJ_PATH+"/InterfaceHost.dep" } ;
+Rule rdcpp188 = { {&cpp188,&obj} , {&dcpp188} , {&execpp188} } ;
+Exe execpp188 = { "CC-DEP InterfaceHost.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5062,14 +5116,14 @@ Exe execpp186 = { "CC-DEP InterfaceHost.cpp" , CC , {
  ,OBJ_PATH+"/InterfaceHost.dep"
 } } ;
 
-Target vdcpp186 = { "InterfaceHost.vm.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" } ;
-Rule rvdcpp186 = { {&dcpp186} , {&vdcpp186} , {&exedcpp186} } ;
-Exe exedcpp186 = { "CC-VM-DEP InterfaceHost.cpp" , VMDEP , { OBJ_PATH+"/InterfaceHost.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" , '186' } } ;
+Target vdcpp188 = { "InterfaceHost.vm.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" } ;
+Rule rvdcpp188 = { {&dcpp188} , {&vdcpp188} , {&exedcpp188} } ;
+Exe exedcpp188 = { "CC-VM-DEP InterfaceHost.cpp" , VMDEP , { OBJ_PATH+"/InterfaceHost.dep" , OBJ_PATH+"/InterfaceHost.vm.dep" , '188' } } ;
 
-Target cpp187 = { "InternalDesktop.cpp" , "CCore/src/video/InternalDesktop.cpp" } ;
-Target dcpp187 = { "InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.dep" } ;
-Rule rdcpp187 = { {&cpp187,&obj} , {&dcpp187} , {&execpp187} } ;
-Exe execpp187 = { "CC-DEP InternalDesktop.cpp" , CC , {
+Target cpp189 = { "InternalDesktop.cpp" , "CCore/src/video/InternalDesktop.cpp" } ;
+Target dcpp189 = { "InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.dep" } ;
+Rule rdcpp189 = { {&cpp189,&obj} , {&dcpp189} , {&execpp189} } ;
+Exe execpp189 = { "CC-DEP InternalDesktop.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5089,14 +5143,14 @@ Exe execpp187 = { "CC-DEP InternalDesktop.cpp" , CC , {
  ,OBJ_PATH+"/InternalDesktop.dep"
 } } ;
 
-Target vdcpp187 = { "InternalDesktop.vm.dep" , OBJ_PATH+"/InternalDesktop.vm.dep" } ;
-Rule rvdcpp187 = { {&dcpp187} , {&vdcpp187} , {&exedcpp187} } ;
-Exe exedcpp187 = { "CC-VM-DEP InternalDesktop.cpp" , VMDEP , { OBJ_PATH+"/InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.vm.dep" , '187' } } ;
+Target vdcpp189 = { "InternalDesktop.vm.dep" , OBJ_PATH+"/InternalDesktop.vm.dep" } ;
+Rule rvdcpp189 = { {&dcpp189} , {&vdcpp189} , {&exedcpp189} } ;
+Exe exedcpp189 = { "CC-VM-DEP InternalDesktop.cpp" , VMDEP , { OBJ_PATH+"/InternalDesktop.dep" , OBJ_PATH+"/InternalDesktop.vm.dep" , '189' } } ;
 
-Target cpp188 = { "InternalHost.cpp" , "CCore/src/video/InternalHost.cpp" } ;
-Target dcpp188 = { "InternalHost.dep" , OBJ_PATH+"/InternalHost.dep" } ;
-Rule rdcpp188 = { {&cpp188,&obj} , {&dcpp188} , {&execpp188} } ;
-Exe execpp188 = { "CC-DEP InternalHost.cpp" , CC , {
+Target cpp190 = { "InternalHost.cpp" , "CCore/src/video/InternalHost.cpp" } ;
+Target dcpp190 = { "InternalHost.dep" , OBJ_PATH+"/InternalHost.dep" } ;
+Rule rdcpp190 = { {&cpp190,&obj} , {&dcpp190} , {&execpp190} } ;
+Exe execpp190 = { "CC-DEP InternalHost.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5116,14 +5170,14 @@ Exe execpp188 = { "CC-DEP InternalHost.cpp" , CC , {
  ,OBJ_PATH+"/InternalHost.dep"
 } } ;
 
-Target vdcpp188 = { "InternalHost.vm.dep" , OBJ_PATH+"/InternalHost.vm.dep" } ;
-Rule rvdcpp188 = { {&dcpp188} , {&vdcpp188} , {&exedcpp188} } ;
-Exe exedcpp188 = { "CC-VM-DEP InternalHost.cpp" , VMDEP , { OBJ_PATH+"/InternalHost.dep" , OBJ_PATH+"/InternalHost.vm.dep" , '188' } } ;
+Target vdcpp190 = { "InternalHost.vm.dep" , OBJ_PATH+"/InternalHost.vm.dep" } ;
+Rule rvdcpp190 = { {&dcpp190} , {&vdcpp190} , {&exedcpp190} } ;
+Exe exedcpp190 = { "CC-VM-DEP InternalHost.cpp" , VMDEP , { OBJ_PATH+"/InternalHost.dep" , OBJ_PATH+"/InternalHost.vm.dep" , '190' } } ;
 
-Target cpp189 = { "InternalUtils.cpp" , "CCore/src/video/InternalUtils.cpp" } ;
-Target dcpp189 = { "InternalUtils.dep" , OBJ_PATH+"/InternalUtils.dep" } ;
-Rule rdcpp189 = { {&cpp189,&obj} , {&dcpp189} , {&execpp189} } ;
-Exe execpp189 = { "CC-DEP InternalUtils.cpp" , CC , {
+Target cpp191 = { "InternalUtils.cpp" , "CCore/src/video/InternalUtils.cpp" } ;
+Target dcpp191 = { "InternalUtils.dep" , OBJ_PATH+"/InternalUtils.dep" } ;
+Rule rdcpp191 = { {&cpp191,&obj} , {&dcpp191} , {&execpp191} } ;
+Exe execpp191 = { "CC-DEP InternalUtils.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5143,14 +5197,14 @@ Exe execpp189 = { "CC-DEP InternalUtils.cpp" , CC , {
  ,OBJ_PATH+"/InternalUtils.dep"
 } } ;
 
-Target vdcpp189 = { "InternalUtils.vm.dep" , OBJ_PATH+"/InternalUtils.vm.dep" } ;
-Rule rvdcpp189 = { {&dcpp189} , {&vdcpp189} , {&exedcpp189} } ;
-Exe exedcpp189 = { "CC-VM-DEP InternalUtils.cpp" , VMDEP , { OBJ_PATH+"/InternalUtils.dep" , OBJ_PATH+"/InternalUtils.vm.dep" , '189' } } ;
+Target vdcpp191 = { "InternalUtils.vm.dep" , OBJ_PATH+"/InternalUtils.vm.dep" } ;
+Rule rvdcpp191 = { {&dcpp191} , {&vdcpp191} , {&exedcpp191} } ;
+Exe exedcpp191 = { "CC-VM-DEP InternalUtils.cpp" , VMDEP , { OBJ_PATH+"/InternalUtils.dep" , OBJ_PATH+"/InternalUtils.vm.dep" , '191' } } ;
 
-Target cpp190 = { "IntervalTree.cpp" , "../../Applied/CCore/src/IntervalTree.cpp" } ;
-Target dcpp190 = { "IntervalTree.dep" , OBJ_PATH+"/IntervalTree.dep" } ;
-Rule rdcpp190 = { {&cpp190,&obj} , {&dcpp190} , {&execpp190} } ;
-Exe execpp190 = { "CC-DEP IntervalTree.cpp" , CC , {
+Target cpp192 = { "IntervalTree.cpp" , "../../Applied/CCore/src/IntervalTree.cpp" } ;
+Target dcpp192 = { "IntervalTree.dep" , OBJ_PATH+"/IntervalTree.dep" } ;
+Rule rdcpp192 = { {&cpp192,&obj} , {&dcpp192} , {&execpp192} } ;
+Exe execpp192 = { "CC-DEP IntervalTree.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5170,14 +5224,14 @@ Exe execpp190 = { "CC-DEP IntervalTree.cpp" , CC , {
  ,OBJ_PATH+"/IntervalTree.dep"
 } } ;
 
-Target vdcpp190 = { "IntervalTree.vm.dep" , OBJ_PATH+"/IntervalTree.vm.dep" } ;
-Rule rvdcpp190 = { {&dcpp190} , {&vdcpp190} , {&exedcpp190} } ;
-Exe exedcpp190 = { "CC-VM-DEP IntervalTree.cpp" , VMDEP , { OBJ_PATH+"/IntervalTree.dep" , OBJ_PATH+"/IntervalTree.vm.dep" , '190' } } ;
+Target vdcpp192 = { "IntervalTree.vm.dep" , OBJ_PATH+"/IntervalTree.vm.dep" } ;
+Rule rvdcpp192 = { {&dcpp192} , {&vdcpp192} , {&exedcpp192} } ;
+Exe exedcpp192 = { "CC-VM-DEP IntervalTree.cpp" , VMDEP , { OBJ_PATH+"/IntervalTree.dep" , OBJ_PATH+"/IntervalTree.vm.dep" , '192' } } ;
 
-Target cpp191 = { "Job.cpp" , "../../Fundamental/CCore/src/Job.cpp" } ;
-Target dcpp191 = { "Job.dep" , OBJ_PATH+"/Job.dep" } ;
-Rule rdcpp191 = { {&cpp191,&obj} , {&dcpp191} , {&execpp191} } ;
-Exe execpp191 = { "CC-DEP Job.cpp" , CC , {
+Target cpp193 = { "Job.cpp" , "../../Fundamental/CCore/src/Job.cpp" } ;
+Target dcpp193 = { "Job.dep" , OBJ_PATH+"/Job.dep" } ;
+Rule rdcpp193 = { {&cpp193,&obj} , {&dcpp193} , {&execpp193} } ;
+Exe execpp193 = { "CC-DEP Job.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5197,14 +5251,14 @@ Exe execpp191 = { "CC-DEP Job.cpp" , CC , {
  ,OBJ_PATH+"/Job.dep"
 } } ;
 
-Target vdcpp191 = { "Job.vm.dep" , OBJ_PATH+"/Job.vm.dep" } ;
-Rule rvdcpp191 = { {&dcpp191} , {&vdcpp191} , {&exedcpp191} } ;
-Exe exedcpp191 = { "CC-VM-DEP Job.cpp" , VMDEP , { OBJ_PATH+"/Job.dep" , OBJ_PATH+"/Job.vm.dep" , '191' } } ;
+Target vdcpp193 = { "Job.vm.dep" , OBJ_PATH+"/Job.vm.dep" } ;
+Rule rvdcpp193 = { {&dcpp193} , {&vdcpp193} , {&exedcpp193} } ;
+Exe exedcpp193 = { "CC-VM-DEP Job.cpp" , VMDEP , { OBJ_PATH+"/Job.dep" , OBJ_PATH+"/Job.vm.dep" , '193' } } ;
 
-Target cpp192 = { "Keyboard.cpp" , "../../Desktop/Core/CCore/src/video/Keyboard.cpp" } ;
-Target dcpp192 = { "Keyboard.dep" , OBJ_PATH+"/Keyboard.dep" } ;
-Rule rdcpp192 = { {&cpp192,&obj} , {&dcpp192} , {&execpp192} } ;
-Exe execpp192 = { "CC-DEP Keyboard.cpp" , CC , {
+Target cpp194 = { "Keyboard.cpp" , "../../Desktop/Core/CCore/src/video/Keyboard.cpp" } ;
+Target dcpp194 = { "Keyboard.dep" , OBJ_PATH+"/Keyboard.dep" } ;
+Rule rdcpp194 = { {&cpp194,&obj} , {&dcpp194} , {&execpp194} } ;
+Exe execpp194 = { "CC-DEP Keyboard.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5224,14 +5278,14 @@ Exe execpp192 = { "CC-DEP Keyboard.cpp" , CC , {
  ,OBJ_PATH+"/Keyboard.dep"
 } } ;
 
-Target vdcpp192 = { "Keyboard.vm.dep" , OBJ_PATH+"/Keyboard.vm.dep" } ;
-Rule rvdcpp192 = { {&dcpp192} , {&vdcpp192} , {&exedcpp192} } ;
-Exe exedcpp192 = { "CC-VM-DEP Keyboard.cpp" , VMDEP , { OBJ_PATH+"/Keyboard.dep" , OBJ_PATH+"/Keyboard.vm.dep" , '192' } } ;
+Target vdcpp194 = { "Keyboard.vm.dep" , OBJ_PATH+"/Keyboard.vm.dep" } ;
+Rule rvdcpp194 = { {&dcpp194} , {&vdcpp194} , {&exedcpp194} } ;
+Exe exedcpp194 = { "CC-VM-DEP Keyboard.cpp" , VMDEP , { OBJ_PATH+"/Keyboard.dep" , OBJ_PATH+"/Keyboard.vm.dep" , '194' } } ;
 
-Target cpp193 = { "LangDataMap.cpp" , "../../Applied/CCore/src/lang/LangDataMap.cpp" } ;
-Target dcpp193 = { "LangDataMap.dep" , OBJ_PATH+"/LangDataMap.dep" } ;
-Rule rdcpp193 = { {&cpp193,&obj} , {&dcpp193} , {&execpp193} } ;
-Exe execpp193 = { "CC-DEP LangDataMap.cpp" , CC , {
+Target cpp195 = { "LangDataMap.cpp" , "../../Applied/CCore/src/lang/LangDataMap.cpp" } ;
+Target dcpp195 = { "LangDataMap.dep" , OBJ_PATH+"/LangDataMap.dep" } ;
+Rule rdcpp195 = { {&cpp195,&obj} , {&dcpp195} , {&execpp195} } ;
+Exe execpp195 = { "CC-DEP LangDataMap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5251,14 +5305,14 @@ Exe execpp193 = { "CC-DEP LangDataMap.cpp" , CC , {
  ,OBJ_PATH+"/LangDataMap.dep"
 } } ;
 
-Target vdcpp193 = { "LangDataMap.vm.dep" , OBJ_PATH+"/LangDataMap.vm.dep" } ;
-Rule rvdcpp193 = { {&dcpp193} , {&vdcpp193} , {&exedcpp193} } ;
-Exe exedcpp193 = { "CC-VM-DEP LangDataMap.cpp" , VMDEP , { OBJ_PATH+"/LangDataMap.dep" , OBJ_PATH+"/LangDataMap.vm.dep" , '193' } } ;
+Target vdcpp195 = { "LangDataMap.vm.dep" , OBJ_PATH+"/LangDataMap.vm.dep" } ;
+Rule rvdcpp195 = { {&dcpp195} , {&vdcpp195} , {&exedcpp195} } ;
+Exe exedcpp195 = { "CC-VM-DEP LangDataMap.cpp" , VMDEP , { OBJ_PATH+"/LangDataMap.dep" , OBJ_PATH+"/LangDataMap.vm.dep" , '195' } } ;
 
-Target cpp194 = { "LaunchPath.cpp" , "../../HCore/CCore/src/LaunchPath.cpp" } ;
-Target dcpp194 = { "LaunchPath.dep" , OBJ_PATH+"/LaunchPath.dep" } ;
-Rule rdcpp194 = { {&cpp194,&obj} , {&dcpp194} , {&execpp194} } ;
-Exe execpp194 = { "CC-DEP LaunchPath.cpp" , CC , {
+Target cpp196 = { "LaunchPath.cpp" , "../../HCore/CCore/src/LaunchPath.cpp" } ;
+Target dcpp196 = { "LaunchPath.dep" , OBJ_PATH+"/LaunchPath.dep" } ;
+Rule rdcpp196 = { {&cpp196,&obj} , {&dcpp196} , {&execpp196} } ;
+Exe execpp196 = { "CC-DEP LaunchPath.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5278,14 +5332,14 @@ Exe execpp194 = { "CC-DEP LaunchPath.cpp" , CC , {
  ,OBJ_PATH+"/LaunchPath.dep"
 } } ;
 
-Target vdcpp194 = { "LaunchPath.vm.dep" , OBJ_PATH+"/LaunchPath.vm.dep" } ;
-Rule rvdcpp194 = { {&dcpp194} , {&vdcpp194} , {&exedcpp194} } ;
-Exe exedcpp194 = { "CC-VM-DEP LaunchPath.cpp" , VMDEP , { OBJ_PATH+"/LaunchPath.dep" , OBJ_PATH+"/LaunchPath.vm.dep" , '194' } } ;
+Target vdcpp196 = { "LaunchPath.vm.dep" , OBJ_PATH+"/LaunchPath.vm.dep" } ;
+Rule rvdcpp196 = { {&dcpp196} , {&vdcpp196} , {&exedcpp196} } ;
+Exe exedcpp196 = { "CC-VM-DEP LaunchPath.cpp" , VMDEP , { OBJ_PATH+"/LaunchPath.dep" , OBJ_PATH+"/LaunchPath.vm.dep" , '196' } } ;
 
-Target cpp195 = { "Layout.cpp" , "../../Desktop/Lib/CCore/src/video/Layout.cpp" } ;
-Target dcpp195 = { "Layout.dep" , OBJ_PATH+"/Layout.dep" } ;
-Rule rdcpp195 = { {&cpp195,&obj} , {&dcpp195} , {&execpp195} } ;
-Exe execpp195 = { "CC-DEP Layout.cpp" , CC , {
+Target cpp197 = { "Layout.cpp" , "../../Desktop/Lib/CCore/src/video/Layout.cpp" } ;
+Target dcpp197 = { "Layout.dep" , OBJ_PATH+"/Layout.dep" } ;
+Rule rdcpp197 = { {&cpp197,&obj} , {&dcpp197} , {&execpp197} } ;
+Exe execpp197 = { "CC-DEP Layout.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5305,14 +5359,14 @@ Exe execpp195 = { "CC-DEP Layout.cpp" , CC , {
  ,OBJ_PATH+"/Layout.dep"
 } } ;
 
-Target vdcpp195 = { "Layout.vm.dep" , OBJ_PATH+"/Layout.vm.dep" } ;
-Rule rvdcpp195 = { {&dcpp195} , {&vdcpp195} , {&exedcpp195} } ;
-Exe exedcpp195 = { "CC-VM-DEP Layout.cpp" , VMDEP , { OBJ_PATH+"/Layout.dep" , OBJ_PATH+"/Layout.vm.dep" , '195' } } ;
+Target vdcpp197 = { "Layout.vm.dep" , OBJ_PATH+"/Layout.vm.dep" } ;
+Rule rvdcpp197 = { {&dcpp197} , {&vdcpp197} , {&exedcpp197} } ;
+Exe exedcpp197 = { "CC-VM-DEP Layout.cpp" , VMDEP , { OBJ_PATH+"/Layout.dep" , OBJ_PATH+"/Layout.vm.dep" , '197' } } ;
 
-Target cpp196 = { "LayoutCombo.cpp" , "../../Desktop/Lib/CCore/src/video/LayoutCombo.cpp" } ;
-Target dcpp196 = { "LayoutCombo.dep" , OBJ_PATH+"/LayoutCombo.dep" } ;
-Rule rdcpp196 = { {&cpp196,&obj} , {&dcpp196} , {&execpp196} } ;
-Exe execpp196 = { "CC-DEP LayoutCombo.cpp" , CC , {
+Target cpp198 = { "LayoutCombo.cpp" , "../../Desktop/Lib/CCore/src/video/LayoutCombo.cpp" } ;
+Target dcpp198 = { "LayoutCombo.dep" , OBJ_PATH+"/LayoutCombo.dep" } ;
+Rule rdcpp198 = { {&cpp198,&obj} , {&dcpp198} , {&execpp198} } ;
+Exe execpp198 = { "CC-DEP LayoutCombo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5332,14 +5386,14 @@ Exe execpp196 = { "CC-DEP LayoutCombo.cpp" , CC , {
  ,OBJ_PATH+"/LayoutCombo.dep"
 } } ;
 
-Target vdcpp196 = { "LayoutCombo.vm.dep" , OBJ_PATH+"/LayoutCombo.vm.dep" } ;
-Rule rvdcpp196 = { {&dcpp196} , {&vdcpp196} , {&exedcpp196} } ;
-Exe exedcpp196 = { "CC-VM-DEP LayoutCombo.cpp" , VMDEP , { OBJ_PATH+"/LayoutCombo.dep" , OBJ_PATH+"/LayoutCombo.vm.dep" , '196' } } ;
+Target vdcpp198 = { "LayoutCombo.vm.dep" , OBJ_PATH+"/LayoutCombo.vm.dep" } ;
+Rule rvdcpp198 = { {&dcpp198} , {&vdcpp198} , {&exedcpp198} } ;
+Exe exedcpp198 = { "CC-VM-DEP LayoutCombo.cpp" , VMDEP , { OBJ_PATH+"/LayoutCombo.dep" , OBJ_PATH+"/LayoutCombo.vm.dep" , '198' } } ;
 
-Target cpp197 = { "Len.cpp" , "../../Simple/CCore/src/gadget/Len.cpp" } ;
-Target dcpp197 = { "Len.dep" , OBJ_PATH+"/Len.dep" } ;
-Rule rdcpp197 = { {&cpp197,&obj} , {&dcpp197} , {&execpp197} } ;
-Exe execpp197 = { "CC-DEP Len.cpp" , CC , {
+Target cpp199 = { "Len.cpp" , "../../Simple/CCore/src/gadget/Len.cpp" } ;
+Target dcpp199 = { "Len.dep" , OBJ_PATH+"/Len.dep" } ;
+Rule rdcpp199 = { {&cpp199,&obj} , {&dcpp199} , {&execpp199} } ;
+Exe execpp199 = { "CC-DEP Len.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5359,14 +5413,14 @@ Exe execpp197 = { "CC-DEP Len.cpp" , CC , {
  ,OBJ_PATH+"/Len.dep"
 } } ;
 
-Target vdcpp197 = { "Len.vm.dep" , OBJ_PATH+"/Len.vm.dep" } ;
-Rule rvdcpp197 = { {&dcpp197} , {&vdcpp197} , {&exedcpp197} } ;
-Exe exedcpp197 = { "CC-VM-DEP Len.cpp" , VMDEP , { OBJ_PATH+"/Len.dep" , OBJ_PATH+"/Len.vm.dep" , '197' } } ;
+Target vdcpp199 = { "Len.vm.dep" , OBJ_PATH+"/Len.vm.dep" } ;
+Rule rvdcpp199 = { {&dcpp199} , {&vdcpp199} , {&exedcpp199} } ;
+Exe exedcpp199 = { "CC-VM-DEP Len.cpp" , VMDEP , { OBJ_PATH+"/Len.dep" , OBJ_PATH+"/Len.vm.dep" , '199' } } ;
 
-Target cpp198 = { "LineInput.cpp" , "../../Applied/CCore/src/LineInput.cpp" } ;
-Target dcpp198 = { "LineInput.dep" , OBJ_PATH+"/LineInput.dep" } ;
-Rule rdcpp198 = { {&cpp198,&obj} , {&dcpp198} , {&execpp198} } ;
-Exe execpp198 = { "CC-DEP LineInput.cpp" , CC , {
+Target cpp200 = { "LineInput.cpp" , "../../Applied/CCore/src/LineInput.cpp" } ;
+Target dcpp200 = { "LineInput.dep" , OBJ_PATH+"/LineInput.dep" } ;
+Rule rdcpp200 = { {&cpp200,&obj} , {&dcpp200} , {&execpp200} } ;
+Exe execpp200 = { "CC-DEP LineInput.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5386,14 +5440,14 @@ Exe execpp198 = { "CC-DEP LineInput.cpp" , CC , {
  ,OBJ_PATH+"/LineInput.dep"
 } } ;
 
-Target vdcpp198 = { "LineInput.vm.dep" , OBJ_PATH+"/LineInput.vm.dep" } ;
-Rule rvdcpp198 = { {&dcpp198} , {&vdcpp198} , {&exedcpp198} } ;
-Exe exedcpp198 = { "CC-VM-DEP LineInput.cpp" , VMDEP , { OBJ_PATH+"/LineInput.dep" , OBJ_PATH+"/LineInput.vm.dep" , '198' } } ;
+Target vdcpp200 = { "LineInput.vm.dep" , OBJ_PATH+"/LineInput.vm.dep" } ;
+Rule rvdcpp200 = { {&dcpp200} , {&vdcpp200} , {&exedcpp200} } ;
+Exe exedcpp200 = { "CC-VM-DEP LineInput.cpp" , VMDEP , { OBJ_PATH+"/LineInput.dep" , OBJ_PATH+"/LineInput.vm.dep" , '200' } } ;
 
-Target cpp199 = { "List.cpp" , "../../Fundamental/CCore/src/List.cpp" } ;
-Target dcpp199 = { "List.dep" , OBJ_PATH+"/List.dep" } ;
-Rule rdcpp199 = { {&cpp199,&obj} , {&dcpp199} , {&execpp199} } ;
-Exe execpp199 = { "CC-DEP List.cpp" , CC , {
+Target cpp201 = { "List.cpp" , "../../Fundamental/CCore/src/List.cpp" } ;
+Target dcpp201 = { "List.dep" , OBJ_PATH+"/List.dep" } ;
+Rule rdcpp201 = { {&cpp201,&obj} , {&dcpp201} , {&execpp201} } ;
+Exe execpp201 = { "CC-DEP List.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5413,14 +5467,14 @@ Exe execpp199 = { "CC-DEP List.cpp" , CC , {
  ,OBJ_PATH+"/List.dep"
 } } ;
 
-Target vdcpp199 = { "List.vm.dep" , OBJ_PATH+"/List.vm.dep" } ;
-Rule rvdcpp199 = { {&dcpp199} , {&vdcpp199} , {&exedcpp199} } ;
-Exe exedcpp199 = { "CC-VM-DEP List.cpp" , VMDEP , { OBJ_PATH+"/List.dep" , OBJ_PATH+"/List.vm.dep" , '199' } } ;
+Target vdcpp201 = { "List.vm.dep" , OBJ_PATH+"/List.vm.dep" } ;
+Rule rvdcpp201 = { {&dcpp201} , {&vdcpp201} , {&exedcpp201} } ;
+Exe exedcpp201 = { "CC-VM-DEP List.cpp" , VMDEP , { OBJ_PATH+"/List.dep" , OBJ_PATH+"/List.vm.dep" , '201' } } ;
 
-Target cpp200 = { "ListCursor.cpp" , "../../Fundamental/CCore/src/ListCursor.cpp" } ;
-Target dcpp200 = { "ListCursor.dep" , OBJ_PATH+"/ListCursor.dep" } ;
-Rule rdcpp200 = { {&cpp200,&obj} , {&dcpp200} , {&execpp200} } ;
-Exe execpp200 = { "CC-DEP ListCursor.cpp" , CC , {
+Target cpp202 = { "ListCursor.cpp" , "../../Fundamental/CCore/src/ListCursor.cpp" } ;
+Target dcpp202 = { "ListCursor.dep" , OBJ_PATH+"/ListCursor.dep" } ;
+Rule rdcpp202 = { {&cpp202,&obj} , {&dcpp202} , {&execpp202} } ;
+Exe execpp202 = { "CC-DEP ListCursor.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5440,14 +5494,14 @@ Exe execpp200 = { "CC-DEP ListCursor.cpp" , CC , {
  ,OBJ_PATH+"/ListCursor.dep"
 } } ;
 
-Target vdcpp200 = { "ListCursor.vm.dep" , OBJ_PATH+"/ListCursor.vm.dep" } ;
-Rule rvdcpp200 = { {&dcpp200} , {&vdcpp200} , {&exedcpp200} } ;
-Exe exedcpp200 = { "CC-VM-DEP ListCursor.cpp" , VMDEP , { OBJ_PATH+"/ListCursor.dep" , OBJ_PATH+"/ListCursor.vm.dep" , '200' } } ;
+Target vdcpp202 = { "ListCursor.vm.dep" , OBJ_PATH+"/ListCursor.vm.dep" } ;
+Rule rvdcpp202 = { {&dcpp202} , {&vdcpp202} , {&exedcpp202} } ;
+Exe exedcpp202 = { "CC-VM-DEP ListCursor.cpp" , VMDEP , { OBJ_PATH+"/ListCursor.dep" , OBJ_PATH+"/ListCursor.vm.dep" , '202' } } ;
 
-Target cpp201 = { "LockObject.cpp" , "../../Simple/CCore/src/gadget/LockObject.cpp" } ;
-Target dcpp201 = { "LockObject.dep" , OBJ_PATH+"/LockObject.dep" } ;
-Rule rdcpp201 = { {&cpp201,&obj} , {&dcpp201} , {&execpp201} } ;
-Exe execpp201 = { "CC-DEP LockObject.cpp" , CC , {
+Target cpp203 = { "LockObject.cpp" , "../../Simple/CCore/src/gadget/LockObject.cpp" } ;
+Target dcpp203 = { "LockObject.dep" , OBJ_PATH+"/LockObject.dep" } ;
+Rule rdcpp203 = { {&cpp203,&obj} , {&dcpp203} , {&execpp203} } ;
+Exe execpp203 = { "CC-DEP LockObject.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5467,14 +5521,14 @@ Exe execpp201 = { "CC-DEP LockObject.cpp" , CC , {
  ,OBJ_PATH+"/LockObject.dep"
 } } ;
 
-Target vdcpp201 = { "LockObject.vm.dep" , OBJ_PATH+"/LockObject.vm.dep" } ;
-Rule rvdcpp201 = { {&dcpp201} , {&vdcpp201} , {&exedcpp201} } ;
-Exe exedcpp201 = { "CC-VM-DEP LockObject.cpp" , VMDEP , { OBJ_PATH+"/LockObject.dep" , OBJ_PATH+"/LockObject.vm.dep" , '201' } } ;
+Target vdcpp203 = { "LockObject.vm.dep" , OBJ_PATH+"/LockObject.vm.dep" } ;
+Rule rvdcpp203 = { {&dcpp203} , {&vdcpp203} , {&exedcpp203} } ;
+Exe exedcpp203 = { "CC-VM-DEP LockObject.cpp" , VMDEP , { OBJ_PATH+"/LockObject.dep" , OBJ_PATH+"/LockObject.vm.dep" , '203' } } ;
 
-Target cpp202 = { "LockUse.cpp" , "../../Simple/CCore/src/gadget/LockUse.cpp" } ;
-Target dcpp202 = { "LockUse.dep" , OBJ_PATH+"/LockUse.dep" } ;
-Rule rdcpp202 = { {&cpp202,&obj} , {&dcpp202} , {&execpp202} } ;
-Exe execpp202 = { "CC-DEP LockUse.cpp" , CC , {
+Target cpp204 = { "LockUse.cpp" , "../../Simple/CCore/src/gadget/LockUse.cpp" } ;
+Target dcpp204 = { "LockUse.dep" , OBJ_PATH+"/LockUse.dep" } ;
+Rule rdcpp204 = { {&cpp204,&obj} , {&dcpp204} , {&execpp204} } ;
+Exe execpp204 = { "CC-DEP LockUse.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5494,14 +5548,14 @@ Exe execpp202 = { "CC-DEP LockUse.cpp" , CC , {
  ,OBJ_PATH+"/LockUse.dep"
 } } ;
 
-Target vdcpp202 = { "LockUse.vm.dep" , OBJ_PATH+"/LockUse.vm.dep" } ;
-Rule rvdcpp202 = { {&dcpp202} , {&vdcpp202} , {&exedcpp202} } ;
-Exe exedcpp202 = { "CC-VM-DEP LockUse.cpp" , VMDEP , { OBJ_PATH+"/LockUse.dep" , OBJ_PATH+"/LockUse.vm.dep" , '202' } } ;
+Target vdcpp204 = { "LockUse.vm.dep" , OBJ_PATH+"/LockUse.vm.dep" } ;
+Rule rvdcpp204 = { {&dcpp204} , {&vdcpp204} , {&exedcpp204} } ;
+Exe exedcpp204 = { "CC-VM-DEP LockUse.cpp" , VMDEP , { OBJ_PATH+"/LockUse.dep" , OBJ_PATH+"/LockUse.vm.dep" , '204' } } ;
 
-Target cpp203 = { "Locked.cpp" , "../../Simple/CCore/src/gadget/Locked.cpp" } ;
-Target dcpp203 = { "Locked.dep" , OBJ_PATH+"/Locked.dep" } ;
-Rule rdcpp203 = { {&cpp203,&obj} , {&dcpp203} , {&execpp203} } ;
-Exe execpp203 = { "CC-DEP Locked.cpp" , CC , {
+Target cpp205 = { "Locked.cpp" , "../../Simple/CCore/src/gadget/Locked.cpp" } ;
+Target dcpp205 = { "Locked.dep" , OBJ_PATH+"/Locked.dep" } ;
+Rule rdcpp205 = { {&cpp205,&obj} , {&dcpp205} , {&execpp205} } ;
+Exe execpp205 = { "CC-DEP Locked.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5521,14 +5575,14 @@ Exe execpp203 = { "CC-DEP Locked.cpp" , CC , {
  ,OBJ_PATH+"/Locked.dep"
 } } ;
 
-Target vdcpp203 = { "Locked.vm.dep" , OBJ_PATH+"/Locked.vm.dep" } ;
-Rule rvdcpp203 = { {&dcpp203} , {&vdcpp203} , {&exedcpp203} } ;
-Exe exedcpp203 = { "CC-VM-DEP Locked.cpp" , VMDEP , { OBJ_PATH+"/Locked.dep" , OBJ_PATH+"/Locked.vm.dep" , '203' } } ;
+Target vdcpp205 = { "Locked.vm.dep" , OBJ_PATH+"/Locked.vm.dep" } ;
+Rule rvdcpp205 = { {&dcpp205} , {&vdcpp205} , {&exedcpp205} } ;
+Exe exedcpp205 = { "CC-VM-DEP Locked.cpp" , VMDEP , { OBJ_PATH+"/Locked.dep" , OBJ_PATH+"/Locked.vm.dep" , '205' } } ;
 
-Target cpp204 = { "Log.cpp" , "../../Applied/CCore/src/Log.cpp" } ;
-Target dcpp204 = { "Log.dep" , OBJ_PATH+"/Log.dep" } ;
-Rule rdcpp204 = { {&cpp204,&obj} , {&dcpp204} , {&execpp204} } ;
-Exe execpp204 = { "CC-DEP Log.cpp" , CC , {
+Target cpp206 = { "Log.cpp" , "../../Applied/CCore/src/Log.cpp" } ;
+Target dcpp206 = { "Log.dep" , OBJ_PATH+"/Log.dep" } ;
+Rule rdcpp206 = { {&cpp206,&obj} , {&dcpp206} , {&execpp206} } ;
+Exe execpp206 = { "CC-DEP Log.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5548,14 +5602,14 @@ Exe execpp204 = { "CC-DEP Log.cpp" , CC , {
  ,OBJ_PATH+"/Log.dep"
 } } ;
 
-Target vdcpp204 = { "Log.vm.dep" , OBJ_PATH+"/Log.vm.dep" } ;
-Rule rvdcpp204 = { {&dcpp204} , {&vdcpp204} , {&exedcpp204} } ;
-Exe exedcpp204 = { "CC-VM-DEP Log.cpp" , VMDEP , { OBJ_PATH+"/Log.dep" , OBJ_PATH+"/Log.vm.dep" , '204' } } ;
+Target vdcpp206 = { "Log.vm.dep" , OBJ_PATH+"/Log.vm.dep" } ;
+Rule rvdcpp206 = { {&dcpp206} , {&vdcpp206} , {&exedcpp206} } ;
+Exe exedcpp206 = { "CC-VM-DEP Log.cpp" , VMDEP , { OBJ_PATH+"/Log.dep" , OBJ_PATH+"/Log.vm.dep" , '206' } } ;
 
-Target cpp205 = { "MCoordEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/MCoordEdit.cpp" } ;
-Target dcpp205 = { "MCoordEdit.dep" , OBJ_PATH+"/MCoordEdit.dep" } ;
-Rule rdcpp205 = { {&cpp205,&obj} , {&dcpp205} , {&execpp205} } ;
-Exe execpp205 = { "CC-DEP MCoordEdit.cpp" , CC , {
+Target cpp207 = { "MCoordEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/MCoordEdit.cpp" } ;
+Target dcpp207 = { "MCoordEdit.dep" , OBJ_PATH+"/MCoordEdit.dep" } ;
+Rule rdcpp207 = { {&cpp207,&obj} , {&dcpp207} , {&execpp207} } ;
+Exe execpp207 = { "CC-DEP MCoordEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5575,14 +5629,14 @@ Exe execpp205 = { "CC-DEP MCoordEdit.cpp" , CC , {
  ,OBJ_PATH+"/MCoordEdit.dep"
 } } ;
 
-Target vdcpp205 = { "MCoordEdit.vm.dep" , OBJ_PATH+"/MCoordEdit.vm.dep" } ;
-Rule rvdcpp205 = { {&dcpp205} , {&vdcpp205} , {&exedcpp205} } ;
-Exe exedcpp205 = { "CC-VM-DEP MCoordEdit.cpp" , VMDEP , { OBJ_PATH+"/MCoordEdit.dep" , OBJ_PATH+"/MCoordEdit.vm.dep" , '205' } } ;
+Target vdcpp207 = { "MCoordEdit.vm.dep" , OBJ_PATH+"/MCoordEdit.vm.dep" } ;
+Rule rvdcpp207 = { {&dcpp207} , {&vdcpp207} , {&exedcpp207} } ;
+Exe exedcpp207 = { "CC-VM-DEP MCoordEdit.cpp" , VMDEP , { OBJ_PATH+"/MCoordEdit.dep" , OBJ_PATH+"/MCoordEdit.vm.dep" , '207' } } ;
 
-Target cpp206 = { "MD5.cpp" , "../../Applied/CCore/src/crypton/MD5.cpp" } ;
-Target dcpp206 = { "MD5.dep" , OBJ_PATH+"/MD5.dep" } ;
-Rule rdcpp206 = { {&cpp206,&obj} , {&dcpp206} , {&execpp206} } ;
-Exe execpp206 = { "CC-DEP MD5.cpp" , CC , {
+Target cpp208 = { "MD5.cpp" , "../../Applied/CCore/src/crypton/MD5.cpp" } ;
+Target dcpp208 = { "MD5.dep" , OBJ_PATH+"/MD5.dep" } ;
+Rule rdcpp208 = { {&cpp208,&obj} , {&dcpp208} , {&execpp208} } ;
+Exe execpp208 = { "CC-DEP MD5.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5602,14 +5656,14 @@ Exe execpp206 = { "CC-DEP MD5.cpp" , CC , {
  ,OBJ_PATH+"/MD5.dep"
 } } ;
 
-Target vdcpp206 = { "MD5.vm.dep" , OBJ_PATH+"/MD5.vm.dep" } ;
-Rule rvdcpp206 = { {&dcpp206} , {&vdcpp206} , {&exedcpp206} } ;
-Exe exedcpp206 = { "CC-VM-DEP MD5.cpp" , VMDEP , { OBJ_PATH+"/MD5.dep" , OBJ_PATH+"/MD5.vm.dep" , '206' } } ;
+Target vdcpp208 = { "MD5.vm.dep" , OBJ_PATH+"/MD5.vm.dep" } ;
+Rule rvdcpp208 = { {&dcpp208} , {&vdcpp208} , {&exedcpp208} } ;
+Exe exedcpp208 = { "CC-VM-DEP MD5.cpp" , VMDEP , { OBJ_PATH+"/MD5.dep" , OBJ_PATH+"/MD5.vm.dep" , '208' } } ;
 
-Target cpp207 = { "MPoint.cpp" , "../../Desktop/Draw/CCore/src/video/MPoint.cpp" } ;
-Target dcpp207 = { "MPoint.dep" , OBJ_PATH+"/MPoint.dep" } ;
-Rule rdcpp207 = { {&cpp207,&obj} , {&dcpp207} , {&execpp207} } ;
-Exe execpp207 = { "CC-DEP MPoint.cpp" , CC , {
+Target cpp209 = { "MPoint.cpp" , "../../Desktop/Draw/CCore/src/video/MPoint.cpp" } ;
+Target dcpp209 = { "MPoint.dep" , OBJ_PATH+"/MPoint.dep" } ;
+Rule rdcpp209 = { {&cpp209,&obj} , {&dcpp209} , {&execpp209} } ;
+Exe execpp209 = { "CC-DEP MPoint.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5629,14 +5683,14 @@ Exe execpp207 = { "CC-DEP MPoint.cpp" , CC , {
  ,OBJ_PATH+"/MPoint.dep"
 } } ;
 
-Target vdcpp207 = { "MPoint.vm.dep" , OBJ_PATH+"/MPoint.vm.dep" } ;
-Rule rvdcpp207 = { {&dcpp207} , {&vdcpp207} , {&exedcpp207} } ;
-Exe exedcpp207 = { "CC-VM-DEP MPoint.cpp" , VMDEP , { OBJ_PATH+"/MPoint.dep" , OBJ_PATH+"/MPoint.vm.dep" , '207' } } ;
+Target vdcpp209 = { "MPoint.vm.dep" , OBJ_PATH+"/MPoint.vm.dep" } ;
+Rule rvdcpp209 = { {&dcpp209} , {&vdcpp209} , {&exedcpp209} } ;
+Exe exedcpp209 = { "CC-VM-DEP MPoint.cpp" , VMDEP , { OBJ_PATH+"/MPoint.dep" , OBJ_PATH+"/MPoint.vm.dep" , '209' } } ;
 
-Target cpp208 = { "MSec.cpp" , "../../Simple/CCore/src/gadget/MSec.cpp" } ;
-Target dcpp208 = { "MSec.dep" , OBJ_PATH+"/MSec.dep" } ;
-Rule rdcpp208 = { {&cpp208,&obj} , {&dcpp208} , {&execpp208} } ;
-Exe execpp208 = { "CC-DEP MSec.cpp" , CC , {
+Target cpp210 = { "MSec.cpp" , "../../Simple/CCore/src/gadget/MSec.cpp" } ;
+Target dcpp210 = { "MSec.dep" , OBJ_PATH+"/MSec.dep" } ;
+Rule rdcpp210 = { {&cpp210,&obj} , {&dcpp210} , {&execpp210} } ;
+Exe execpp210 = { "CC-DEP MSec.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5656,14 +5710,14 @@ Exe execpp208 = { "CC-DEP MSec.cpp" , CC , {
  ,OBJ_PATH+"/MSec.dep"
 } } ;
 
-Target vdcpp208 = { "MSec.vm.dep" , OBJ_PATH+"/MSec.vm.dep" } ;
-Rule rvdcpp208 = { {&dcpp208} , {&vdcpp208} , {&exedcpp208} } ;
-Exe exedcpp208 = { "CC-VM-DEP MSec.cpp" , VMDEP , { OBJ_PATH+"/MSec.dep" , OBJ_PATH+"/MSec.vm.dep" , '208' } } ;
+Target vdcpp210 = { "MSec.vm.dep" , OBJ_PATH+"/MSec.vm.dep" } ;
+Rule rvdcpp210 = { {&dcpp210} , {&vdcpp210} , {&exedcpp210} } ;
+Exe exedcpp210 = { "CC-VM-DEP MSec.cpp" , VMDEP , { OBJ_PATH+"/MSec.dep" , OBJ_PATH+"/MSec.vm.dep" , '210' } } ;
 
-Target cpp209 = { "MakeFileName.cpp" , "../../Fundamental/CCore/src/MakeFileName.cpp" } ;
-Target dcpp209 = { "MakeFileName.dep" , OBJ_PATH+"/MakeFileName.dep" } ;
-Rule rdcpp209 = { {&cpp209,&obj} , {&dcpp209} , {&execpp209} } ;
-Exe execpp209 = { "CC-DEP MakeFileName.cpp" , CC , {
+Target cpp211 = { "MakeFileName.cpp" , "../../Fundamental/CCore/src/MakeFileName.cpp" } ;
+Target dcpp211 = { "MakeFileName.dep" , OBJ_PATH+"/MakeFileName.dep" } ;
+Rule rdcpp211 = { {&cpp211,&obj} , {&dcpp211} , {&execpp211} } ;
+Exe execpp211 = { "CC-DEP MakeFileName.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5683,14 +5737,14 @@ Exe execpp209 = { "CC-DEP MakeFileName.cpp" , CC , {
  ,OBJ_PATH+"/MakeFileName.dep"
 } } ;
 
-Target vdcpp209 = { "MakeFileName.vm.dep" , OBJ_PATH+"/MakeFileName.vm.dep" } ;
-Rule rvdcpp209 = { {&dcpp209} , {&vdcpp209} , {&exedcpp209} } ;
-Exe exedcpp209 = { "CC-VM-DEP MakeFileName.cpp" , VMDEP , { OBJ_PATH+"/MakeFileName.dep" , OBJ_PATH+"/MakeFileName.vm.dep" , '209' } } ;
+Target vdcpp211 = { "MakeFileName.vm.dep" , OBJ_PATH+"/MakeFileName.vm.dep" } ;
+Rule rvdcpp211 = { {&dcpp211} , {&vdcpp211} , {&exedcpp211} } ;
+Exe exedcpp211 = { "CC-VM-DEP MakeFileName.cpp" , VMDEP , { OBJ_PATH+"/MakeFileName.dep" , OBJ_PATH+"/MakeFileName.vm.dep" , '211' } } ;
 
-Target cpp210 = { "MakeString.cpp" , "../../Simple/CCore/src/MakeString.cpp" } ;
-Target dcpp210 = { "MakeString.dep" , OBJ_PATH+"/MakeString.dep" } ;
-Rule rdcpp210 = { {&cpp210,&obj} , {&dcpp210} , {&execpp210} } ;
-Exe execpp210 = { "CC-DEP MakeString.cpp" , CC , {
+Target cpp212 = { "MakeString.cpp" , "../../Simple/CCore/src/MakeString.cpp" } ;
+Target dcpp212 = { "MakeString.dep" , OBJ_PATH+"/MakeString.dep" } ;
+Rule rdcpp212 = { {&cpp212,&obj} , {&dcpp212} , {&execpp212} } ;
+Exe execpp212 = { "CC-DEP MakeString.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5710,14 +5764,14 @@ Exe execpp210 = { "CC-DEP MakeString.cpp" , CC , {
  ,OBJ_PATH+"/MakeString.dep"
 } } ;
 
-Target vdcpp210 = { "MakeString.vm.dep" , OBJ_PATH+"/MakeString.vm.dep" } ;
-Rule rvdcpp210 = { {&dcpp210} , {&vdcpp210} , {&exedcpp210} } ;
-Exe exedcpp210 = { "CC-VM-DEP MakeString.cpp" , VMDEP , { OBJ_PATH+"/MakeString.dep" , OBJ_PATH+"/MakeString.vm.dep" , '210' } } ;
+Target vdcpp212 = { "MakeString.vm.dep" , OBJ_PATH+"/MakeString.vm.dep" } ;
+Rule rvdcpp212 = { {&dcpp212} , {&vdcpp212} , {&exedcpp212} } ;
+Exe exedcpp212 = { "CC-VM-DEP MakeString.cpp" , VMDEP , { OBJ_PATH+"/MakeString.dep" , OBJ_PATH+"/MakeString.vm.dep" , '212' } } ;
 
-Target cpp211 = { "MemAllocGuard.cpp" , "../../Simple/CCore/src/MemAllocGuard.cpp" } ;
-Target dcpp211 = { "MemAllocGuard.dep" , OBJ_PATH+"/MemAllocGuard.dep" } ;
-Rule rdcpp211 = { {&cpp211,&obj} , {&dcpp211} , {&execpp211} } ;
-Exe execpp211 = { "CC-DEP MemAllocGuard.cpp" , CC , {
+Target cpp213 = { "MemAllocGuard.cpp" , "../../Simple/CCore/src/MemAllocGuard.cpp" } ;
+Target dcpp213 = { "MemAllocGuard.dep" , OBJ_PATH+"/MemAllocGuard.dep" } ;
+Rule rdcpp213 = { {&cpp213,&obj} , {&dcpp213} , {&execpp213} } ;
+Exe execpp213 = { "CC-DEP MemAllocGuard.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5737,14 +5791,14 @@ Exe execpp211 = { "CC-DEP MemAllocGuard.cpp" , CC , {
  ,OBJ_PATH+"/MemAllocGuard.dep"
 } } ;
 
-Target vdcpp211 = { "MemAllocGuard.vm.dep" , OBJ_PATH+"/MemAllocGuard.vm.dep" } ;
-Rule rvdcpp211 = { {&dcpp211} , {&vdcpp211} , {&exedcpp211} } ;
-Exe exedcpp211 = { "CC-VM-DEP MemAllocGuard.cpp" , VMDEP , { OBJ_PATH+"/MemAllocGuard.dep" , OBJ_PATH+"/MemAllocGuard.vm.dep" , '211' } } ;
+Target vdcpp213 = { "MemAllocGuard.vm.dep" , OBJ_PATH+"/MemAllocGuard.vm.dep" } ;
+Rule rvdcpp213 = { {&dcpp213} , {&vdcpp213} , {&exedcpp213} } ;
+Exe exedcpp213 = { "CC-VM-DEP MemAllocGuard.cpp" , VMDEP , { OBJ_PATH+"/MemAllocGuard.dep" , OBJ_PATH+"/MemAllocGuard.vm.dep" , '213' } } ;
 
-Target cpp212 = { "MemBase.cpp" , "../../HCore/CCore/src/MemBase.cpp" } ;
-Target dcpp212 = { "MemBase.dep" , OBJ_PATH+"/MemBase.dep" } ;
-Rule rdcpp212 = { {&cpp212,&obj} , {&dcpp212} , {&execpp212} } ;
-Exe execpp212 = { "CC-DEP MemBase.cpp" , CC , {
+Target cpp214 = { "MemBase.cpp" , "../../HCore/CCore/src/MemBase.cpp" } ;
+Target dcpp214 = { "MemBase.dep" , OBJ_PATH+"/MemBase.dep" } ;
+Rule rdcpp214 = { {&cpp214,&obj} , {&dcpp214} , {&execpp214} } ;
+Exe execpp214 = { "CC-DEP MemBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5764,14 +5818,14 @@ Exe execpp212 = { "CC-DEP MemBase.cpp" , CC , {
  ,OBJ_PATH+"/MemBase.dep"
 } } ;
 
-Target vdcpp212 = { "MemBase.vm.dep" , OBJ_PATH+"/MemBase.vm.dep" } ;
-Rule rvdcpp212 = { {&dcpp212} , {&vdcpp212} , {&exedcpp212} } ;
-Exe exedcpp212 = { "CC-VM-DEP MemBase.cpp" , VMDEP , { OBJ_PATH+"/MemBase.dep" , OBJ_PATH+"/MemBase.vm.dep" , '212' } } ;
+Target vdcpp214 = { "MemBase.vm.dep" , OBJ_PATH+"/MemBase.vm.dep" } ;
+Rule rvdcpp214 = { {&dcpp214} , {&vdcpp214} , {&exedcpp214} } ;
+Exe exedcpp214 = { "CC-VM-DEP MemBase.cpp" , VMDEP , { OBJ_PATH+"/MemBase.dep" , OBJ_PATH+"/MemBase.vm.dep" , '214' } } ;
 
-Target cpp213 = { "MemBase_general.cpp" , "../../Fundamental/CCore/src/MemBase_general.cpp" } ;
-Target dcpp213 = { "MemBase_general.dep" , OBJ_PATH+"/MemBase_general.dep" } ;
-Rule rdcpp213 = { {&cpp213,&obj} , {&dcpp213} , {&execpp213} } ;
-Exe execpp213 = { "CC-DEP MemBase_general.cpp" , CC , {
+Target cpp215 = { "MemBase_general.cpp" , "../../Fundamental/CCore/src/MemBase_general.cpp" } ;
+Target dcpp215 = { "MemBase_general.dep" , OBJ_PATH+"/MemBase_general.dep" } ;
+Rule rdcpp215 = { {&cpp215,&obj} , {&dcpp215} , {&execpp215} } ;
+Exe execpp215 = { "CC-DEP MemBase_general.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5791,14 +5845,14 @@ Exe execpp213 = { "CC-DEP MemBase_general.cpp" , CC , {
  ,OBJ_PATH+"/MemBase_general.dep"
 } } ;
 
-Target vdcpp213 = { "MemBase_general.vm.dep" , OBJ_PATH+"/MemBase_general.vm.dep" } ;
-Rule rvdcpp213 = { {&dcpp213} , {&vdcpp213} , {&exedcpp213} } ;
-Exe exedcpp213 = { "CC-VM-DEP MemBase_general.cpp" , VMDEP , { OBJ_PATH+"/MemBase_general.dep" , OBJ_PATH+"/MemBase_general.vm.dep" , '213' } } ;
+Target vdcpp215 = { "MemBase_general.vm.dep" , OBJ_PATH+"/MemBase_general.vm.dep" } ;
+Rule rvdcpp215 = { {&dcpp215} , {&vdcpp215} , {&exedcpp215} } ;
+Exe exedcpp215 = { "CC-VM-DEP MemBase_general.cpp" , VMDEP , { OBJ_PATH+"/MemBase_general.dep" , OBJ_PATH+"/MemBase_general.vm.dep" , '215' } } ;
 
-Target cpp214 = { "MemPageHeap.cpp" , "../../HCore/CCore/src/MemPageHeap.cpp" } ;
-Target dcpp214 = { "MemPageHeap.dep" , OBJ_PATH+"/MemPageHeap.dep" } ;
-Rule rdcpp214 = { {&cpp214,&obj} , {&dcpp214} , {&execpp214} } ;
-Exe execpp214 = { "CC-DEP MemPageHeap.cpp" , CC , {
+Target cpp216 = { "MemPageHeap.cpp" , "../../HCore/CCore/src/MemPageHeap.cpp" } ;
+Target dcpp216 = { "MemPageHeap.dep" , OBJ_PATH+"/MemPageHeap.dep" } ;
+Rule rdcpp216 = { {&cpp216,&obj} , {&dcpp216} , {&execpp216} } ;
+Exe execpp216 = { "CC-DEP MemPageHeap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5818,14 +5872,14 @@ Exe execpp214 = { "CC-DEP MemPageHeap.cpp" , CC , {
  ,OBJ_PATH+"/MemPageHeap.dep"
 } } ;
 
-Target vdcpp214 = { "MemPageHeap.vm.dep" , OBJ_PATH+"/MemPageHeap.vm.dep" } ;
-Rule rvdcpp214 = { {&dcpp214} , {&vdcpp214} , {&exedcpp214} } ;
-Exe exedcpp214 = { "CC-VM-DEP MemPageHeap.cpp" , VMDEP , { OBJ_PATH+"/MemPageHeap.dep" , OBJ_PATH+"/MemPageHeap.vm.dep" , '214' } } ;
+Target vdcpp216 = { "MemPageHeap.vm.dep" , OBJ_PATH+"/MemPageHeap.vm.dep" } ;
+Rule rvdcpp216 = { {&dcpp216} , {&vdcpp216} , {&exedcpp216} } ;
+Exe exedcpp216 = { "CC-VM-DEP MemPageHeap.cpp" , VMDEP , { OBJ_PATH+"/MemPageHeap.dep" , OBJ_PATH+"/MemPageHeap.vm.dep" , '216' } } ;
 
-Target cpp215 = { "MemSpaceHeap.cpp" , "../../Fundamental/CCore/src/MemSpaceHeap.cpp" } ;
-Target dcpp215 = { "MemSpaceHeap.dep" , OBJ_PATH+"/MemSpaceHeap.dep" } ;
-Rule rdcpp215 = { {&cpp215,&obj} , {&dcpp215} , {&execpp215} } ;
-Exe execpp215 = { "CC-DEP MemSpaceHeap.cpp" , CC , {
+Target cpp217 = { "MemSpaceHeap.cpp" , "../../Fundamental/CCore/src/MemSpaceHeap.cpp" } ;
+Target dcpp217 = { "MemSpaceHeap.dep" , OBJ_PATH+"/MemSpaceHeap.dep" } ;
+Rule rdcpp217 = { {&cpp217,&obj} , {&dcpp217} , {&execpp217} } ;
+Exe execpp217 = { "CC-DEP MemSpaceHeap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5845,14 +5899,14 @@ Exe execpp215 = { "CC-DEP MemSpaceHeap.cpp" , CC , {
  ,OBJ_PATH+"/MemSpaceHeap.dep"
 } } ;
 
-Target vdcpp215 = { "MemSpaceHeap.vm.dep" , OBJ_PATH+"/MemSpaceHeap.vm.dep" } ;
-Rule rvdcpp215 = { {&dcpp215} , {&vdcpp215} , {&exedcpp215} } ;
-Exe exedcpp215 = { "CC-VM-DEP MemSpaceHeap.cpp" , VMDEP , { OBJ_PATH+"/MemSpaceHeap.dep" , OBJ_PATH+"/MemSpaceHeap.vm.dep" , '215' } } ;
+Target vdcpp217 = { "MemSpaceHeap.vm.dep" , OBJ_PATH+"/MemSpaceHeap.vm.dep" } ;
+Rule rvdcpp217 = { {&dcpp217} , {&vdcpp217} , {&exedcpp217} } ;
+Exe exedcpp217 = { "CC-VM-DEP MemSpaceHeap.cpp" , VMDEP , { OBJ_PATH+"/MemSpaceHeap.dep" , OBJ_PATH+"/MemSpaceHeap.vm.dep" , '217' } } ;
 
-Target cpp216 = { "MemberFold.cpp" , "../../Simple/CCore/src/MemberFold.cpp" } ;
-Target dcpp216 = { "MemberFold.dep" , OBJ_PATH+"/MemberFold.dep" } ;
-Rule rdcpp216 = { {&cpp216,&obj} , {&dcpp216} , {&execpp216} } ;
-Exe execpp216 = { "CC-DEP MemberFold.cpp" , CC , {
+Target cpp218 = { "MemberFold.cpp" , "../../Simple/CCore/src/MemberFold.cpp" } ;
+Target dcpp218 = { "MemberFold.dep" , OBJ_PATH+"/MemberFold.dep" } ;
+Rule rdcpp218 = { {&cpp218,&obj} , {&dcpp218} , {&execpp218} } ;
+Exe execpp218 = { "CC-DEP MemberFold.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5872,14 +5926,14 @@ Exe execpp216 = { "CC-DEP MemberFold.cpp" , CC , {
  ,OBJ_PATH+"/MemberFold.dep"
 } } ;
 
-Target vdcpp216 = { "MemberFold.vm.dep" , OBJ_PATH+"/MemberFold.vm.dep" } ;
-Rule rvdcpp216 = { {&dcpp216} , {&vdcpp216} , {&exedcpp216} } ;
-Exe exedcpp216 = { "CC-VM-DEP MemberFold.cpp" , VMDEP , { OBJ_PATH+"/MemberFold.dep" , OBJ_PATH+"/MemberFold.vm.dep" , '216' } } ;
+Target vdcpp218 = { "MemberFold.vm.dep" , OBJ_PATH+"/MemberFold.vm.dep" } ;
+Rule rvdcpp218 = { {&dcpp218} , {&vdcpp218} , {&exedcpp218} } ;
+Exe exedcpp218 = { "CC-VM-DEP MemberFold.cpp" , VMDEP , { OBJ_PATH+"/MemberFold.dep" , OBJ_PATH+"/MemberFold.vm.dep" , '218' } } ;
 
-Target cpp217 = { "Menu.cpp" , "../../Desktop/Lib/CCore/src/video/Menu.cpp" } ;
-Target dcpp217 = { "Menu.dep" , OBJ_PATH+"/Menu.dep" } ;
-Rule rdcpp217 = { {&cpp217,&obj} , {&dcpp217} , {&execpp217} } ;
-Exe execpp217 = { "CC-DEP Menu.cpp" , CC , {
+Target cpp219 = { "Menu.cpp" , "../../Desktop/Lib/CCore/src/video/Menu.cpp" } ;
+Target dcpp219 = { "Menu.dep" , OBJ_PATH+"/Menu.dep" } ;
+Rule rdcpp219 = { {&cpp219,&obj} , {&dcpp219} , {&execpp219} } ;
+Exe execpp219 = { "CC-DEP Menu.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5899,14 +5953,14 @@ Exe execpp217 = { "CC-DEP Menu.cpp" , CC , {
  ,OBJ_PATH+"/Menu.dep"
 } } ;
 
-Target vdcpp217 = { "Menu.vm.dep" , OBJ_PATH+"/Menu.vm.dep" } ;
-Rule rvdcpp217 = { {&dcpp217} , {&vdcpp217} , {&exedcpp217} } ;
-Exe exedcpp217 = { "CC-VM-DEP Menu.cpp" , VMDEP , { OBJ_PATH+"/Menu.dep" , OBJ_PATH+"/Menu.vm.dep" , '217' } } ;
+Target vdcpp219 = { "Menu.vm.dep" , OBJ_PATH+"/Menu.vm.dep" } ;
+Rule rvdcpp219 = { {&dcpp219} , {&vdcpp219} , {&exedcpp219} } ;
+Exe exedcpp219 = { "CC-VM-DEP Menu.cpp" , VMDEP , { OBJ_PATH+"/Menu.dep" , OBJ_PATH+"/Menu.vm.dep" , '219' } } ;
 
-Target cpp218 = { "MergeSort.cpp" , "../../Fundamental/CCore/src/sort/MergeSort.cpp" } ;
-Target dcpp218 = { "MergeSort.dep" , OBJ_PATH+"/MergeSort.dep" } ;
-Rule rdcpp218 = { {&cpp218,&obj} , {&dcpp218} , {&execpp218} } ;
-Exe execpp218 = { "CC-DEP MergeSort.cpp" , CC , {
+Target cpp220 = { "MergeSort.cpp" , "../../Fundamental/CCore/src/sort/MergeSort.cpp" } ;
+Target dcpp220 = { "MergeSort.dep" , OBJ_PATH+"/MergeSort.dep" } ;
+Rule rdcpp220 = { {&cpp220,&obj} , {&dcpp220} , {&execpp220} } ;
+Exe execpp220 = { "CC-DEP MergeSort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5926,14 +5980,14 @@ Exe execpp218 = { "CC-DEP MergeSort.cpp" , CC , {
  ,OBJ_PATH+"/MergeSort.dep"
 } } ;
 
-Target vdcpp218 = { "MergeSort.vm.dep" , OBJ_PATH+"/MergeSort.vm.dep" } ;
-Rule rvdcpp218 = { {&dcpp218} , {&vdcpp218} , {&exedcpp218} } ;
-Exe exedcpp218 = { "CC-VM-DEP MergeSort.cpp" , VMDEP , { OBJ_PATH+"/MergeSort.dep" , OBJ_PATH+"/MergeSort.vm.dep" , '218' } } ;
+Target vdcpp220 = { "MergeSort.vm.dep" , OBJ_PATH+"/MergeSort.vm.dep" } ;
+Rule rvdcpp220 = { {&dcpp220} , {&vdcpp220} , {&exedcpp220} } ;
+Exe exedcpp220 = { "CC-VM-DEP MergeSort.cpp" , VMDEP , { OBJ_PATH+"/MergeSort.dep" , OBJ_PATH+"/MergeSort.vm.dep" , '220' } } ;
 
-Target cpp219 = { "MersenneTwister.cpp" , "../../Fundamental/CCore/src/MersenneTwister.cpp" } ;
-Target dcpp219 = { "MersenneTwister.dep" , OBJ_PATH+"/MersenneTwister.dep" } ;
-Rule rdcpp219 = { {&cpp219,&obj} , {&dcpp219} , {&execpp219} } ;
-Exe execpp219 = { "CC-DEP MersenneTwister.cpp" , CC , {
+Target cpp221 = { "MersenneTwister.cpp" , "../../Fundamental/CCore/src/MersenneTwister.cpp" } ;
+Target dcpp221 = { "MersenneTwister.dep" , OBJ_PATH+"/MersenneTwister.dep" } ;
+Rule rdcpp221 = { {&cpp221,&obj} , {&dcpp221} , {&execpp221} } ;
+Exe execpp221 = { "CC-DEP MersenneTwister.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5953,14 +6007,14 @@ Exe execpp219 = { "CC-DEP MersenneTwister.cpp" , CC , {
  ,OBJ_PATH+"/MersenneTwister.dep"
 } } ;
 
-Target vdcpp219 = { "MersenneTwister.vm.dep" , OBJ_PATH+"/MersenneTwister.vm.dep" } ;
-Rule rvdcpp219 = { {&dcpp219} , {&vdcpp219} , {&exedcpp219} } ;
-Exe exedcpp219 = { "CC-VM-DEP MersenneTwister.cpp" , VMDEP , { OBJ_PATH+"/MersenneTwister.dep" , OBJ_PATH+"/MersenneTwister.vm.dep" , '219' } } ;
+Target vdcpp221 = { "MersenneTwister.vm.dep" , OBJ_PATH+"/MersenneTwister.vm.dep" } ;
+Rule rvdcpp221 = { {&dcpp221} , {&vdcpp221} , {&exedcpp221} } ;
+Exe exedcpp221 = { "CC-VM-DEP MersenneTwister.cpp" , VMDEP , { OBJ_PATH+"/MersenneTwister.dep" , OBJ_PATH+"/MersenneTwister.vm.dep" , '221' } } ;
 
-Target cpp220 = { "MessageFrame.cpp" , "../../Desktop/Lib/CCore/src/video/MessageFrame.cpp" } ;
-Target dcpp220 = { "MessageFrame.dep" , OBJ_PATH+"/MessageFrame.dep" } ;
-Rule rdcpp220 = { {&cpp220,&obj} , {&dcpp220} , {&execpp220} } ;
-Exe execpp220 = { "CC-DEP MessageFrame.cpp" , CC , {
+Target cpp222 = { "MessageFrame.cpp" , "../../Desktop/Lib/CCore/src/video/MessageFrame.cpp" } ;
+Target dcpp222 = { "MessageFrame.dep" , OBJ_PATH+"/MessageFrame.dep" } ;
+Rule rdcpp222 = { {&cpp222,&obj} , {&dcpp222} , {&execpp222} } ;
+Exe execpp222 = { "CC-DEP MessageFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -5980,14 +6034,14 @@ Exe execpp220 = { "CC-DEP MessageFrame.cpp" , CC , {
  ,OBJ_PATH+"/MessageFrame.dep"
 } } ;
 
-Target vdcpp220 = { "MessageFrame.vm.dep" , OBJ_PATH+"/MessageFrame.vm.dep" } ;
-Rule rvdcpp220 = { {&dcpp220} , {&vdcpp220} , {&exedcpp220} } ;
-Exe exedcpp220 = { "CC-VM-DEP MessageFrame.cpp" , VMDEP , { OBJ_PATH+"/MessageFrame.dep" , OBJ_PATH+"/MessageFrame.vm.dep" , '220' } } ;
+Target vdcpp222 = { "MessageFrame.vm.dep" , OBJ_PATH+"/MessageFrame.vm.dep" } ;
+Rule rvdcpp222 = { {&dcpp222} , {&vdcpp222} , {&exedcpp222} } ;
+Exe exedcpp222 = { "CC-VM-DEP MessageFrame.cpp" , VMDEP , { OBJ_PATH+"/MessageFrame.dep" , OBJ_PATH+"/MessageFrame.vm.dep" , '222' } } ;
 
-Target cpp221 = { "Meta.cpp" , "../../Simple/CCore/src/gadget/Meta.cpp" } ;
-Target dcpp221 = { "Meta.dep" , OBJ_PATH+"/Meta.dep" } ;
-Rule rdcpp221 = { {&cpp221,&obj} , {&dcpp221} , {&execpp221} } ;
-Exe execpp221 = { "CC-DEP Meta.cpp" , CC , {
+Target cpp223 = { "Meta.cpp" , "../../Simple/CCore/src/gadget/Meta.cpp" } ;
+Target dcpp223 = { "Meta.dep" , OBJ_PATH+"/Meta.dep" } ;
+Rule rdcpp223 = { {&cpp223,&obj} , {&dcpp223} , {&execpp223} } ;
+Exe execpp223 = { "CC-DEP Meta.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6007,14 +6061,14 @@ Exe execpp221 = { "CC-DEP Meta.cpp" , CC , {
  ,OBJ_PATH+"/Meta.dep"
 } } ;
 
-Target vdcpp221 = { "Meta.vm.dep" , OBJ_PATH+"/Meta.vm.dep" } ;
-Rule rvdcpp221 = { {&dcpp221} , {&vdcpp221} , {&exedcpp221} } ;
-Exe exedcpp221 = { "CC-VM-DEP Meta.cpp" , VMDEP , { OBJ_PATH+"/Meta.dep" , OBJ_PATH+"/Meta.vm.dep" , '221' } } ;
+Target vdcpp223 = { "Meta.vm.dep" , OBJ_PATH+"/Meta.vm.dep" } ;
+Rule rvdcpp223 = { {&dcpp223} , {&vdcpp223} , {&exedcpp223} } ;
+Exe exedcpp223 = { "CC-VM-DEP Meta.cpp" , VMDEP , { OBJ_PATH+"/Meta.dep" , OBJ_PATH+"/Meta.vm.dep" , '223' } } ;
 
-Target cpp222 = { "MetaList.cpp" , "../../Simple/CCore/src/gadget/MetaList.cpp" } ;
-Target dcpp222 = { "MetaList.dep" , OBJ_PATH+"/MetaList.dep" } ;
-Rule rdcpp222 = { {&cpp222,&obj} , {&dcpp222} , {&execpp222} } ;
-Exe execpp222 = { "CC-DEP MetaList.cpp" , CC , {
+Target cpp224 = { "MetaList.cpp" , "../../Simple/CCore/src/gadget/MetaList.cpp" } ;
+Target dcpp224 = { "MetaList.dep" , OBJ_PATH+"/MetaList.dep" } ;
+Rule rdcpp224 = { {&cpp224,&obj} , {&dcpp224} , {&execpp224} } ;
+Exe execpp224 = { "CC-DEP MetaList.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6034,14 +6088,14 @@ Exe execpp222 = { "CC-DEP MetaList.cpp" , CC , {
  ,OBJ_PATH+"/MetaList.dep"
 } } ;
 
-Target vdcpp222 = { "MetaList.vm.dep" , OBJ_PATH+"/MetaList.vm.dep" } ;
-Rule rvdcpp222 = { {&dcpp222} , {&vdcpp222} , {&exedcpp222} } ;
-Exe exedcpp222 = { "CC-VM-DEP MetaList.cpp" , VMDEP , { OBJ_PATH+"/MetaList.dep" , OBJ_PATH+"/MetaList.vm.dep" , '222' } } ;
+Target vdcpp224 = { "MetaList.vm.dep" , OBJ_PATH+"/MetaList.vm.dep" } ;
+Rule rvdcpp224 = { {&dcpp224} , {&vdcpp224} , {&exedcpp224} } ;
+Exe exedcpp224 = { "CC-VM-DEP MetaList.cpp" , VMDEP , { OBJ_PATH+"/MetaList.dep" , OBJ_PATH+"/MetaList.vm.dep" , '224' } } ;
 
-Target cpp223 = { "MinSizeType.cpp" , "../../Desktop/Lib/CCore/src/video/MinSizeType.cpp" } ;
-Target dcpp223 = { "MinSizeType.dep" , OBJ_PATH+"/MinSizeType.dep" } ;
-Rule rdcpp223 = { {&cpp223,&obj} , {&dcpp223} , {&execpp223} } ;
-Exe execpp223 = { "CC-DEP MinSizeType.cpp" , CC , {
+Target cpp225 = { "MinSizeType.cpp" , "../../Desktop/Lib/CCore/src/video/MinSizeType.cpp" } ;
+Target dcpp225 = { "MinSizeType.dep" , OBJ_PATH+"/MinSizeType.dep" } ;
+Rule rdcpp225 = { {&cpp225,&obj} , {&dcpp225} , {&execpp225} } ;
+Exe execpp225 = { "CC-DEP MinSizeType.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6061,14 +6115,14 @@ Exe execpp223 = { "CC-DEP MinSizeType.cpp" , CC , {
  ,OBJ_PATH+"/MinSizeType.dep"
 } } ;
 
-Target vdcpp223 = { "MinSizeType.vm.dep" , OBJ_PATH+"/MinSizeType.vm.dep" } ;
-Rule rvdcpp223 = { {&dcpp223} , {&vdcpp223} , {&exedcpp223} } ;
-Exe exedcpp223 = { "CC-VM-DEP MinSizeType.cpp" , VMDEP , { OBJ_PATH+"/MinSizeType.dep" , OBJ_PATH+"/MinSizeType.vm.dep" , '223' } } ;
+Target vdcpp225 = { "MinSizeType.vm.dep" , OBJ_PATH+"/MinSizeType.vm.dep" } ;
+Rule rvdcpp225 = { {&dcpp225} , {&vdcpp225} , {&exedcpp225} } ;
+Exe exedcpp225 = { "CC-VM-DEP MinSizeType.cpp" , VMDEP , { OBJ_PATH+"/MinSizeType.dep" , OBJ_PATH+"/MinSizeType.vm.dep" , '225' } } ;
 
-Target cpp224 = { "MixColorWindow.cpp" , "../../Desktop/Lib/CCore/src/video/pref/MixColorWindow.cpp" } ;
-Target dcpp224 = { "MixColorWindow.dep" , OBJ_PATH+"/MixColorWindow.dep" } ;
-Rule rdcpp224 = { {&cpp224,&obj} , {&dcpp224} , {&execpp224} } ;
-Exe execpp224 = { "CC-DEP MixColorWindow.cpp" , CC , {
+Target cpp226 = { "MixColorWindow.cpp" , "../../Desktop/Lib/CCore/src/video/pref/MixColorWindow.cpp" } ;
+Target dcpp226 = { "MixColorWindow.dep" , OBJ_PATH+"/MixColorWindow.dep" } ;
+Rule rdcpp226 = { {&cpp226,&obj} , {&dcpp226} , {&execpp226} } ;
+Exe execpp226 = { "CC-DEP MixColorWindow.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6088,14 +6142,14 @@ Exe execpp224 = { "CC-DEP MixColorWindow.cpp" , CC , {
  ,OBJ_PATH+"/MixColorWindow.dep"
 } } ;
 
-Target vdcpp224 = { "MixColorWindow.vm.dep" , OBJ_PATH+"/MixColorWindow.vm.dep" } ;
-Rule rvdcpp224 = { {&dcpp224} , {&vdcpp224} , {&exedcpp224} } ;
-Exe exedcpp224 = { "CC-VM-DEP MixColorWindow.cpp" , VMDEP , { OBJ_PATH+"/MixColorWindow.dep" , OBJ_PATH+"/MixColorWindow.vm.dep" , '224' } } ;
+Target vdcpp226 = { "MixColorWindow.vm.dep" , OBJ_PATH+"/MixColorWindow.vm.dep" } ;
+Rule rvdcpp226 = { {&dcpp226} , {&vdcpp226} , {&exedcpp226} } ;
+Exe exedcpp226 = { "CC-VM-DEP MixColorWindow.cpp" , VMDEP , { OBJ_PATH+"/MixColorWindow.dep" , OBJ_PATH+"/MixColorWindow.vm.dep" , '226' } } ;
 
-Target cpp225 = { "ModEngine.cpp" , "../../Applied/CCore/src/math/ModEngine.cpp" } ;
-Target dcpp225 = { "ModEngine.dep" , OBJ_PATH+"/ModEngine.dep" } ;
-Rule rdcpp225 = { {&cpp225,&obj} , {&dcpp225} , {&execpp225} } ;
-Exe execpp225 = { "CC-DEP ModEngine.cpp" , CC , {
+Target cpp227 = { "ModEngine.cpp" , "../../Applied/CCore/src/math/ModEngine.cpp" } ;
+Target dcpp227 = { "ModEngine.dep" , OBJ_PATH+"/ModEngine.dep" } ;
+Rule rdcpp227 = { {&cpp227,&obj} , {&dcpp227} , {&execpp227} } ;
+Exe execpp227 = { "CC-DEP ModEngine.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6115,14 +6169,14 @@ Exe execpp225 = { "CC-DEP ModEngine.cpp" , CC , {
  ,OBJ_PATH+"/ModEngine.dep"
 } } ;
 
-Target vdcpp225 = { "ModEngine.vm.dep" , OBJ_PATH+"/ModEngine.vm.dep" } ;
-Rule rvdcpp225 = { {&dcpp225} , {&vdcpp225} , {&exedcpp225} } ;
-Exe exedcpp225 = { "CC-VM-DEP ModEngine.cpp" , VMDEP , { OBJ_PATH+"/ModEngine.dep" , OBJ_PATH+"/ModEngine.vm.dep" , '225' } } ;
+Target vdcpp227 = { "ModEngine.vm.dep" , OBJ_PATH+"/ModEngine.vm.dep" } ;
+Rule rvdcpp227 = { {&dcpp227} , {&vdcpp227} , {&exedcpp227} } ;
+Exe exedcpp227 = { "CC-VM-DEP ModEngine.cpp" , VMDEP , { OBJ_PATH+"/ModEngine.dep" , OBJ_PATH+"/ModEngine.vm.dep" , '227' } } ;
 
-Target cpp226 = { "Mouse.cpp" , "../../Desktop/Core/CCore/src/video/Mouse.cpp" } ;
-Target dcpp226 = { "Mouse.dep" , OBJ_PATH+"/Mouse.dep" } ;
-Rule rdcpp226 = { {&cpp226,&obj} , {&dcpp226} , {&execpp226} } ;
-Exe execpp226 = { "CC-DEP Mouse.cpp" , CC , {
+Target cpp228 = { "Mouse.cpp" , "../../Desktop/Core/CCore/src/video/Mouse.cpp" } ;
+Target dcpp228 = { "Mouse.dep" , OBJ_PATH+"/Mouse.dep" } ;
+Rule rdcpp228 = { {&cpp228,&obj} , {&dcpp228} , {&execpp228} } ;
+Exe execpp228 = { "CC-DEP Mouse.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6142,14 +6196,14 @@ Exe execpp226 = { "CC-DEP Mouse.cpp" , CC , {
  ,OBJ_PATH+"/Mouse.dep"
 } } ;
 
-Target vdcpp226 = { "Mouse.vm.dep" , OBJ_PATH+"/Mouse.vm.dep" } ;
-Rule rvdcpp226 = { {&dcpp226} , {&vdcpp226} , {&exedcpp226} } ;
-Exe exedcpp226 = { "CC-VM-DEP Mouse.cpp" , VMDEP , { OBJ_PATH+"/Mouse.dep" , OBJ_PATH+"/Mouse.vm.dep" , '226' } } ;
+Target vdcpp228 = { "Mouse.vm.dep" , OBJ_PATH+"/Mouse.vm.dep" } ;
+Rule rvdcpp228 = { {&dcpp228} , {&vdcpp228} , {&exedcpp228} } ;
+Exe exedcpp228 = { "CC-VM-DEP Mouse.cpp" , VMDEP , { OBJ_PATH+"/Mouse.dep" , OBJ_PATH+"/Mouse.vm.dep" , '228' } } ;
 
-Target cpp227 = { "Move.cpp" , "../../Simple/CCore/src/Move.cpp" } ;
-Target dcpp227 = { "Move.dep" , OBJ_PATH+"/Move.dep" } ;
-Rule rdcpp227 = { {&cpp227,&obj} , {&dcpp227} , {&execpp227} } ;
-Exe execpp227 = { "CC-DEP Move.cpp" , CC , {
+Target cpp229 = { "Move.cpp" , "../../Simple/CCore/src/Move.cpp" } ;
+Target dcpp229 = { "Move.dep" , OBJ_PATH+"/Move.dep" } ;
+Rule rdcpp229 = { {&cpp229,&obj} , {&dcpp229} , {&execpp229} } ;
+Exe execpp229 = { "CC-DEP Move.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6169,14 +6223,14 @@ Exe execpp227 = { "CC-DEP Move.cpp" , CC , {
  ,OBJ_PATH+"/Move.dep"
 } } ;
 
-Target vdcpp227 = { "Move.vm.dep" , OBJ_PATH+"/Move.vm.dep" } ;
-Rule rvdcpp227 = { {&dcpp227} , {&vdcpp227} , {&exedcpp227} } ;
-Exe exedcpp227 = { "CC-VM-DEP Move.cpp" , VMDEP , { OBJ_PATH+"/Move.dep" , OBJ_PATH+"/Move.vm.dep" , '227' } } ;
+Target vdcpp229 = { "Move.vm.dep" , OBJ_PATH+"/Move.vm.dep" } ;
+Rule rvdcpp229 = { {&dcpp229} , {&vdcpp229} , {&exedcpp229} } ;
+Exe exedcpp229 = { "CC-VM-DEP Move.cpp" , VMDEP , { OBJ_PATH+"/Move.dep" , OBJ_PATH+"/Move.vm.dep" , '229' } } ;
 
-Target cpp228 = { "MultiEvent.cpp" , "../../HCore/CCore/src/task/MultiEvent.cpp" } ;
-Target dcpp228 = { "MultiEvent.dep" , OBJ_PATH+"/MultiEvent.dep" } ;
-Rule rdcpp228 = { {&cpp228,&obj} , {&dcpp228} , {&execpp228} } ;
-Exe execpp228 = { "CC-DEP MultiEvent.cpp" , CC , {
+Target cpp230 = { "MultiEvent.cpp" , "../../HCore/CCore/src/task/MultiEvent.cpp" } ;
+Target dcpp230 = { "MultiEvent.dep" , OBJ_PATH+"/MultiEvent.dep" } ;
+Rule rdcpp230 = { {&cpp230,&obj} , {&dcpp230} , {&execpp230} } ;
+Exe execpp230 = { "CC-DEP MultiEvent.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6196,14 +6250,14 @@ Exe execpp228 = { "CC-DEP MultiEvent.cpp" , CC , {
  ,OBJ_PATH+"/MultiEvent.dep"
 } } ;
 
-Target vdcpp228 = { "MultiEvent.vm.dep" , OBJ_PATH+"/MultiEvent.vm.dep" } ;
-Rule rvdcpp228 = { {&dcpp228} , {&vdcpp228} , {&exedcpp228} } ;
-Exe exedcpp228 = { "CC-VM-DEP MultiEvent.cpp" , VMDEP , { OBJ_PATH+"/MultiEvent.dep" , OBJ_PATH+"/MultiEvent.vm.dep" , '228' } } ;
+Target vdcpp230 = { "MultiEvent.vm.dep" , OBJ_PATH+"/MultiEvent.vm.dep" } ;
+Rule rvdcpp230 = { {&dcpp230} , {&vdcpp230} , {&exedcpp230} } ;
+Exe exedcpp230 = { "CC-VM-DEP MultiEvent.cpp" , VMDEP , { OBJ_PATH+"/MultiEvent.dep" , OBJ_PATH+"/MultiEvent.vm.dep" , '230' } } ;
 
-Target cpp229 = { "MultiSem.cpp" , "../../HCore/CCore/src/task/MultiSem.cpp" } ;
-Target dcpp229 = { "MultiSem.dep" , OBJ_PATH+"/MultiSem.dep" } ;
-Rule rdcpp229 = { {&cpp229,&obj} , {&dcpp229} , {&execpp229} } ;
-Exe execpp229 = { "CC-DEP MultiSem.cpp" , CC , {
+Target cpp231 = { "MultiSem.cpp" , "../../HCore/CCore/src/task/MultiSem.cpp" } ;
+Target dcpp231 = { "MultiSem.dep" , OBJ_PATH+"/MultiSem.dep" } ;
+Rule rdcpp231 = { {&cpp231,&obj} , {&dcpp231} , {&execpp231} } ;
+Exe execpp231 = { "CC-DEP MultiSem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6223,14 +6277,14 @@ Exe execpp229 = { "CC-DEP MultiSem.cpp" , CC , {
  ,OBJ_PATH+"/MultiSem.dep"
 } } ;
 
-Target vdcpp229 = { "MultiSem.vm.dep" , OBJ_PATH+"/MultiSem.vm.dep" } ;
-Rule rvdcpp229 = { {&dcpp229} , {&vdcpp229} , {&exedcpp229} } ;
-Exe exedcpp229 = { "CC-VM-DEP MultiSem.cpp" , VMDEP , { OBJ_PATH+"/MultiSem.dep" , OBJ_PATH+"/MultiSem.vm.dep" , '229' } } ;
+Target vdcpp231 = { "MultiSem.vm.dep" , OBJ_PATH+"/MultiSem.vm.dep" } ;
+Rule rvdcpp231 = { {&dcpp231} , {&vdcpp231} , {&exedcpp231} } ;
+Exe exedcpp231 = { "CC-VM-DEP MultiSem.cpp" , VMDEP , { OBJ_PATH+"/MultiSem.dep" , OBJ_PATH+"/MultiSem.vm.dep" , '231' } } ;
 
-Target cpp230 = { "MultiSignal.cpp" , "../../Fundamental/CCore/src/MultiSignal.cpp" } ;
-Target dcpp230 = { "MultiSignal.dep" , OBJ_PATH+"/MultiSignal.dep" } ;
-Rule rdcpp230 = { {&cpp230,&obj} , {&dcpp230} , {&execpp230} } ;
-Exe execpp230 = { "CC-DEP MultiSignal.cpp" , CC , {
+Target cpp232 = { "MultiSignal.cpp" , "../../Fundamental/CCore/src/MultiSignal.cpp" } ;
+Target dcpp232 = { "MultiSignal.dep" , OBJ_PATH+"/MultiSignal.dep" } ;
+Rule rdcpp232 = { {&cpp232,&obj} , {&dcpp232} , {&execpp232} } ;
+Exe execpp232 = { "CC-DEP MultiSignal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6250,14 +6304,14 @@ Exe execpp230 = { "CC-DEP MultiSignal.cpp" , CC , {
  ,OBJ_PATH+"/MultiSignal.dep"
 } } ;
 
-Target vdcpp230 = { "MultiSignal.vm.dep" , OBJ_PATH+"/MultiSignal.vm.dep" } ;
-Rule rvdcpp230 = { {&dcpp230} , {&vdcpp230} , {&exedcpp230} } ;
-Exe exedcpp230 = { "CC-VM-DEP MultiSignal.cpp" , VMDEP , { OBJ_PATH+"/MultiSignal.dep" , OBJ_PATH+"/MultiSignal.vm.dep" , '230' } } ;
+Target vdcpp232 = { "MultiSignal.vm.dep" , OBJ_PATH+"/MultiSignal.vm.dep" } ;
+Rule rvdcpp232 = { {&dcpp232} , {&vdcpp232} , {&exedcpp232} } ;
+Exe exedcpp232 = { "CC-VM-DEP MultiSignal.cpp" , VMDEP , { OBJ_PATH+"/MultiSignal.dep" , OBJ_PATH+"/MultiSignal.vm.dep" , '232' } } ;
 
-Target cpp231 = { "Mutex.cpp" , "../../HCore/CCore/src/task/Mutex.cpp" } ;
-Target dcpp231 = { "Mutex.dep" , OBJ_PATH+"/Mutex.dep" } ;
-Rule rdcpp231 = { {&cpp231,&obj} , {&dcpp231} , {&execpp231} } ;
-Exe execpp231 = { "CC-DEP Mutex.cpp" , CC , {
+Target cpp233 = { "Mutex.cpp" , "../../HCore/CCore/src/task/Mutex.cpp" } ;
+Target dcpp233 = { "Mutex.dep" , OBJ_PATH+"/Mutex.dep" } ;
+Rule rdcpp233 = { {&cpp233,&obj} , {&dcpp233} , {&execpp233} } ;
+Exe execpp233 = { "CC-DEP Mutex.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6277,14 +6331,14 @@ Exe execpp231 = { "CC-DEP Mutex.cpp" , CC , {
  ,OBJ_PATH+"/Mutex.dep"
 } } ;
 
-Target vdcpp231 = { "Mutex.vm.dep" , OBJ_PATH+"/Mutex.vm.dep" } ;
-Rule rvdcpp231 = { {&dcpp231} , {&vdcpp231} , {&exedcpp231} } ;
-Exe exedcpp231 = { "CC-VM-DEP Mutex.cpp" , VMDEP , { OBJ_PATH+"/Mutex.dep" , OBJ_PATH+"/Mutex.vm.dep" , '231' } } ;
+Target vdcpp233 = { "Mutex.vm.dep" , OBJ_PATH+"/Mutex.vm.dep" } ;
+Rule rvdcpp233 = { {&dcpp233} , {&vdcpp233} , {&exedcpp233} } ;
+Exe exedcpp233 = { "CC-VM-DEP Mutex.cpp" , VMDEP , { OBJ_PATH+"/Mutex.dep" , OBJ_PATH+"/Mutex.vm.dep" , '233' } } ;
 
-Target cpp232 = { "MutexSpinCount.cpp" , "../../HCore/CCore/src/task/MutexSpinCount.cpp" } ;
-Target dcpp232 = { "MutexSpinCount.dep" , OBJ_PATH+"/MutexSpinCount.dep" } ;
-Rule rdcpp232 = { {&cpp232,&obj} , {&dcpp232} , {&execpp232} } ;
-Exe execpp232 = { "CC-DEP MutexSpinCount.cpp" , CC , {
+Target cpp234 = { "MutexSpinCount.cpp" , "../../HCore/CCore/src/task/MutexSpinCount.cpp" } ;
+Target dcpp234 = { "MutexSpinCount.dep" , OBJ_PATH+"/MutexSpinCount.dep" } ;
+Rule rdcpp234 = { {&cpp234,&obj} , {&dcpp234} , {&execpp234} } ;
+Exe execpp234 = { "CC-DEP MutexSpinCount.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6304,14 +6358,14 @@ Exe execpp232 = { "CC-DEP MutexSpinCount.cpp" , CC , {
  ,OBJ_PATH+"/MutexSpinCount.dep"
 } } ;
 
-Target vdcpp232 = { "MutexSpinCount.vm.dep" , OBJ_PATH+"/MutexSpinCount.vm.dep" } ;
-Rule rvdcpp232 = { {&dcpp232} , {&vdcpp232} , {&exedcpp232} } ;
-Exe exedcpp232 = { "CC-VM-DEP MutexSpinCount.cpp" , VMDEP , { OBJ_PATH+"/MutexSpinCount.dep" , OBJ_PATH+"/MutexSpinCount.vm.dep" , '232' } } ;
+Target vdcpp234 = { "MutexSpinCount.vm.dep" , OBJ_PATH+"/MutexSpinCount.vm.dep" } ;
+Rule rvdcpp234 = { {&dcpp234} , {&vdcpp234} , {&exedcpp234} } ;
+Exe exedcpp234 = { "CC-VM-DEP MutexSpinCount.cpp" , VMDEP , { OBJ_PATH+"/MutexSpinCount.dep" , OBJ_PATH+"/MutexSpinCount.vm.dep" , '234' } } ;
 
-Target cpp233 = { "NanoIPDevice.cpp" , "../../Applied/CCore/src/net/NanoIPDevice.cpp" } ;
-Target dcpp233 = { "NanoIPDevice.dep" , OBJ_PATH+"/NanoIPDevice.dep" } ;
-Rule rdcpp233 = { {&cpp233,&obj} , {&dcpp233} , {&execpp233} } ;
-Exe execpp233 = { "CC-DEP NanoIPDevice.cpp" , CC , {
+Target cpp235 = { "NanoIPDevice.cpp" , "../../Applied/CCore/src/net/NanoIPDevice.cpp" } ;
+Target dcpp235 = { "NanoIPDevice.dep" , OBJ_PATH+"/NanoIPDevice.dep" } ;
+Rule rdcpp235 = { {&cpp235,&obj} , {&dcpp235} , {&execpp235} } ;
+Exe execpp235 = { "CC-DEP NanoIPDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6331,14 +6385,14 @@ Exe execpp233 = { "CC-DEP NanoIPDevice.cpp" , CC , {
  ,OBJ_PATH+"/NanoIPDevice.dep"
 } } ;
 
-Target vdcpp233 = { "NanoIPDevice.vm.dep" , OBJ_PATH+"/NanoIPDevice.vm.dep" } ;
-Rule rvdcpp233 = { {&dcpp233} , {&vdcpp233} , {&exedcpp233} } ;
-Exe exedcpp233 = { "CC-VM-DEP NanoIPDevice.cpp" , VMDEP , { OBJ_PATH+"/NanoIPDevice.dep" , OBJ_PATH+"/NanoIPDevice.vm.dep" , '233' } } ;
+Target vdcpp235 = { "NanoIPDevice.vm.dep" , OBJ_PATH+"/NanoIPDevice.vm.dep" } ;
+Rule rvdcpp235 = { {&dcpp235} , {&vdcpp235} , {&exedcpp235} } ;
+Exe exedcpp235 = { "CC-VM-DEP NanoIPDevice.cpp" , VMDEP , { OBJ_PATH+"/NanoIPDevice.dep" , OBJ_PATH+"/NanoIPDevice.vm.dep" , '235' } } ;
 
-Target cpp234 = { "NanoPacket.cpp" , "../../Applied/CCore/src/NanoPacket.cpp" } ;
-Target dcpp234 = { "NanoPacket.dep" , OBJ_PATH+"/NanoPacket.dep" } ;
-Rule rdcpp234 = { {&cpp234,&obj} , {&dcpp234} , {&execpp234} } ;
-Exe execpp234 = { "CC-DEP NanoPacket.cpp" , CC , {
+Target cpp236 = { "NanoPacket.cpp" , "../../Applied/CCore/src/NanoPacket.cpp" } ;
+Target dcpp236 = { "NanoPacket.dep" , OBJ_PATH+"/NanoPacket.dep" } ;
+Rule rdcpp236 = { {&cpp236,&obj} , {&dcpp236} , {&execpp236} } ;
+Exe execpp236 = { "CC-DEP NanoPacket.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6358,14 +6412,14 @@ Exe execpp234 = { "CC-DEP NanoPacket.cpp" , CC , {
  ,OBJ_PATH+"/NanoPacket.dep"
 } } ;
 
-Target vdcpp234 = { "NanoPacket.vm.dep" , OBJ_PATH+"/NanoPacket.vm.dep" } ;
-Rule rvdcpp234 = { {&dcpp234} , {&vdcpp234} , {&exedcpp234} } ;
-Exe exedcpp234 = { "CC-VM-DEP NanoPacket.cpp" , VMDEP , { OBJ_PATH+"/NanoPacket.dep" , OBJ_PATH+"/NanoPacket.vm.dep" , '234' } } ;
+Target vdcpp236 = { "NanoPacket.vm.dep" , OBJ_PATH+"/NanoPacket.vm.dep" } ;
+Rule rvdcpp236 = { {&dcpp236} , {&vdcpp236} , {&exedcpp236} } ;
+Exe exedcpp236 = { "CC-VM-DEP NanoPacket.cpp" , VMDEP , { OBJ_PATH+"/NanoPacket.dep" , OBJ_PATH+"/NanoPacket.vm.dep" , '236' } } ;
 
-Target cpp235 = { "NegBool.cpp" , "../../Simple/CCore/src/gadget/NegBool.cpp" } ;
-Target dcpp235 = { "NegBool.dep" , OBJ_PATH+"/NegBool.dep" } ;
-Rule rdcpp235 = { {&cpp235,&obj} , {&dcpp235} , {&execpp235} } ;
-Exe execpp235 = { "CC-DEP NegBool.cpp" , CC , {
+Target cpp237 = { "NegBool.cpp" , "../../Simple/CCore/src/gadget/NegBool.cpp" } ;
+Target dcpp237 = { "NegBool.dep" , OBJ_PATH+"/NegBool.dep" } ;
+Rule rdcpp237 = { {&cpp237,&obj} , {&dcpp237} , {&execpp237} } ;
+Exe execpp237 = { "CC-DEP NegBool.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6385,14 +6439,14 @@ Exe execpp235 = { "CC-DEP NegBool.cpp" , CC , {
  ,OBJ_PATH+"/NegBool.dep"
 } } ;
 
-Target vdcpp235 = { "NegBool.vm.dep" , OBJ_PATH+"/NegBool.vm.dep" } ;
-Rule rvdcpp235 = { {&dcpp235} , {&vdcpp235} , {&exedcpp235} } ;
-Exe exedcpp235 = { "CC-VM-DEP NegBool.cpp" , VMDEP , { OBJ_PATH+"/NegBool.dep" , OBJ_PATH+"/NegBool.vm.dep" , '235' } } ;
+Target vdcpp237 = { "NegBool.vm.dep" , OBJ_PATH+"/NegBool.vm.dep" } ;
+Rule rvdcpp237 = { {&dcpp237} , {&vdcpp237} , {&exedcpp237} } ;
+Exe exedcpp237 = { "CC-VM-DEP NegBool.cpp" , VMDEP , { OBJ_PATH+"/NegBool.dep" , OBJ_PATH+"/NegBool.vm.dep" , '237' } } ;
 
-Target cpp236 = { "NetBase.cpp" , "../../Applied/CCore/src/net/NetBase.cpp" } ;
-Target dcpp236 = { "NetBase.dep" , OBJ_PATH+"/NetBase.dep" } ;
-Rule rdcpp236 = { {&cpp236,&obj} , {&dcpp236} , {&execpp236} } ;
-Exe execpp236 = { "CC-DEP NetBase.cpp" , CC , {
+Target cpp238 = { "NetBase.cpp" , "../../Applied/CCore/src/net/NetBase.cpp" } ;
+Target dcpp238 = { "NetBase.dep" , OBJ_PATH+"/NetBase.dep" } ;
+Rule rdcpp238 = { {&cpp238,&obj} , {&dcpp238} , {&execpp238} } ;
+Exe execpp238 = { "CC-DEP NetBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6412,14 +6466,14 @@ Exe execpp236 = { "CC-DEP NetBase.cpp" , CC , {
  ,OBJ_PATH+"/NetBase.dep"
 } } ;
 
-Target vdcpp236 = { "NetBase.vm.dep" , OBJ_PATH+"/NetBase.vm.dep" } ;
-Rule rvdcpp236 = { {&dcpp236} , {&vdcpp236} , {&exedcpp236} } ;
-Exe exedcpp236 = { "CC-VM-DEP NetBase.cpp" , VMDEP , { OBJ_PATH+"/NetBase.dep" , OBJ_PATH+"/NetBase.vm.dep" , '236' } } ;
+Target vdcpp238 = { "NetBase.vm.dep" , OBJ_PATH+"/NetBase.vm.dep" } ;
+Rule rvdcpp238 = { {&dcpp238} , {&vdcpp238} , {&exedcpp238} } ;
+Exe exedcpp238 = { "CC-VM-DEP NetBase.cpp" , VMDEP , { OBJ_PATH+"/NetBase.dep" , OBJ_PATH+"/NetBase.vm.dep" , '238' } } ;
 
-Target cpp237 = { "NetFork.cpp" , "../../Applied/CCore/src/net/NetFork.cpp" } ;
-Target dcpp237 = { "NetFork.dep" , OBJ_PATH+"/NetFork.dep" } ;
-Rule rdcpp237 = { {&cpp237,&obj} , {&dcpp237} , {&execpp237} } ;
-Exe execpp237 = { "CC-DEP NetFork.cpp" , CC , {
+Target cpp239 = { "NetFork.cpp" , "../../Applied/CCore/src/net/NetFork.cpp" } ;
+Target dcpp239 = { "NetFork.dep" , OBJ_PATH+"/NetFork.dep" } ;
+Rule rdcpp239 = { {&cpp239,&obj} , {&dcpp239} , {&execpp239} } ;
+Exe execpp239 = { "CC-DEP NetFork.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6439,14 +6493,14 @@ Exe execpp237 = { "CC-DEP NetFork.cpp" , CC , {
  ,OBJ_PATH+"/NetFork.dep"
 } } ;
 
-Target vdcpp237 = { "NetFork.vm.dep" , OBJ_PATH+"/NetFork.vm.dep" } ;
-Rule rvdcpp237 = { {&dcpp237} , {&vdcpp237} , {&exedcpp237} } ;
-Exe exedcpp237 = { "CC-VM-DEP NetFork.cpp" , VMDEP , { OBJ_PATH+"/NetFork.dep" , OBJ_PATH+"/NetFork.vm.dep" , '237' } } ;
+Target vdcpp239 = { "NetFork.vm.dep" , OBJ_PATH+"/NetFork.vm.dep" } ;
+Rule rvdcpp239 = { {&dcpp239} , {&vdcpp239} , {&exedcpp239} } ;
+Exe exedcpp239 = { "CC-VM-DEP NetFork.cpp" , VMDEP , { OBJ_PATH+"/NetFork.dep" , OBJ_PATH+"/NetFork.vm.dep" , '239' } } ;
 
-Target cpp238 = { "NewDelete.cpp" , "../../Simple/CCore/src/NewDelete.cpp" } ;
-Target dcpp238 = { "NewDelete.dep" , OBJ_PATH+"/NewDelete.dep" } ;
-Rule rdcpp238 = { {&cpp238,&obj} , {&dcpp238} , {&execpp238} } ;
-Exe execpp238 = { "CC-DEP NewDelete.cpp" , CC , {
+Target cpp240 = { "NewDelete.cpp" , "../../Simple/CCore/src/NewDelete.cpp" } ;
+Target dcpp240 = { "NewDelete.dep" , OBJ_PATH+"/NewDelete.dep" } ;
+Rule rdcpp240 = { {&cpp240,&obj} , {&dcpp240} , {&execpp240} } ;
+Exe execpp240 = { "CC-DEP NewDelete.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6466,14 +6520,14 @@ Exe execpp238 = { "CC-DEP NewDelete.cpp" , CC , {
  ,OBJ_PATH+"/NewDelete.dep"
 } } ;
 
-Target vdcpp238 = { "NewDelete.vm.dep" , OBJ_PATH+"/NewDelete.vm.dep" } ;
-Rule rvdcpp238 = { {&dcpp238} , {&vdcpp238} , {&exedcpp238} } ;
-Exe exedcpp238 = { "CC-VM-DEP NewDelete.cpp" , VMDEP , { OBJ_PATH+"/NewDelete.dep" , OBJ_PATH+"/NewDelete.vm.dep" , '238' } } ;
+Target vdcpp240 = { "NewDelete.vm.dep" , OBJ_PATH+"/NewDelete.vm.dep" } ;
+Rule rvdcpp240 = { {&dcpp240} , {&vdcpp240} , {&exedcpp240} } ;
+Exe exedcpp240 = { "CC-VM-DEP NewDelete.cpp" , VMDEP , { OBJ_PATH+"/NewDelete.dep" , OBJ_PATH+"/NewDelete.vm.dep" , '240' } } ;
 
-Target cpp239 = { "NoCopy.cpp" , "../../Simple/CCore/src/gadget/NoCopy.cpp" } ;
-Target dcpp239 = { "NoCopy.dep" , OBJ_PATH+"/NoCopy.dep" } ;
-Rule rdcpp239 = { {&cpp239,&obj} , {&dcpp239} , {&execpp239} } ;
-Exe execpp239 = { "CC-DEP NoCopy.cpp" , CC , {
+Target cpp241 = { "NoCopy.cpp" , "../../Simple/CCore/src/gadget/NoCopy.cpp" } ;
+Target dcpp241 = { "NoCopy.dep" , OBJ_PATH+"/NoCopy.dep" } ;
+Rule rdcpp241 = { {&cpp241,&obj} , {&dcpp241} , {&execpp241} } ;
+Exe execpp241 = { "CC-DEP NoCopy.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6493,14 +6547,14 @@ Exe execpp239 = { "CC-DEP NoCopy.cpp" , CC , {
  ,OBJ_PATH+"/NoCopy.dep"
 } } ;
 
-Target vdcpp239 = { "NoCopy.vm.dep" , OBJ_PATH+"/NoCopy.vm.dep" } ;
-Rule rvdcpp239 = { {&dcpp239} , {&vdcpp239} , {&exedcpp239} } ;
-Exe exedcpp239 = { "CC-VM-DEP NoCopy.cpp" , VMDEP , { OBJ_PATH+"/NoCopy.dep" , OBJ_PATH+"/NoCopy.vm.dep" , '239' } } ;
+Target vdcpp241 = { "NoCopy.vm.dep" , OBJ_PATH+"/NoCopy.vm.dep" } ;
+Rule rvdcpp241 = { {&dcpp241} , {&vdcpp241} , {&exedcpp241} } ;
+Exe exedcpp241 = { "CC-VM-DEP NoCopy.cpp" , VMDEP , { OBJ_PATH+"/NoCopy.dep" , OBJ_PATH+"/NoCopy.vm.dep" , '241' } } ;
 
-Target cpp240 = { "NoMutex.cpp" , "../../Applied/CCore/src/task/NoMutex.cpp" } ;
-Target dcpp240 = { "NoMutex.dep" , OBJ_PATH+"/NoMutex.dep" } ;
-Rule rdcpp240 = { {&cpp240,&obj} , {&dcpp240} , {&execpp240} } ;
-Exe execpp240 = { "CC-DEP NoMutex.cpp" , CC , {
+Target cpp242 = { "NoMutex.cpp" , "../../Applied/CCore/src/task/NoMutex.cpp" } ;
+Target dcpp242 = { "NoMutex.dep" , OBJ_PATH+"/NoMutex.dep" } ;
+Rule rdcpp242 = { {&cpp242,&obj} , {&dcpp242} , {&execpp242} } ;
+Exe execpp242 = { "CC-DEP NoMutex.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6520,14 +6574,14 @@ Exe execpp240 = { "CC-DEP NoMutex.cpp" , CC , {
  ,OBJ_PATH+"/NoMutex.dep"
 } } ;
 
-Target vdcpp240 = { "NoMutex.vm.dep" , OBJ_PATH+"/NoMutex.vm.dep" } ;
-Rule rvdcpp240 = { {&dcpp240} , {&vdcpp240} , {&exedcpp240} } ;
-Exe exedcpp240 = { "CC-VM-DEP NoMutex.cpp" , VMDEP , { OBJ_PATH+"/NoMutex.dep" , OBJ_PATH+"/NoMutex.vm.dep" , '240' } } ;
+Target vdcpp242 = { "NoMutex.vm.dep" , OBJ_PATH+"/NoMutex.vm.dep" } ;
+Rule rvdcpp242 = { {&dcpp242} , {&vdcpp242} , {&exedcpp242} } ;
+Exe exedcpp242 = { "CC-VM-DEP NoMutex.cpp" , VMDEP , { OBJ_PATH+"/NoMutex.dep" , OBJ_PATH+"/NoMutex.vm.dep" , '242' } } ;
 
-Target cpp241 = { "NoPrimeTest.cpp" , "../../Applied/CCore/src/math/NoPrimeTest.cpp" } ;
-Target dcpp241 = { "NoPrimeTest.dep" , OBJ_PATH+"/NoPrimeTest.dep" } ;
-Rule rdcpp241 = { {&cpp241,&obj} , {&dcpp241} , {&execpp241} } ;
-Exe execpp241 = { "CC-DEP NoPrimeTest.cpp" , CC , {
+Target cpp243 = { "NoPrimeTest.cpp" , "../../Applied/CCore/src/math/NoPrimeTest.cpp" } ;
+Target dcpp243 = { "NoPrimeTest.dep" , OBJ_PATH+"/NoPrimeTest.dep" } ;
+Rule rdcpp243 = { {&cpp243,&obj} , {&dcpp243} , {&execpp243} } ;
+Exe execpp243 = { "CC-DEP NoPrimeTest.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6547,14 +6601,14 @@ Exe execpp241 = { "CC-DEP NoPrimeTest.cpp" , CC , {
  ,OBJ_PATH+"/NoPrimeTest.dep"
 } } ;
 
-Target vdcpp241 = { "NoPrimeTest.vm.dep" , OBJ_PATH+"/NoPrimeTest.vm.dep" } ;
-Rule rvdcpp241 = { {&dcpp241} , {&vdcpp241} , {&exedcpp241} } ;
-Exe exedcpp241 = { "CC-VM-DEP NoPrimeTest.cpp" , VMDEP , { OBJ_PATH+"/NoPrimeTest.dep" , OBJ_PATH+"/NoPrimeTest.vm.dep" , '241' } } ;
+Target vdcpp243 = { "NoPrimeTest.vm.dep" , OBJ_PATH+"/NoPrimeTest.vm.dep" } ;
+Rule rvdcpp243 = { {&dcpp243} , {&vdcpp243} , {&exedcpp243} } ;
+Exe exedcpp243 = { "CC-VM-DEP NoPrimeTest.cpp" , VMDEP , { OBJ_PATH+"/NoPrimeTest.dep" , OBJ_PATH+"/NoPrimeTest.vm.dep" , '243' } } ;
 
-Target cpp242 = { "NoThrowFlags.cpp" , "../../Simple/CCore/src/gadget/NoThrowFlags.cpp" } ;
-Target dcpp242 = { "NoThrowFlags.dep" , OBJ_PATH+"/NoThrowFlags.dep" } ;
-Rule rdcpp242 = { {&cpp242,&obj} , {&dcpp242} , {&execpp242} } ;
-Exe execpp242 = { "CC-DEP NoThrowFlags.cpp" , CC , {
+Target cpp244 = { "NoThrowFlags.cpp" , "../../Simple/CCore/src/gadget/NoThrowFlags.cpp" } ;
+Target dcpp244 = { "NoThrowFlags.dep" , OBJ_PATH+"/NoThrowFlags.dep" } ;
+Rule rdcpp244 = { {&cpp244,&obj} , {&dcpp244} , {&execpp244} } ;
+Exe execpp244 = { "CC-DEP NoThrowFlags.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6574,14 +6628,14 @@ Exe execpp242 = { "CC-DEP NoThrowFlags.cpp" , CC , {
  ,OBJ_PATH+"/NoThrowFlags.dep"
 } } ;
 
-Target vdcpp242 = { "NoThrowFlags.vm.dep" , OBJ_PATH+"/NoThrowFlags.vm.dep" } ;
-Rule rvdcpp242 = { {&dcpp242} , {&vdcpp242} , {&exedcpp242} } ;
-Exe exedcpp242 = { "CC-VM-DEP NoThrowFlags.cpp" , VMDEP , { OBJ_PATH+"/NoThrowFlags.dep" , OBJ_PATH+"/NoThrowFlags.vm.dep" , '242' } } ;
+Target vdcpp244 = { "NoThrowFlags.vm.dep" , OBJ_PATH+"/NoThrowFlags.vm.dep" } ;
+Rule rvdcpp244 = { {&dcpp244} , {&vdcpp244} , {&exedcpp244} } ;
+Exe exedcpp244 = { "CC-VM-DEP NoThrowFlags.cpp" , VMDEP , { OBJ_PATH+"/NoThrowFlags.dep" , OBJ_PATH+"/NoThrowFlags.vm.dep" , '244' } } ;
 
-Target cpp243 = { "NodeAllocator.cpp" , "../../Fundamental/CCore/src/NodeAllocator.cpp" } ;
-Target dcpp243 = { "NodeAllocator.dep" , OBJ_PATH+"/NodeAllocator.dep" } ;
-Rule rdcpp243 = { {&cpp243,&obj} , {&dcpp243} , {&execpp243} } ;
-Exe execpp243 = { "CC-DEP NodeAllocator.cpp" , CC , {
+Target cpp245 = { "NodeAllocator.cpp" , "../../Fundamental/CCore/src/NodeAllocator.cpp" } ;
+Target dcpp245 = { "NodeAllocator.dep" , OBJ_PATH+"/NodeAllocator.dep" } ;
+Rule rdcpp245 = { {&cpp245,&obj} , {&dcpp245} , {&execpp245} } ;
+Exe execpp245 = { "CC-DEP NodeAllocator.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6601,14 +6655,14 @@ Exe execpp243 = { "CC-DEP NodeAllocator.cpp" , CC , {
  ,OBJ_PATH+"/NodeAllocator.dep"
 } } ;
 
-Target vdcpp243 = { "NodeAllocator.vm.dep" , OBJ_PATH+"/NodeAllocator.vm.dep" } ;
-Rule rvdcpp243 = { {&dcpp243} , {&vdcpp243} , {&exedcpp243} } ;
-Exe exedcpp243 = { "CC-VM-DEP NodeAllocator.cpp" , VMDEP , { OBJ_PATH+"/NodeAllocator.dep" , OBJ_PATH+"/NodeAllocator.vm.dep" , '243' } } ;
+Target vdcpp245 = { "NodeAllocator.vm.dep" , OBJ_PATH+"/NodeAllocator.vm.dep" } ;
+Rule rvdcpp245 = { {&dcpp245} , {&vdcpp245} , {&exedcpp245} } ;
+Exe exedcpp245 = { "CC-VM-DEP NodeAllocator.cpp" , VMDEP , { OBJ_PATH+"/NodeAllocator.dep" , OBJ_PATH+"/NodeAllocator.vm.dep" , '245' } } ;
 
-Target cpp244 = { "Nothing.cpp" , "../../Simple/CCore/src/gadget/Nothing.cpp" } ;
-Target dcpp244 = { "Nothing.dep" , OBJ_PATH+"/Nothing.dep" } ;
-Rule rdcpp244 = { {&cpp244,&obj} , {&dcpp244} , {&execpp244} } ;
-Exe execpp244 = { "CC-DEP Nothing.cpp" , CC , {
+Target cpp246 = { "Nothing.cpp" , "../../Simple/CCore/src/gadget/Nothing.cpp" } ;
+Target dcpp246 = { "Nothing.dep" , OBJ_PATH+"/Nothing.dep" } ;
+Rule rdcpp246 = { {&cpp246,&obj} , {&dcpp246} , {&execpp246} } ;
+Exe execpp246 = { "CC-DEP Nothing.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6628,14 +6682,14 @@ Exe execpp244 = { "CC-DEP Nothing.cpp" , CC , {
  ,OBJ_PATH+"/Nothing.dep"
 } } ;
 
-Target vdcpp244 = { "Nothing.vm.dep" , OBJ_PATH+"/Nothing.vm.dep" } ;
-Rule rvdcpp244 = { {&dcpp244} , {&vdcpp244} , {&exedcpp244} } ;
-Exe exedcpp244 = { "CC-VM-DEP Nothing.cpp" , VMDEP , { OBJ_PATH+"/Nothing.dep" , OBJ_PATH+"/Nothing.vm.dep" , '244' } } ;
+Target vdcpp246 = { "Nothing.vm.dep" , OBJ_PATH+"/Nothing.vm.dep" } ;
+Rule rvdcpp246 = { {&dcpp246} , {&vdcpp246} , {&exedcpp246} } ;
+Exe exedcpp246 = { "CC-VM-DEP Nothing.cpp" , VMDEP , { OBJ_PATH+"/Nothing.dep" , OBJ_PATH+"/Nothing.vm.dep" , '246' } } ;
 
-Target cpp245 = { "NullMovePtr.cpp" , "../../Simple/CCore/src/gadget/NullMovePtr.cpp" } ;
-Target dcpp245 = { "NullMovePtr.dep" , OBJ_PATH+"/NullMovePtr.dep" } ;
-Rule rdcpp245 = { {&cpp245,&obj} , {&dcpp245} , {&execpp245} } ;
-Exe execpp245 = { "CC-DEP NullMovePtr.cpp" , CC , {
+Target cpp247 = { "NullMovePtr.cpp" , "../../Simple/CCore/src/gadget/NullMovePtr.cpp" } ;
+Target dcpp247 = { "NullMovePtr.dep" , OBJ_PATH+"/NullMovePtr.dep" } ;
+Rule rdcpp247 = { {&cpp247,&obj} , {&dcpp247} , {&execpp247} } ;
+Exe execpp247 = { "CC-DEP NullMovePtr.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6655,14 +6709,14 @@ Exe execpp245 = { "CC-DEP NullMovePtr.cpp" , CC , {
  ,OBJ_PATH+"/NullMovePtr.dep"
 } } ;
 
-Target vdcpp245 = { "NullMovePtr.vm.dep" , OBJ_PATH+"/NullMovePtr.vm.dep" } ;
-Rule rvdcpp245 = { {&dcpp245} , {&vdcpp245} , {&exedcpp245} } ;
-Exe exedcpp245 = { "CC-VM-DEP NullMovePtr.cpp" , VMDEP , { OBJ_PATH+"/NullMovePtr.dep" , OBJ_PATH+"/NullMovePtr.vm.dep" , '245' } } ;
+Target vdcpp247 = { "NullMovePtr.vm.dep" , OBJ_PATH+"/NullMovePtr.vm.dep" } ;
+Rule rvdcpp247 = { {&dcpp247} , {&vdcpp247} , {&exedcpp247} } ;
+Exe exedcpp247 = { "CC-VM-DEP NullMovePtr.cpp" , VMDEP , { OBJ_PATH+"/NullMovePtr.dep" , OBJ_PATH+"/NullMovePtr.vm.dep" , '247' } } ;
 
-Target cpp246 = { "ObjHost.cpp" , "../../Fundamental/CCore/src/ObjHost.cpp" } ;
-Target dcpp246 = { "ObjHost.dep" , OBJ_PATH+"/ObjHost.dep" } ;
-Rule rdcpp246 = { {&cpp246,&obj} , {&dcpp246} , {&execpp246} } ;
-Exe execpp246 = { "CC-DEP ObjHost.cpp" , CC , {
+Target cpp248 = { "ObjHost.cpp" , "../../Fundamental/CCore/src/ObjHost.cpp" } ;
+Target dcpp248 = { "ObjHost.dep" , OBJ_PATH+"/ObjHost.dep" } ;
+Rule rdcpp248 = { {&cpp248,&obj} , {&dcpp248} , {&execpp248} } ;
+Exe execpp248 = { "CC-DEP ObjHost.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6682,14 +6736,14 @@ Exe execpp246 = { "CC-DEP ObjHost.cpp" , CC , {
  ,OBJ_PATH+"/ObjHost.dep"
 } } ;
 
-Target vdcpp246 = { "ObjHost.vm.dep" , OBJ_PATH+"/ObjHost.vm.dep" } ;
-Rule rvdcpp246 = { {&dcpp246} , {&vdcpp246} , {&exedcpp246} } ;
-Exe exedcpp246 = { "CC-VM-DEP ObjHost.cpp" , VMDEP , { OBJ_PATH+"/ObjHost.dep" , OBJ_PATH+"/ObjHost.vm.dep" , '246' } } ;
+Target vdcpp248 = { "ObjHost.vm.dep" , OBJ_PATH+"/ObjHost.vm.dep" } ;
+Rule rvdcpp248 = { {&dcpp248} , {&vdcpp248} , {&exedcpp248} } ;
+Exe exedcpp248 = { "CC-VM-DEP ObjHost.cpp" , VMDEP , { OBJ_PATH+"/ObjHost.dep" , OBJ_PATH+"/ObjHost.vm.dep" , '248' } } ;
 
-Target cpp247 = { "ObjectDomain.cpp" , "../../Fundamental/CCore/src/ObjectDomain.cpp" } ;
-Target dcpp247 = { "ObjectDomain.dep" , OBJ_PATH+"/ObjectDomain.dep" } ;
-Rule rdcpp247 = { {&cpp247,&obj} , {&dcpp247} , {&execpp247} } ;
-Exe execpp247 = { "CC-DEP ObjectDomain.cpp" , CC , {
+Target cpp249 = { "ObjectDomain.cpp" , "../../Fundamental/CCore/src/ObjectDomain.cpp" } ;
+Target dcpp249 = { "ObjectDomain.dep" , OBJ_PATH+"/ObjectDomain.dep" } ;
+Rule rdcpp249 = { {&cpp249,&obj} , {&dcpp249} , {&execpp249} } ;
+Exe execpp249 = { "CC-DEP ObjectDomain.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6709,14 +6763,14 @@ Exe execpp247 = { "CC-DEP ObjectDomain.cpp" , CC , {
  ,OBJ_PATH+"/ObjectDomain.dep"
 } } ;
 
-Target vdcpp247 = { "ObjectDomain.vm.dep" , OBJ_PATH+"/ObjectDomain.vm.dep" } ;
-Rule rvdcpp247 = { {&dcpp247} , {&vdcpp247} , {&exedcpp247} } ;
-Exe exedcpp247 = { "CC-VM-DEP ObjectDomain.cpp" , VMDEP , { OBJ_PATH+"/ObjectDomain.dep" , OBJ_PATH+"/ObjectDomain.vm.dep" , '247' } } ;
+Target vdcpp249 = { "ObjectDomain.vm.dep" , OBJ_PATH+"/ObjectDomain.vm.dep" } ;
+Rule rvdcpp249 = { {&dcpp249} , {&vdcpp249} , {&exedcpp249} } ;
+Exe exedcpp249 = { "CC-VM-DEP ObjectDomain.cpp" , VMDEP , { OBJ_PATH+"/ObjectDomain.dep" , OBJ_PATH+"/ObjectDomain.vm.dep" , '249' } } ;
 
-Target cpp248 = { "OpAddHelper.cpp" , "../../Simple/CCore/src/gadget/OpAddHelper.cpp" } ;
-Target dcpp248 = { "OpAddHelper.dep" , OBJ_PATH+"/OpAddHelper.dep" } ;
-Rule rdcpp248 = { {&cpp248,&obj} , {&dcpp248} , {&execpp248} } ;
-Exe execpp248 = { "CC-DEP OpAddHelper.cpp" , CC , {
+Target cpp250 = { "OpAddHelper.cpp" , "../../Simple/CCore/src/gadget/OpAddHelper.cpp" } ;
+Target dcpp250 = { "OpAddHelper.dep" , OBJ_PATH+"/OpAddHelper.dep" } ;
+Rule rdcpp250 = { {&cpp250,&obj} , {&dcpp250} , {&execpp250} } ;
+Exe execpp250 = { "CC-DEP OpAddHelper.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6736,14 +6790,14 @@ Exe execpp248 = { "CC-DEP OpAddHelper.cpp" , CC , {
  ,OBJ_PATH+"/OpAddHelper.dep"
 } } ;
 
-Target vdcpp248 = { "OpAddHelper.vm.dep" , OBJ_PATH+"/OpAddHelper.vm.dep" } ;
-Rule rvdcpp248 = { {&dcpp248} , {&vdcpp248} , {&exedcpp248} } ;
-Exe exedcpp248 = { "CC-VM-DEP OpAddHelper.cpp" , VMDEP , { OBJ_PATH+"/OpAddHelper.dep" , OBJ_PATH+"/OpAddHelper.vm.dep" , '248' } } ;
+Target vdcpp250 = { "OpAddHelper.vm.dep" , OBJ_PATH+"/OpAddHelper.vm.dep" } ;
+Rule rvdcpp250 = { {&dcpp250} , {&vdcpp250} , {&exedcpp250} } ;
+Exe exedcpp250 = { "CC-VM-DEP OpAddHelper.cpp" , VMDEP , { OBJ_PATH+"/OpAddHelper.dep" , OBJ_PATH+"/OpAddHelper.vm.dep" , '250' } } ;
 
-Target cpp249 = { "OptMember.cpp" , "../../Simple/CCore/src/OptMember.cpp" } ;
-Target dcpp249 = { "OptMember.dep" , OBJ_PATH+"/OptMember.dep" } ;
-Rule rdcpp249 = { {&cpp249,&obj} , {&dcpp249} , {&execpp249} } ;
-Exe execpp249 = { "CC-DEP OptMember.cpp" , CC , {
+Target cpp251 = { "OptMember.cpp" , "../../Simple/CCore/src/OptMember.cpp" } ;
+Target dcpp251 = { "OptMember.dep" , OBJ_PATH+"/OptMember.dep" } ;
+Rule rdcpp251 = { {&cpp251,&obj} , {&dcpp251} , {&execpp251} } ;
+Exe execpp251 = { "CC-DEP OptMember.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6763,14 +6817,14 @@ Exe execpp249 = { "CC-DEP OptMember.cpp" , CC , {
  ,OBJ_PATH+"/OptMember.dep"
 } } ;
 
-Target vdcpp249 = { "OptMember.vm.dep" , OBJ_PATH+"/OptMember.vm.dep" } ;
-Rule rvdcpp249 = { {&dcpp249} , {&vdcpp249} , {&exedcpp249} } ;
-Exe exedcpp249 = { "CC-VM-DEP OptMember.cpp" , VMDEP , { OBJ_PATH+"/OptMember.dep" , OBJ_PATH+"/OptMember.vm.dep" , '249' } } ;
+Target vdcpp251 = { "OptMember.vm.dep" , OBJ_PATH+"/OptMember.vm.dep" } ;
+Rule rvdcpp251 = { {&dcpp251} , {&vdcpp251} , {&exedcpp251} } ;
+Exe exedcpp251 = { "CC-VM-DEP OptMember.cpp" , VMDEP , { OBJ_PATH+"/OptMember.dep" , OBJ_PATH+"/OptMember.vm.dep" , '251' } } ;
 
-Target cpp250 = { "Optional.cpp" , "../../Fundamental/CCore/src/Optional.cpp" } ;
-Target dcpp250 = { "Optional.dep" , OBJ_PATH+"/Optional.dep" } ;
-Rule rdcpp250 = { {&cpp250,&obj} , {&dcpp250} , {&execpp250} } ;
-Exe execpp250 = { "CC-DEP Optional.cpp" , CC , {
+Target cpp252 = { "Optional.cpp" , "../../Fundamental/CCore/src/Optional.cpp" } ;
+Target dcpp252 = { "Optional.dep" , OBJ_PATH+"/Optional.dep" } ;
+Rule rdcpp252 = { {&cpp252,&obj} , {&dcpp252} , {&execpp252} } ;
+Exe execpp252 = { "CC-DEP Optional.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6790,14 +6844,14 @@ Exe execpp250 = { "CC-DEP Optional.cpp" , CC , {
  ,OBJ_PATH+"/Optional.dep"
 } } ;
 
-Target vdcpp250 = { "Optional.vm.dep" , OBJ_PATH+"/Optional.vm.dep" } ;
-Rule rvdcpp250 = { {&dcpp250} , {&vdcpp250} , {&exedcpp250} } ;
-Exe exedcpp250 = { "CC-VM-DEP Optional.cpp" , VMDEP , { OBJ_PATH+"/Optional.dep" , OBJ_PATH+"/Optional.vm.dep" , '250' } } ;
+Target vdcpp252 = { "Optional.vm.dep" , OBJ_PATH+"/Optional.vm.dep" } ;
+Rule rvdcpp252 = { {&dcpp252} , {&vdcpp252} , {&exedcpp252} } ;
+Exe exedcpp252 = { "CC-VM-DEP Optional.cpp" , VMDEP , { OBJ_PATH+"/Optional.dep" , OBJ_PATH+"/Optional.vm.dep" , '252' } } ;
 
-Target cpp251 = { "OwnPtr.cpp" , "../../Simple/CCore/src/OwnPtr.cpp" } ;
-Target dcpp251 = { "OwnPtr.dep" , OBJ_PATH+"/OwnPtr.dep" } ;
-Rule rdcpp251 = { {&cpp251,&obj} , {&dcpp251} , {&execpp251} } ;
-Exe execpp251 = { "CC-DEP OwnPtr.cpp" , CC , {
+Target cpp253 = { "OwnPtr.cpp" , "../../Simple/CCore/src/OwnPtr.cpp" } ;
+Target dcpp253 = { "OwnPtr.dep" , OBJ_PATH+"/OwnPtr.dep" } ;
+Rule rdcpp253 = { {&cpp253,&obj} , {&dcpp253} , {&execpp253} } ;
+Exe execpp253 = { "CC-DEP OwnPtr.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6817,14 +6871,14 @@ Exe execpp251 = { "CC-DEP OwnPtr.cpp" , CC , {
  ,OBJ_PATH+"/OwnPtr.dep"
 } } ;
 
-Target vdcpp251 = { "OwnPtr.vm.dep" , OBJ_PATH+"/OwnPtr.vm.dep" } ;
-Rule rvdcpp251 = { {&dcpp251} , {&vdcpp251} , {&exedcpp251} } ;
-Exe exedcpp251 = { "CC-VM-DEP OwnPtr.cpp" , VMDEP , { OBJ_PATH+"/OwnPtr.dep" , OBJ_PATH+"/OwnPtr.vm.dep" , '251' } } ;
+Target vdcpp253 = { "OwnPtr.vm.dep" , OBJ_PATH+"/OwnPtr.vm.dep" } ;
+Rule rvdcpp253 = { {&dcpp253} , {&vdcpp253} , {&exedcpp253} } ;
+Exe exedcpp253 = { "CC-VM-DEP OwnPtr.cpp" , VMDEP , { OBJ_PATH+"/OwnPtr.dep" , OBJ_PATH+"/OwnPtr.vm.dep" , '253' } } ;
 
-Target cpp252 = { "PKE.cpp" , "../../Applied/CCore/src/net/PKE.cpp" } ;
-Target dcpp252 = { "PKE.dep" , OBJ_PATH+"/PKE.dep" } ;
-Rule rdcpp252 = { {&cpp252,&obj} , {&dcpp252} , {&execpp252} } ;
-Exe execpp252 = { "CC-DEP PKE.cpp" , CC , {
+Target cpp254 = { "PKE.cpp" , "../../Applied/CCore/src/net/PKE.cpp" } ;
+Target dcpp254 = { "PKE.dep" , OBJ_PATH+"/PKE.dep" } ;
+Rule rdcpp254 = { {&cpp254,&obj} , {&dcpp254} , {&execpp254} } ;
+Exe execpp254 = { "CC-DEP PKE.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6844,14 +6898,14 @@ Exe execpp252 = { "CC-DEP PKE.cpp" , CC , {
  ,OBJ_PATH+"/PKE.dep"
 } } ;
 
-Target vdcpp252 = { "PKE.vm.dep" , OBJ_PATH+"/PKE.vm.dep" } ;
-Rule rvdcpp252 = { {&dcpp252} , {&vdcpp252} , {&exedcpp252} } ;
-Exe exedcpp252 = { "CC-VM-DEP PKE.cpp" , VMDEP , { OBJ_PATH+"/PKE.dep" , OBJ_PATH+"/PKE.vm.dep" , '252' } } ;
+Target vdcpp254 = { "PKE.vm.dep" , OBJ_PATH+"/PKE.vm.dep" } ;
+Rule rvdcpp254 = { {&dcpp254} , {&vdcpp254} , {&exedcpp254} } ;
+Exe exedcpp254 = { "CC-VM-DEP PKE.cpp" , VMDEP , { OBJ_PATH+"/PKE.dep" , OBJ_PATH+"/PKE.vm.dep" , '254' } } ;
 
-Target cpp253 = { "PSec.cpp" , "../../Applied/CCore/src/net/PSec.cpp" } ;
-Target dcpp253 = { "PSec.dep" , OBJ_PATH+"/PSec.dep" } ;
-Rule rdcpp253 = { {&cpp253,&obj} , {&dcpp253} , {&execpp253} } ;
-Exe execpp253 = { "CC-DEP PSec.cpp" , CC , {
+Target cpp255 = { "PSec.cpp" , "../../Applied/CCore/src/net/PSec.cpp" } ;
+Target dcpp255 = { "PSec.dep" , OBJ_PATH+"/PSec.dep" } ;
+Rule rdcpp255 = { {&cpp255,&obj} , {&dcpp255} , {&execpp255} } ;
+Exe execpp255 = { "CC-DEP PSec.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6871,14 +6925,14 @@ Exe execpp253 = { "CC-DEP PSec.cpp" , CC , {
  ,OBJ_PATH+"/PSec.dep"
 } } ;
 
-Target vdcpp253 = { "PSec.vm.dep" , OBJ_PATH+"/PSec.vm.dep" } ;
-Rule rvdcpp253 = { {&dcpp253} , {&vdcpp253} , {&exedcpp253} } ;
-Exe exedcpp253 = { "CC-VM-DEP PSec.cpp" , VMDEP , { OBJ_PATH+"/PSec.dep" , OBJ_PATH+"/PSec.vm.dep" , '253' } } ;
+Target vdcpp255 = { "PSec.vm.dep" , OBJ_PATH+"/PSec.vm.dep" } ;
+Rule rvdcpp255 = { {&dcpp255} , {&vdcpp255} , {&exedcpp255} } ;
+Exe exedcpp255 = { "CC-VM-DEP PSec.cpp" , VMDEP , { OBJ_PATH+"/PSec.dep" , OBJ_PATH+"/PSec.vm.dep" , '255' } } ;
 
-Target cpp254 = { "PSecCore.cpp" , "../../Applied/CCore/src/net/PSecCore.cpp" } ;
-Target dcpp254 = { "PSecCore.dep" , OBJ_PATH+"/PSecCore.dep" } ;
-Rule rdcpp254 = { {&cpp254,&obj} , {&dcpp254} , {&execpp254} } ;
-Exe execpp254 = { "CC-DEP PSecCore.cpp" , CC , {
+Target cpp256 = { "PSecCore.cpp" , "../../Applied/CCore/src/net/PSecCore.cpp" } ;
+Target dcpp256 = { "PSecCore.dep" , OBJ_PATH+"/PSecCore.dep" } ;
+Rule rdcpp256 = { {&cpp256,&obj} , {&dcpp256} , {&execpp256} } ;
+Exe execpp256 = { "CC-DEP PSecCore.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6898,14 +6952,14 @@ Exe execpp254 = { "CC-DEP PSecCore.cpp" , CC , {
  ,OBJ_PATH+"/PSecCore.dep"
 } } ;
 
-Target vdcpp254 = { "PSecCore.vm.dep" , OBJ_PATH+"/PSecCore.vm.dep" } ;
-Rule rvdcpp254 = { {&dcpp254} , {&vdcpp254} , {&exedcpp254} } ;
-Exe exedcpp254 = { "CC-VM-DEP PSecCore.cpp" , VMDEP , { OBJ_PATH+"/PSecCore.dep" , OBJ_PATH+"/PSecCore.vm.dep" , '254' } } ;
+Target vdcpp256 = { "PSecCore.vm.dep" , OBJ_PATH+"/PSecCore.vm.dep" } ;
+Rule rvdcpp256 = { {&dcpp256} , {&vdcpp256} , {&exedcpp256} } ;
+Exe exedcpp256 = { "CC-VM-DEP PSecCore.cpp" , VMDEP , { OBJ_PATH+"/PSecCore.dep" , OBJ_PATH+"/PSecCore.vm.dep" , '256' } } ;
 
-Target cpp255 = { "PSecKey.cpp" , "../../Applied/CCore/src/net/PSecKey.cpp" } ;
-Target dcpp255 = { "PSecKey.dep" , OBJ_PATH+"/PSecKey.dep" } ;
-Rule rdcpp255 = { {&cpp255,&obj} , {&dcpp255} , {&execpp255} } ;
-Exe execpp255 = { "CC-DEP PSecKey.cpp" , CC , {
+Target cpp257 = { "PSecKey.cpp" , "../../Applied/CCore/src/net/PSecKey.cpp" } ;
+Target dcpp257 = { "PSecKey.dep" , OBJ_PATH+"/PSecKey.dep" } ;
+Rule rdcpp257 = { {&cpp257,&obj} , {&dcpp257} , {&execpp257} } ;
+Exe execpp257 = { "CC-DEP PSecKey.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6925,14 +6979,14 @@ Exe execpp255 = { "CC-DEP PSecKey.cpp" , CC , {
  ,OBJ_PATH+"/PSecKey.dep"
 } } ;
 
-Target vdcpp255 = { "PSecKey.vm.dep" , OBJ_PATH+"/PSecKey.vm.dep" } ;
-Rule rvdcpp255 = { {&dcpp255} , {&vdcpp255} , {&exedcpp255} } ;
-Exe exedcpp255 = { "CC-VM-DEP PSecKey.cpp" , VMDEP , { OBJ_PATH+"/PSecKey.dep" , OBJ_PATH+"/PSecKey.vm.dep" , '255' } } ;
+Target vdcpp257 = { "PSecKey.vm.dep" , OBJ_PATH+"/PSecKey.vm.dep" } ;
+Rule rvdcpp257 = { {&dcpp257} , {&vdcpp257} , {&exedcpp257} } ;
+Exe exedcpp257 = { "CC-VM-DEP PSecKey.cpp" , VMDEP , { OBJ_PATH+"/PSecKey.dep" , OBJ_PATH+"/PSecKey.vm.dep" , '257' } } ;
 
-Target cpp256 = { "PTPBase.cpp" , "../../Applied/CCore/src/net/PTPBase.cpp" } ;
-Target dcpp256 = { "PTPBase.dep" , OBJ_PATH+"/PTPBase.dep" } ;
-Rule rdcpp256 = { {&cpp256,&obj} , {&dcpp256} , {&execpp256} } ;
-Exe execpp256 = { "CC-DEP PTPBase.cpp" , CC , {
+Target cpp258 = { "PTPBase.cpp" , "../../Applied/CCore/src/net/PTPBase.cpp" } ;
+Target dcpp258 = { "PTPBase.dep" , OBJ_PATH+"/PTPBase.dep" } ;
+Rule rdcpp258 = { {&cpp258,&obj} , {&dcpp258} , {&execpp258} } ;
+Exe execpp258 = { "CC-DEP PTPBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6952,14 +7006,14 @@ Exe execpp256 = { "CC-DEP PTPBase.cpp" , CC , {
  ,OBJ_PATH+"/PTPBase.dep"
 } } ;
 
-Target vdcpp256 = { "PTPBase.vm.dep" , OBJ_PATH+"/PTPBase.vm.dep" } ;
-Rule rvdcpp256 = { {&dcpp256} , {&vdcpp256} , {&exedcpp256} } ;
-Exe exedcpp256 = { "CC-VM-DEP PTPBase.cpp" , VMDEP , { OBJ_PATH+"/PTPBase.dep" , OBJ_PATH+"/PTPBase.vm.dep" , '256' } } ;
+Target vdcpp258 = { "PTPBase.vm.dep" , OBJ_PATH+"/PTPBase.vm.dep" } ;
+Rule rvdcpp258 = { {&dcpp258} , {&vdcpp258} , {&exedcpp258} } ;
+Exe exedcpp258 = { "CC-VM-DEP PTPBase.cpp" , VMDEP , { OBJ_PATH+"/PTPBase.dep" , OBJ_PATH+"/PTPBase.vm.dep" , '258' } } ;
 
-Target cpp257 = { "PTPBoot.cpp" , "../../Applied/CCore/src/net/PTPBoot.cpp" } ;
-Target dcpp257 = { "PTPBoot.dep" , OBJ_PATH+"/PTPBoot.dep" } ;
-Rule rdcpp257 = { {&cpp257,&obj} , {&dcpp257} , {&execpp257} } ;
-Exe execpp257 = { "CC-DEP PTPBoot.cpp" , CC , {
+Target cpp259 = { "PTPBoot.cpp" , "../../Applied/CCore/src/net/PTPBoot.cpp" } ;
+Target dcpp259 = { "PTPBoot.dep" , OBJ_PATH+"/PTPBoot.dep" } ;
+Rule rdcpp259 = { {&cpp259,&obj} , {&dcpp259} , {&execpp259} } ;
+Exe execpp259 = { "CC-DEP PTPBoot.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -6979,14 +7033,14 @@ Exe execpp257 = { "CC-DEP PTPBoot.cpp" , CC , {
  ,OBJ_PATH+"/PTPBoot.dep"
 } } ;
 
-Target vdcpp257 = { "PTPBoot.vm.dep" , OBJ_PATH+"/PTPBoot.vm.dep" } ;
-Rule rvdcpp257 = { {&dcpp257} , {&vdcpp257} , {&exedcpp257} } ;
-Exe exedcpp257 = { "CC-VM-DEP PTPBoot.cpp" , VMDEP , { OBJ_PATH+"/PTPBoot.dep" , OBJ_PATH+"/PTPBoot.vm.dep" , '257' } } ;
+Target vdcpp259 = { "PTPBoot.vm.dep" , OBJ_PATH+"/PTPBoot.vm.dep" } ;
+Rule rvdcpp259 = { {&dcpp259} , {&vdcpp259} , {&exedcpp259} } ;
+Exe exedcpp259 = { "CC-VM-DEP PTPBoot.cpp" , VMDEP , { OBJ_PATH+"/PTPBoot.dep" , OBJ_PATH+"/PTPBoot.vm.dep" , '259' } } ;
 
-Target cpp258 = { "PTPBootBase.cpp" , "../../Applied/CCore/src/net/PTPBootBase.cpp" } ;
-Target dcpp258 = { "PTPBootBase.dep" , OBJ_PATH+"/PTPBootBase.dep" } ;
-Rule rdcpp258 = { {&cpp258,&obj} , {&dcpp258} , {&execpp258} } ;
-Exe execpp258 = { "CC-DEP PTPBootBase.cpp" , CC , {
+Target cpp260 = { "PTPBootBase.cpp" , "../../Applied/CCore/src/net/PTPBootBase.cpp" } ;
+Target dcpp260 = { "PTPBootBase.dep" , OBJ_PATH+"/PTPBootBase.dep" } ;
+Rule rdcpp260 = { {&cpp260,&obj} , {&dcpp260} , {&execpp260} } ;
+Exe execpp260 = { "CC-DEP PTPBootBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7006,14 +7060,14 @@ Exe execpp258 = { "CC-DEP PTPBootBase.cpp" , CC , {
  ,OBJ_PATH+"/PTPBootBase.dep"
 } } ;
 
-Target vdcpp258 = { "PTPBootBase.vm.dep" , OBJ_PATH+"/PTPBootBase.vm.dep" } ;
-Rule rvdcpp258 = { {&dcpp258} , {&vdcpp258} , {&exedcpp258} } ;
-Exe exedcpp258 = { "CC-VM-DEP PTPBootBase.cpp" , VMDEP , { OBJ_PATH+"/PTPBootBase.dep" , OBJ_PATH+"/PTPBootBase.vm.dep" , '258' } } ;
+Target vdcpp260 = { "PTPBootBase.vm.dep" , OBJ_PATH+"/PTPBootBase.vm.dep" } ;
+Rule rvdcpp260 = { {&dcpp260} , {&vdcpp260} , {&exedcpp260} } ;
+Exe exedcpp260 = { "CC-VM-DEP PTPBootBase.cpp" , VMDEP , { OBJ_PATH+"/PTPBootBase.dep" , OBJ_PATH+"/PTPBootBase.vm.dep" , '260' } } ;
 
-Target cpp259 = { "PTPClientDevice.cpp" , "../../Applied/CCore/src/net/PTPClientDevice.cpp" } ;
-Target dcpp259 = { "PTPClientDevice.dep" , OBJ_PATH+"/PTPClientDevice.dep" } ;
-Rule rdcpp259 = { {&cpp259,&obj} , {&dcpp259} , {&execpp259} } ;
-Exe execpp259 = { "CC-DEP PTPClientDevice.cpp" , CC , {
+Target cpp261 = { "PTPClientDevice.cpp" , "../../Applied/CCore/src/net/PTPClientDevice.cpp" } ;
+Target dcpp261 = { "PTPClientDevice.dep" , OBJ_PATH+"/PTPClientDevice.dep" } ;
+Rule rdcpp261 = { {&cpp261,&obj} , {&dcpp261} , {&execpp261} } ;
+Exe execpp261 = { "CC-DEP PTPClientDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7033,14 +7087,14 @@ Exe execpp259 = { "CC-DEP PTPClientDevice.cpp" , CC , {
  ,OBJ_PATH+"/PTPClientDevice.dep"
 } } ;
 
-Target vdcpp259 = { "PTPClientDevice.vm.dep" , OBJ_PATH+"/PTPClientDevice.vm.dep" } ;
-Rule rvdcpp259 = { {&dcpp259} , {&vdcpp259} , {&exedcpp259} } ;
-Exe exedcpp259 = { "CC-VM-DEP PTPClientDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPClientDevice.dep" , OBJ_PATH+"/PTPClientDevice.vm.dep" , '259' } } ;
+Target vdcpp261 = { "PTPClientDevice.vm.dep" , OBJ_PATH+"/PTPClientDevice.vm.dep" } ;
+Rule rvdcpp261 = { {&dcpp261} , {&vdcpp261} , {&exedcpp261} } ;
+Exe exedcpp261 = { "CC-VM-DEP PTPClientDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPClientDevice.dep" , OBJ_PATH+"/PTPClientDevice.vm.dep" , '261' } } ;
 
-Target cpp260 = { "PTPConBase.cpp" , "../../Applied/CCore/src/net/PTPConBase.cpp" } ;
-Target dcpp260 = { "PTPConBase.dep" , OBJ_PATH+"/PTPConBase.dep" } ;
-Rule rdcpp260 = { {&cpp260,&obj} , {&dcpp260} , {&execpp260} } ;
-Exe execpp260 = { "CC-DEP PTPConBase.cpp" , CC , {
+Target cpp262 = { "PTPConBase.cpp" , "../../Applied/CCore/src/net/PTPConBase.cpp" } ;
+Target dcpp262 = { "PTPConBase.dep" , OBJ_PATH+"/PTPConBase.dep" } ;
+Rule rdcpp262 = { {&cpp262,&obj} , {&dcpp262} , {&execpp262} } ;
+Exe execpp262 = { "CC-DEP PTPConBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7060,14 +7114,14 @@ Exe execpp260 = { "CC-DEP PTPConBase.cpp" , CC , {
  ,OBJ_PATH+"/PTPConBase.dep"
 } } ;
 
-Target vdcpp260 = { "PTPConBase.vm.dep" , OBJ_PATH+"/PTPConBase.vm.dep" } ;
-Rule rvdcpp260 = { {&dcpp260} , {&vdcpp260} , {&exedcpp260} } ;
-Exe exedcpp260 = { "CC-VM-DEP PTPConBase.cpp" , VMDEP , { OBJ_PATH+"/PTPConBase.dep" , OBJ_PATH+"/PTPConBase.vm.dep" , '260' } } ;
+Target vdcpp262 = { "PTPConBase.vm.dep" , OBJ_PATH+"/PTPConBase.vm.dep" } ;
+Rule rvdcpp262 = { {&dcpp262} , {&vdcpp262} , {&exedcpp262} } ;
+Exe exedcpp262 = { "CC-VM-DEP PTPConBase.cpp" , VMDEP , { OBJ_PATH+"/PTPConBase.dep" , OBJ_PATH+"/PTPConBase.vm.dep" , '262' } } ;
 
-Target cpp261 = { "PTPConDevice.cpp" , "../../Applied/CCore/src/net/PTPConDevice.cpp" } ;
-Target dcpp261 = { "PTPConDevice.dep" , OBJ_PATH+"/PTPConDevice.dep" } ;
-Rule rdcpp261 = { {&cpp261,&obj} , {&dcpp261} , {&execpp261} } ;
-Exe execpp261 = { "CC-DEP PTPConDevice.cpp" , CC , {
+Target cpp263 = { "PTPConDevice.cpp" , "../../Applied/CCore/src/net/PTPConDevice.cpp" } ;
+Target dcpp263 = { "PTPConDevice.dep" , OBJ_PATH+"/PTPConDevice.dep" } ;
+Rule rdcpp263 = { {&cpp263,&obj} , {&dcpp263} , {&execpp263} } ;
+Exe execpp263 = { "CC-DEP PTPConDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7087,14 +7141,14 @@ Exe execpp261 = { "CC-DEP PTPConDevice.cpp" , CC , {
  ,OBJ_PATH+"/PTPConDevice.dep"
 } } ;
 
-Target vdcpp261 = { "PTPConDevice.vm.dep" , OBJ_PATH+"/PTPConDevice.vm.dep" } ;
-Rule rvdcpp261 = { {&dcpp261} , {&vdcpp261} , {&exedcpp261} } ;
-Exe exedcpp261 = { "CC-VM-DEP PTPConDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPConDevice.dep" , OBJ_PATH+"/PTPConDevice.vm.dep" , '261' } } ;
+Target vdcpp263 = { "PTPConDevice.vm.dep" , OBJ_PATH+"/PTPConDevice.vm.dep" } ;
+Rule rvdcpp263 = { {&dcpp263} , {&vdcpp263} , {&exedcpp263} } ;
+Exe exedcpp263 = { "CC-VM-DEP PTPConDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPConDevice.dep" , OBJ_PATH+"/PTPConDevice.vm.dep" , '263' } } ;
 
-Target cpp262 = { "PTPEchoTest.cpp" , "../../Applied/CCore/src/net/PTPEchoTest.cpp" } ;
-Target dcpp262 = { "PTPEchoTest.dep" , OBJ_PATH+"/PTPEchoTest.dep" } ;
-Rule rdcpp262 = { {&cpp262,&obj} , {&dcpp262} , {&execpp262} } ;
-Exe execpp262 = { "CC-DEP PTPEchoTest.cpp" , CC , {
+Target cpp264 = { "PTPEchoTest.cpp" , "../../Applied/CCore/src/net/PTPEchoTest.cpp" } ;
+Target dcpp264 = { "PTPEchoTest.dep" , OBJ_PATH+"/PTPEchoTest.dep" } ;
+Rule rdcpp264 = { {&cpp264,&obj} , {&dcpp264} , {&execpp264} } ;
+Exe execpp264 = { "CC-DEP PTPEchoTest.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7114,14 +7168,14 @@ Exe execpp262 = { "CC-DEP PTPEchoTest.cpp" , CC , {
  ,OBJ_PATH+"/PTPEchoTest.dep"
 } } ;
 
-Target vdcpp262 = { "PTPEchoTest.vm.dep" , OBJ_PATH+"/PTPEchoTest.vm.dep" } ;
-Rule rvdcpp262 = { {&dcpp262} , {&vdcpp262} , {&exedcpp262} } ;
-Exe exedcpp262 = { "CC-VM-DEP PTPEchoTest.cpp" , VMDEP , { OBJ_PATH+"/PTPEchoTest.dep" , OBJ_PATH+"/PTPEchoTest.vm.dep" , '262' } } ;
+Target vdcpp264 = { "PTPEchoTest.vm.dep" , OBJ_PATH+"/PTPEchoTest.vm.dep" } ;
+Rule rvdcpp264 = { {&dcpp264} , {&vdcpp264} , {&exedcpp264} } ;
+Exe exedcpp264 = { "CC-VM-DEP PTPEchoTest.cpp" , VMDEP , { OBJ_PATH+"/PTPEchoTest.dep" , OBJ_PATH+"/PTPEchoTest.vm.dep" , '264' } } ;
 
-Target cpp263 = { "PTPExtra.cpp" , "../../Applied/CCore/src/net/PTPExtra.cpp" } ;
-Target dcpp263 = { "PTPExtra.dep" , OBJ_PATH+"/PTPExtra.dep" } ;
-Rule rdcpp263 = { {&cpp263,&obj} , {&dcpp263} , {&execpp263} } ;
-Exe execpp263 = { "CC-DEP PTPExtra.cpp" , CC , {
+Target cpp265 = { "PTPExtra.cpp" , "../../Applied/CCore/src/net/PTPExtra.cpp" } ;
+Target dcpp265 = { "PTPExtra.dep" , OBJ_PATH+"/PTPExtra.dep" } ;
+Rule rdcpp265 = { {&cpp265,&obj} , {&dcpp265} , {&execpp265} } ;
+Exe execpp265 = { "CC-DEP PTPExtra.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7141,14 +7195,14 @@ Exe execpp263 = { "CC-DEP PTPExtra.cpp" , CC , {
  ,OBJ_PATH+"/PTPExtra.dep"
 } } ;
 
-Target vdcpp263 = { "PTPExtra.vm.dep" , OBJ_PATH+"/PTPExtra.vm.dep" } ;
-Rule rvdcpp263 = { {&dcpp263} , {&vdcpp263} , {&exedcpp263} } ;
-Exe exedcpp263 = { "CC-VM-DEP PTPExtra.cpp" , VMDEP , { OBJ_PATH+"/PTPExtra.dep" , OBJ_PATH+"/PTPExtra.vm.dep" , '263' } } ;
+Target vdcpp265 = { "PTPExtra.vm.dep" , OBJ_PATH+"/PTPExtra.vm.dep" } ;
+Rule rvdcpp265 = { {&dcpp265} , {&vdcpp265} , {&exedcpp265} } ;
+Exe exedcpp265 = { "CC-VM-DEP PTPExtra.cpp" , VMDEP , { OBJ_PATH+"/PTPExtra.dep" , OBJ_PATH+"/PTPExtra.vm.dep" , '265' } } ;
 
-Target cpp264 = { "PTPServerDevice.cpp" , "../../Applied/CCore/src/net/PTPServerDevice.cpp" } ;
-Target dcpp264 = { "PTPServerDevice.dep" , OBJ_PATH+"/PTPServerDevice.dep" } ;
-Rule rdcpp264 = { {&cpp264,&obj} , {&dcpp264} , {&execpp264} } ;
-Exe execpp264 = { "CC-DEP PTPServerDevice.cpp" , CC , {
+Target cpp266 = { "PTPServerDevice.cpp" , "../../Applied/CCore/src/net/PTPServerDevice.cpp" } ;
+Target dcpp266 = { "PTPServerDevice.dep" , OBJ_PATH+"/PTPServerDevice.dep" } ;
+Rule rdcpp266 = { {&cpp266,&obj} , {&dcpp266} , {&execpp266} } ;
+Exe execpp266 = { "CC-DEP PTPServerDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7168,14 +7222,14 @@ Exe execpp264 = { "CC-DEP PTPServerDevice.cpp" , CC , {
  ,OBJ_PATH+"/PTPServerDevice.dep"
 } } ;
 
-Target vdcpp264 = { "PTPServerDevice.vm.dep" , OBJ_PATH+"/PTPServerDevice.vm.dep" } ;
-Rule rvdcpp264 = { {&dcpp264} , {&vdcpp264} , {&exedcpp264} } ;
-Exe exedcpp264 = { "CC-VM-DEP PTPServerDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPServerDevice.dep" , OBJ_PATH+"/PTPServerDevice.vm.dep" , '264' } } ;
+Target vdcpp266 = { "PTPServerDevice.vm.dep" , OBJ_PATH+"/PTPServerDevice.vm.dep" } ;
+Rule rvdcpp266 = { {&dcpp266} , {&vdcpp266} , {&exedcpp266} } ;
+Exe exedcpp266 = { "CC-VM-DEP PTPServerDevice.cpp" , VMDEP , { OBJ_PATH+"/PTPServerDevice.dep" , OBJ_PATH+"/PTPServerDevice.vm.dep" , '266' } } ;
 
-Target cpp265 = { "PTPSupport.cpp" , "../../Applied/CCore/src/net/PTPSupport.cpp" } ;
-Target dcpp265 = { "PTPSupport.dep" , OBJ_PATH+"/PTPSupport.dep" } ;
-Rule rdcpp265 = { {&cpp265,&obj} , {&dcpp265} , {&execpp265} } ;
-Exe execpp265 = { "CC-DEP PTPSupport.cpp" , CC , {
+Target cpp267 = { "PTPSupport.cpp" , "../../Applied/CCore/src/net/PTPSupport.cpp" } ;
+Target dcpp267 = { "PTPSupport.dep" , OBJ_PATH+"/PTPSupport.dep" } ;
+Rule rdcpp267 = { {&cpp267,&obj} , {&dcpp267} , {&execpp267} } ;
+Exe execpp267 = { "CC-DEP PTPSupport.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7195,14 +7249,14 @@ Exe execpp265 = { "CC-DEP PTPSupport.cpp" , CC , {
  ,OBJ_PATH+"/PTPSupport.dep"
 } } ;
 
-Target vdcpp265 = { "PTPSupport.vm.dep" , OBJ_PATH+"/PTPSupport.vm.dep" } ;
-Rule rvdcpp265 = { {&dcpp265} , {&vdcpp265} , {&exedcpp265} } ;
-Exe exedcpp265 = { "CC-VM-DEP PTPSupport.cpp" , VMDEP , { OBJ_PATH+"/PTPSupport.dep" , OBJ_PATH+"/PTPSupport.vm.dep" , '265' } } ;
+Target vdcpp267 = { "PTPSupport.vm.dep" , OBJ_PATH+"/PTPSupport.vm.dep" } ;
+Rule rvdcpp267 = { {&dcpp267} , {&vdcpp267} , {&exedcpp267} } ;
+Exe exedcpp267 = { "CC-VM-DEP PTPSupport.cpp" , VMDEP , { OBJ_PATH+"/PTPSupport.dep" , OBJ_PATH+"/PTPSupport.vm.dep" , '267' } } ;
 
-Target cpp266 = { "PTPSupportBase.cpp" , "../../Applied/CCore/src/net/PTPSupportBase.cpp" } ;
-Target dcpp266 = { "PTPSupportBase.dep" , OBJ_PATH+"/PTPSupportBase.dep" } ;
-Rule rdcpp266 = { {&cpp266,&obj} , {&dcpp266} , {&execpp266} } ;
-Exe execpp266 = { "CC-DEP PTPSupportBase.cpp" , CC , {
+Target cpp268 = { "PTPSupportBase.cpp" , "../../Applied/CCore/src/net/PTPSupportBase.cpp" } ;
+Target dcpp268 = { "PTPSupportBase.dep" , OBJ_PATH+"/PTPSupportBase.dep" } ;
+Rule rdcpp268 = { {&cpp268,&obj} , {&dcpp268} , {&execpp268} } ;
+Exe execpp268 = { "CC-DEP PTPSupportBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7222,14 +7276,14 @@ Exe execpp266 = { "CC-DEP PTPSupportBase.cpp" , CC , {
  ,OBJ_PATH+"/PTPSupportBase.dep"
 } } ;
 
-Target vdcpp266 = { "PTPSupportBase.vm.dep" , OBJ_PATH+"/PTPSupportBase.vm.dep" } ;
-Rule rvdcpp266 = { {&dcpp266} , {&vdcpp266} , {&exedcpp266} } ;
-Exe exedcpp266 = { "CC-VM-DEP PTPSupportBase.cpp" , VMDEP , { OBJ_PATH+"/PTPSupportBase.dep" , OBJ_PATH+"/PTPSupportBase.vm.dep" , '266' } } ;
+Target vdcpp268 = { "PTPSupportBase.vm.dep" , OBJ_PATH+"/PTPSupportBase.vm.dep" } ;
+Rule rvdcpp268 = { {&dcpp268} , {&vdcpp268} , {&exedcpp268} } ;
+Exe exedcpp268 = { "CC-VM-DEP PTPSupportBase.cpp" , VMDEP , { OBJ_PATH+"/PTPSupportBase.dep" , OBJ_PATH+"/PTPSupportBase.vm.dep" , '268' } } ;
 
-Target cpp267 = { "Packet.cpp" , "../../Applied/CCore/src/Packet.cpp" } ;
-Target dcpp267 = { "Packet.dep" , OBJ_PATH+"/Packet.dep" } ;
-Rule rdcpp267 = { {&cpp267,&obj} , {&dcpp267} , {&execpp267} } ;
-Exe execpp267 = { "CC-DEP Packet.cpp" , CC , {
+Target cpp269 = { "Packet.cpp" , "../../Applied/CCore/src/Packet.cpp" } ;
+Target dcpp269 = { "Packet.dep" , OBJ_PATH+"/Packet.dep" } ;
+Rule rdcpp269 = { {&cpp269,&obj} , {&dcpp269} , {&execpp269} } ;
+Exe execpp269 = { "CC-DEP Packet.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7249,14 +7303,14 @@ Exe execpp267 = { "CC-DEP Packet.cpp" , CC , {
  ,OBJ_PATH+"/Packet.dep"
 } } ;
 
-Target vdcpp267 = { "Packet.vm.dep" , OBJ_PATH+"/Packet.vm.dep" } ;
-Rule rvdcpp267 = { {&dcpp267} , {&vdcpp267} , {&exedcpp267} } ;
-Exe exedcpp267 = { "CC-VM-DEP Packet.cpp" , VMDEP , { OBJ_PATH+"/Packet.dep" , OBJ_PATH+"/Packet.vm.dep" , '267' } } ;
+Target vdcpp269 = { "Packet.vm.dep" , OBJ_PATH+"/Packet.vm.dep" } ;
+Rule rvdcpp269 = { {&dcpp269} , {&vdcpp269} , {&exedcpp269} } ;
+Exe exedcpp269 = { "CC-VM-DEP Packet.cpp" , VMDEP , { OBJ_PATH+"/Packet.dep" , OBJ_PATH+"/Packet.vm.dep" , '269' } } ;
 
-Target cpp268 = { "PacketEndpointDevice.cpp" , "../../Applied/CCore/src/net/PacketEndpointDevice.cpp" } ;
-Target dcpp268 = { "PacketEndpointDevice.dep" , OBJ_PATH+"/PacketEndpointDevice.dep" } ;
-Rule rdcpp268 = { {&cpp268,&obj} , {&dcpp268} , {&execpp268} } ;
-Exe execpp268 = { "CC-DEP PacketEndpointDevice.cpp" , CC , {
+Target cpp270 = { "PacketEndpointDevice.cpp" , "../../Applied/CCore/src/net/PacketEndpointDevice.cpp" } ;
+Target dcpp270 = { "PacketEndpointDevice.dep" , OBJ_PATH+"/PacketEndpointDevice.dep" } ;
+Rule rdcpp270 = { {&cpp270,&obj} , {&dcpp270} , {&execpp270} } ;
+Exe execpp270 = { "CC-DEP PacketEndpointDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7276,14 +7330,14 @@ Exe execpp268 = { "CC-DEP PacketEndpointDevice.cpp" , CC , {
  ,OBJ_PATH+"/PacketEndpointDevice.dep"
 } } ;
 
-Target vdcpp268 = { "PacketEndpointDevice.vm.dep" , OBJ_PATH+"/PacketEndpointDevice.vm.dep" } ;
-Rule rvdcpp268 = { {&dcpp268} , {&vdcpp268} , {&exedcpp268} } ;
-Exe exedcpp268 = { "CC-VM-DEP PacketEndpointDevice.cpp" , VMDEP , { OBJ_PATH+"/PacketEndpointDevice.dep" , OBJ_PATH+"/PacketEndpointDevice.vm.dep" , '268' } } ;
+Target vdcpp270 = { "PacketEndpointDevice.vm.dep" , OBJ_PATH+"/PacketEndpointDevice.vm.dep" } ;
+Rule rvdcpp270 = { {&dcpp270} , {&vdcpp270} , {&exedcpp270} } ;
+Exe exedcpp270 = { "CC-VM-DEP PacketEndpointDevice.cpp" , VMDEP , { OBJ_PATH+"/PacketEndpointDevice.dep" , OBJ_PATH+"/PacketEndpointDevice.vm.dep" , '270' } } ;
 
-Target cpp269 = { "PacketPool.cpp" , "../../Applied/CCore/src/PacketPool.cpp" } ;
-Target dcpp269 = { "PacketPool.dep" , OBJ_PATH+"/PacketPool.dep" } ;
-Rule rdcpp269 = { {&cpp269,&obj} , {&dcpp269} , {&execpp269} } ;
-Exe execpp269 = { "CC-DEP PacketPool.cpp" , CC , {
+Target cpp271 = { "PacketPool.cpp" , "../../Applied/CCore/src/PacketPool.cpp" } ;
+Target dcpp271 = { "PacketPool.dep" , OBJ_PATH+"/PacketPool.dep" } ;
+Rule rdcpp271 = { {&cpp271,&obj} , {&dcpp271} , {&execpp271} } ;
+Exe execpp271 = { "CC-DEP PacketPool.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7303,14 +7357,14 @@ Exe execpp269 = { "CC-DEP PacketPool.cpp" , CC , {
  ,OBJ_PATH+"/PacketPool.dep"
 } } ;
 
-Target vdcpp269 = { "PacketPool.vm.dep" , OBJ_PATH+"/PacketPool.vm.dep" } ;
-Rule rvdcpp269 = { {&dcpp269} , {&vdcpp269} , {&exedcpp269} } ;
-Exe exedcpp269 = { "CC-VM-DEP PacketPool.cpp" , VMDEP , { OBJ_PATH+"/PacketPool.dep" , OBJ_PATH+"/PacketPool.vm.dep" , '269' } } ;
+Target vdcpp271 = { "PacketPool.vm.dep" , OBJ_PATH+"/PacketPool.vm.dep" } ;
+Rule rvdcpp271 = { {&dcpp271} , {&vdcpp271} , {&exedcpp271} } ;
+Exe exedcpp271 = { "CC-VM-DEP PacketPool.cpp" , VMDEP , { OBJ_PATH+"/PacketPool.dep" , OBJ_PATH+"/PacketPool.vm.dep" , '271' } } ;
 
-Target cpp270 = { "PacketPool_PacketCount.cpp" , "../../Applied/CCore/src/PacketPool_PacketCount.cpp" } ;
-Target dcpp270 = { "PacketPool_PacketCount.dep" , OBJ_PATH+"/PacketPool_PacketCount.dep" } ;
-Rule rdcpp270 = { {&cpp270,&obj} , {&dcpp270} , {&execpp270} } ;
-Exe execpp270 = { "CC-DEP PacketPool_PacketCount.cpp" , CC , {
+Target cpp272 = { "PacketPool_PacketCount.cpp" , "../../Applied/CCore/src/PacketPool_PacketCount.cpp" } ;
+Target dcpp272 = { "PacketPool_PacketCount.dep" , OBJ_PATH+"/PacketPool_PacketCount.dep" } ;
+Rule rdcpp272 = { {&cpp272,&obj} , {&dcpp272} , {&execpp272} } ;
+Exe execpp272 = { "CC-DEP PacketPool_PacketCount.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7330,14 +7384,14 @@ Exe execpp270 = { "CC-DEP PacketPool_PacketCount.cpp" , CC , {
  ,OBJ_PATH+"/PacketPool_PacketCount.dep"
 } } ;
 
-Target vdcpp270 = { "PacketPool_PacketCount.vm.dep" , OBJ_PATH+"/PacketPool_PacketCount.vm.dep" } ;
-Rule rvdcpp270 = { {&dcpp270} , {&vdcpp270} , {&exedcpp270} } ;
-Exe exedcpp270 = { "CC-VM-DEP PacketPool_PacketCount.cpp" , VMDEP , { OBJ_PATH+"/PacketPool_PacketCount.dep" , OBJ_PATH+"/PacketPool_PacketCount.vm.dep" , '270' } } ;
+Target vdcpp272 = { "PacketPool_PacketCount.vm.dep" , OBJ_PATH+"/PacketPool_PacketCount.vm.dep" } ;
+Rule rvdcpp272 = { {&dcpp272} , {&vdcpp272} , {&exedcpp272} } ;
+Exe exedcpp272 = { "CC-VM-DEP PacketPool_PacketCount.cpp" , VMDEP , { OBJ_PATH+"/PacketPool_PacketCount.dep" , OBJ_PATH+"/PacketPool_PacketCount.vm.dep" , '272' } } ;
 
-Target cpp271 = { "PacketPool_PacketMaxDataLen.cpp" , "../../Applied/CCore/src/PacketPool_PacketMaxDataLen.cpp" } ;
-Target dcpp271 = { "PacketPool_PacketMaxDataLen.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.dep" } ;
-Rule rdcpp271 = { {&cpp271,&obj} , {&dcpp271} , {&execpp271} } ;
-Exe execpp271 = { "CC-DEP PacketPool_PacketMaxDataLen.cpp" , CC , {
+Target cpp273 = { "PacketPool_PacketMaxDataLen.cpp" , "../../Applied/CCore/src/PacketPool_PacketMaxDataLen.cpp" } ;
+Target dcpp273 = { "PacketPool_PacketMaxDataLen.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.dep" } ;
+Rule rdcpp273 = { {&cpp273,&obj} , {&dcpp273} , {&execpp273} } ;
+Exe execpp273 = { "CC-DEP PacketPool_PacketMaxDataLen.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7357,14 +7411,14 @@ Exe execpp271 = { "CC-DEP PacketPool_PacketMaxDataLen.cpp" , CC , {
  ,OBJ_PATH+"/PacketPool_PacketMaxDataLen.dep"
 } } ;
 
-Target vdcpp271 = { "PacketPool_PacketMaxDataLen.vm.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep" } ;
-Rule rvdcpp271 = { {&dcpp271} , {&vdcpp271} , {&exedcpp271} } ;
-Exe exedcpp271 = { "CC-VM-DEP PacketPool_PacketMaxDataLen.cpp" , VMDEP , { OBJ_PATH+"/PacketPool_PacketMaxDataLen.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep" , '271' } } ;
+Target vdcpp273 = { "PacketPool_PacketMaxDataLen.vm.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep" } ;
+Rule rvdcpp273 = { {&dcpp273} , {&vdcpp273} , {&exedcpp273} } ;
+Exe exedcpp273 = { "CC-VM-DEP PacketPool_PacketMaxDataLen.cpp" , VMDEP , { OBJ_PATH+"/PacketPool_PacketMaxDataLen.dep" , OBJ_PATH+"/PacketPool_PacketMaxDataLen.vm.dep" , '273' } } ;
 
-Target cpp272 = { "PacketSet.cpp" , "../../Applied/CCore/src/PacketSet.cpp" } ;
-Target dcpp272 = { "PacketSet.dep" , OBJ_PATH+"/PacketSet.dep" } ;
-Rule rdcpp272 = { {&cpp272,&obj} , {&dcpp272} , {&execpp272} } ;
-Exe execpp272 = { "CC-DEP PacketSet.cpp" , CC , {
+Target cpp274 = { "PacketSet.cpp" , "../../Applied/CCore/src/PacketSet.cpp" } ;
+Target dcpp274 = { "PacketSet.dep" , OBJ_PATH+"/PacketSet.dep" } ;
+Rule rdcpp274 = { {&cpp274,&obj} , {&dcpp274} , {&execpp274} } ;
+Exe execpp274 = { "CC-DEP PacketSet.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7384,14 +7438,14 @@ Exe execpp272 = { "CC-DEP PacketSet.cpp" , CC , {
  ,OBJ_PATH+"/PacketSet.dep"
 } } ;
 
-Target vdcpp272 = { "PacketSet.vm.dep" , OBJ_PATH+"/PacketSet.vm.dep" } ;
-Rule rvdcpp272 = { {&dcpp272} , {&vdcpp272} , {&exedcpp272} } ;
-Exe exedcpp272 = { "CC-VM-DEP PacketSet.cpp" , VMDEP , { OBJ_PATH+"/PacketSet.dep" , OBJ_PATH+"/PacketSet.vm.dep" , '272' } } ;
+Target vdcpp274 = { "PacketSet.vm.dep" , OBJ_PATH+"/PacketSet.vm.dep" } ;
+Rule rvdcpp274 = { {&dcpp274} , {&vdcpp274} , {&exedcpp274} } ;
+Exe exedcpp274 = { "CC-VM-DEP PacketSet.cpp" , VMDEP , { OBJ_PATH+"/PacketSet.dep" , OBJ_PATH+"/PacketSet.vm.dep" , '274' } } ;
 
-Target cpp273 = { "ParaQuickSort.cpp" , "../../Fundamental/CCore/src/sort/ParaQuickSort.cpp" } ;
-Target dcpp273 = { "ParaQuickSort.dep" , OBJ_PATH+"/ParaQuickSort.dep" } ;
-Rule rdcpp273 = { {&cpp273,&obj} , {&dcpp273} , {&execpp273} } ;
-Exe execpp273 = { "CC-DEP ParaQuickSort.cpp" , CC , {
+Target cpp275 = { "ParaQuickSort.cpp" , "../../Fundamental/CCore/src/sort/ParaQuickSort.cpp" } ;
+Target dcpp275 = { "ParaQuickSort.dep" , OBJ_PATH+"/ParaQuickSort.dep" } ;
+Rule rdcpp275 = { {&cpp275,&obj} , {&dcpp275} , {&execpp275} } ;
+Exe execpp275 = { "CC-DEP ParaQuickSort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7411,14 +7465,14 @@ Exe execpp273 = { "CC-DEP ParaQuickSort.cpp" , CC , {
  ,OBJ_PATH+"/ParaQuickSort.dep"
 } } ;
 
-Target vdcpp273 = { "ParaQuickSort.vm.dep" , OBJ_PATH+"/ParaQuickSort.vm.dep" } ;
-Rule rvdcpp273 = { {&dcpp273} , {&vdcpp273} , {&exedcpp273} } ;
-Exe exedcpp273 = { "CC-VM-DEP ParaQuickSort.cpp" , VMDEP , { OBJ_PATH+"/ParaQuickSort.dep" , OBJ_PATH+"/ParaQuickSort.vm.dep" , '273' } } ;
+Target vdcpp275 = { "ParaQuickSort.vm.dep" , OBJ_PATH+"/ParaQuickSort.vm.dep" } ;
+Rule rvdcpp275 = { {&dcpp275} , {&vdcpp275} , {&exedcpp275} } ;
+Exe exedcpp275 = { "CC-VM-DEP ParaQuickSort.cpp" , VMDEP , { OBJ_PATH+"/ParaQuickSort.dep" , OBJ_PATH+"/ParaQuickSort.vm.dep" , '275' } } ;
 
-Target cpp274 = { "Partition.cpp" , "../../Fundamental/CCore/src/algon/Partition.cpp" } ;
-Target dcpp274 = { "Partition.dep" , OBJ_PATH+"/Partition.dep" } ;
-Rule rdcpp274 = { {&cpp274,&obj} , {&dcpp274} , {&execpp274} } ;
-Exe execpp274 = { "CC-DEP Partition.cpp" , CC , {
+Target cpp276 = { "Partition.cpp" , "../../Fundamental/CCore/src/algon/Partition.cpp" } ;
+Target dcpp276 = { "Partition.dep" , OBJ_PATH+"/Partition.dep" } ;
+Rule rdcpp276 = { {&cpp276,&obj} , {&dcpp276} , {&execpp276} } ;
+Exe execpp276 = { "CC-DEP Partition.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7438,14 +7492,14 @@ Exe execpp274 = { "CC-DEP Partition.cpp" , CC , {
  ,OBJ_PATH+"/Partition.dep"
 } } ;
 
-Target vdcpp274 = { "Partition.vm.dep" , OBJ_PATH+"/Partition.vm.dep" } ;
-Rule rvdcpp274 = { {&dcpp274} , {&vdcpp274} , {&exedcpp274} } ;
-Exe exedcpp274 = { "CC-VM-DEP Partition.cpp" , VMDEP , { OBJ_PATH+"/Partition.dep" , OBJ_PATH+"/Partition.vm.dep" , '274' } } ;
+Target vdcpp276 = { "Partition.vm.dep" , OBJ_PATH+"/Partition.vm.dep" } ;
+Rule rvdcpp276 = { {&dcpp276} , {&vdcpp276} , {&exedcpp276} } ;
+Exe exedcpp276 = { "CC-VM-DEP Partition.cpp" , VMDEP , { OBJ_PATH+"/Partition.dep" , OBJ_PATH+"/Partition.vm.dep" , '276' } } ;
 
-Target cpp275 = { "Path.cpp" , "../../Fundamental/CCore/src/Path.cpp" } ;
-Target dcpp275 = { "Path.dep" , OBJ_PATH+"/Path.dep" } ;
-Rule rdcpp275 = { {&cpp275,&obj} , {&dcpp275} , {&execpp275} } ;
-Exe execpp275 = { "CC-DEP Path.cpp" , CC , {
+Target cpp277 = { "Path.cpp" , "../../Fundamental/CCore/src/Path.cpp" } ;
+Target dcpp277 = { "Path.dep" , OBJ_PATH+"/Path.dep" } ;
+Rule rdcpp277 = { {&cpp277,&obj} , {&dcpp277} , {&execpp277} } ;
+Exe execpp277 = { "CC-DEP Path.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7465,14 +7519,14 @@ Exe execpp275 = { "CC-DEP Path.cpp" , CC , {
  ,OBJ_PATH+"/Path.dep"
 } } ;
 
-Target vdcpp275 = { "Path.vm.dep" , OBJ_PATH+"/Path.vm.dep" } ;
-Rule rvdcpp275 = { {&dcpp275} , {&vdcpp275} , {&exedcpp275} } ;
-Exe exedcpp275 = { "CC-VM-DEP Path.cpp" , VMDEP , { OBJ_PATH+"/Path.dep" , OBJ_PATH+"/Path.vm.dep" , '275' } } ;
+Target vdcpp277 = { "Path.vm.dep" , OBJ_PATH+"/Path.vm.dep" } ;
+Rule rvdcpp277 = { {&dcpp277} , {&vdcpp277} , {&exedcpp277} } ;
+Exe exedcpp277 = { "CC-VM-DEP Path.cpp" , VMDEP , { OBJ_PATH+"/Path.dep" , OBJ_PATH+"/Path.vm.dep" , '277' } } ;
 
-Target cpp276 = { "PerTask.cpp" , "../../Applied/CCore/src/PerTask.cpp" } ;
-Target dcpp276 = { "PerTask.dep" , OBJ_PATH+"/PerTask.dep" } ;
-Rule rdcpp276 = { {&cpp276,&obj} , {&dcpp276} , {&execpp276} } ;
-Exe execpp276 = { "CC-DEP PerTask.cpp" , CC , {
+Target cpp278 = { "PerTask.cpp" , "../../Applied/CCore/src/PerTask.cpp" } ;
+Target dcpp278 = { "PerTask.dep" , OBJ_PATH+"/PerTask.dep" } ;
+Rule rdcpp278 = { {&cpp278,&obj} , {&dcpp278} , {&execpp278} } ;
+Exe execpp278 = { "CC-DEP PerTask.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7492,14 +7546,14 @@ Exe execpp276 = { "CC-DEP PerTask.cpp" , CC , {
  ,OBJ_PATH+"/PerTask.dep"
 } } ;
 
-Target vdcpp276 = { "PerTask.vm.dep" , OBJ_PATH+"/PerTask.vm.dep" } ;
-Rule rvdcpp276 = { {&dcpp276} , {&vdcpp276} , {&exedcpp276} } ;
-Exe exedcpp276 = { "CC-VM-DEP PerTask.cpp" , VMDEP , { OBJ_PATH+"/PerTask.dep" , OBJ_PATH+"/PerTask.vm.dep" , '276' } } ;
+Target vdcpp278 = { "PerTask.vm.dep" , OBJ_PATH+"/PerTask.vm.dep" } ;
+Rule rvdcpp278 = { {&dcpp278} , {&vdcpp278} , {&exedcpp278} } ;
+Exe exedcpp278 = { "CC-VM-DEP PerTask.cpp" , VMDEP , { OBJ_PATH+"/PerTask.dep" , OBJ_PATH+"/PerTask.vm.dep" , '278' } } ;
 
-Target cpp277 = { "Picture.cpp" , "../../Desktop/Tools/CCore/src/video/Picture.cpp" } ;
-Target dcpp277 = { "Picture.dep" , OBJ_PATH+"/Picture.dep" } ;
-Rule rdcpp277 = { {&cpp277,&obj} , {&dcpp277} , {&execpp277} } ;
-Exe execpp277 = { "CC-DEP Picture.cpp" , CC , {
+Target cpp279 = { "Picture.cpp" , "../../Desktop/Tools/CCore/src/video/Picture.cpp" } ;
+Target dcpp279 = { "Picture.dep" , OBJ_PATH+"/Picture.dep" } ;
+Rule rdcpp279 = { {&cpp279,&obj} , {&dcpp279} , {&execpp279} } ;
+Exe execpp279 = { "CC-DEP Picture.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7519,14 +7573,14 @@ Exe execpp277 = { "CC-DEP Picture.cpp" , CC , {
  ,OBJ_PATH+"/Picture.dep"
 } } ;
 
-Target vdcpp277 = { "Picture.vm.dep" , OBJ_PATH+"/Picture.vm.dep" } ;
-Rule rvdcpp277 = { {&dcpp277} , {&vdcpp277} , {&exedcpp277} } ;
-Exe exedcpp277 = { "CC-VM-DEP Picture.cpp" , VMDEP , { OBJ_PATH+"/Picture.dep" , OBJ_PATH+"/Picture.vm.dep" , '277' } } ;
+Target vdcpp279 = { "Picture.vm.dep" , OBJ_PATH+"/Picture.vm.dep" } ;
+Rule rvdcpp279 = { {&dcpp279} , {&vdcpp279} , {&exedcpp279} } ;
+Exe exedcpp279 = { "CC-VM-DEP Picture.cpp" , VMDEP , { OBJ_PATH+"/Picture.dep" , OBJ_PATH+"/Picture.vm.dep" , '279' } } ;
 
-Target cpp278 = { "Place.cpp" , "../../Simple/CCore/src/gadget/Place.cpp" } ;
-Target dcpp278 = { "Place.dep" , OBJ_PATH+"/Place.dep" } ;
-Rule rdcpp278 = { {&cpp278,&obj} , {&dcpp278} , {&execpp278} } ;
-Exe execpp278 = { "CC-DEP Place.cpp" , CC , {
+Target cpp280 = { "Place.cpp" , "../../Simple/CCore/src/gadget/Place.cpp" } ;
+Target dcpp280 = { "Place.dep" , OBJ_PATH+"/Place.dep" } ;
+Rule rdcpp280 = { {&cpp280,&obj} , {&dcpp280} , {&execpp280} } ;
+Exe execpp280 = { "CC-DEP Place.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7546,14 +7600,14 @@ Exe execpp278 = { "CC-DEP Place.cpp" , CC , {
  ,OBJ_PATH+"/Place.dep"
 } } ;
 
-Target vdcpp278 = { "Place.vm.dep" , OBJ_PATH+"/Place.vm.dep" } ;
-Rule rvdcpp278 = { {&dcpp278} , {&vdcpp278} , {&exedcpp278} } ;
-Exe exedcpp278 = { "CC-VM-DEP Place.cpp" , VMDEP , { OBJ_PATH+"/Place.dep" , OBJ_PATH+"/Place.vm.dep" , '278' } } ;
+Target vdcpp280 = { "Place.vm.dep" , OBJ_PATH+"/Place.vm.dep" } ;
+Rule rvdcpp280 = { {&dcpp280} , {&vdcpp280} , {&exedcpp280} } ;
+Exe exedcpp280 = { "CC-VM-DEP Place.cpp" , VMDEP , { OBJ_PATH+"/Place.dep" , OBJ_PATH+"/Place.vm.dep" , '280' } } ;
 
-Target cpp279 = { "PlanInit.cpp" , "../../Fundamental/CCore/src/PlanInit.cpp" } ;
-Target dcpp279 = { "PlanInit.dep" , OBJ_PATH+"/PlanInit.dep" } ;
-Rule rdcpp279 = { {&cpp279,&obj} , {&dcpp279} , {&execpp279} } ;
-Exe execpp279 = { "CC-DEP PlanInit.cpp" , CC , {
+Target cpp281 = { "PlanInit.cpp" , "../../Fundamental/CCore/src/PlanInit.cpp" } ;
+Target dcpp281 = { "PlanInit.dep" , OBJ_PATH+"/PlanInit.dep" } ;
+Rule rdcpp281 = { {&cpp281,&obj} , {&dcpp281} , {&execpp281} } ;
+Exe execpp281 = { "CC-DEP PlanInit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7573,14 +7627,14 @@ Exe execpp279 = { "CC-DEP PlanInit.cpp" , CC , {
  ,OBJ_PATH+"/PlanInit.dep"
 } } ;
 
-Target vdcpp279 = { "PlanInit.vm.dep" , OBJ_PATH+"/PlanInit.vm.dep" } ;
-Rule rvdcpp279 = { {&dcpp279} , {&vdcpp279} , {&exedcpp279} } ;
-Exe exedcpp279 = { "CC-VM-DEP PlanInit.cpp" , VMDEP , { OBJ_PATH+"/PlanInit.dep" , OBJ_PATH+"/PlanInit.vm.dep" , '279' } } ;
+Target vdcpp281 = { "PlanInit.vm.dep" , OBJ_PATH+"/PlanInit.vm.dep" } ;
+Rule rvdcpp281 = { {&dcpp281} , {&vdcpp281} , {&exedcpp281} } ;
+Exe exedcpp281 = { "CC-VM-DEP PlanInit.cpp" , VMDEP , { OBJ_PATH+"/PlanInit.dep" , OBJ_PATH+"/PlanInit.vm.dep" , '281' } } ;
 
-Target cpp280 = { "PlanInit_CCore.cpp" , "CCore/src/PlanInit_CCore.cpp" } ;
-Target dcpp280 = { "PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.dep" } ;
-Rule rdcpp280 = { {&cpp280,&obj} , {&dcpp280} , {&execpp280} } ;
-Exe execpp280 = { "CC-DEP PlanInit_CCore.cpp" , CC , {
+Target cpp282 = { "PlanInit_CCore.cpp" , "CCore/src/PlanInit_CCore.cpp" } ;
+Target dcpp282 = { "PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.dep" } ;
+Rule rdcpp282 = { {&cpp282,&obj} , {&dcpp282} , {&execpp282} } ;
+Exe execpp282 = { "CC-DEP PlanInit_CCore.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7600,14 +7654,14 @@ Exe execpp280 = { "CC-DEP PlanInit_CCore.cpp" , CC , {
  ,OBJ_PATH+"/PlanInit_CCore.dep"
 } } ;
 
-Target vdcpp280 = { "PlanInit_CCore.vm.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" } ;
-Rule rvdcpp280 = { {&dcpp280} , {&vdcpp280} , {&exedcpp280} } ;
-Exe exedcpp280 = { "CC-VM-DEP PlanInit_CCore.cpp" , VMDEP , { OBJ_PATH+"/PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" , '280' } } ;
+Target vdcpp282 = { "PlanInit_CCore.vm.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" } ;
+Rule rvdcpp282 = { {&dcpp282} , {&vdcpp282} , {&exedcpp282} } ;
+Exe exedcpp282 = { "CC-VM-DEP PlanInit_CCore.cpp" , VMDEP , { OBJ_PATH+"/PlanInit_CCore.dep" , OBJ_PATH+"/PlanInit_CCore.vm.dep" , '282' } } ;
 
-Target cpp281 = { "PlatformBase.cpp" , "CCore/src/base/PlatformBase.cpp" } ;
-Target dcpp281 = { "PlatformBase.dep" , OBJ_PATH+"/PlatformBase.dep" } ;
-Rule rdcpp281 = { {&cpp281,&obj} , {&dcpp281} , {&execpp281} } ;
-Exe execpp281 = { "CC-DEP PlatformBase.cpp" , CC , {
+Target cpp283 = { "PlatformBase.cpp" , "CCore/src/base/PlatformBase.cpp" } ;
+Target dcpp283 = { "PlatformBase.dep" , OBJ_PATH+"/PlatformBase.dep" } ;
+Rule rdcpp283 = { {&cpp283,&obj} , {&dcpp283} , {&execpp283} } ;
+Exe execpp283 = { "CC-DEP PlatformBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7627,14 +7681,14 @@ Exe execpp281 = { "CC-DEP PlatformBase.cpp" , CC , {
  ,OBJ_PATH+"/PlatformBase.dep"
 } } ;
 
-Target vdcpp281 = { "PlatformBase.vm.dep" , OBJ_PATH+"/PlatformBase.vm.dep" } ;
-Rule rvdcpp281 = { {&dcpp281} , {&vdcpp281} , {&exedcpp281} } ;
-Exe exedcpp281 = { "CC-VM-DEP PlatformBase.cpp" , VMDEP , { OBJ_PATH+"/PlatformBase.dep" , OBJ_PATH+"/PlatformBase.vm.dep" , '281' } } ;
+Target vdcpp283 = { "PlatformBase.vm.dep" , OBJ_PATH+"/PlatformBase.vm.dep" } ;
+Rule rvdcpp283 = { {&dcpp283} , {&vdcpp283} , {&exedcpp283} } ;
+Exe exedcpp283 = { "CC-VM-DEP PlatformBase.cpp" , VMDEP , { OBJ_PATH+"/PlatformBase.dep" , OBJ_PATH+"/PlatformBase.vm.dep" , '283' } } ;
 
-Target cpp282 = { "Point.cpp" , "../../Applied/CCore/src/video/Point.cpp" } ;
-Target dcpp282 = { "Point.dep" , OBJ_PATH+"/Point.dep" } ;
-Rule rdcpp282 = { {&cpp282,&obj} , {&dcpp282} , {&execpp282} } ;
-Exe execpp282 = { "CC-DEP Point.cpp" , CC , {
+Target cpp284 = { "Point.cpp" , "../../Applied/CCore/src/video/Point.cpp" } ;
+Target dcpp284 = { "Point.dep" , OBJ_PATH+"/Point.dep" } ;
+Rule rdcpp284 = { {&cpp284,&obj} , {&dcpp284} , {&execpp284} } ;
+Exe execpp284 = { "CC-DEP Point.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7654,14 +7708,14 @@ Exe execpp282 = { "CC-DEP Point.cpp" , CC , {
  ,OBJ_PATH+"/Point.dep"
 } } ;
 
-Target vdcpp282 = { "Point.vm.dep" , OBJ_PATH+"/Point.vm.dep" } ;
-Rule rvdcpp282 = { {&dcpp282} , {&vdcpp282} , {&exedcpp282} } ;
-Exe exedcpp282 = { "CC-VM-DEP Point.cpp" , VMDEP , { OBJ_PATH+"/Point.dep" , OBJ_PATH+"/Point.vm.dep" , '282' } } ;
+Target vdcpp284 = { "Point.vm.dep" , OBJ_PATH+"/Point.vm.dep" } ;
+Rule rvdcpp284 = { {&dcpp284} , {&vdcpp284} , {&exedcpp284} } ;
+Exe exedcpp284 = { "CC-VM-DEP Point.cpp" , VMDEP , { OBJ_PATH+"/Point.dep" , OBJ_PATH+"/Point.vm.dep" , '284' } } ;
 
-Target cpp283 = { "PointEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/PointEdit.cpp" } ;
-Target dcpp283 = { "PointEdit.dep" , OBJ_PATH+"/PointEdit.dep" } ;
-Rule rdcpp283 = { {&cpp283,&obj} , {&dcpp283} , {&execpp283} } ;
-Exe execpp283 = { "CC-DEP PointEdit.cpp" , CC , {
+Target cpp285 = { "PointEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/PointEdit.cpp" } ;
+Target dcpp285 = { "PointEdit.dep" , OBJ_PATH+"/PointEdit.dep" } ;
+Rule rdcpp285 = { {&cpp285,&obj} , {&dcpp285} , {&execpp285} } ;
+Exe execpp285 = { "CC-DEP PointEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7681,14 +7735,14 @@ Exe execpp283 = { "CC-DEP PointEdit.cpp" , CC , {
  ,OBJ_PATH+"/PointEdit.dep"
 } } ;
 
-Target vdcpp283 = { "PointEdit.vm.dep" , OBJ_PATH+"/PointEdit.vm.dep" } ;
-Rule rvdcpp283 = { {&dcpp283} , {&vdcpp283} , {&exedcpp283} } ;
-Exe exedcpp283 = { "CC-VM-DEP PointEdit.cpp" , VMDEP , { OBJ_PATH+"/PointEdit.dep" , OBJ_PATH+"/PointEdit.vm.dep" , '283' } } ;
+Target vdcpp285 = { "PointEdit.vm.dep" , OBJ_PATH+"/PointEdit.vm.dep" } ;
+Rule rvdcpp285 = { {&dcpp285} , {&vdcpp285} , {&exedcpp285} } ;
+Exe exedcpp285 = { "CC-VM-DEP PointEdit.cpp" , VMDEP , { OBJ_PATH+"/PointEdit.dep" , OBJ_PATH+"/PointEdit.vm.dep" , '285' } } ;
 
-Target cpp284 = { "PosSub.cpp" , "../../Simple/CCore/src/gadget/PosSub.cpp" } ;
-Target dcpp284 = { "PosSub.dep" , OBJ_PATH+"/PosSub.dep" } ;
-Rule rdcpp284 = { {&cpp284,&obj} , {&dcpp284} , {&execpp284} } ;
-Exe execpp284 = { "CC-DEP PosSub.cpp" , CC , {
+Target cpp286 = { "PosSub.cpp" , "../../Simple/CCore/src/gadget/PosSub.cpp" } ;
+Target dcpp286 = { "PosSub.dep" , OBJ_PATH+"/PosSub.dep" } ;
+Rule rdcpp286 = { {&cpp286,&obj} , {&dcpp286} , {&execpp286} } ;
+Exe execpp286 = { "CC-DEP PosSub.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7708,14 +7762,14 @@ Exe execpp284 = { "CC-DEP PosSub.cpp" , CC , {
  ,OBJ_PATH+"/PosSub.dep"
 } } ;
 
-Target vdcpp284 = { "PosSub.vm.dep" , OBJ_PATH+"/PosSub.vm.dep" } ;
-Rule rvdcpp284 = { {&dcpp284} , {&vdcpp284} , {&exedcpp284} } ;
-Exe exedcpp284 = { "CC-VM-DEP PosSub.cpp" , VMDEP , { OBJ_PATH+"/PosSub.dep" , OBJ_PATH+"/PosSub.vm.dep" , '284' } } ;
+Target vdcpp286 = { "PosSub.vm.dep" , OBJ_PATH+"/PosSub.vm.dep" } ;
+Rule rvdcpp286 = { {&dcpp286} , {&vdcpp286} , {&exedcpp286} } ;
+Exe exedcpp286 = { "CC-VM-DEP PosSub.cpp" , VMDEP , { OBJ_PATH+"/PosSub.dep" , OBJ_PATH+"/PosSub.vm.dep" , '286' } } ;
 
-Target cpp285 = { "Pow.cpp" , "../../Simple/CCore/src/Pow.cpp" } ;
-Target dcpp285 = { "Pow.dep" , OBJ_PATH+"/Pow.dep" } ;
-Rule rdcpp285 = { {&cpp285,&obj} , {&dcpp285} , {&execpp285} } ;
-Exe execpp285 = { "CC-DEP Pow.cpp" , CC , {
+Target cpp287 = { "Pow.cpp" , "../../Simple/CCore/src/Pow.cpp" } ;
+Target dcpp287 = { "Pow.dep" , OBJ_PATH+"/Pow.dep" } ;
+Rule rdcpp287 = { {&cpp287,&obj} , {&dcpp287} , {&execpp287} } ;
+Exe execpp287 = { "CC-DEP Pow.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7735,14 +7789,14 @@ Exe execpp285 = { "CC-DEP Pow.cpp" , CC , {
  ,OBJ_PATH+"/Pow.dep"
 } } ;
 
-Target vdcpp285 = { "Pow.vm.dep" , OBJ_PATH+"/Pow.vm.dep" } ;
-Rule rvdcpp285 = { {&dcpp285} , {&vdcpp285} , {&exedcpp285} } ;
-Exe exedcpp285 = { "CC-VM-DEP Pow.cpp" , VMDEP , { OBJ_PATH+"/Pow.dep" , OBJ_PATH+"/Pow.vm.dep" , '285' } } ;
+Target vdcpp287 = { "Pow.vm.dep" , OBJ_PATH+"/Pow.vm.dep" } ;
+Rule rvdcpp287 = { {&dcpp287} , {&vdcpp287} , {&exedcpp287} } ;
+Exe exedcpp287 = { "CC-VM-DEP Pow.cpp" , VMDEP , { OBJ_PATH+"/Pow.dep" , OBJ_PATH+"/Pow.vm.dep" , '287' } } ;
 
-Target cpp286 = { "PretextFileToMem.cpp" , "../../Applied/CCore/src/PretextFileToMem.cpp" } ;
-Target dcpp286 = { "PretextFileToMem.dep" , OBJ_PATH+"/PretextFileToMem.dep" } ;
-Rule rdcpp286 = { {&cpp286,&obj} , {&dcpp286} , {&execpp286} } ;
-Exe execpp286 = { "CC-DEP PretextFileToMem.cpp" , CC , {
+Target cpp288 = { "PretextFileToMem.cpp" , "../../Applied/CCore/src/PretextFileToMem.cpp" } ;
+Target dcpp288 = { "PretextFileToMem.dep" , OBJ_PATH+"/PretextFileToMem.dep" } ;
+Rule rdcpp288 = { {&cpp288,&obj} , {&dcpp288} , {&execpp288} } ;
+Exe execpp288 = { "CC-DEP PretextFileToMem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7762,14 +7816,14 @@ Exe execpp286 = { "CC-DEP PretextFileToMem.cpp" , CC , {
  ,OBJ_PATH+"/PretextFileToMem.dep"
 } } ;
 
-Target vdcpp286 = { "PretextFileToMem.vm.dep" , OBJ_PATH+"/PretextFileToMem.vm.dep" } ;
-Rule rvdcpp286 = { {&dcpp286} , {&vdcpp286} , {&exedcpp286} } ;
-Exe exedcpp286 = { "CC-VM-DEP PretextFileToMem.cpp" , VMDEP , { OBJ_PATH+"/PretextFileToMem.dep" , OBJ_PATH+"/PretextFileToMem.vm.dep" , '286' } } ;
+Target vdcpp288 = { "PretextFileToMem.vm.dep" , OBJ_PATH+"/PretextFileToMem.vm.dep" } ;
+Rule rvdcpp288 = { {&dcpp288} , {&vdcpp288} , {&exedcpp288} } ;
+Exe exedcpp288 = { "CC-VM-DEP PretextFileToMem.cpp" , VMDEP , { OBJ_PATH+"/PretextFileToMem.dep" , OBJ_PATH+"/PretextFileToMem.vm.dep" , '288' } } ;
 
-Target cpp287 = { "Print.cpp" , "../../HCore/CCore/src/Print.cpp" } ;
-Target dcpp287 = { "Print.dep" , OBJ_PATH+"/Print.dep" } ;
-Rule rdcpp287 = { {&cpp287,&obj} , {&dcpp287} , {&execpp287} } ;
-Exe execpp287 = { "CC-DEP Print.cpp" , CC , {
+Target cpp289 = { "Print.cpp" , "../../HCore/CCore/src/Print.cpp" } ;
+Target dcpp289 = { "Print.dep" , OBJ_PATH+"/Print.dep" } ;
+Rule rdcpp289 = { {&cpp289,&obj} , {&dcpp289} , {&execpp289} } ;
+Exe execpp289 = { "CC-DEP Print.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7789,14 +7843,14 @@ Exe execpp287 = { "CC-DEP Print.cpp" , CC , {
  ,OBJ_PATH+"/Print.dep"
 } } ;
 
-Target vdcpp287 = { "Print.vm.dep" , OBJ_PATH+"/Print.vm.dep" } ;
-Rule rvdcpp287 = { {&dcpp287} , {&vdcpp287} , {&exedcpp287} } ;
-Exe exedcpp287 = { "CC-VM-DEP Print.cpp" , VMDEP , { OBJ_PATH+"/Print.dep" , OBJ_PATH+"/Print.vm.dep" , '287' } } ;
+Target vdcpp289 = { "Print.vm.dep" , OBJ_PATH+"/Print.vm.dep" } ;
+Rule rvdcpp289 = { {&dcpp289} , {&vdcpp289} , {&exedcpp289} } ;
+Exe exedcpp289 = { "CC-VM-DEP Print.cpp" , VMDEP , { OBJ_PATH+"/Print.dep" , OBJ_PATH+"/Print.vm.dep" , '289' } } ;
 
-Target cpp288 = { "PrintAbort.cpp" , "../../Simple/CCore/src/PrintAbort.cpp" } ;
-Target dcpp288 = { "PrintAbort.dep" , OBJ_PATH+"/PrintAbort.dep" } ;
-Rule rdcpp288 = { {&cpp288,&obj} , {&dcpp288} , {&execpp288} } ;
-Exe execpp288 = { "CC-DEP PrintAbort.cpp" , CC , {
+Target cpp290 = { "PrintAbort.cpp" , "../../Simple/CCore/src/PrintAbort.cpp" } ;
+Target dcpp290 = { "PrintAbort.dep" , OBJ_PATH+"/PrintAbort.dep" } ;
+Rule rdcpp290 = { {&cpp290,&obj} , {&dcpp290} , {&execpp290} } ;
+Exe execpp290 = { "CC-DEP PrintAbort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7816,14 +7870,14 @@ Exe execpp288 = { "CC-DEP PrintAbort.cpp" , CC , {
  ,OBJ_PATH+"/PrintAbort.dep"
 } } ;
 
-Target vdcpp288 = { "PrintAbort.vm.dep" , OBJ_PATH+"/PrintAbort.vm.dep" } ;
-Rule rvdcpp288 = { {&dcpp288} , {&vdcpp288} , {&exedcpp288} } ;
-Exe exedcpp288 = { "CC-VM-DEP PrintAbort.cpp" , VMDEP , { OBJ_PATH+"/PrintAbort.dep" , OBJ_PATH+"/PrintAbort.vm.dep" , '288' } } ;
+Target vdcpp290 = { "PrintAbort.vm.dep" , OBJ_PATH+"/PrintAbort.vm.dep" } ;
+Rule rvdcpp290 = { {&dcpp290} , {&vdcpp290} , {&exedcpp290} } ;
+Exe exedcpp290 = { "CC-VM-DEP PrintAbort.cpp" , VMDEP , { OBJ_PATH+"/PrintAbort.dep" , OBJ_PATH+"/PrintAbort.vm.dep" , '290' } } ;
 
-Target cpp289 = { "PrintAsyncFile.cpp" , "../../Applied/CCore/src/print/PrintAsyncFile.cpp" } ;
-Target dcpp289 = { "PrintAsyncFile.dep" , OBJ_PATH+"/PrintAsyncFile.dep" } ;
-Rule rdcpp289 = { {&cpp289,&obj} , {&dcpp289} , {&execpp289} } ;
-Exe execpp289 = { "CC-DEP PrintAsyncFile.cpp" , CC , {
+Target cpp291 = { "PrintAsyncFile.cpp" , "../../Applied/CCore/src/print/PrintAsyncFile.cpp" } ;
+Target dcpp291 = { "PrintAsyncFile.dep" , OBJ_PATH+"/PrintAsyncFile.dep" } ;
+Rule rdcpp291 = { {&cpp291,&obj} , {&dcpp291} , {&execpp291} } ;
+Exe execpp291 = { "CC-DEP PrintAsyncFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7843,14 +7897,14 @@ Exe execpp289 = { "CC-DEP PrintAsyncFile.cpp" , CC , {
  ,OBJ_PATH+"/PrintAsyncFile.dep"
 } } ;
 
-Target vdcpp289 = { "PrintAsyncFile.vm.dep" , OBJ_PATH+"/PrintAsyncFile.vm.dep" } ;
-Rule rvdcpp289 = { {&dcpp289} , {&vdcpp289} , {&exedcpp289} } ;
-Exe exedcpp289 = { "CC-VM-DEP PrintAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/PrintAsyncFile.dep" , OBJ_PATH+"/PrintAsyncFile.vm.dep" , '289' } } ;
+Target vdcpp291 = { "PrintAsyncFile.vm.dep" , OBJ_PATH+"/PrintAsyncFile.vm.dep" } ;
+Rule rvdcpp291 = { {&dcpp291} , {&vdcpp291} , {&exedcpp291} } ;
+Exe exedcpp291 = { "CC-VM-DEP PrintAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/PrintAsyncFile.dep" , OBJ_PATH+"/PrintAsyncFile.vm.dep" , '291' } } ;
 
-Target cpp290 = { "PrintBase.cpp" , "../../Fundamental/CCore/src/printf/PrintBase.cpp" } ;
-Target dcpp290 = { "PrintBase.dep" , OBJ_PATH+"/PrintBase.dep" } ;
-Rule rdcpp290 = { {&cpp290,&obj} , {&dcpp290} , {&execpp290} } ;
-Exe execpp290 = { "CC-DEP PrintBase.cpp" , CC , {
+Target cpp292 = { "PrintBase.cpp" , "../../Fundamental/CCore/src/printf/PrintBase.cpp" } ;
+Target dcpp292 = { "PrintBase.dep" , OBJ_PATH+"/PrintBase.dep" } ;
+Rule rdcpp292 = { {&cpp292,&obj} , {&dcpp292} , {&execpp292} } ;
+Exe execpp292 = { "CC-DEP PrintBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7870,14 +7924,14 @@ Exe execpp290 = { "CC-DEP PrintBase.cpp" , CC , {
  ,OBJ_PATH+"/PrintBase.dep"
 } } ;
 
-Target vdcpp290 = { "PrintBase.vm.dep" , OBJ_PATH+"/PrintBase.vm.dep" } ;
-Rule rvdcpp290 = { {&dcpp290} , {&vdcpp290} , {&exedcpp290} } ;
-Exe exedcpp290 = { "CC-VM-DEP PrintBase.cpp" , VMDEP , { OBJ_PATH+"/PrintBase.dep" , OBJ_PATH+"/PrintBase.vm.dep" , '290' } } ;
+Target vdcpp292 = { "PrintBase.vm.dep" , OBJ_PATH+"/PrintBase.vm.dep" } ;
+Rule rvdcpp292 = { {&dcpp292} , {&vdcpp292} , {&exedcpp292} } ;
+Exe exedcpp292 = { "CC-VM-DEP PrintBase.cpp" , VMDEP , { OBJ_PATH+"/PrintBase.dep" , OBJ_PATH+"/PrintBase.vm.dep" , '292' } } ;
 
-Target cpp291 = { "PrintBits.cpp" , "../../Simple/CCore/src/PrintBits.cpp" } ;
-Target dcpp291 = { "PrintBits.dep" , OBJ_PATH+"/PrintBits.dep" } ;
-Rule rdcpp291 = { {&cpp291,&obj} , {&dcpp291} , {&execpp291} } ;
-Exe execpp291 = { "CC-DEP PrintBits.cpp" , CC , {
+Target cpp293 = { "PrintBits.cpp" , "../../Simple/CCore/src/PrintBits.cpp" } ;
+Target dcpp293 = { "PrintBits.dep" , OBJ_PATH+"/PrintBits.dep" } ;
+Rule rdcpp293 = { {&cpp293,&obj} , {&dcpp293} , {&execpp293} } ;
+Exe execpp293 = { "CC-DEP PrintBits.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7897,14 +7951,14 @@ Exe execpp291 = { "CC-DEP PrintBits.cpp" , CC , {
  ,OBJ_PATH+"/PrintBits.dep"
 } } ;
 
-Target vdcpp291 = { "PrintBits.vm.dep" , OBJ_PATH+"/PrintBits.vm.dep" } ;
-Rule rvdcpp291 = { {&dcpp291} , {&vdcpp291} , {&exedcpp291} } ;
-Exe exedcpp291 = { "CC-VM-DEP PrintBits.cpp" , VMDEP , { OBJ_PATH+"/PrintBits.dep" , OBJ_PATH+"/PrintBits.vm.dep" , '291' } } ;
+Target vdcpp293 = { "PrintBits.vm.dep" , OBJ_PATH+"/PrintBits.vm.dep" } ;
+Rule rvdcpp293 = { {&dcpp293} , {&vdcpp293} , {&exedcpp293} } ;
+Exe exedcpp293 = { "CC-VM-DEP PrintBits.cpp" , VMDEP , { OBJ_PATH+"/PrintBits.dep" , OBJ_PATH+"/PrintBits.vm.dep" , '293' } } ;
 
-Target cpp292 = { "PrintCon.cpp" , "../../HCore/CCore/src/print/PrintCon.cpp" } ;
-Target dcpp292 = { "PrintCon.dep" , OBJ_PATH+"/PrintCon.dep" } ;
-Rule rdcpp292 = { {&cpp292,&obj} , {&dcpp292} , {&execpp292} } ;
-Exe execpp292 = { "CC-DEP PrintCon.cpp" , CC , {
+Target cpp294 = { "PrintCon.cpp" , "../../HCore/CCore/src/print/PrintCon.cpp" } ;
+Target dcpp294 = { "PrintCon.dep" , OBJ_PATH+"/PrintCon.dep" } ;
+Rule rdcpp294 = { {&cpp294,&obj} , {&dcpp294} , {&execpp294} } ;
+Exe execpp294 = { "CC-DEP PrintCon.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7924,14 +7978,14 @@ Exe execpp292 = { "CC-DEP PrintCon.cpp" , CC , {
  ,OBJ_PATH+"/PrintCon.dep"
 } } ;
 
-Target vdcpp292 = { "PrintCon.vm.dep" , OBJ_PATH+"/PrintCon.vm.dep" } ;
-Rule rvdcpp292 = { {&dcpp292} , {&vdcpp292} , {&exedcpp292} } ;
-Exe exedcpp292 = { "CC-VM-DEP PrintCon.cpp" , VMDEP , { OBJ_PATH+"/PrintCon.dep" , OBJ_PATH+"/PrintCon.vm.dep" , '292' } } ;
+Target vdcpp294 = { "PrintCon.vm.dep" , OBJ_PATH+"/PrintCon.vm.dep" } ;
+Rule rvdcpp294 = { {&dcpp294} , {&vdcpp294} , {&exedcpp294} } ;
+Exe exedcpp294 = { "CC-VM-DEP PrintCon.cpp" , VMDEP , { OBJ_PATH+"/PrintCon.dep" , OBJ_PATH+"/PrintCon.vm.dep" , '294' } } ;
 
-Target cpp293 = { "PrintDDL.cpp" , "../../Desktop/Tools/CCore/src/video/PrintDDL.cpp" } ;
-Target dcpp293 = { "PrintDDL.dep" , OBJ_PATH+"/PrintDDL.dep" } ;
-Rule rdcpp293 = { {&cpp293,&obj} , {&dcpp293} , {&execpp293} } ;
-Exe execpp293 = { "CC-DEP PrintDDL.cpp" , CC , {
+Target cpp295 = { "PrintDDL.cpp" , "../../Desktop/Tools/CCore/src/video/PrintDDL.cpp" } ;
+Target dcpp295 = { "PrintDDL.dep" , OBJ_PATH+"/PrintDDL.dep" } ;
+Rule rdcpp295 = { {&cpp295,&obj} , {&dcpp295} , {&execpp295} } ;
+Exe execpp295 = { "CC-DEP PrintDDL.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7951,14 +8005,14 @@ Exe execpp293 = { "CC-DEP PrintDDL.cpp" , CC , {
  ,OBJ_PATH+"/PrintDDL.dep"
 } } ;
 
-Target vdcpp293 = { "PrintDDL.vm.dep" , OBJ_PATH+"/PrintDDL.vm.dep" } ;
-Rule rvdcpp293 = { {&dcpp293} , {&vdcpp293} , {&exedcpp293} } ;
-Exe exedcpp293 = { "CC-VM-DEP PrintDDL.cpp" , VMDEP , { OBJ_PATH+"/PrintDDL.dep" , OBJ_PATH+"/PrintDDL.vm.dep" , '293' } } ;
+Target vdcpp295 = { "PrintDDL.vm.dep" , OBJ_PATH+"/PrintDDL.vm.dep" } ;
+Rule rvdcpp295 = { {&dcpp295} , {&vdcpp295} , {&exedcpp295} } ;
+Exe exedcpp295 = { "CC-VM-DEP PrintDDL.cpp" , VMDEP , { OBJ_PATH+"/PrintDDL.dep" , OBJ_PATH+"/PrintDDL.vm.dep" , '295' } } ;
 
-Target cpp294 = { "PrintError.cpp" , "../../Simple/CCore/src/PrintError.cpp" } ;
-Target dcpp294 = { "PrintError.dep" , OBJ_PATH+"/PrintError.dep" } ;
-Rule rdcpp294 = { {&cpp294,&obj} , {&dcpp294} , {&execpp294} } ;
-Exe execpp294 = { "CC-DEP PrintError.cpp" , CC , {
+Target cpp296 = { "PrintError.cpp" , "../../Simple/CCore/src/PrintError.cpp" } ;
+Target dcpp296 = { "PrintError.dep" , OBJ_PATH+"/PrintError.dep" } ;
+Rule rdcpp296 = { {&cpp296,&obj} , {&dcpp296} , {&execpp296} } ;
+Exe execpp296 = { "CC-DEP PrintError.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -7978,14 +8032,14 @@ Exe execpp294 = { "CC-DEP PrintError.cpp" , CC , {
  ,OBJ_PATH+"/PrintError.dep"
 } } ;
 
-Target vdcpp294 = { "PrintError.vm.dep" , OBJ_PATH+"/PrintError.vm.dep" } ;
-Rule rvdcpp294 = { {&dcpp294} , {&vdcpp294} , {&exedcpp294} } ;
-Exe exedcpp294 = { "CC-VM-DEP PrintError.cpp" , VMDEP , { OBJ_PATH+"/PrintError.dep" , OBJ_PATH+"/PrintError.vm.dep" , '294' } } ;
+Target vdcpp296 = { "PrintError.vm.dep" , OBJ_PATH+"/PrintError.vm.dep" } ;
+Rule rvdcpp296 = { {&dcpp296} , {&vdcpp296} , {&exedcpp296} } ;
+Exe exedcpp296 = { "CC-VM-DEP PrintError.cpp" , VMDEP , { OBJ_PATH+"/PrintError.dep" , OBJ_PATH+"/PrintError.vm.dep" , '296' } } ;
 
-Target cpp295 = { "PrintFile.cpp" , "../../HCore/CCore/src/print/PrintFile.cpp" } ;
-Target dcpp295 = { "PrintFile.dep" , OBJ_PATH+"/PrintFile.dep" } ;
-Rule rdcpp295 = { {&cpp295,&obj} , {&dcpp295} , {&execpp295} } ;
-Exe execpp295 = { "CC-DEP PrintFile.cpp" , CC , {
+Target cpp297 = { "PrintFile.cpp" , "../../HCore/CCore/src/print/PrintFile.cpp" } ;
+Target dcpp297 = { "PrintFile.dep" , OBJ_PATH+"/PrintFile.dep" } ;
+Rule rdcpp297 = { {&cpp297,&obj} , {&dcpp297} , {&execpp297} } ;
+Exe execpp297 = { "CC-DEP PrintFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8005,14 +8059,14 @@ Exe execpp295 = { "CC-DEP PrintFile.cpp" , CC , {
  ,OBJ_PATH+"/PrintFile.dep"
 } } ;
 
-Target vdcpp295 = { "PrintFile.vm.dep" , OBJ_PATH+"/PrintFile.vm.dep" } ;
-Rule rvdcpp295 = { {&dcpp295} , {&vdcpp295} , {&exedcpp295} } ;
-Exe exedcpp295 = { "CC-VM-DEP PrintFile.cpp" , VMDEP , { OBJ_PATH+"/PrintFile.dep" , OBJ_PATH+"/PrintFile.vm.dep" , '295' } } ;
+Target vdcpp297 = { "PrintFile.vm.dep" , OBJ_PATH+"/PrintFile.vm.dep" } ;
+Rule rvdcpp297 = { {&dcpp297} , {&vdcpp297} , {&exedcpp297} } ;
+Exe exedcpp297 = { "CC-VM-DEP PrintFile.cpp" , VMDEP , { OBJ_PATH+"/PrintFile.dep" , OBJ_PATH+"/PrintFile.vm.dep" , '297' } } ;
 
-Target cpp296 = { "PrintInteger.cpp" , "../../Applied/CCore/src/math/PrintInteger.cpp" } ;
-Target dcpp296 = { "PrintInteger.dep" , OBJ_PATH+"/PrintInteger.dep" } ;
-Rule rdcpp296 = { {&cpp296,&obj} , {&dcpp296} , {&execpp296} } ;
-Exe execpp296 = { "CC-DEP PrintInteger.cpp" , CC , {
+Target cpp298 = { "PrintInteger.cpp" , "../../Applied/CCore/src/math/PrintInteger.cpp" } ;
+Target dcpp298 = { "PrintInteger.dep" , OBJ_PATH+"/PrintInteger.dep" } ;
+Rule rdcpp298 = { {&cpp298,&obj} , {&dcpp298} , {&execpp298} } ;
+Exe execpp298 = { "CC-DEP PrintInteger.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8032,14 +8086,14 @@ Exe execpp296 = { "CC-DEP PrintInteger.cpp" , CC , {
  ,OBJ_PATH+"/PrintInteger.dep"
 } } ;
 
-Target vdcpp296 = { "PrintInteger.vm.dep" , OBJ_PATH+"/PrintInteger.vm.dep" } ;
-Rule rvdcpp296 = { {&dcpp296} , {&vdcpp296} , {&exedcpp296} } ;
-Exe exedcpp296 = { "CC-VM-DEP PrintInteger.cpp" , VMDEP , { OBJ_PATH+"/PrintInteger.dep" , OBJ_PATH+"/PrintInteger.vm.dep" , '296' } } ;
+Target vdcpp298 = { "PrintInteger.vm.dep" , OBJ_PATH+"/PrintInteger.vm.dep" } ;
+Rule rvdcpp298 = { {&dcpp298} , {&vdcpp298} , {&exedcpp298} } ;
+Exe exedcpp298 = { "CC-VM-DEP PrintInteger.cpp" , VMDEP , { OBJ_PATH+"/PrintInteger.dep" , OBJ_PATH+"/PrintInteger.vm.dep" , '298' } } ;
 
-Target cpp297 = { "PrintPTPCon.cpp" , "../../Applied/CCore/src/print/PrintPTPCon.cpp" } ;
-Target dcpp297 = { "PrintPTPCon.dep" , OBJ_PATH+"/PrintPTPCon.dep" } ;
-Rule rdcpp297 = { {&cpp297,&obj} , {&dcpp297} , {&execpp297} } ;
-Exe execpp297 = { "CC-DEP PrintPTPCon.cpp" , CC , {
+Target cpp299 = { "PrintPTPCon.cpp" , "../../Applied/CCore/src/print/PrintPTPCon.cpp" } ;
+Target dcpp299 = { "PrintPTPCon.dep" , OBJ_PATH+"/PrintPTPCon.dep" } ;
+Rule rdcpp299 = { {&cpp299,&obj} , {&dcpp299} , {&execpp299} } ;
+Exe execpp299 = { "CC-DEP PrintPTPCon.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8059,14 +8113,14 @@ Exe execpp297 = { "CC-DEP PrintPTPCon.cpp" , CC , {
  ,OBJ_PATH+"/PrintPTPCon.dep"
 } } ;
 
-Target vdcpp297 = { "PrintPTPCon.vm.dep" , OBJ_PATH+"/PrintPTPCon.vm.dep" } ;
-Rule rvdcpp297 = { {&dcpp297} , {&vdcpp297} , {&exedcpp297} } ;
-Exe exedcpp297 = { "CC-VM-DEP PrintPTPCon.cpp" , VMDEP , { OBJ_PATH+"/PrintPTPCon.dep" , OBJ_PATH+"/PrintPTPCon.vm.dep" , '297' } } ;
+Target vdcpp299 = { "PrintPTPCon.vm.dep" , OBJ_PATH+"/PrintPTPCon.vm.dep" } ;
+Rule rvdcpp299 = { {&dcpp299} , {&vdcpp299} , {&exedcpp299} } ;
+Exe exedcpp299 = { "CC-VM-DEP PrintPTPCon.cpp" , VMDEP , { OBJ_PATH+"/PrintPTPCon.dep" , OBJ_PATH+"/PrintPTPCon.vm.dep" , '299' } } ;
 
-Target cpp298 = { "PrintProxy.cpp" , "../../Fundamental/CCore/src/printf/PrintProxy.cpp" } ;
-Target dcpp298 = { "PrintProxy.dep" , OBJ_PATH+"/PrintProxy.dep" } ;
-Rule rdcpp298 = { {&cpp298,&obj} , {&dcpp298} , {&execpp298} } ;
-Exe execpp298 = { "CC-DEP PrintProxy.cpp" , CC , {
+Target cpp300 = { "PrintProxy.cpp" , "../../Fundamental/CCore/src/printf/PrintProxy.cpp" } ;
+Target dcpp300 = { "PrintProxy.dep" , OBJ_PATH+"/PrintProxy.dep" } ;
+Rule rdcpp300 = { {&cpp300,&obj} , {&dcpp300} , {&execpp300} } ;
+Exe execpp300 = { "CC-DEP PrintProxy.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8086,14 +8140,14 @@ Exe execpp298 = { "CC-DEP PrintProxy.cpp" , CC , {
  ,OBJ_PATH+"/PrintProxy.dep"
 } } ;
 
-Target vdcpp298 = { "PrintProxy.vm.dep" , OBJ_PATH+"/PrintProxy.vm.dep" } ;
-Rule rvdcpp298 = { {&dcpp298} , {&vdcpp298} , {&exedcpp298} } ;
-Exe exedcpp298 = { "CC-VM-DEP PrintProxy.cpp" , VMDEP , { OBJ_PATH+"/PrintProxy.dep" , OBJ_PATH+"/PrintProxy.vm.dep" , '298' } } ;
+Target vdcpp300 = { "PrintProxy.vm.dep" , OBJ_PATH+"/PrintProxy.vm.dep" } ;
+Rule rvdcpp300 = { {&dcpp300} , {&vdcpp300} , {&exedcpp300} } ;
+Exe exedcpp300 = { "CC-VM-DEP PrintProxy.cpp" , VMDEP , { OBJ_PATH+"/PrintProxy.dep" , OBJ_PATH+"/PrintProxy.vm.dep" , '300' } } ;
 
-Target cpp299 = { "PrintRatio.cpp" , "../../Simple/CCore/src/PrintRatio.cpp" } ;
-Target dcpp299 = { "PrintRatio.dep" , OBJ_PATH+"/PrintRatio.dep" } ;
-Rule rdcpp299 = { {&cpp299,&obj} , {&dcpp299} , {&execpp299} } ;
-Exe execpp299 = { "CC-DEP PrintRatio.cpp" , CC , {
+Target cpp301 = { "PrintRatio.cpp" , "../../Simple/CCore/src/PrintRatio.cpp" } ;
+Target dcpp301 = { "PrintRatio.dep" , OBJ_PATH+"/PrintRatio.dep" } ;
+Rule rdcpp301 = { {&cpp301,&obj} , {&dcpp301} , {&execpp301} } ;
+Exe execpp301 = { "CC-DEP PrintRatio.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8113,14 +8167,14 @@ Exe execpp299 = { "CC-DEP PrintRatio.cpp" , CC , {
  ,OBJ_PATH+"/PrintRatio.dep"
 } } ;
 
-Target vdcpp299 = { "PrintRatio.vm.dep" , OBJ_PATH+"/PrintRatio.vm.dep" } ;
-Rule rvdcpp299 = { {&dcpp299} , {&vdcpp299} , {&exedcpp299} } ;
-Exe exedcpp299 = { "CC-VM-DEP PrintRatio.cpp" , VMDEP , { OBJ_PATH+"/PrintRatio.dep" , OBJ_PATH+"/PrintRatio.vm.dep" , '299' } } ;
+Target vdcpp301 = { "PrintRatio.vm.dep" , OBJ_PATH+"/PrintRatio.vm.dep" } ;
+Rule rvdcpp301 = { {&dcpp301} , {&vdcpp301} , {&exedcpp301} } ;
+Exe exedcpp301 = { "CC-VM-DEP PrintRatio.cpp" , VMDEP , { OBJ_PATH+"/PrintRatio.dep" , OBJ_PATH+"/PrintRatio.vm.dep" , '301' } } ;
 
-Target cpp300 = { "PrintSet.cpp" , "../../Simple/CCore/src/PrintSet.cpp" } ;
-Target dcpp300 = { "PrintSet.dep" , OBJ_PATH+"/PrintSet.dep" } ;
-Rule rdcpp300 = { {&cpp300,&obj} , {&dcpp300} , {&execpp300} } ;
-Exe execpp300 = { "CC-DEP PrintSet.cpp" , CC , {
+Target cpp302 = { "PrintSet.cpp" , "../../Simple/CCore/src/PrintSet.cpp" } ;
+Target dcpp302 = { "PrintSet.dep" , OBJ_PATH+"/PrintSet.dep" } ;
+Rule rdcpp302 = { {&cpp302,&obj} , {&dcpp302} , {&execpp302} } ;
+Exe execpp302 = { "CC-DEP PrintSet.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8140,14 +8194,14 @@ Exe execpp300 = { "CC-DEP PrintSet.cpp" , CC , {
  ,OBJ_PATH+"/PrintSet.dep"
 } } ;
 
-Target vdcpp300 = { "PrintSet.vm.dep" , OBJ_PATH+"/PrintSet.vm.dep" } ;
-Rule rvdcpp300 = { {&dcpp300} , {&vdcpp300} , {&exedcpp300} } ;
-Exe exedcpp300 = { "CC-VM-DEP PrintSet.cpp" , VMDEP , { OBJ_PATH+"/PrintSet.dep" , OBJ_PATH+"/PrintSet.vm.dep" , '300' } } ;
+Target vdcpp302 = { "PrintSet.vm.dep" , OBJ_PATH+"/PrintSet.vm.dep" } ;
+Rule rvdcpp302 = { {&dcpp302} , {&vdcpp302} , {&exedcpp302} } ;
+Exe exedcpp302 = { "CC-VM-DEP PrintSet.cpp" , VMDEP , { OBJ_PATH+"/PrintSet.dep" , OBJ_PATH+"/PrintSet.vm.dep" , '302' } } ;
 
-Target cpp301 = { "PrintStem.cpp" , "../../Simple/CCore/src/PrintStem.cpp" } ;
-Target dcpp301 = { "PrintStem.dep" , OBJ_PATH+"/PrintStem.dep" } ;
-Rule rdcpp301 = { {&cpp301,&obj} , {&dcpp301} , {&execpp301} } ;
-Exe execpp301 = { "CC-DEP PrintStem.cpp" , CC , {
+Target cpp303 = { "PrintStem.cpp" , "../../Simple/CCore/src/PrintStem.cpp" } ;
+Target dcpp303 = { "PrintStem.dep" , OBJ_PATH+"/PrintStem.dep" } ;
+Rule rdcpp303 = { {&cpp303,&obj} , {&dcpp303} , {&execpp303} } ;
+Exe execpp303 = { "CC-DEP PrintStem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8167,14 +8221,14 @@ Exe execpp301 = { "CC-DEP PrintStem.cpp" , CC , {
  ,OBJ_PATH+"/PrintStem.dep"
 } } ;
 
-Target vdcpp301 = { "PrintStem.vm.dep" , OBJ_PATH+"/PrintStem.vm.dep" } ;
-Rule rvdcpp301 = { {&dcpp301} , {&vdcpp301} , {&exedcpp301} } ;
-Exe exedcpp301 = { "CC-VM-DEP PrintStem.cpp" , VMDEP , { OBJ_PATH+"/PrintStem.dep" , OBJ_PATH+"/PrintStem.vm.dep" , '301' } } ;
+Target vdcpp303 = { "PrintStem.vm.dep" , OBJ_PATH+"/PrintStem.vm.dep" } ;
+Rule rvdcpp303 = { {&dcpp303} , {&vdcpp303} , {&exedcpp303} } ;
+Exe exedcpp303 = { "CC-VM-DEP PrintStem.cpp" , VMDEP , { OBJ_PATH+"/PrintStem.dep" , OBJ_PATH+"/PrintStem.vm.dep" , '303' } } ;
 
-Target cpp302 = { "PrintTime.cpp" , "../../Simple/CCore/src/PrintTime.cpp" } ;
-Target dcpp302 = { "PrintTime.dep" , OBJ_PATH+"/PrintTime.dep" } ;
-Rule rdcpp302 = { {&cpp302,&obj} , {&dcpp302} , {&execpp302} } ;
-Exe execpp302 = { "CC-DEP PrintTime.cpp" , CC , {
+Target cpp304 = { "PrintTime.cpp" , "../../Simple/CCore/src/PrintTime.cpp" } ;
+Target dcpp304 = { "PrintTime.dep" , OBJ_PATH+"/PrintTime.dep" } ;
+Rule rdcpp304 = { {&cpp304,&obj} , {&dcpp304} , {&execpp304} } ;
+Exe execpp304 = { "CC-DEP PrintTime.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8194,14 +8248,14 @@ Exe execpp302 = { "CC-DEP PrintTime.cpp" , CC , {
  ,OBJ_PATH+"/PrintTime.dep"
 } } ;
 
-Target vdcpp302 = { "PrintTime.vm.dep" , OBJ_PATH+"/PrintTime.vm.dep" } ;
-Rule rvdcpp302 = { {&dcpp302} , {&vdcpp302} , {&exedcpp302} } ;
-Exe exedcpp302 = { "CC-VM-DEP PrintTime.cpp" , VMDEP , { OBJ_PATH+"/PrintTime.dep" , OBJ_PATH+"/PrintTime.vm.dep" , '302' } } ;
+Target vdcpp304 = { "PrintTime.vm.dep" , OBJ_PATH+"/PrintTime.vm.dep" } ;
+Rule rvdcpp304 = { {&dcpp304} , {&vdcpp304} , {&exedcpp304} } ;
+Exe exedcpp304 = { "CC-VM-DEP PrintTime.cpp" , VMDEP , { OBJ_PATH+"/PrintTime.dep" , OBJ_PATH+"/PrintTime.vm.dep" , '304' } } ;
 
-Target cpp303 = { "PrintTitle.cpp" , "../../Simple/CCore/src/PrintTitle.cpp" } ;
-Target dcpp303 = { "PrintTitle.dep" , OBJ_PATH+"/PrintTitle.dep" } ;
-Rule rdcpp303 = { {&cpp303,&obj} , {&dcpp303} , {&execpp303} } ;
-Exe execpp303 = { "CC-DEP PrintTitle.cpp" , CC , {
+Target cpp305 = { "PrintTitle.cpp" , "../../Simple/CCore/src/PrintTitle.cpp" } ;
+Target dcpp305 = { "PrintTitle.dep" , OBJ_PATH+"/PrintTitle.dep" } ;
+Rule rdcpp305 = { {&cpp305,&obj} , {&dcpp305} , {&execpp305} } ;
+Exe execpp305 = { "CC-DEP PrintTitle.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8221,14 +8275,14 @@ Exe execpp303 = { "CC-DEP PrintTitle.cpp" , CC , {
  ,OBJ_PATH+"/PrintTitle.dep"
 } } ;
 
-Target vdcpp303 = { "PrintTitle.vm.dep" , OBJ_PATH+"/PrintTitle.vm.dep" } ;
-Rule rvdcpp303 = { {&dcpp303} , {&vdcpp303} , {&exedcpp303} } ;
-Exe exedcpp303 = { "CC-VM-DEP PrintTitle.cpp" , VMDEP , { OBJ_PATH+"/PrintTitle.dep" , OBJ_PATH+"/PrintTitle.vm.dep" , '303' } } ;
+Target vdcpp305 = { "PrintTitle.vm.dep" , OBJ_PATH+"/PrintTitle.vm.dep" } ;
+Rule rvdcpp305 = { {&dcpp305} , {&vdcpp305} , {&exedcpp305} } ;
+Exe exedcpp305 = { "CC-VM-DEP PrintTitle.cpp" , VMDEP , { OBJ_PATH+"/PrintTitle.dep" , OBJ_PATH+"/PrintTitle.vm.dep" , '305' } } ;
 
-Target cpp304 = { "Printf.cpp" , "../../Fundamental/CCore/src/Printf.cpp" } ;
-Target dcpp304 = { "Printf.dep" , OBJ_PATH+"/Printf.dep" } ;
-Rule rdcpp304 = { {&cpp304,&obj} , {&dcpp304} , {&execpp304} } ;
-Exe execpp304 = { "CC-DEP Printf.cpp" , CC , {
+Target cpp306 = { "Printf.cpp" , "../../Fundamental/CCore/src/Printf.cpp" } ;
+Target dcpp306 = { "Printf.dep" , OBJ_PATH+"/Printf.dep" } ;
+Rule rdcpp306 = { {&cpp306,&obj} , {&dcpp306} , {&execpp306} } ;
+Exe execpp306 = { "CC-DEP Printf.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8248,14 +8302,14 @@ Exe execpp304 = { "CC-DEP Printf.cpp" , CC , {
  ,OBJ_PATH+"/Printf.dep"
 } } ;
 
-Target vdcpp304 = { "Printf.vm.dep" , OBJ_PATH+"/Printf.vm.dep" } ;
-Rule rvdcpp304 = { {&dcpp304} , {&vdcpp304} , {&exedcpp304} } ;
-Exe exedcpp304 = { "CC-VM-DEP Printf.cpp" , VMDEP , { OBJ_PATH+"/Printf.dep" , OBJ_PATH+"/Printf.vm.dep" , '304' } } ;
+Target vdcpp306 = { "Printf.vm.dep" , OBJ_PATH+"/Printf.vm.dep" } ;
+Rule rvdcpp306 = { {&dcpp306} , {&vdcpp306} , {&exedcpp306} } ;
+Exe exedcpp306 = { "CC-VM-DEP Printf.cpp" , VMDEP , { OBJ_PATH+"/Printf.dep" , OBJ_PATH+"/Printf.vm.dep" , '306' } } ;
 
-Target cpp305 = { "ProgressScale.cpp" , "../../Desktop/Tools/CCore/src/video/ProgressScale.cpp" } ;
-Target dcpp305 = { "ProgressScale.dep" , OBJ_PATH+"/ProgressScale.dep" } ;
-Rule rdcpp305 = { {&cpp305,&obj} , {&dcpp305} , {&execpp305} } ;
-Exe execpp305 = { "CC-DEP ProgressScale.cpp" , CC , {
+Target cpp307 = { "ProgressScale.cpp" , "../../Desktop/Tools/CCore/src/video/ProgressScale.cpp" } ;
+Target dcpp307 = { "ProgressScale.dep" , OBJ_PATH+"/ProgressScale.dep" } ;
+Rule rdcpp307 = { {&cpp307,&obj} , {&dcpp307} , {&execpp307} } ;
+Exe execpp307 = { "CC-DEP ProgressScale.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8275,14 +8329,14 @@ Exe execpp305 = { "CC-DEP ProgressScale.cpp" , CC , {
  ,OBJ_PATH+"/ProgressScale.dep"
 } } ;
 
-Target vdcpp305 = { "ProgressScale.vm.dep" , OBJ_PATH+"/ProgressScale.vm.dep" } ;
-Rule rvdcpp305 = { {&dcpp305} , {&vdcpp305} , {&exedcpp305} } ;
-Exe exedcpp305 = { "CC-VM-DEP ProgressScale.cpp" , VMDEP , { OBJ_PATH+"/ProgressScale.dep" , OBJ_PATH+"/ProgressScale.vm.dep" , '305' } } ;
+Target vdcpp307 = { "ProgressScale.vm.dep" , OBJ_PATH+"/ProgressScale.vm.dep" } ;
+Rule rvdcpp307 = { {&dcpp307} , {&vdcpp307} , {&exedcpp307} } ;
+Exe exedcpp307 = { "CC-VM-DEP ProgressScale.cpp" , VMDEP , { OBJ_PATH+"/ProgressScale.dep" , OBJ_PATH+"/ProgressScale.vm.dep" , '307' } } ;
 
-Target cpp306 = { "PtrLen.cpp" , "../../Simple/CCore/src/gadget/PtrLen.cpp" } ;
-Target dcpp306 = { "PtrLen.dep" , OBJ_PATH+"/PtrLen.dep" } ;
-Rule rdcpp306 = { {&cpp306,&obj} , {&dcpp306} , {&execpp306} } ;
-Exe execpp306 = { "CC-DEP PtrLen.cpp" , CC , {
+Target cpp308 = { "PtrLen.cpp" , "../../Simple/CCore/src/gadget/PtrLen.cpp" } ;
+Target dcpp308 = { "PtrLen.dep" , OBJ_PATH+"/PtrLen.dep" } ;
+Rule rdcpp308 = { {&cpp308,&obj} , {&dcpp308} , {&execpp308} } ;
+Exe execpp308 = { "CC-DEP PtrLen.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8302,14 +8356,14 @@ Exe execpp306 = { "CC-DEP PtrLen.cpp" , CC , {
  ,OBJ_PATH+"/PtrLen.dep"
 } } ;
 
-Target vdcpp306 = { "PtrLen.vm.dep" , OBJ_PATH+"/PtrLen.vm.dep" } ;
-Rule rvdcpp306 = { {&dcpp306} , {&vdcpp306} , {&exedcpp306} } ;
-Exe exedcpp306 = { "CC-VM-DEP PtrLen.cpp" , VMDEP , { OBJ_PATH+"/PtrLen.dep" , OBJ_PATH+"/PtrLen.vm.dep" , '306' } } ;
+Target vdcpp308 = { "PtrLen.vm.dep" , OBJ_PATH+"/PtrLen.vm.dep" } ;
+Rule rvdcpp308 = { {&dcpp308} , {&vdcpp308} , {&exedcpp308} } ;
+Exe exedcpp308 = { "CC-VM-DEP PtrLen.cpp" , VMDEP , { OBJ_PATH+"/PtrLen.dep" , OBJ_PATH+"/PtrLen.vm.dep" , '308' } } ;
 
-Target cpp307 = { "PtrLenReverse.cpp" , "../../Simple/CCore/src/gadget/PtrLenReverse.cpp" } ;
-Target dcpp307 = { "PtrLenReverse.dep" , OBJ_PATH+"/PtrLenReverse.dep" } ;
-Rule rdcpp307 = { {&cpp307,&obj} , {&dcpp307} , {&execpp307} } ;
-Exe execpp307 = { "CC-DEP PtrLenReverse.cpp" , CC , {
+Target cpp309 = { "PtrLenReverse.cpp" , "../../Simple/CCore/src/gadget/PtrLenReverse.cpp" } ;
+Target dcpp309 = { "PtrLenReverse.dep" , OBJ_PATH+"/PtrLenReverse.dep" } ;
+Rule rdcpp309 = { {&cpp309,&obj} , {&dcpp309} , {&execpp309} } ;
+Exe execpp309 = { "CC-DEP PtrLenReverse.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8329,14 +8383,14 @@ Exe execpp307 = { "CC-DEP PtrLenReverse.cpp" , CC , {
  ,OBJ_PATH+"/PtrLenReverse.dep"
 } } ;
 
-Target vdcpp307 = { "PtrLenReverse.vm.dep" , OBJ_PATH+"/PtrLenReverse.vm.dep" } ;
-Rule rvdcpp307 = { {&dcpp307} , {&vdcpp307} , {&exedcpp307} } ;
-Exe exedcpp307 = { "CC-VM-DEP PtrLenReverse.cpp" , VMDEP , { OBJ_PATH+"/PtrLenReverse.dep" , OBJ_PATH+"/PtrLenReverse.vm.dep" , '307' } } ;
+Target vdcpp309 = { "PtrLenReverse.vm.dep" , OBJ_PATH+"/PtrLenReverse.vm.dep" } ;
+Rule rvdcpp309 = { {&dcpp309} , {&vdcpp309} , {&exedcpp309} } ;
+Exe exedcpp309 = { "CC-VM-DEP PtrLenReverse.cpp" , VMDEP , { OBJ_PATH+"/PtrLenReverse.dep" , OBJ_PATH+"/PtrLenReverse.vm.dep" , '309' } } ;
 
-Target cpp308 = { "PtrStepLen.cpp" , "../../Simple/CCore/src/gadget/PtrStepLen.cpp" } ;
-Target dcpp308 = { "PtrStepLen.dep" , OBJ_PATH+"/PtrStepLen.dep" } ;
-Rule rdcpp308 = { {&cpp308,&obj} , {&dcpp308} , {&execpp308} } ;
-Exe execpp308 = { "CC-DEP PtrStepLen.cpp" , CC , {
+Target cpp310 = { "PtrStepLen.cpp" , "../../Simple/CCore/src/gadget/PtrStepLen.cpp" } ;
+Target dcpp310 = { "PtrStepLen.dep" , OBJ_PATH+"/PtrStepLen.dep" } ;
+Rule rdcpp310 = { {&cpp310,&obj} , {&dcpp310} , {&execpp310} } ;
+Exe execpp310 = { "CC-DEP PtrStepLen.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8356,14 +8410,14 @@ Exe execpp308 = { "CC-DEP PtrStepLen.cpp" , CC , {
  ,OBJ_PATH+"/PtrStepLen.dep"
 } } ;
 
-Target vdcpp308 = { "PtrStepLen.vm.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" } ;
-Rule rvdcpp308 = { {&dcpp308} , {&vdcpp308} , {&exedcpp308} } ;
-Exe exedcpp308 = { "CC-VM-DEP PtrStepLen.cpp" , VMDEP , { OBJ_PATH+"/PtrStepLen.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" , '308' } } ;
+Target vdcpp310 = { "PtrStepLen.vm.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" } ;
+Rule rvdcpp310 = { {&dcpp310} , {&vdcpp310} , {&exedcpp310} } ;
+Exe exedcpp310 = { "CC-VM-DEP PtrStepLen.cpp" , VMDEP , { OBJ_PATH+"/PtrStepLen.dep" , OBJ_PATH+"/PtrStepLen.vm.dep" , '310' } } ;
 
-Target cpp309 = { "Quick.cpp" , "CCore/src/base/Quick.cpp" } ;
-Target dcpp309 = { "Quick.dep" , OBJ_PATH+"/Quick.dep" } ;
-Rule rdcpp309 = { {&cpp309,&obj} , {&dcpp309} , {&execpp309} } ;
-Exe execpp309 = { "CC-DEP Quick.cpp" , CC , {
+Target cpp311 = { "Quick.cpp" , "CCore/src/base/Quick.cpp" } ;
+Target dcpp311 = { "Quick.dep" , OBJ_PATH+"/Quick.dep" } ;
+Rule rdcpp311 = { {&cpp311,&obj} , {&dcpp311} , {&execpp311} } ;
+Exe execpp311 = { "CC-DEP Quick.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8383,14 +8437,14 @@ Exe execpp309 = { "CC-DEP Quick.cpp" , CC , {
  ,OBJ_PATH+"/Quick.dep"
 } } ;
 
-Target vdcpp309 = { "Quick.vm.dep" , OBJ_PATH+"/Quick.vm.dep" } ;
-Rule rvdcpp309 = { {&dcpp309} , {&vdcpp309} , {&exedcpp309} } ;
-Exe exedcpp309 = { "CC-VM-DEP Quick.cpp" , VMDEP , { OBJ_PATH+"/Quick.dep" , OBJ_PATH+"/Quick.vm.dep" , '309' } } ;
+Target vdcpp311 = { "Quick.vm.dep" , OBJ_PATH+"/Quick.vm.dep" } ;
+Rule rvdcpp311 = { {&dcpp311} , {&vdcpp311} , {&exedcpp311} } ;
+Exe exedcpp311 = { "CC-VM-DEP Quick.cpp" , VMDEP , { OBJ_PATH+"/Quick.dep" , OBJ_PATH+"/Quick.vm.dep" , '311' } } ;
 
-Target cpp310 = { "QuickSort.cpp" , "../../Fundamental/CCore/src/sort/QuickSort.cpp" } ;
-Target dcpp310 = { "QuickSort.dep" , OBJ_PATH+"/QuickSort.dep" } ;
-Rule rdcpp310 = { {&cpp310,&obj} , {&dcpp310} , {&execpp310} } ;
-Exe execpp310 = { "CC-DEP QuickSort.cpp" , CC , {
+Target cpp312 = { "QuickSort.cpp" , "../../Fundamental/CCore/src/sort/QuickSort.cpp" } ;
+Target dcpp312 = { "QuickSort.dep" , OBJ_PATH+"/QuickSort.dep" } ;
+Rule rdcpp312 = { {&cpp312,&obj} , {&dcpp312} , {&execpp312} } ;
+Exe execpp312 = { "CC-DEP QuickSort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8410,14 +8464,14 @@ Exe execpp310 = { "CC-DEP QuickSort.cpp" , CC , {
  ,OBJ_PATH+"/QuickSort.dep"
 } } ;
 
-Target vdcpp310 = { "QuickSort.vm.dep" , OBJ_PATH+"/QuickSort.vm.dep" } ;
-Rule rvdcpp310 = { {&dcpp310} , {&vdcpp310} , {&exedcpp310} } ;
-Exe exedcpp310 = { "CC-VM-DEP QuickSort.cpp" , VMDEP , { OBJ_PATH+"/QuickSort.dep" , OBJ_PATH+"/QuickSort.vm.dep" , '310' } } ;
+Target vdcpp312 = { "QuickSort.vm.dep" , OBJ_PATH+"/QuickSort.vm.dep" } ;
+Rule rvdcpp312 = { {&dcpp312} , {&vdcpp312} , {&exedcpp312} } ;
+Exe exedcpp312 = { "CC-VM-DEP QuickSort.cpp" , VMDEP , { OBJ_PATH+"/QuickSort.dep" , OBJ_PATH+"/QuickSort.vm.dep" , '312' } } ;
 
-Target cpp311 = { "RBTreeBase.cpp" , "../../Fundamental/CCore/src/tree/RBTreeBase.cpp" } ;
-Target dcpp311 = { "RBTreeBase.dep" , OBJ_PATH+"/RBTreeBase.dep" } ;
-Rule rdcpp311 = { {&cpp311,&obj} , {&dcpp311} , {&execpp311} } ;
-Exe execpp311 = { "CC-DEP RBTreeBase.cpp" , CC , {
+Target cpp313 = { "RBTreeBase.cpp" , "../../Fundamental/CCore/src/tree/RBTreeBase.cpp" } ;
+Target dcpp313 = { "RBTreeBase.dep" , OBJ_PATH+"/RBTreeBase.dep" } ;
+Rule rdcpp313 = { {&cpp313,&obj} , {&dcpp313} , {&execpp313} } ;
+Exe execpp313 = { "CC-DEP RBTreeBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8437,14 +8491,14 @@ Exe execpp311 = { "CC-DEP RBTreeBase.cpp" , CC , {
  ,OBJ_PATH+"/RBTreeBase.dep"
 } } ;
 
-Target vdcpp311 = { "RBTreeBase.vm.dep" , OBJ_PATH+"/RBTreeBase.vm.dep" } ;
-Rule rvdcpp311 = { {&dcpp311} , {&vdcpp311} , {&exedcpp311} } ;
-Exe exedcpp311 = { "CC-VM-DEP RBTreeBase.cpp" , VMDEP , { OBJ_PATH+"/RBTreeBase.dep" , OBJ_PATH+"/RBTreeBase.vm.dep" , '311' } } ;
+Target vdcpp313 = { "RBTreeBase.vm.dep" , OBJ_PATH+"/RBTreeBase.vm.dep" } ;
+Rule rvdcpp313 = { {&dcpp313} , {&vdcpp313} , {&exedcpp313} } ;
+Exe exedcpp313 = { "CC-VM-DEP RBTreeBase.cpp" , VMDEP , { OBJ_PATH+"/RBTreeBase.dep" , OBJ_PATH+"/RBTreeBase.vm.dep" , '313' } } ;
 
-Target cpp312 = { "RBTreeLink.cpp" , "../../Fundamental/CCore/src/tree/RBTreeLink.cpp" } ;
-Target dcpp312 = { "RBTreeLink.dep" , OBJ_PATH+"/RBTreeLink.dep" } ;
-Rule rdcpp312 = { {&cpp312,&obj} , {&dcpp312} , {&execpp312} } ;
-Exe execpp312 = { "CC-DEP RBTreeLink.cpp" , CC , {
+Target cpp314 = { "RBTreeLink.cpp" , "../../Fundamental/CCore/src/tree/RBTreeLink.cpp" } ;
+Target dcpp314 = { "RBTreeLink.dep" , OBJ_PATH+"/RBTreeLink.dep" } ;
+Rule rdcpp314 = { {&cpp314,&obj} , {&dcpp314} , {&execpp314} } ;
+Exe execpp314 = { "CC-DEP RBTreeLink.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8464,14 +8518,14 @@ Exe execpp312 = { "CC-DEP RBTreeLink.cpp" , CC , {
  ,OBJ_PATH+"/RBTreeLink.dep"
 } } ;
 
-Target vdcpp312 = { "RBTreeLink.vm.dep" , OBJ_PATH+"/RBTreeLink.vm.dep" } ;
-Rule rvdcpp312 = { {&dcpp312} , {&vdcpp312} , {&exedcpp312} } ;
-Exe exedcpp312 = { "CC-VM-DEP RBTreeLink.cpp" , VMDEP , { OBJ_PATH+"/RBTreeLink.dep" , OBJ_PATH+"/RBTreeLink.vm.dep" , '312' } } ;
+Target vdcpp314 = { "RBTreeLink.vm.dep" , OBJ_PATH+"/RBTreeLink.vm.dep" } ;
+Rule rvdcpp314 = { {&dcpp314} , {&vdcpp314} , {&exedcpp314} } ;
+Exe exedcpp314 = { "CC-VM-DEP RBTreeLink.cpp" , VMDEP , { OBJ_PATH+"/RBTreeLink.dep" , OBJ_PATH+"/RBTreeLink.vm.dep" , '314' } } ;
 
-Target cpp313 = { "RBTreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/RBTreeUpLink.cpp" } ;
-Target dcpp313 = { "RBTreeUpLink.dep" , OBJ_PATH+"/RBTreeUpLink.dep" } ;
-Rule rdcpp313 = { {&cpp313,&obj} , {&dcpp313} , {&execpp313} } ;
-Exe execpp313 = { "CC-DEP RBTreeUpLink.cpp" , CC , {
+Target cpp315 = { "RBTreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/RBTreeUpLink.cpp" } ;
+Target dcpp315 = { "RBTreeUpLink.dep" , OBJ_PATH+"/RBTreeUpLink.dep" } ;
+Rule rdcpp315 = { {&cpp315,&obj} , {&dcpp315} , {&execpp315} } ;
+Exe execpp315 = { "CC-DEP RBTreeUpLink.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8491,14 +8545,14 @@ Exe execpp313 = { "CC-DEP RBTreeUpLink.cpp" , CC , {
  ,OBJ_PATH+"/RBTreeUpLink.dep"
 } } ;
 
-Target vdcpp313 = { "RBTreeUpLink.vm.dep" , OBJ_PATH+"/RBTreeUpLink.vm.dep" } ;
-Rule rvdcpp313 = { {&dcpp313} , {&vdcpp313} , {&exedcpp313} } ;
-Exe exedcpp313 = { "CC-VM-DEP RBTreeUpLink.cpp" , VMDEP , { OBJ_PATH+"/RBTreeUpLink.dep" , OBJ_PATH+"/RBTreeUpLink.vm.dep" , '313' } } ;
+Target vdcpp315 = { "RBTreeUpLink.vm.dep" , OBJ_PATH+"/RBTreeUpLink.vm.dep" } ;
+Rule rvdcpp315 = { {&dcpp315} , {&vdcpp315} , {&exedcpp315} } ;
+Exe exedcpp315 = { "CC-VM-DEP RBTreeUpLink.cpp" , VMDEP , { OBJ_PATH+"/RBTreeUpLink.dep" , OBJ_PATH+"/RBTreeUpLink.vm.dep" , '315' } } ;
 
-Target cpp314 = { "RadixHeap.cpp" , "../../Fundamental/CCore/src/RadixHeap.cpp" } ;
-Target dcpp314 = { "RadixHeap.dep" , OBJ_PATH+"/RadixHeap.dep" } ;
-Rule rdcpp314 = { {&cpp314,&obj} , {&dcpp314} , {&execpp314} } ;
-Exe execpp314 = { "CC-DEP RadixHeap.cpp" , CC , {
+Target cpp316 = { "RadixHeap.cpp" , "../../Fundamental/CCore/src/RadixHeap.cpp" } ;
+Target dcpp316 = { "RadixHeap.dep" , OBJ_PATH+"/RadixHeap.dep" } ;
+Rule rdcpp316 = { {&cpp316,&obj} , {&dcpp316} , {&execpp316} } ;
+Exe execpp316 = { "CC-DEP RadixHeap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8518,14 +8572,14 @@ Exe execpp314 = { "CC-DEP RadixHeap.cpp" , CC , {
  ,OBJ_PATH+"/RadixHeap.dep"
 } } ;
 
-Target vdcpp314 = { "RadixHeap.vm.dep" , OBJ_PATH+"/RadixHeap.vm.dep" } ;
-Rule rvdcpp314 = { {&dcpp314} , {&vdcpp314} , {&exedcpp314} } ;
-Exe exedcpp314 = { "CC-VM-DEP RadixHeap.cpp" , VMDEP , { OBJ_PATH+"/RadixHeap.dep" , OBJ_PATH+"/RadixHeap.vm.dep" , '314' } } ;
+Target vdcpp316 = { "RadixHeap.vm.dep" , OBJ_PATH+"/RadixHeap.vm.dep" } ;
+Rule rvdcpp316 = { {&dcpp316} , {&vdcpp316} , {&exedcpp316} } ;
+Exe exedcpp316 = { "CC-VM-DEP RadixHeap.cpp" , VMDEP , { OBJ_PATH+"/RadixHeap.dep" , OBJ_PATH+"/RadixHeap.vm.dep" , '316' } } ;
 
-Target cpp315 = { "Random.cpp" , "../../Fundamental/CCore/src/Random.cpp" } ;
-Target dcpp315 = { "Random.dep" , OBJ_PATH+"/Random.dep" } ;
-Rule rdcpp315 = { {&cpp315,&obj} , {&dcpp315} , {&execpp315} } ;
-Exe execpp315 = { "CC-DEP Random.cpp" , CC , {
+Target cpp317 = { "Random.cpp" , "../../Fundamental/CCore/src/Random.cpp" } ;
+Target dcpp317 = { "Random.dep" , OBJ_PATH+"/Random.dep" } ;
+Rule rdcpp317 = { {&cpp317,&obj} , {&dcpp317} , {&execpp317} } ;
+Exe execpp317 = { "CC-DEP Random.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8545,14 +8599,14 @@ Exe execpp315 = { "CC-DEP Random.cpp" , CC , {
  ,OBJ_PATH+"/Random.dep"
 } } ;
 
-Target vdcpp315 = { "Random.vm.dep" , OBJ_PATH+"/Random.vm.dep" } ;
-Rule rvdcpp315 = { {&dcpp315} , {&vdcpp315} , {&exedcpp315} } ;
-Exe exedcpp315 = { "CC-VM-DEP Random.cpp" , VMDEP , { OBJ_PATH+"/Random.dep" , OBJ_PATH+"/Random.vm.dep" , '315' } } ;
+Target vdcpp317 = { "Random.vm.dep" , OBJ_PATH+"/Random.vm.dep" } ;
+Rule rvdcpp317 = { {&dcpp317} , {&vdcpp317} , {&exedcpp317} } ;
+Exe exedcpp317 = { "CC-VM-DEP Random.cpp" , VMDEP , { OBJ_PATH+"/Random.dep" , OBJ_PATH+"/Random.vm.dep" , '317' } } ;
 
-Target cpp316 = { "RangeDel.cpp" , "../../Simple/CCore/src/RangeDel.cpp" } ;
-Target dcpp316 = { "RangeDel.dep" , OBJ_PATH+"/RangeDel.dep" } ;
-Rule rdcpp316 = { {&cpp316,&obj} , {&dcpp316} , {&execpp316} } ;
-Exe execpp316 = { "CC-DEP RangeDel.cpp" , CC , {
+Target cpp318 = { "RangeDel.cpp" , "../../Simple/CCore/src/RangeDel.cpp" } ;
+Target dcpp318 = { "RangeDel.dep" , OBJ_PATH+"/RangeDel.dep" } ;
+Rule rdcpp318 = { {&cpp318,&obj} , {&dcpp318} , {&execpp318} } ;
+Exe execpp318 = { "CC-DEP RangeDel.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8572,14 +8626,14 @@ Exe execpp316 = { "CC-DEP RangeDel.cpp" , CC , {
  ,OBJ_PATH+"/RangeDel.dep"
 } } ;
 
-Target vdcpp316 = { "RangeDel.vm.dep" , OBJ_PATH+"/RangeDel.vm.dep" } ;
-Rule rvdcpp316 = { {&dcpp316} , {&vdcpp316} , {&exedcpp316} } ;
-Exe exedcpp316 = { "CC-VM-DEP RangeDel.cpp" , VMDEP , { OBJ_PATH+"/RangeDel.dep" , OBJ_PATH+"/RangeDel.vm.dep" , '316' } } ;
+Target vdcpp318 = { "RangeDel.vm.dep" , OBJ_PATH+"/RangeDel.vm.dep" } ;
+Rule rvdcpp318 = { {&dcpp318} , {&vdcpp318} , {&exedcpp318} } ;
+Exe exedcpp318 = { "CC-VM-DEP RangeDel.cpp" , VMDEP , { OBJ_PATH+"/RangeDel.dep" , OBJ_PATH+"/RangeDel.vm.dep" , '318' } } ;
 
-Target cpp317 = { "RatioEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/RatioEdit.cpp" } ;
-Target dcpp317 = { "RatioEdit.dep" , OBJ_PATH+"/RatioEdit.dep" } ;
-Rule rdcpp317 = { {&cpp317,&obj} , {&dcpp317} , {&execpp317} } ;
-Exe execpp317 = { "CC-DEP RatioEdit.cpp" , CC , {
+Target cpp319 = { "RatioEdit.cpp" , "../../Desktop/Lib/CCore/src/video/pref/RatioEdit.cpp" } ;
+Target dcpp319 = { "RatioEdit.dep" , OBJ_PATH+"/RatioEdit.dep" } ;
+Rule rdcpp319 = { {&cpp319,&obj} , {&dcpp319} , {&execpp319} } ;
+Exe execpp319 = { "CC-DEP RatioEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8599,14 +8653,14 @@ Exe execpp317 = { "CC-DEP RatioEdit.cpp" , CC , {
  ,OBJ_PATH+"/RatioEdit.dep"
 } } ;
 
-Target vdcpp317 = { "RatioEdit.vm.dep" , OBJ_PATH+"/RatioEdit.vm.dep" } ;
-Rule rvdcpp317 = { {&dcpp317} , {&vdcpp317} , {&exedcpp317} } ;
-Exe exedcpp317 = { "CC-VM-DEP RatioEdit.cpp" , VMDEP , { OBJ_PATH+"/RatioEdit.dep" , OBJ_PATH+"/RatioEdit.vm.dep" , '317' } } ;
+Target vdcpp319 = { "RatioEdit.vm.dep" , OBJ_PATH+"/RatioEdit.vm.dep" } ;
+Rule rvdcpp319 = { {&dcpp319} , {&vdcpp319} , {&exedcpp319} } ;
+Exe exedcpp319 = { "CC-VM-DEP RatioEdit.cpp" , VMDEP , { OBJ_PATH+"/RatioEdit.dep" , OBJ_PATH+"/RatioEdit.vm.dep" , '319' } } ;
 
-Target cpp318 = { "RawFileToRead.cpp" , "../../HCore/CCore/src/RawFileToRead.cpp" } ;
-Target dcpp318 = { "RawFileToRead.dep" , OBJ_PATH+"/RawFileToRead.dep" } ;
-Rule rdcpp318 = { {&cpp318,&obj} , {&dcpp318} , {&execpp318} } ;
-Exe execpp318 = { "CC-DEP RawFileToRead.cpp" , CC , {
+Target cpp320 = { "RawFileToRead.cpp" , "../../HCore/CCore/src/RawFileToRead.cpp" } ;
+Target dcpp320 = { "RawFileToRead.dep" , OBJ_PATH+"/RawFileToRead.dep" } ;
+Rule rdcpp320 = { {&cpp320,&obj} , {&dcpp320} , {&execpp320} } ;
+Exe execpp320 = { "CC-DEP RawFileToRead.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8626,14 +8680,14 @@ Exe execpp318 = { "CC-DEP RawFileToRead.cpp" , CC , {
  ,OBJ_PATH+"/RawFileToRead.dep"
 } } ;
 
-Target vdcpp318 = { "RawFileToRead.vm.dep" , OBJ_PATH+"/RawFileToRead.vm.dep" } ;
-Rule rvdcpp318 = { {&dcpp318} , {&vdcpp318} , {&exedcpp318} } ;
-Exe exedcpp318 = { "CC-VM-DEP RawFileToRead.cpp" , VMDEP , { OBJ_PATH+"/RawFileToRead.dep" , OBJ_PATH+"/RawFileToRead.vm.dep" , '318' } } ;
+Target vdcpp320 = { "RawFileToRead.vm.dep" , OBJ_PATH+"/RawFileToRead.vm.dep" } ;
+Rule rvdcpp320 = { {&dcpp320} , {&vdcpp320} , {&exedcpp320} } ;
+Exe exedcpp320 = { "CC-VM-DEP RawFileToRead.cpp" , VMDEP , { OBJ_PATH+"/RawFileToRead.dep" , OBJ_PATH+"/RawFileToRead.vm.dep" , '320' } } ;
 
-Target cpp319 = { "ReadCon.cpp" , "../../HCore/CCore/src/ReadCon.cpp" } ;
-Target dcpp319 = { "ReadCon.dep" , OBJ_PATH+"/ReadCon.dep" } ;
-Rule rdcpp319 = { {&cpp319,&obj} , {&dcpp319} , {&execpp319} } ;
-Exe execpp319 = { "CC-DEP ReadCon.cpp" , CC , {
+Target cpp321 = { "ReadCon.cpp" , "../../HCore/CCore/src/ReadCon.cpp" } ;
+Target dcpp321 = { "ReadCon.dep" , OBJ_PATH+"/ReadCon.dep" } ;
+Rule rdcpp321 = { {&cpp321,&obj} , {&dcpp321} , {&execpp321} } ;
+Exe execpp321 = { "CC-DEP ReadCon.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8653,14 +8707,14 @@ Exe execpp319 = { "CC-DEP ReadCon.cpp" , CC , {
  ,OBJ_PATH+"/ReadCon.dep"
 } } ;
 
-Target vdcpp319 = { "ReadCon.vm.dep" , OBJ_PATH+"/ReadCon.vm.dep" } ;
-Rule rvdcpp319 = { {&dcpp319} , {&vdcpp319} , {&exedcpp319} } ;
-Exe exedcpp319 = { "CC-VM-DEP ReadCon.cpp" , VMDEP , { OBJ_PATH+"/ReadCon.dep" , OBJ_PATH+"/ReadCon.vm.dep" , '319' } } ;
+Target vdcpp321 = { "ReadCon.vm.dep" , OBJ_PATH+"/ReadCon.vm.dep" } ;
+Rule rvdcpp321 = { {&dcpp321} , {&vdcpp321} , {&exedcpp321} } ;
+Exe exedcpp321 = { "CC-VM-DEP ReadCon.cpp" , VMDEP , { OBJ_PATH+"/ReadCon.dep" , OBJ_PATH+"/ReadCon.vm.dep" , '321' } } ;
 
-Target cpp320 = { "ReadConType.cpp" , "../../Fundamental/CCore/src/ReadConType.cpp" } ;
-Target dcpp320 = { "ReadConType.dep" , OBJ_PATH+"/ReadConType.dep" } ;
-Rule rdcpp320 = { {&cpp320,&obj} , {&dcpp320} , {&execpp320} } ;
-Exe execpp320 = { "CC-DEP ReadConType.cpp" , CC , {
+Target cpp322 = { "ReadConType.cpp" , "../../Fundamental/CCore/src/ReadConType.cpp" } ;
+Target dcpp322 = { "ReadConType.dep" , OBJ_PATH+"/ReadConType.dep" } ;
+Rule rdcpp322 = { {&cpp322,&obj} , {&dcpp322} , {&execpp322} } ;
+Exe execpp322 = { "CC-DEP ReadConType.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8680,14 +8734,14 @@ Exe execpp320 = { "CC-DEP ReadConType.cpp" , CC , {
  ,OBJ_PATH+"/ReadConType.dep"
 } } ;
 
-Target vdcpp320 = { "ReadConType.vm.dep" , OBJ_PATH+"/ReadConType.vm.dep" } ;
-Rule rvdcpp320 = { {&dcpp320} , {&vdcpp320} , {&exedcpp320} } ;
-Exe exedcpp320 = { "CC-VM-DEP ReadConType.cpp" , VMDEP , { OBJ_PATH+"/ReadConType.dep" , OBJ_PATH+"/ReadConType.vm.dep" , '320' } } ;
+Target vdcpp322 = { "ReadConType.vm.dep" , OBJ_PATH+"/ReadConType.vm.dep" } ;
+Rule rvdcpp322 = { {&dcpp322} , {&vdcpp322} , {&exedcpp322} } ;
+Exe exedcpp322 = { "CC-VM-DEP ReadConType.cpp" , VMDEP , { OBJ_PATH+"/ReadConType.dep" , OBJ_PATH+"/ReadConType.vm.dep" , '322' } } ;
 
-Target cpp321 = { "RefArray.cpp" , "../../Fundamental/CCore/src/array/RefArray.cpp" } ;
-Target dcpp321 = { "RefArray.dep" , OBJ_PATH+"/RefArray.dep" } ;
-Rule rdcpp321 = { {&cpp321,&obj} , {&dcpp321} , {&execpp321} } ;
-Exe execpp321 = { "CC-DEP RefArray.cpp" , CC , {
+Target cpp323 = { "RefArray.cpp" , "../../Fundamental/CCore/src/array/RefArray.cpp" } ;
+Target dcpp323 = { "RefArray.dep" , OBJ_PATH+"/RefArray.dep" } ;
+Rule rdcpp323 = { {&cpp323,&obj} , {&dcpp323} , {&execpp323} } ;
+Exe execpp323 = { "CC-DEP RefArray.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8707,14 +8761,14 @@ Exe execpp321 = { "CC-DEP RefArray.cpp" , CC , {
  ,OBJ_PATH+"/RefArray.dep"
 } } ;
 
-Target vdcpp321 = { "RefArray.vm.dep" , OBJ_PATH+"/RefArray.vm.dep" } ;
-Rule rvdcpp321 = { {&dcpp321} , {&vdcpp321} , {&exedcpp321} } ;
-Exe exedcpp321 = { "CC-VM-DEP RefArray.cpp" , VMDEP , { OBJ_PATH+"/RefArray.dep" , OBJ_PATH+"/RefArray.vm.dep" , '321' } } ;
+Target vdcpp323 = { "RefArray.vm.dep" , OBJ_PATH+"/RefArray.vm.dep" } ;
+Rule rvdcpp323 = { {&dcpp323} , {&vdcpp323} , {&exedcpp323} } ;
+Exe exedcpp323 = { "CC-VM-DEP RefArray.cpp" , VMDEP , { OBJ_PATH+"/RefArray.dep" , OBJ_PATH+"/RefArray.vm.dep" , '323' } } ;
 
-Target cpp322 = { "RefObjectBase.cpp" , "../../Simple/CCore/src/RefObjectBase.cpp" } ;
-Target dcpp322 = { "RefObjectBase.dep" , OBJ_PATH+"/RefObjectBase.dep" } ;
-Rule rdcpp322 = { {&cpp322,&obj} , {&dcpp322} , {&execpp322} } ;
-Exe execpp322 = { "CC-DEP RefObjectBase.cpp" , CC , {
+Target cpp324 = { "RefObjectBase.cpp" , "../../Simple/CCore/src/RefObjectBase.cpp" } ;
+Target dcpp324 = { "RefObjectBase.dep" , OBJ_PATH+"/RefObjectBase.dep" } ;
+Rule rdcpp324 = { {&cpp324,&obj} , {&dcpp324} , {&execpp324} } ;
+Exe execpp324 = { "CC-DEP RefObjectBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8734,14 +8788,14 @@ Exe execpp322 = { "CC-DEP RefObjectBase.cpp" , CC , {
  ,OBJ_PATH+"/RefObjectBase.dep"
 } } ;
 
-Target vdcpp322 = { "RefObjectBase.vm.dep" , OBJ_PATH+"/RefObjectBase.vm.dep" } ;
-Rule rvdcpp322 = { {&dcpp322} , {&vdcpp322} , {&exedcpp322} } ;
-Exe exedcpp322 = { "CC-VM-DEP RefObjectBase.cpp" , VMDEP , { OBJ_PATH+"/RefObjectBase.dep" , OBJ_PATH+"/RefObjectBase.vm.dep" , '322' } } ;
+Target vdcpp324 = { "RefObjectBase.vm.dep" , OBJ_PATH+"/RefObjectBase.vm.dep" } ;
+Rule rvdcpp324 = { {&dcpp324} , {&vdcpp324} , {&exedcpp324} } ;
+Exe exedcpp324 = { "CC-VM-DEP RefObjectBase.cpp" , VMDEP , { OBJ_PATH+"/RefObjectBase.dep" , OBJ_PATH+"/RefObjectBase.vm.dep" , '324' } } ;
 
-Target cpp323 = { "RefPtr.cpp" , "../../Simple/CCore/src/RefPtr.cpp" } ;
-Target dcpp323 = { "RefPtr.dep" , OBJ_PATH+"/RefPtr.dep" } ;
-Rule rdcpp323 = { {&cpp323,&obj} , {&dcpp323} , {&execpp323} } ;
-Exe execpp323 = { "CC-DEP RefPtr.cpp" , CC , {
+Target cpp325 = { "RefPtr.cpp" , "../../Simple/CCore/src/RefPtr.cpp" } ;
+Target dcpp325 = { "RefPtr.dep" , OBJ_PATH+"/RefPtr.dep" } ;
+Rule rdcpp325 = { {&cpp325,&obj} , {&dcpp325} , {&execpp325} } ;
+Exe execpp325 = { "CC-DEP RefPtr.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8761,14 +8815,14 @@ Exe execpp323 = { "CC-DEP RefPtr.cpp" , CC , {
  ,OBJ_PATH+"/RefPtr.dep"
 } } ;
 
-Target vdcpp323 = { "RefPtr.vm.dep" , OBJ_PATH+"/RefPtr.vm.dep" } ;
-Rule rvdcpp323 = { {&dcpp323} , {&vdcpp323} , {&exedcpp323} } ;
-Exe exedcpp323 = { "CC-VM-DEP RefPtr.cpp" , VMDEP , { OBJ_PATH+"/RefPtr.dep" , OBJ_PATH+"/RefPtr.vm.dep" , '323' } } ;
+Target vdcpp325 = { "RefPtr.vm.dep" , OBJ_PATH+"/RefPtr.vm.dep" } ;
+Rule rvdcpp325 = { {&dcpp325} , {&vdcpp325} , {&exedcpp325} } ;
+Exe exedcpp325 = { "CC-VM-DEP RefPtr.cpp" , VMDEP , { OBJ_PATH+"/RefPtr.dep" , OBJ_PATH+"/RefPtr.vm.dep" , '325' } } ;
 
-Target cpp324 = { "RefVal.cpp" , "../../Desktop/Core/CCore/src/video/RefVal.cpp" } ;
-Target dcpp324 = { "RefVal.dep" , OBJ_PATH+"/RefVal.dep" } ;
-Rule rdcpp324 = { {&cpp324,&obj} , {&dcpp324} , {&execpp324} } ;
-Exe execpp324 = { "CC-DEP RefVal.cpp" , CC , {
+Target cpp326 = { "RefVal.cpp" , "../../Desktop/Core/CCore/src/video/RefVal.cpp" } ;
+Target dcpp326 = { "RefVal.dep" , OBJ_PATH+"/RefVal.dep" } ;
+Rule rdcpp326 = { {&cpp326,&obj} , {&dcpp326} , {&execpp326} } ;
+Exe execpp326 = { "CC-DEP RefVal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8788,14 +8842,14 @@ Exe execpp324 = { "CC-DEP RefVal.cpp" , CC , {
  ,OBJ_PATH+"/RefVal.dep"
 } } ;
 
-Target vdcpp324 = { "RefVal.vm.dep" , OBJ_PATH+"/RefVal.vm.dep" } ;
-Rule rvdcpp324 = { {&dcpp324} , {&vdcpp324} , {&exedcpp324} } ;
-Exe exedcpp324 = { "CC-VM-DEP RefVal.cpp" , VMDEP , { OBJ_PATH+"/RefVal.dep" , OBJ_PATH+"/RefVal.vm.dep" , '324' } } ;
+Target vdcpp326 = { "RefVal.vm.dep" , OBJ_PATH+"/RefVal.vm.dep" } ;
+Rule rvdcpp326 = { {&dcpp326} , {&vdcpp326} , {&exedcpp326} } ;
+Exe exedcpp326 = { "CC-VM-DEP RefVal.cpp" , VMDEP , { OBJ_PATH+"/RefVal.dep" , OBJ_PATH+"/RefVal.vm.dep" , '326' } } ;
 
-Target cpp325 = { "Replace.cpp" , "../../Simple/CCore/src/gadget/Replace.cpp" } ;
-Target dcpp325 = { "Replace.dep" , OBJ_PATH+"/Replace.dep" } ;
-Rule rdcpp325 = { {&cpp325,&obj} , {&dcpp325} , {&execpp325} } ;
-Exe execpp325 = { "CC-DEP Replace.cpp" , CC , {
+Target cpp327 = { "Replace.cpp" , "../../Simple/CCore/src/gadget/Replace.cpp" } ;
+Target dcpp327 = { "Replace.dep" , OBJ_PATH+"/Replace.dep" } ;
+Rule rdcpp327 = { {&cpp327,&obj} , {&dcpp327} , {&execpp327} } ;
+Exe execpp327 = { "CC-DEP Replace.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8815,14 +8869,14 @@ Exe execpp325 = { "CC-DEP Replace.cpp" , CC , {
  ,OBJ_PATH+"/Replace.dep"
 } } ;
 
-Target vdcpp325 = { "Replace.vm.dep" , OBJ_PATH+"/Replace.vm.dep" } ;
-Rule rvdcpp325 = { {&dcpp325} , {&vdcpp325} , {&exedcpp325} } ;
-Exe exedcpp325 = { "CC-VM-DEP Replace.cpp" , VMDEP , { OBJ_PATH+"/Replace.dep" , OBJ_PATH+"/Replace.vm.dep" , '325' } } ;
+Target vdcpp327 = { "Replace.vm.dep" , OBJ_PATH+"/Replace.vm.dep" } ;
+Rule rvdcpp327 = { {&dcpp327} , {&vdcpp327} , {&exedcpp327} } ;
+Exe exedcpp327 = { "CC-VM-DEP Replace.cpp" , VMDEP , { OBJ_PATH+"/Replace.dep" , OBJ_PATH+"/Replace.vm.dep" , '327' } } ;
 
-Target cpp326 = { "ResSem.cpp" , "../../HCore/CCore/src/task/ResSem.cpp" } ;
-Target dcpp326 = { "ResSem.dep" , OBJ_PATH+"/ResSem.dep" } ;
-Rule rdcpp326 = { {&cpp326,&obj} , {&dcpp326} , {&execpp326} } ;
-Exe execpp326 = { "CC-DEP ResSem.cpp" , CC , {
+Target cpp328 = { "ResSem.cpp" , "../../HCore/CCore/src/task/ResSem.cpp" } ;
+Target dcpp328 = { "ResSem.dep" , OBJ_PATH+"/ResSem.dep" } ;
+Rule rdcpp328 = { {&cpp328,&obj} , {&dcpp328} , {&execpp328} } ;
+Exe execpp328 = { "CC-DEP ResSem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8842,14 +8896,14 @@ Exe execpp326 = { "CC-DEP ResSem.cpp" , CC , {
  ,OBJ_PATH+"/ResSem.dep"
 } } ;
 
-Target vdcpp326 = { "ResSem.vm.dep" , OBJ_PATH+"/ResSem.vm.dep" } ;
-Rule rvdcpp326 = { {&dcpp326} , {&vdcpp326} , {&exedcpp326} } ;
-Exe exedcpp326 = { "CC-VM-DEP ResSem.cpp" , VMDEP , { OBJ_PATH+"/ResSem.dep" , OBJ_PATH+"/ResSem.vm.dep" , '326' } } ;
+Target vdcpp328 = { "ResSem.vm.dep" , OBJ_PATH+"/ResSem.vm.dep" } ;
+Rule rvdcpp328 = { {&dcpp328} , {&vdcpp328} , {&exedcpp328} } ;
+Exe exedcpp328 = { "CC-VM-DEP ResSem.cpp" , VMDEP , { OBJ_PATH+"/ResSem.dep" , OBJ_PATH+"/ResSem.vm.dep" , '328' } } ;
 
-Target cpp327 = { "Rot.cpp" , "../../Applied/CCore/src/crypton/Rot.cpp" } ;
-Target dcpp327 = { "Rot.dep" , OBJ_PATH+"/Rot.dep" } ;
-Rule rdcpp327 = { {&cpp327,&obj} , {&dcpp327} , {&execpp327} } ;
-Exe execpp327 = { "CC-DEP Rot.cpp" , CC , {
+Target cpp329 = { "Rot.cpp" , "../../Applied/CCore/src/crypton/Rot.cpp" } ;
+Target dcpp329 = { "Rot.dep" , OBJ_PATH+"/Rot.dep" } ;
+Rule rdcpp329 = { {&cpp329,&obj} , {&dcpp329} , {&execpp329} } ;
+Exe execpp329 = { "CC-DEP Rot.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8869,14 +8923,14 @@ Exe execpp327 = { "CC-DEP Rot.cpp" , CC , {
  ,OBJ_PATH+"/Rot.dep"
 } } ;
 
-Target vdcpp327 = { "Rot.vm.dep" , OBJ_PATH+"/Rot.vm.dep" } ;
-Rule rvdcpp327 = { {&dcpp327} , {&vdcpp327} , {&exedcpp327} } ;
-Exe exedcpp327 = { "CC-VM-DEP Rot.cpp" , VMDEP , { OBJ_PATH+"/Rot.dep" , OBJ_PATH+"/Rot.vm.dep" , '327' } } ;
+Target vdcpp329 = { "Rot.vm.dep" , OBJ_PATH+"/Rot.vm.dep" } ;
+Rule rvdcpp329 = { {&dcpp329} , {&vdcpp329} , {&exedcpp329} } ;
+Exe exedcpp329 = { "CC-VM-DEP Rot.cpp" , VMDEP , { OBJ_PATH+"/Rot.dep" , OBJ_PATH+"/Rot.vm.dep" , '329' } } ;
 
-Target cpp328 = { "SHA.cpp" , "../../Applied/CCore/src/crypton/SHA.cpp" } ;
-Target dcpp328 = { "SHA.dep" , OBJ_PATH+"/SHA.dep" } ;
-Rule rdcpp328 = { {&cpp328,&obj} , {&dcpp328} , {&execpp328} } ;
-Exe execpp328 = { "CC-DEP SHA.cpp" , CC , {
+Target cpp330 = { "SHA.cpp" , "../../Applied/CCore/src/crypton/SHA.cpp" } ;
+Target dcpp330 = { "SHA.dep" , OBJ_PATH+"/SHA.dep" } ;
+Rule rdcpp330 = { {&cpp330,&obj} , {&dcpp330} , {&execpp330} } ;
+Exe execpp330 = { "CC-DEP SHA.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8896,14 +8950,14 @@ Exe execpp328 = { "CC-DEP SHA.cpp" , CC , {
  ,OBJ_PATH+"/SHA.dep"
 } } ;
 
-Target vdcpp328 = { "SHA.vm.dep" , OBJ_PATH+"/SHA.vm.dep" } ;
-Rule rvdcpp328 = { {&dcpp328} , {&vdcpp328} , {&exedcpp328} } ;
-Exe exedcpp328 = { "CC-VM-DEP SHA.cpp" , VMDEP , { OBJ_PATH+"/SHA.dep" , OBJ_PATH+"/SHA.vm.dep" , '328' } } ;
+Target vdcpp330 = { "SHA.vm.dep" , OBJ_PATH+"/SHA.vm.dep" } ;
+Rule rvdcpp330 = { {&dcpp330} , {&vdcpp330} , {&exedcpp330} } ;
+Exe exedcpp330 = { "CC-VM-DEP SHA.cpp" , VMDEP , { OBJ_PATH+"/SHA.dep" , OBJ_PATH+"/SHA.vm.dep" , '330' } } ;
 
-Target cpp329 = { "SIntFunc.cpp" , "../../Simple/CCore/src/gadget/SIntFunc.cpp" } ;
-Target dcpp329 = { "SIntFunc.dep" , OBJ_PATH+"/SIntFunc.dep" } ;
-Rule rdcpp329 = { {&cpp329,&obj} , {&dcpp329} , {&execpp329} } ;
-Exe execpp329 = { "CC-DEP SIntFunc.cpp" , CC , {
+Target cpp331 = { "SIntFunc.cpp" , "../../Simple/CCore/src/gadget/SIntFunc.cpp" } ;
+Target dcpp331 = { "SIntFunc.dep" , OBJ_PATH+"/SIntFunc.dep" } ;
+Rule rdcpp331 = { {&cpp331,&obj} , {&dcpp331} , {&execpp331} } ;
+Exe execpp331 = { "CC-DEP SIntFunc.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8923,14 +8977,14 @@ Exe execpp329 = { "CC-DEP SIntFunc.cpp" , CC , {
  ,OBJ_PATH+"/SIntFunc.dep"
 } } ;
 
-Target vdcpp329 = { "SIntFunc.vm.dep" , OBJ_PATH+"/SIntFunc.vm.dep" } ;
-Rule rvdcpp329 = { {&dcpp329} , {&vdcpp329} , {&exedcpp329} } ;
-Exe exedcpp329 = { "CC-VM-DEP SIntFunc.cpp" , VMDEP , { OBJ_PATH+"/SIntFunc.dep" , OBJ_PATH+"/SIntFunc.vm.dep" , '329' } } ;
+Target vdcpp331 = { "SIntFunc.vm.dep" , OBJ_PATH+"/SIntFunc.vm.dep" } ;
+Rule rvdcpp331 = { {&dcpp331} , {&vdcpp331} , {&exedcpp331} } ;
+Exe exedcpp331 = { "CC-VM-DEP SIntFunc.cpp" , VMDEP , { OBJ_PATH+"/SIntFunc.dep" , OBJ_PATH+"/SIntFunc.vm.dep" , '331' } } ;
 
-Target cpp330 = { "SafeBuf.cpp" , "../../Simple/CCore/src/SafeBuf.cpp" } ;
-Target dcpp330 = { "SafeBuf.dep" , OBJ_PATH+"/SafeBuf.dep" } ;
-Rule rdcpp330 = { {&cpp330,&obj} , {&dcpp330} , {&execpp330} } ;
-Exe execpp330 = { "CC-DEP SafeBuf.cpp" , CC , {
+Target cpp332 = { "SafeBuf.cpp" , "../../Simple/CCore/src/SafeBuf.cpp" } ;
+Target dcpp332 = { "SafeBuf.dep" , OBJ_PATH+"/SafeBuf.dep" } ;
+Rule rdcpp332 = { {&cpp332,&obj} , {&dcpp332} , {&execpp332} } ;
+Exe execpp332 = { "CC-DEP SafeBuf.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8950,14 +9004,14 @@ Exe execpp330 = { "CC-DEP SafeBuf.cpp" , CC , {
  ,OBJ_PATH+"/SafeBuf.dep"
 } } ;
 
-Target vdcpp330 = { "SafeBuf.vm.dep" , OBJ_PATH+"/SafeBuf.vm.dep" } ;
-Rule rvdcpp330 = { {&dcpp330} , {&vdcpp330} , {&exedcpp330} } ;
-Exe exedcpp330 = { "CC-VM-DEP SafeBuf.cpp" , VMDEP , { OBJ_PATH+"/SafeBuf.dep" , OBJ_PATH+"/SafeBuf.vm.dep" , '330' } } ;
+Target vdcpp332 = { "SafeBuf.vm.dep" , OBJ_PATH+"/SafeBuf.vm.dep" } ;
+Rule rvdcpp332 = { {&dcpp332} , {&vdcpp332} , {&exedcpp332} } ;
+Exe exedcpp332 = { "CC-VM-DEP SafeBuf.cpp" , VMDEP , { OBJ_PATH+"/SafeBuf.dep" , OBJ_PATH+"/SafeBuf.vm.dep" , '332' } } ;
 
-Target cpp331 = { "SaveLoad.cpp" , "../../Fundamental/CCore/src/SaveLoad.cpp" } ;
-Target dcpp331 = { "SaveLoad.dep" , OBJ_PATH+"/SaveLoad.dep" } ;
-Rule rdcpp331 = { {&cpp331,&obj} , {&dcpp331} , {&execpp331} } ;
-Exe execpp331 = { "CC-DEP SaveLoad.cpp" , CC , {
+Target cpp333 = { "SaveLoad.cpp" , "../../Fundamental/CCore/src/SaveLoad.cpp" } ;
+Target dcpp333 = { "SaveLoad.dep" , OBJ_PATH+"/SaveLoad.dep" } ;
+Rule rdcpp333 = { {&cpp333,&obj} , {&dcpp333} , {&execpp333} } ;
+Exe execpp333 = { "CC-DEP SaveLoad.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -8977,14 +9031,14 @@ Exe execpp331 = { "CC-DEP SaveLoad.cpp" , CC , {
  ,OBJ_PATH+"/SaveLoad.dep"
 } } ;
 
-Target vdcpp331 = { "SaveLoad.vm.dep" , OBJ_PATH+"/SaveLoad.vm.dep" } ;
-Rule rvdcpp331 = { {&dcpp331} , {&vdcpp331} , {&exedcpp331} } ;
-Exe exedcpp331 = { "CC-VM-DEP SaveLoad.cpp" , VMDEP , { OBJ_PATH+"/SaveLoad.dep" , OBJ_PATH+"/SaveLoad.vm.dep" , '331' } } ;
+Target vdcpp333 = { "SaveLoad.vm.dep" , OBJ_PATH+"/SaveLoad.vm.dep" } ;
+Rule rvdcpp333 = { {&dcpp333} , {&vdcpp333} , {&exedcpp333} } ;
+Exe exedcpp333 = { "CC-VM-DEP SaveLoad.cpp" , VMDEP , { OBJ_PATH+"/SaveLoad.dep" , OBJ_PATH+"/SaveLoad.vm.dep" , '333' } } ;
 
-Target cpp332 = { "Scan.cpp" , "../../HCore/CCore/src/Scan.cpp" } ;
-Target dcpp332 = { "Scan.dep" , OBJ_PATH+"/Scan.dep" } ;
-Rule rdcpp332 = { {&cpp332,&obj} , {&dcpp332} , {&execpp332} } ;
-Exe execpp332 = { "CC-DEP Scan.cpp" , CC , {
+Target cpp334 = { "Scan.cpp" , "../../HCore/CCore/src/Scan.cpp" } ;
+Target dcpp334 = { "Scan.dep" , OBJ_PATH+"/Scan.dep" } ;
+Rule rdcpp334 = { {&cpp334,&obj} , {&dcpp334} , {&execpp334} } ;
+Exe execpp334 = { "CC-DEP Scan.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9004,14 +9058,14 @@ Exe execpp332 = { "CC-DEP Scan.cpp" , CC , {
  ,OBJ_PATH+"/Scan.dep"
 } } ;
 
-Target vdcpp332 = { "Scan.vm.dep" , OBJ_PATH+"/Scan.vm.dep" } ;
-Rule rvdcpp332 = { {&dcpp332} , {&vdcpp332} , {&exedcpp332} } ;
-Exe exedcpp332 = { "CC-VM-DEP Scan.cpp" , VMDEP , { OBJ_PATH+"/Scan.dep" , OBJ_PATH+"/Scan.vm.dep" , '332' } } ;
+Target vdcpp334 = { "Scan.vm.dep" , OBJ_PATH+"/Scan.vm.dep" } ;
+Rule rvdcpp334 = { {&dcpp334} , {&vdcpp334} , {&exedcpp334} } ;
+Exe exedcpp334 = { "CC-VM-DEP Scan.cpp" , VMDEP , { OBJ_PATH+"/Scan.dep" , OBJ_PATH+"/Scan.vm.dep" , '334' } } ;
 
-Target cpp333 = { "ScanAsyncFile.cpp" , "../../Applied/CCore/src/scan/ScanAsyncFile.cpp" } ;
-Target dcpp333 = { "ScanAsyncFile.dep" , OBJ_PATH+"/ScanAsyncFile.dep" } ;
-Rule rdcpp333 = { {&cpp333,&obj} , {&dcpp333} , {&execpp333} } ;
-Exe execpp333 = { "CC-DEP ScanAsyncFile.cpp" , CC , {
+Target cpp335 = { "ScanAsyncFile.cpp" , "../../Applied/CCore/src/scan/ScanAsyncFile.cpp" } ;
+Target dcpp335 = { "ScanAsyncFile.dep" , OBJ_PATH+"/ScanAsyncFile.dep" } ;
+Rule rdcpp335 = { {&cpp335,&obj} , {&dcpp335} , {&execpp335} } ;
+Exe execpp335 = { "CC-DEP ScanAsyncFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9031,14 +9085,14 @@ Exe execpp333 = { "CC-DEP ScanAsyncFile.cpp" , CC , {
  ,OBJ_PATH+"/ScanAsyncFile.dep"
 } } ;
 
-Target vdcpp333 = { "ScanAsyncFile.vm.dep" , OBJ_PATH+"/ScanAsyncFile.vm.dep" } ;
-Rule rvdcpp333 = { {&dcpp333} , {&vdcpp333} , {&exedcpp333} } ;
-Exe exedcpp333 = { "CC-VM-DEP ScanAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/ScanAsyncFile.dep" , OBJ_PATH+"/ScanAsyncFile.vm.dep" , '333' } } ;
+Target vdcpp335 = { "ScanAsyncFile.vm.dep" , OBJ_PATH+"/ScanAsyncFile.vm.dep" } ;
+Rule rvdcpp335 = { {&dcpp335} , {&vdcpp335} , {&exedcpp335} } ;
+Exe exedcpp335 = { "CC-VM-DEP ScanAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/ScanAsyncFile.dep" , OBJ_PATH+"/ScanAsyncFile.vm.dep" , '335' } } ;
 
-Target cpp334 = { "ScanBase.cpp" , "../../Fundamental/CCore/src/scanf/ScanBase.cpp" } ;
-Target dcpp334 = { "ScanBase.dep" , OBJ_PATH+"/ScanBase.dep" } ;
-Rule rdcpp334 = { {&cpp334,&obj} , {&dcpp334} , {&execpp334} } ;
-Exe execpp334 = { "CC-DEP ScanBase.cpp" , CC , {
+Target cpp336 = { "ScanBase.cpp" , "../../Fundamental/CCore/src/scanf/ScanBase.cpp" } ;
+Target dcpp336 = { "ScanBase.dep" , OBJ_PATH+"/ScanBase.dep" } ;
+Rule rdcpp336 = { {&cpp336,&obj} , {&dcpp336} , {&execpp336} } ;
+Exe execpp336 = { "CC-DEP ScanBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9058,14 +9112,14 @@ Exe execpp334 = { "CC-DEP ScanBase.cpp" , CC , {
  ,OBJ_PATH+"/ScanBase.dep"
 } } ;
 
-Target vdcpp334 = { "ScanBase.vm.dep" , OBJ_PATH+"/ScanBase.vm.dep" } ;
-Rule rvdcpp334 = { {&dcpp334} , {&vdcpp334} , {&exedcpp334} } ;
-Exe exedcpp334 = { "CC-VM-DEP ScanBase.cpp" , VMDEP , { OBJ_PATH+"/ScanBase.dep" , OBJ_PATH+"/ScanBase.vm.dep" , '334' } } ;
+Target vdcpp336 = { "ScanBase.vm.dep" , OBJ_PATH+"/ScanBase.vm.dep" } ;
+Rule rvdcpp336 = { {&dcpp336} , {&vdcpp336} , {&exedcpp336} } ;
+Exe exedcpp336 = { "CC-VM-DEP ScanBase.cpp" , VMDEP , { OBJ_PATH+"/ScanBase.dep" , OBJ_PATH+"/ScanBase.vm.dep" , '336' } } ;
 
-Target cpp335 = { "ScanBit.cpp" , "../../Simple/CCore/src/ScanBit.cpp" } ;
-Target dcpp335 = { "ScanBit.dep" , OBJ_PATH+"/ScanBit.dep" } ;
-Rule rdcpp335 = { {&cpp335,&obj} , {&dcpp335} , {&execpp335} } ;
-Exe execpp335 = { "CC-DEP ScanBit.cpp" , CC , {
+Target cpp337 = { "ScanBit.cpp" , "../../Simple/CCore/src/ScanBit.cpp" } ;
+Target dcpp337 = { "ScanBit.dep" , OBJ_PATH+"/ScanBit.dep" } ;
+Rule rdcpp337 = { {&cpp337,&obj} , {&dcpp337} , {&execpp337} } ;
+Exe execpp337 = { "CC-DEP ScanBit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9085,14 +9139,14 @@ Exe execpp335 = { "CC-DEP ScanBit.cpp" , CC , {
  ,OBJ_PATH+"/ScanBit.dep"
 } } ;
 
-Target vdcpp335 = { "ScanBit.vm.dep" , OBJ_PATH+"/ScanBit.vm.dep" } ;
-Rule rvdcpp335 = { {&dcpp335} , {&vdcpp335} , {&exedcpp335} } ;
-Exe exedcpp335 = { "CC-VM-DEP ScanBit.cpp" , VMDEP , { OBJ_PATH+"/ScanBit.dep" , OBJ_PATH+"/ScanBit.vm.dep" , '335' } } ;
+Target vdcpp337 = { "ScanBit.vm.dep" , OBJ_PATH+"/ScanBit.vm.dep" } ;
+Rule rvdcpp337 = { {&dcpp337} , {&vdcpp337} , {&exedcpp337} } ;
+Exe exedcpp337 = { "CC-VM-DEP ScanBit.cpp" , VMDEP , { OBJ_PATH+"/ScanBit.dep" , OBJ_PATH+"/ScanBit.vm.dep" , '337' } } ;
 
-Target cpp336 = { "ScanFile.cpp" , "../../HCore/CCore/src/scan/ScanFile.cpp" } ;
-Target dcpp336 = { "ScanFile.dep" , OBJ_PATH+"/ScanFile.dep" } ;
-Rule rdcpp336 = { {&cpp336,&obj} , {&dcpp336} , {&execpp336} } ;
-Exe execpp336 = { "CC-DEP ScanFile.cpp" , CC , {
+Target cpp338 = { "ScanFile.cpp" , "../../HCore/CCore/src/scan/ScanFile.cpp" } ;
+Target dcpp338 = { "ScanFile.dep" , OBJ_PATH+"/ScanFile.dep" } ;
+Rule rdcpp338 = { {&cpp338,&obj} , {&dcpp338} , {&execpp338} } ;
+Exe execpp338 = { "CC-DEP ScanFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9112,14 +9166,14 @@ Exe execpp336 = { "CC-DEP ScanFile.cpp" , CC , {
  ,OBJ_PATH+"/ScanFile.dep"
 } } ;
 
-Target vdcpp336 = { "ScanFile.vm.dep" , OBJ_PATH+"/ScanFile.vm.dep" } ;
-Rule rvdcpp336 = { {&dcpp336} , {&vdcpp336} , {&exedcpp336} } ;
-Exe exedcpp336 = { "CC-VM-DEP ScanFile.cpp" , VMDEP , { OBJ_PATH+"/ScanFile.dep" , OBJ_PATH+"/ScanFile.vm.dep" , '336' } } ;
+Target vdcpp338 = { "ScanFile.vm.dep" , OBJ_PATH+"/ScanFile.vm.dep" } ;
+Rule rvdcpp338 = { {&dcpp338} , {&vdcpp338} , {&exedcpp338} } ;
+Exe exedcpp338 = { "CC-VM-DEP ScanFile.cpp" , VMDEP , { OBJ_PATH+"/ScanFile.dep" , OBJ_PATH+"/ScanFile.vm.dep" , '338' } } ;
 
-Target cpp337 = { "ScanProxy.cpp" , "../../Fundamental/CCore/src/scanf/ScanProxy.cpp" } ;
-Target dcpp337 = { "ScanProxy.dep" , OBJ_PATH+"/ScanProxy.dep" } ;
-Rule rdcpp337 = { {&cpp337,&obj} , {&dcpp337} , {&execpp337} } ;
-Exe execpp337 = { "CC-DEP ScanProxy.cpp" , CC , {
+Target cpp339 = { "ScanProxy.cpp" , "../../Fundamental/CCore/src/scanf/ScanProxy.cpp" } ;
+Target dcpp339 = { "ScanProxy.dep" , OBJ_PATH+"/ScanProxy.dep" } ;
+Rule rdcpp339 = { {&cpp339,&obj} , {&dcpp339} , {&execpp339} } ;
+Exe execpp339 = { "CC-DEP ScanProxy.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9139,14 +9193,14 @@ Exe execpp337 = { "CC-DEP ScanProxy.cpp" , CC , {
  ,OBJ_PATH+"/ScanProxy.dep"
 } } ;
 
-Target vdcpp337 = { "ScanProxy.vm.dep" , OBJ_PATH+"/ScanProxy.vm.dep" } ;
-Rule rvdcpp337 = { {&dcpp337} , {&vdcpp337} , {&exedcpp337} } ;
-Exe exedcpp337 = { "CC-VM-DEP ScanProxy.cpp" , VMDEP , { OBJ_PATH+"/ScanProxy.dep" , OBJ_PATH+"/ScanProxy.vm.dep" , '337' } } ;
+Target vdcpp339 = { "ScanProxy.vm.dep" , OBJ_PATH+"/ScanProxy.vm.dep" } ;
+Rule rvdcpp339 = { {&dcpp339} , {&vdcpp339} , {&exedcpp339} } ;
+Exe exedcpp339 = { "CC-VM-DEP ScanProxy.cpp" , VMDEP , { OBJ_PATH+"/ScanProxy.dep" , OBJ_PATH+"/ScanProxy.vm.dep" , '339' } } ;
 
-Target cpp338 = { "ScanRange.cpp" , "../../Simple/CCore/src/ScanRange.cpp" } ;
-Target dcpp338 = { "ScanRange.dep" , OBJ_PATH+"/ScanRange.dep" } ;
-Rule rdcpp338 = { {&cpp338,&obj} , {&dcpp338} , {&execpp338} } ;
-Exe execpp338 = { "CC-DEP ScanRange.cpp" , CC , {
+Target cpp340 = { "ScanRange.cpp" , "../../Simple/CCore/src/ScanRange.cpp" } ;
+Target dcpp340 = { "ScanRange.dep" , OBJ_PATH+"/ScanRange.dep" } ;
+Rule rdcpp340 = { {&cpp340,&obj} , {&dcpp340} , {&execpp340} } ;
+Exe execpp340 = { "CC-DEP ScanRange.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9166,14 +9220,14 @@ Exe execpp338 = { "CC-DEP ScanRange.cpp" , CC , {
  ,OBJ_PATH+"/ScanRange.dep"
 } } ;
 
-Target vdcpp338 = { "ScanRange.vm.dep" , OBJ_PATH+"/ScanRange.vm.dep" } ;
-Rule rvdcpp338 = { {&dcpp338} , {&vdcpp338} , {&exedcpp338} } ;
-Exe exedcpp338 = { "CC-VM-DEP ScanRange.cpp" , VMDEP , { OBJ_PATH+"/ScanRange.dep" , OBJ_PATH+"/ScanRange.vm.dep" , '338' } } ;
+Target vdcpp340 = { "ScanRange.vm.dep" , OBJ_PATH+"/ScanRange.vm.dep" } ;
+Rule rvdcpp340 = { {&dcpp340} , {&vdcpp340} , {&exedcpp340} } ;
+Exe exedcpp340 = { "CC-VM-DEP ScanRange.cpp" , VMDEP , { OBJ_PATH+"/ScanRange.dep" , OBJ_PATH+"/ScanRange.vm.dep" , '340' } } ;
 
-Target cpp339 = { "ScanTools.cpp" , "../../Fundamental/CCore/src/scanf/ScanTools.cpp" } ;
-Target dcpp339 = { "ScanTools.dep" , OBJ_PATH+"/ScanTools.dep" } ;
-Rule rdcpp339 = { {&cpp339,&obj} , {&dcpp339} , {&execpp339} } ;
-Exe execpp339 = { "CC-DEP ScanTools.cpp" , CC , {
+Target cpp341 = { "ScanTools.cpp" , "../../Fundamental/CCore/src/scanf/ScanTools.cpp" } ;
+Target dcpp341 = { "ScanTools.dep" , OBJ_PATH+"/ScanTools.dep" } ;
+Rule rdcpp341 = { {&cpp341,&obj} , {&dcpp341} , {&execpp341} } ;
+Exe execpp341 = { "CC-DEP ScanTools.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9193,14 +9247,14 @@ Exe execpp339 = { "CC-DEP ScanTools.cpp" , CC , {
  ,OBJ_PATH+"/ScanTools.dep"
 } } ;
 
-Target vdcpp339 = { "ScanTools.vm.dep" , OBJ_PATH+"/ScanTools.vm.dep" } ;
-Rule rvdcpp339 = { {&dcpp339} , {&vdcpp339} , {&exedcpp339} } ;
-Exe exedcpp339 = { "CC-VM-DEP ScanTools.cpp" , VMDEP , { OBJ_PATH+"/ScanTools.dep" , OBJ_PATH+"/ScanTools.vm.dep" , '339' } } ;
+Target vdcpp341 = { "ScanTools.vm.dep" , OBJ_PATH+"/ScanTools.vm.dep" } ;
+Rule rvdcpp341 = { {&dcpp341} , {&vdcpp341} , {&exedcpp341} } ;
+Exe exedcpp341 = { "CC-VM-DEP ScanTools.cpp" , VMDEP , { OBJ_PATH+"/ScanTools.dep" , OBJ_PATH+"/ScanTools.vm.dep" , '341' } } ;
 
-Target cpp340 = { "Scanf.cpp" , "../../Fundamental/CCore/src/Scanf.cpp" } ;
-Target dcpp340 = { "Scanf.dep" , OBJ_PATH+"/Scanf.dep" } ;
-Rule rdcpp340 = { {&cpp340,&obj} , {&dcpp340} , {&execpp340} } ;
-Exe execpp340 = { "CC-DEP Scanf.cpp" , CC , {
+Target cpp342 = { "Scanf.cpp" , "../../Fundamental/CCore/src/Scanf.cpp" } ;
+Target dcpp342 = { "Scanf.dep" , OBJ_PATH+"/Scanf.dep" } ;
+Rule rdcpp342 = { {&cpp342,&obj} , {&dcpp342} , {&execpp342} } ;
+Exe execpp342 = { "CC-DEP Scanf.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9220,14 +9274,14 @@ Exe execpp340 = { "CC-DEP Scanf.cpp" , CC , {
  ,OBJ_PATH+"/Scanf.dep"
 } } ;
 
-Target vdcpp340 = { "Scanf.vm.dep" , OBJ_PATH+"/Scanf.vm.dep" } ;
-Rule rvdcpp340 = { {&dcpp340} , {&vdcpp340} , {&exedcpp340} } ;
-Exe exedcpp340 = { "CC-VM-DEP Scanf.cpp" , VMDEP , { OBJ_PATH+"/Scanf.dep" , OBJ_PATH+"/Scanf.vm.dep" , '340' } } ;
+Target vdcpp342 = { "Scanf.vm.dep" , OBJ_PATH+"/Scanf.vm.dep" } ;
+Rule rvdcpp342 = { {&dcpp342} , {&vdcpp342} , {&exedcpp342} } ;
+Exe exedcpp342 = { "CC-VM-DEP Scanf.cpp" , VMDEP , { OBJ_PATH+"/Scanf.dep" , OBJ_PATH+"/Scanf.vm.dep" , '342' } } ;
 
-Target cpp341 = { "Scope.cpp" , "../../Fundamental/CCore/src/Scope.cpp" } ;
-Target dcpp341 = { "Scope.dep" , OBJ_PATH+"/Scope.dep" } ;
-Rule rdcpp341 = { {&cpp341,&obj} , {&dcpp341} , {&execpp341} } ;
-Exe execpp341 = { "CC-DEP Scope.cpp" , CC , {
+Target cpp343 = { "Scope.cpp" , "../../Fundamental/CCore/src/Scope.cpp" } ;
+Target dcpp343 = { "Scope.dep" , OBJ_PATH+"/Scope.dep" } ;
+Rule rdcpp343 = { {&cpp343,&obj} , {&dcpp343} , {&execpp343} } ;
+Exe execpp343 = { "CC-DEP Scope.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9247,14 +9301,14 @@ Exe execpp341 = { "CC-DEP Scope.cpp" , CC , {
  ,OBJ_PATH+"/Scope.dep"
 } } ;
 
-Target vdcpp341 = { "Scope.vm.dep" , OBJ_PATH+"/Scope.vm.dep" } ;
-Rule rvdcpp341 = { {&dcpp341} , {&vdcpp341} , {&exedcpp341} } ;
-Exe exedcpp341 = { "CC-VM-DEP Scope.cpp" , VMDEP , { OBJ_PATH+"/Scope.dep" , OBJ_PATH+"/Scope.vm.dep" , '341' } } ;
+Target vdcpp343 = { "Scope.vm.dep" , OBJ_PATH+"/Scope.vm.dep" } ;
+Rule rvdcpp343 = { {&dcpp343} , {&vdcpp343} , {&exedcpp343} } ;
+Exe exedcpp343 = { "CC-VM-DEP Scope.cpp" , VMDEP , { OBJ_PATH+"/Scope.dep" , OBJ_PATH+"/Scope.vm.dep" , '343' } } ;
 
-Target cpp342 = { "ScopeGuard.cpp" , "../../Simple/CCore/src/gadget/ScopeGuard.cpp" } ;
-Target dcpp342 = { "ScopeGuard.dep" , OBJ_PATH+"/ScopeGuard.dep" } ;
-Rule rdcpp342 = { {&cpp342,&obj} , {&dcpp342} , {&execpp342} } ;
-Exe execpp342 = { "CC-DEP ScopeGuard.cpp" , CC , {
+Target cpp344 = { "ScopeGuard.cpp" , "../../Simple/CCore/src/gadget/ScopeGuard.cpp" } ;
+Target dcpp344 = { "ScopeGuard.dep" , OBJ_PATH+"/ScopeGuard.dep" } ;
+Rule rdcpp344 = { {&cpp344,&obj} , {&dcpp344} , {&execpp344} } ;
+Exe execpp344 = { "CC-DEP ScopeGuard.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9274,14 +9328,14 @@ Exe execpp342 = { "CC-DEP ScopeGuard.cpp" , CC , {
  ,OBJ_PATH+"/ScopeGuard.dep"
 } } ;
 
-Target vdcpp342 = { "ScopeGuard.vm.dep" , OBJ_PATH+"/ScopeGuard.vm.dep" } ;
-Rule rvdcpp342 = { {&dcpp342} , {&vdcpp342} , {&exedcpp342} } ;
-Exe exedcpp342 = { "CC-VM-DEP ScopeGuard.cpp" , VMDEP , { OBJ_PATH+"/ScopeGuard.dep" , OBJ_PATH+"/ScopeGuard.vm.dep" , '342' } } ;
+Target vdcpp344 = { "ScopeGuard.vm.dep" , OBJ_PATH+"/ScopeGuard.vm.dep" } ;
+Rule rvdcpp344 = { {&dcpp344} , {&vdcpp344} , {&exedcpp344} } ;
+Exe exedcpp344 = { "CC-VM-DEP ScopeGuard.cpp" , VMDEP , { OBJ_PATH+"/ScopeGuard.dep" , OBJ_PATH+"/ScopeGuard.vm.dep" , '344' } } ;
 
-Target cpp343 = { "SelectFrames.cpp" , "../../Desktop/Lib/CCore/src/video/book/SelectFrames.cpp" } ;
-Target dcpp343 = { "SelectFrames.dep" , OBJ_PATH+"/SelectFrames.dep" } ;
-Rule rdcpp343 = { {&cpp343,&obj} , {&dcpp343} , {&execpp343} } ;
-Exe execpp343 = { "CC-DEP SelectFrames.cpp" , CC , {
+Target cpp345 = { "SelectFrames.cpp" , "../../Desktop/Lib/CCore/src/video/book/SelectFrames.cpp" } ;
+Target dcpp345 = { "SelectFrames.dep" , OBJ_PATH+"/SelectFrames.dep" } ;
+Rule rdcpp345 = { {&cpp345,&obj} , {&dcpp345} , {&execpp345} } ;
+Exe execpp345 = { "CC-DEP SelectFrames.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9301,14 +9355,14 @@ Exe execpp343 = { "CC-DEP SelectFrames.cpp" , CC , {
  ,OBJ_PATH+"/SelectFrames.dep"
 } } ;
 
-Target vdcpp343 = { "SelectFrames.vm.dep" , OBJ_PATH+"/SelectFrames.vm.dep" } ;
-Rule rvdcpp343 = { {&dcpp343} , {&vdcpp343} , {&exedcpp343} } ;
-Exe exedcpp343 = { "CC-VM-DEP SelectFrames.cpp" , VMDEP , { OBJ_PATH+"/SelectFrames.dep" , OBJ_PATH+"/SelectFrames.vm.dep" , '343' } } ;
+Target vdcpp345 = { "SelectFrames.vm.dep" , OBJ_PATH+"/SelectFrames.vm.dep" } ;
+Rule rvdcpp345 = { {&dcpp345} , {&vdcpp345} , {&exedcpp345} } ;
+Exe exedcpp345 = { "CC-VM-DEP SelectFrames.cpp" , VMDEP , { OBJ_PATH+"/SelectFrames.dep" , OBJ_PATH+"/SelectFrames.vm.dep" , '345' } } ;
 
-Target cpp344 = { "Sem.cpp" , "../../HCore/CCore/src/task/Sem.cpp" } ;
-Target dcpp344 = { "Sem.dep" , OBJ_PATH+"/Sem.dep" } ;
-Rule rdcpp344 = { {&cpp344,&obj} , {&dcpp344} , {&execpp344} } ;
-Exe execpp344 = { "CC-DEP Sem.cpp" , CC , {
+Target cpp346 = { "Sem.cpp" , "../../HCore/CCore/src/task/Sem.cpp" } ;
+Target dcpp346 = { "Sem.dep" , OBJ_PATH+"/Sem.dep" } ;
+Rule rdcpp346 = { {&cpp346,&obj} , {&dcpp346} , {&execpp346} } ;
+Exe execpp346 = { "CC-DEP Sem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9328,14 +9382,41 @@ Exe execpp344 = { "CC-DEP Sem.cpp" , CC , {
  ,OBJ_PATH+"/Sem.dep"
 } } ;
 
-Target vdcpp344 = { "Sem.vm.dep" , OBJ_PATH+"/Sem.vm.dep" } ;
-Rule rvdcpp344 = { {&dcpp344} , {&vdcpp344} , {&exedcpp344} } ;
-Exe exedcpp344 = { "CC-VM-DEP Sem.cpp" , VMDEP , { OBJ_PATH+"/Sem.dep" , OBJ_PATH+"/Sem.vm.dep" , '344' } } ;
+Target vdcpp346 = { "Sem.vm.dep" , OBJ_PATH+"/Sem.vm.dep" } ;
+Rule rvdcpp346 = { {&dcpp346} , {&vdcpp346} , {&exedcpp346} } ;
+Exe exedcpp346 = { "CC-VM-DEP Sem.cpp" , VMDEP , { OBJ_PATH+"/Sem.dep" , OBJ_PATH+"/Sem.vm.dep" , '346' } } ;
 
-Target cpp345 = { "Shape.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp" } ;
-Target dcpp345 = { "Shape.Button.dep" , OBJ_PATH+"/Shape.Button.dep" } ;
-Rule rdcpp345 = { {&cpp345,&obj} , {&dcpp345} , {&execpp345} } ;
-Exe execpp345 = { "CC-DEP Shape.Button.cpp" , CC , {
+Target cpp347 = { "Shape.AllButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.AllButton.cpp" } ;
+Target dcpp347 = { "Shape.AllButton.dep" , OBJ_PATH+"/Shape.AllButton.dep" } ;
+Rule rdcpp347 = { {&cpp347,&obj} , {&dcpp347} , {&execpp347} } ;
+Exe execpp347 = { "CC-DEP Shape.AllButton.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/Shape.AllButton.o"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.AllButton.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/Shape.AllButton.dep"
+} } ;
+
+Target vdcpp347 = { "Shape.AllButton.vm.dep" , OBJ_PATH+"/Shape.AllButton.vm.dep" } ;
+Rule rvdcpp347 = { {&dcpp347} , {&vdcpp347} , {&exedcpp347} } ;
+Exe exedcpp347 = { "CC-VM-DEP Shape.AllButton.cpp" , VMDEP , { OBJ_PATH+"/Shape.AllButton.dep" , OBJ_PATH+"/Shape.AllButton.vm.dep" , '347' } } ;
+
+Target cpp348 = { "Shape.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Button.cpp" } ;
+Target dcpp348 = { "Shape.Button.dep" , OBJ_PATH+"/Shape.Button.dep" } ;
+Rule rdcpp348 = { {&cpp348,&obj} , {&dcpp348} , {&execpp348} } ;
+Exe execpp348 = { "CC-DEP Shape.Button.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9355,14 +9436,41 @@ Exe execpp345 = { "CC-DEP Shape.Button.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Button.dep"
 } } ;
 
-Target vdcpp345 = { "Shape.Button.vm.dep" , OBJ_PATH+"/Shape.Button.vm.dep" } ;
-Rule rvdcpp345 = { {&dcpp345} , {&vdcpp345} , {&exedcpp345} } ;
-Exe exedcpp345 = { "CC-VM-DEP Shape.Button.cpp" , VMDEP , { OBJ_PATH+"/Shape.Button.dep" , OBJ_PATH+"/Shape.Button.vm.dep" , '345' } } ;
+Target vdcpp348 = { "Shape.Button.vm.dep" , OBJ_PATH+"/Shape.Button.vm.dep" } ;
+Rule rvdcpp348 = { {&dcpp348} , {&vdcpp348} , {&exedcpp348} } ;
+Exe exedcpp348 = { "CC-VM-DEP Shape.Button.cpp" , VMDEP , { OBJ_PATH+"/Shape.Button.dep" , OBJ_PATH+"/Shape.Button.vm.dep" , '348' } } ;
 
-Target cpp346 = { "Shape.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp" } ;
-Target dcpp346 = { "Shape.Check.dep" , OBJ_PATH+"/Shape.Check.dep" } ;
-Rule rdcpp346 = { {&cpp346,&obj} , {&dcpp346} , {&execpp346} } ;
-Exe execpp346 = { "CC-DEP Shape.Check.cpp" , CC , {
+Target cpp349 = { "Shape.ButtonState.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp" } ;
+Target dcpp349 = { "Shape.ButtonState.dep" , OBJ_PATH+"/Shape.ButtonState.dep" } ;
+Rule rdcpp349 = { {&cpp349,&obj} , {&dcpp349} , {&execpp349} } ;
+Exe execpp349 = { "CC-DEP Shape.ButtonState.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/Shape.ButtonState.o"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.ButtonState.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/Shape.ButtonState.dep"
+} } ;
+
+Target vdcpp349 = { "Shape.ButtonState.vm.dep" , OBJ_PATH+"/Shape.ButtonState.vm.dep" } ;
+Rule rvdcpp349 = { {&dcpp349} , {&vdcpp349} , {&exedcpp349} } ;
+Exe exedcpp349 = { "CC-VM-DEP Shape.ButtonState.cpp" , VMDEP , { OBJ_PATH+"/Shape.ButtonState.dep" , OBJ_PATH+"/Shape.ButtonState.vm.dep" , '349' } } ;
+
+Target cpp350 = { "Shape.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Check.cpp" } ;
+Target dcpp350 = { "Shape.Check.dep" , OBJ_PATH+"/Shape.Check.dep" } ;
+Rule rdcpp350 = { {&cpp350,&obj} , {&dcpp350} , {&execpp350} } ;
+Exe execpp350 = { "CC-DEP Shape.Check.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9382,14 +9490,41 @@ Exe execpp346 = { "CC-DEP Shape.Check.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Check.dep"
 } } ;
 
-Target vdcpp346 = { "Shape.Check.vm.dep" , OBJ_PATH+"/Shape.Check.vm.dep" } ;
-Rule rvdcpp346 = { {&dcpp346} , {&vdcpp346} , {&exedcpp346} } ;
-Exe exedcpp346 = { "CC-VM-DEP Shape.Check.cpp" , VMDEP , { OBJ_PATH+"/Shape.Check.dep" , OBJ_PATH+"/Shape.Check.vm.dep" , '346' } } ;
+Target vdcpp350 = { "Shape.Check.vm.dep" , OBJ_PATH+"/Shape.Check.vm.dep" } ;
+Rule rvdcpp350 = { {&dcpp350} , {&vdcpp350} , {&exedcpp350} } ;
+Exe exedcpp350 = { "CC-VM-DEP Shape.Check.cpp" , VMDEP , { OBJ_PATH+"/Shape.Check.dep" , OBJ_PATH+"/Shape.Check.vm.dep" , '350' } } ;
 
-Target cpp347 = { "Shape.Contour.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp" } ;
-Target dcpp347 = { "Shape.Contour.dep" , OBJ_PATH+"/Shape.Contour.dep" } ;
-Rule rdcpp347 = { {&cpp347,&obj} , {&dcpp347} , {&execpp347} } ;
-Exe execpp347 = { "CC-DEP Shape.Contour.cpp" , CC , {
+Target cpp351 = { "Shape.CheckState.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.CheckState.cpp" } ;
+Target dcpp351 = { "Shape.CheckState.dep" , OBJ_PATH+"/Shape.CheckState.dep" } ;
+Rule rdcpp351 = { {&cpp351,&obj} , {&dcpp351} , {&execpp351} } ;
+Exe execpp351 = { "CC-DEP Shape.CheckState.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/Shape.CheckState.o"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.CheckState.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/Shape.CheckState.dep"
+} } ;
+
+Target vdcpp351 = { "Shape.CheckState.vm.dep" , OBJ_PATH+"/Shape.CheckState.vm.dep" } ;
+Rule rvdcpp351 = { {&dcpp351} , {&vdcpp351} , {&exedcpp351} } ;
+Exe exedcpp351 = { "CC-VM-DEP Shape.CheckState.cpp" , VMDEP , { OBJ_PATH+"/Shape.CheckState.dep" , OBJ_PATH+"/Shape.CheckState.vm.dep" , '351' } } ;
+
+Target cpp352 = { "Shape.Contour.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Contour.cpp" } ;
+Target dcpp352 = { "Shape.Contour.dep" , OBJ_PATH+"/Shape.Contour.dep" } ;
+Rule rdcpp352 = { {&cpp352,&obj} , {&dcpp352} , {&execpp352} } ;
+Exe execpp352 = { "CC-DEP Shape.Contour.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9409,14 +9544,14 @@ Exe execpp347 = { "CC-DEP Shape.Contour.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Contour.dep"
 } } ;
 
-Target vdcpp347 = { "Shape.Contour.vm.dep" , OBJ_PATH+"/Shape.Contour.vm.dep" } ;
-Rule rvdcpp347 = { {&dcpp347} , {&vdcpp347} , {&exedcpp347} } ;
-Exe exedcpp347 = { "CC-VM-DEP Shape.Contour.cpp" , VMDEP , { OBJ_PATH+"/Shape.Contour.dep" , OBJ_PATH+"/Shape.Contour.vm.dep" , '347' } } ;
+Target vdcpp352 = { "Shape.Contour.vm.dep" , OBJ_PATH+"/Shape.Contour.vm.dep" } ;
+Rule rvdcpp352 = { {&dcpp352} , {&vdcpp352} , {&exedcpp352} } ;
+Exe exedcpp352 = { "CC-VM-DEP Shape.Contour.cpp" , VMDEP , { OBJ_PATH+"/Shape.Contour.dep" , OBJ_PATH+"/Shape.Contour.vm.dep" , '352' } } ;
 
-Target cpp348 = { "Shape.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.DragFrame.cpp" } ;
-Target dcpp348 = { "Shape.DragFrame.dep" , OBJ_PATH+"/Shape.DragFrame.dep" } ;
-Rule rdcpp348 = { {&cpp348,&obj} , {&dcpp348} , {&execpp348} } ;
-Exe execpp348 = { "CC-DEP Shape.DragFrame.cpp" , CC , {
+Target cpp353 = { "Shape.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.DragFrame.cpp" } ;
+Target dcpp353 = { "Shape.DragFrame.dep" , OBJ_PATH+"/Shape.DragFrame.dep" } ;
+Rule rdcpp353 = { {&cpp353,&obj} , {&dcpp353} , {&execpp353} } ;
+Exe execpp353 = { "CC-DEP Shape.DragFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9436,14 +9571,14 @@ Exe execpp348 = { "CC-DEP Shape.DragFrame.cpp" , CC , {
  ,OBJ_PATH+"/Shape.DragFrame.dep"
 } } ;
 
-Target vdcpp348 = { "Shape.DragFrame.vm.dep" , OBJ_PATH+"/Shape.DragFrame.vm.dep" } ;
-Rule rvdcpp348 = { {&dcpp348} , {&vdcpp348} , {&exedcpp348} } ;
-Exe exedcpp348 = { "CC-VM-DEP Shape.DragFrame.cpp" , VMDEP , { OBJ_PATH+"/Shape.DragFrame.dep" , OBJ_PATH+"/Shape.DragFrame.vm.dep" , '348' } } ;
+Target vdcpp353 = { "Shape.DragFrame.vm.dep" , OBJ_PATH+"/Shape.DragFrame.vm.dep" } ;
+Rule rvdcpp353 = { {&dcpp353} , {&vdcpp353} , {&exedcpp353} } ;
+Exe exedcpp353 = { "CC-VM-DEP Shape.DragFrame.cpp" , VMDEP , { OBJ_PATH+"/Shape.DragFrame.dep" , OBJ_PATH+"/Shape.DragFrame.vm.dep" , '353' } } ;
 
-Target cpp349 = { "Shape.FixedFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FixedFrame.cpp" } ;
-Target dcpp349 = { "Shape.FixedFrame.dep" , OBJ_PATH+"/Shape.FixedFrame.dep" } ;
-Rule rdcpp349 = { {&cpp349,&obj} , {&dcpp349} , {&execpp349} } ;
-Exe execpp349 = { "CC-DEP Shape.FixedFrame.cpp" , CC , {
+Target cpp354 = { "Shape.FixedFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FixedFrame.cpp" } ;
+Target dcpp354 = { "Shape.FixedFrame.dep" , OBJ_PATH+"/Shape.FixedFrame.dep" } ;
+Rule rdcpp354 = { {&cpp354,&obj} , {&dcpp354} , {&execpp354} } ;
+Exe execpp354 = { "CC-DEP Shape.FixedFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9463,14 +9598,14 @@ Exe execpp349 = { "CC-DEP Shape.FixedFrame.cpp" , CC , {
  ,OBJ_PATH+"/Shape.FixedFrame.dep"
 } } ;
 
-Target vdcpp349 = { "Shape.FixedFrame.vm.dep" , OBJ_PATH+"/Shape.FixedFrame.vm.dep" } ;
-Rule rvdcpp349 = { {&dcpp349} , {&vdcpp349} , {&exedcpp349} } ;
-Exe exedcpp349 = { "CC-VM-DEP Shape.FixedFrame.cpp" , VMDEP , { OBJ_PATH+"/Shape.FixedFrame.dep" , OBJ_PATH+"/Shape.FixedFrame.vm.dep" , '349' } } ;
+Target vdcpp354 = { "Shape.FixedFrame.vm.dep" , OBJ_PATH+"/Shape.FixedFrame.vm.dep" } ;
+Rule rvdcpp354 = { {&dcpp354} , {&vdcpp354} , {&exedcpp354} } ;
+Exe exedcpp354 = { "CC-VM-DEP Shape.FixedFrame.cpp" , VMDEP , { OBJ_PATH+"/Shape.FixedFrame.dep" , OBJ_PATH+"/Shape.FixedFrame.vm.dep" , '354' } } ;
 
-Target cpp350 = { "Shape.FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FrameBase.cpp" } ;
-Target dcpp350 = { "Shape.FrameBase.dep" , OBJ_PATH+"/Shape.FrameBase.dep" } ;
-Rule rdcpp350 = { {&cpp350,&obj} , {&dcpp350} , {&execpp350} } ;
-Exe execpp350 = { "CC-DEP Shape.FrameBase.cpp" , CC , {
+Target cpp355 = { "Shape.FrameBase.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.FrameBase.cpp" } ;
+Target dcpp355 = { "Shape.FrameBase.dep" , OBJ_PATH+"/Shape.FrameBase.dep" } ;
+Rule rdcpp355 = { {&cpp355,&obj} , {&dcpp355} , {&execpp355} } ;
+Exe execpp355 = { "CC-DEP Shape.FrameBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9490,14 +9625,14 @@ Exe execpp350 = { "CC-DEP Shape.FrameBase.cpp" , CC , {
  ,OBJ_PATH+"/Shape.FrameBase.dep"
 } } ;
 
-Target vdcpp350 = { "Shape.FrameBase.vm.dep" , OBJ_PATH+"/Shape.FrameBase.vm.dep" } ;
-Rule rvdcpp350 = { {&dcpp350} , {&vdcpp350} , {&exedcpp350} } ;
-Exe exedcpp350 = { "CC-VM-DEP Shape.FrameBase.cpp" , VMDEP , { OBJ_PATH+"/Shape.FrameBase.dep" , OBJ_PATH+"/Shape.FrameBase.vm.dep" , '350' } } ;
+Target vdcpp355 = { "Shape.FrameBase.vm.dep" , OBJ_PATH+"/Shape.FrameBase.vm.dep" } ;
+Rule rvdcpp355 = { {&dcpp355} , {&vdcpp355} , {&exedcpp355} } ;
+Exe exedcpp355 = { "CC-VM-DEP Shape.FrameBase.cpp" , VMDEP , { OBJ_PATH+"/Shape.FrameBase.dep" , OBJ_PATH+"/Shape.FrameBase.vm.dep" , '355' } } ;
 
-Target cpp351 = { "Shape.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Info.cpp" } ;
-Target dcpp351 = { "Shape.Info.dep" , OBJ_PATH+"/Shape.Info.dep" } ;
-Rule rdcpp351 = { {&cpp351,&obj} , {&dcpp351} , {&execpp351} } ;
-Exe execpp351 = { "CC-DEP Shape.Info.cpp" , CC , {
+Target cpp356 = { "Shape.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Info.cpp" } ;
+Target dcpp356 = { "Shape.Info.dep" , OBJ_PATH+"/Shape.Info.dep" } ;
+Rule rdcpp356 = { {&cpp356,&obj} , {&dcpp356} , {&execpp356} } ;
+Exe execpp356 = { "CC-DEP Shape.Info.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9517,14 +9652,14 @@ Exe execpp351 = { "CC-DEP Shape.Info.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Info.dep"
 } } ;
 
-Target vdcpp351 = { "Shape.Info.vm.dep" , OBJ_PATH+"/Shape.Info.vm.dep" } ;
-Rule rvdcpp351 = { {&dcpp351} , {&vdcpp351} , {&exedcpp351} } ;
-Exe exedcpp351 = { "CC-VM-DEP Shape.Info.cpp" , VMDEP , { OBJ_PATH+"/Shape.Info.dep" , OBJ_PATH+"/Shape.Info.vm.dep" , '351' } } ;
+Target vdcpp356 = { "Shape.Info.vm.dep" , OBJ_PATH+"/Shape.Info.vm.dep" } ;
+Rule rvdcpp356 = { {&dcpp356} , {&vdcpp356} , {&exedcpp356} } ;
+Exe exedcpp356 = { "CC-VM-DEP Shape.Info.cpp" , VMDEP , { OBJ_PATH+"/Shape.Info.dep" , OBJ_PATH+"/Shape.Info.vm.dep" , '356' } } ;
 
-Target cpp352 = { "Shape.Label.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Label.cpp" } ;
-Target dcpp352 = { "Shape.Label.dep" , OBJ_PATH+"/Shape.Label.dep" } ;
-Rule rdcpp352 = { {&cpp352,&obj} , {&dcpp352} , {&execpp352} } ;
-Exe execpp352 = { "CC-DEP Shape.Label.cpp" , CC , {
+Target cpp357 = { "Shape.Label.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Label.cpp" } ;
+Target dcpp357 = { "Shape.Label.dep" , OBJ_PATH+"/Shape.Label.dep" } ;
+Rule rdcpp357 = { {&cpp357,&obj} , {&dcpp357} , {&execpp357} } ;
+Exe execpp357 = { "CC-DEP Shape.Label.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9544,14 +9679,14 @@ Exe execpp352 = { "CC-DEP Shape.Label.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Label.dep"
 } } ;
 
-Target vdcpp352 = { "Shape.Label.vm.dep" , OBJ_PATH+"/Shape.Label.vm.dep" } ;
-Rule rvdcpp352 = { {&dcpp352} , {&vdcpp352} , {&exedcpp352} } ;
-Exe exedcpp352 = { "CC-VM-DEP Shape.Label.cpp" , VMDEP , { OBJ_PATH+"/Shape.Label.dep" , OBJ_PATH+"/Shape.Label.vm.dep" , '352' } } ;
+Target vdcpp357 = { "Shape.Label.vm.dep" , OBJ_PATH+"/Shape.Label.vm.dep" } ;
+Rule rvdcpp357 = { {&dcpp357} , {&vdcpp357} , {&exedcpp357} } ;
+Exe exedcpp357 = { "CC-VM-DEP Shape.Label.cpp" , VMDEP , { OBJ_PATH+"/Shape.Label.dep" , OBJ_PATH+"/Shape.Label.vm.dep" , '357' } } ;
 
-Target cpp353 = { "Shape.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Light.cpp" } ;
-Target dcpp353 = { "Shape.Light.dep" , OBJ_PATH+"/Shape.Light.dep" } ;
-Rule rdcpp353 = { {&cpp353,&obj} , {&dcpp353} , {&execpp353} } ;
-Exe execpp353 = { "CC-DEP Shape.Light.cpp" , CC , {
+Target cpp358 = { "Shape.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Light.cpp" } ;
+Target dcpp358 = { "Shape.Light.dep" , OBJ_PATH+"/Shape.Light.dep" } ;
+Rule rdcpp358 = { {&cpp358,&obj} , {&dcpp358} , {&execpp358} } ;
+Exe execpp358 = { "CC-DEP Shape.Light.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9571,14 +9706,14 @@ Exe execpp353 = { "CC-DEP Shape.Light.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Light.dep"
 } } ;
 
-Target vdcpp353 = { "Shape.Light.vm.dep" , OBJ_PATH+"/Shape.Light.vm.dep" } ;
-Rule rvdcpp353 = { {&dcpp353} , {&vdcpp353} , {&exedcpp353} } ;
-Exe exedcpp353 = { "CC-VM-DEP Shape.Light.cpp" , VMDEP , { OBJ_PATH+"/Shape.Light.dep" , OBJ_PATH+"/Shape.Light.vm.dep" , '353' } } ;
+Target vdcpp358 = { "Shape.Light.vm.dep" , OBJ_PATH+"/Shape.Light.vm.dep" } ;
+Rule rvdcpp358 = { {&dcpp358} , {&vdcpp358} , {&exedcpp358} } ;
+Exe exedcpp358 = { "CC-VM-DEP Shape.Light.cpp" , VMDEP , { OBJ_PATH+"/Shape.Light.dep" , OBJ_PATH+"/Shape.Light.vm.dep" , '358' } } ;
 
-Target cpp354 = { "Shape.Line.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Line.cpp" } ;
-Target dcpp354 = { "Shape.Line.dep" , OBJ_PATH+"/Shape.Line.dep" } ;
-Rule rdcpp354 = { {&cpp354,&obj} , {&dcpp354} , {&execpp354} } ;
-Exe execpp354 = { "CC-DEP Shape.Line.cpp" , CC , {
+Target cpp359 = { "Shape.Line.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Line.cpp" } ;
+Target dcpp359 = { "Shape.Line.dep" , OBJ_PATH+"/Shape.Line.dep" } ;
+Rule rdcpp359 = { {&cpp359,&obj} , {&dcpp359} , {&execpp359} } ;
+Exe execpp359 = { "CC-DEP Shape.Line.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9598,14 +9733,14 @@ Exe execpp354 = { "CC-DEP Shape.Line.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Line.dep"
 } } ;
 
-Target vdcpp354 = { "Shape.Line.vm.dep" , OBJ_PATH+"/Shape.Line.vm.dep" } ;
-Rule rvdcpp354 = { {&dcpp354} , {&vdcpp354} , {&exedcpp354} } ;
-Exe exedcpp354 = { "CC-VM-DEP Shape.Line.cpp" , VMDEP , { OBJ_PATH+"/Shape.Line.dep" , OBJ_PATH+"/Shape.Line.vm.dep" , '354' } } ;
+Target vdcpp359 = { "Shape.Line.vm.dep" , OBJ_PATH+"/Shape.Line.vm.dep" } ;
+Rule rvdcpp359 = { {&dcpp359} , {&vdcpp359} , {&exedcpp359} } ;
+Exe exedcpp359 = { "CC-VM-DEP Shape.Line.cpp" , VMDEP , { OBJ_PATH+"/Shape.Line.dep" , OBJ_PATH+"/Shape.Line.vm.dep" , '359' } } ;
 
-Target cpp355 = { "Shape.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp" } ;
-Target dcpp355 = { "Shape.LineEdit.dep" , OBJ_PATH+"/Shape.LineEdit.dep" } ;
-Rule rdcpp355 = { {&cpp355,&obj} , {&dcpp355} , {&execpp355} } ;
-Exe execpp355 = { "CC-DEP Shape.LineEdit.cpp" , CC , {
+Target cpp360 = { "Shape.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.LineEdit.cpp" } ;
+Target dcpp360 = { "Shape.LineEdit.dep" , OBJ_PATH+"/Shape.LineEdit.dep" } ;
+Rule rdcpp360 = { {&cpp360,&obj} , {&dcpp360} , {&execpp360} } ;
+Exe execpp360 = { "CC-DEP Shape.LineEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9625,14 +9760,41 @@ Exe execpp355 = { "CC-DEP Shape.LineEdit.cpp" , CC , {
  ,OBJ_PATH+"/Shape.LineEdit.dep"
 } } ;
 
-Target vdcpp355 = { "Shape.LineEdit.vm.dep" , OBJ_PATH+"/Shape.LineEdit.vm.dep" } ;
-Rule rvdcpp355 = { {&dcpp355} , {&vdcpp355} , {&exedcpp355} } ;
-Exe exedcpp355 = { "CC-VM-DEP Shape.LineEdit.cpp" , VMDEP , { OBJ_PATH+"/Shape.LineEdit.dep" , OBJ_PATH+"/Shape.LineEdit.vm.dep" , '355' } } ;
+Target vdcpp360 = { "Shape.LineEdit.vm.dep" , OBJ_PATH+"/Shape.LineEdit.vm.dep" } ;
+Rule rvdcpp360 = { {&dcpp360} , {&vdcpp360} , {&exedcpp360} } ;
+Exe exedcpp360 = { "CC-VM-DEP Shape.LineEdit.cpp" , VMDEP , { OBJ_PATH+"/Shape.LineEdit.dep" , OBJ_PATH+"/Shape.LineEdit.vm.dep" , '360' } } ;
 
-Target cpp356 = { "Shape.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp" } ;
-Target dcpp356 = { "Shape.Progress.dep" , OBJ_PATH+"/Shape.Progress.dep" } ;
-Rule rdcpp356 = { {&cpp356,&obj} , {&dcpp356} , {&execpp356} } ;
-Exe execpp356 = { "CC-DEP Shape.Progress.cpp" , CC , {
+Target cpp361 = { "Shape.MoveButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp" } ;
+Target dcpp361 = { "Shape.MoveButton.dep" , OBJ_PATH+"/Shape.MoveButton.dep" } ;
+Rule rdcpp361 = { {&cpp361,&obj} , {&dcpp361} , {&execpp361} } ;
+Exe execpp361 = { "CC-DEP Shape.MoveButton.cpp" , CC , {
+  "-I../../Target/WIN32"
+ ,"-I../../HCore"
+ ,"-I../../Simple"
+ ,"-I../../Fundamental"
+ ,"-I../../Applied"
+ ,"-I../../Desktop/Core"
+ ,"-I../../Desktop/Draw"
+ ,"-I../../Desktop/Font"
+ ,"-I../../Desktop/Lib"
+ ,"-I../../Desktop/Tools"
+ ,"-I../../Desktop/App"
+ ,"-MM"
+ ,"-MT"
+ ,OBJ_PATH+"/Shape.MoveButton.o"
+ ,"../../Desktop/Lib/CCore/src/video/lib/Shape.MoveButton.cpp"
+ ,"-MF"
+ ,OBJ_PATH+"/Shape.MoveButton.dep"
+} } ;
+
+Target vdcpp361 = { "Shape.MoveButton.vm.dep" , OBJ_PATH+"/Shape.MoveButton.vm.dep" } ;
+Rule rvdcpp361 = { {&dcpp361} , {&vdcpp361} , {&exedcpp361} } ;
+Exe exedcpp361 = { "CC-VM-DEP Shape.MoveButton.cpp" , VMDEP , { OBJ_PATH+"/Shape.MoveButton.dep" , OBJ_PATH+"/Shape.MoveButton.vm.dep" , '361' } } ;
+
+Target cpp362 = { "Shape.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Progress.cpp" } ;
+Target dcpp362 = { "Shape.Progress.dep" , OBJ_PATH+"/Shape.Progress.dep" } ;
+Rule rdcpp362 = { {&cpp362,&obj} , {&dcpp362} , {&execpp362} } ;
+Exe execpp362 = { "CC-DEP Shape.Progress.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9652,14 +9814,14 @@ Exe execpp356 = { "CC-DEP Shape.Progress.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Progress.dep"
 } } ;
 
-Target vdcpp356 = { "Shape.Progress.vm.dep" , OBJ_PATH+"/Shape.Progress.vm.dep" } ;
-Rule rvdcpp356 = { {&dcpp356} , {&vdcpp356} , {&exedcpp356} } ;
-Exe exedcpp356 = { "CC-VM-DEP Shape.Progress.cpp" , VMDEP , { OBJ_PATH+"/Shape.Progress.dep" , OBJ_PATH+"/Shape.Progress.vm.dep" , '356' } } ;
+Target vdcpp362 = { "Shape.Progress.vm.dep" , OBJ_PATH+"/Shape.Progress.vm.dep" } ;
+Rule rvdcpp362 = { {&dcpp362} , {&vdcpp362} , {&exedcpp362} } ;
+Exe exedcpp362 = { "CC-VM-DEP Shape.Progress.cpp" , VMDEP , { OBJ_PATH+"/Shape.Progress.dep" , OBJ_PATH+"/Shape.Progress.vm.dep" , '362' } } ;
 
-Target cpp357 = { "Shape.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Radio.cpp" } ;
-Target dcpp357 = { "Shape.Radio.dep" , OBJ_PATH+"/Shape.Radio.dep" } ;
-Rule rdcpp357 = { {&cpp357,&obj} , {&dcpp357} , {&execpp357} } ;
-Exe execpp357 = { "CC-DEP Shape.Radio.cpp" , CC , {
+Target cpp363 = { "Shape.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Radio.cpp" } ;
+Target dcpp363 = { "Shape.Radio.dep" , OBJ_PATH+"/Shape.Radio.dep" } ;
+Rule rdcpp363 = { {&cpp363,&obj} , {&dcpp363} , {&execpp363} } ;
+Exe execpp363 = { "CC-DEP Shape.Radio.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9679,14 +9841,14 @@ Exe execpp357 = { "CC-DEP Shape.Radio.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Radio.dep"
 } } ;
 
-Target vdcpp357 = { "Shape.Radio.vm.dep" , OBJ_PATH+"/Shape.Radio.vm.dep" } ;
-Rule rvdcpp357 = { {&dcpp357} , {&vdcpp357} , {&exedcpp357} } ;
-Exe exedcpp357 = { "CC-VM-DEP Shape.Radio.cpp" , VMDEP , { OBJ_PATH+"/Shape.Radio.dep" , OBJ_PATH+"/Shape.Radio.vm.dep" , '357' } } ;
+Target vdcpp363 = { "Shape.Radio.vm.dep" , OBJ_PATH+"/Shape.Radio.vm.dep" } ;
+Rule rvdcpp363 = { {&dcpp363} , {&vdcpp363} , {&exedcpp363} } ;
+Exe exedcpp363 = { "CC-VM-DEP Shape.Radio.cpp" , VMDEP , { OBJ_PATH+"/Shape.Radio.dep" , OBJ_PATH+"/Shape.Radio.vm.dep" , '363' } } ;
 
-Target cpp358 = { "Shape.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.RunButton.cpp" } ;
-Target dcpp358 = { "Shape.RunButton.dep" , OBJ_PATH+"/Shape.RunButton.dep" } ;
-Rule rdcpp358 = { {&cpp358,&obj} , {&dcpp358} , {&execpp358} } ;
-Exe execpp358 = { "CC-DEP Shape.RunButton.cpp" , CC , {
+Target cpp364 = { "Shape.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.RunButton.cpp" } ;
+Target dcpp364 = { "Shape.RunButton.dep" , OBJ_PATH+"/Shape.RunButton.dep" } ;
+Rule rdcpp364 = { {&cpp364,&obj} , {&dcpp364} , {&execpp364} } ;
+Exe execpp364 = { "CC-DEP Shape.RunButton.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9706,14 +9868,14 @@ Exe execpp358 = { "CC-DEP Shape.RunButton.cpp" , CC , {
  ,OBJ_PATH+"/Shape.RunButton.dep"
 } } ;
 
-Target vdcpp358 = { "Shape.RunButton.vm.dep" , OBJ_PATH+"/Shape.RunButton.vm.dep" } ;
-Rule rvdcpp358 = { {&dcpp358} , {&vdcpp358} , {&exedcpp358} } ;
-Exe exedcpp358 = { "CC-VM-DEP Shape.RunButton.cpp" , VMDEP , { OBJ_PATH+"/Shape.RunButton.dep" , OBJ_PATH+"/Shape.RunButton.vm.dep" , '358' } } ;
+Target vdcpp364 = { "Shape.RunButton.vm.dep" , OBJ_PATH+"/Shape.RunButton.vm.dep" } ;
+Rule rvdcpp364 = { {&dcpp364} , {&vdcpp364} , {&exedcpp364} } ;
+Exe exedcpp364 = { "CC-VM-DEP Shape.RunButton.cpp" , VMDEP , { OBJ_PATH+"/Shape.RunButton.dep" , OBJ_PATH+"/Shape.RunButton.vm.dep" , '364' } } ;
 
-Target cpp359 = { "Shape.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Scroll.cpp" } ;
-Target dcpp359 = { "Shape.Scroll.dep" , OBJ_PATH+"/Shape.Scroll.dep" } ;
-Rule rdcpp359 = { {&cpp359,&obj} , {&dcpp359} , {&execpp359} } ;
-Exe execpp359 = { "CC-DEP Shape.Scroll.cpp" , CC , {
+Target cpp365 = { "Shape.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Scroll.cpp" } ;
+Target dcpp365 = { "Shape.Scroll.dep" , OBJ_PATH+"/Shape.Scroll.dep" } ;
+Rule rdcpp365 = { {&cpp365,&obj} , {&dcpp365} , {&execpp365} } ;
+Exe execpp365 = { "CC-DEP Shape.Scroll.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9733,14 +9895,14 @@ Exe execpp359 = { "CC-DEP Shape.Scroll.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Scroll.dep"
 } } ;
 
-Target vdcpp359 = { "Shape.Scroll.vm.dep" , OBJ_PATH+"/Shape.Scroll.vm.dep" } ;
-Rule rvdcpp359 = { {&dcpp359} , {&vdcpp359} , {&exedcpp359} } ;
-Exe exedcpp359 = { "CC-VM-DEP Shape.Scroll.cpp" , VMDEP , { OBJ_PATH+"/Shape.Scroll.dep" , OBJ_PATH+"/Shape.Scroll.vm.dep" , '359' } } ;
+Target vdcpp365 = { "Shape.Scroll.vm.dep" , OBJ_PATH+"/Shape.Scroll.vm.dep" } ;
+Rule rvdcpp365 = { {&dcpp365} , {&vdcpp365} , {&exedcpp365} } ;
+Exe exedcpp365 = { "CC-VM-DEP Shape.Scroll.cpp" , VMDEP , { OBJ_PATH+"/Shape.Scroll.dep" , OBJ_PATH+"/Shape.Scroll.vm.dep" , '365' } } ;
 
-Target cpp360 = { "Shape.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ScrollList.cpp" } ;
-Target dcpp360 = { "Shape.ScrollList.dep" , OBJ_PATH+"/Shape.ScrollList.dep" } ;
-Rule rdcpp360 = { {&cpp360,&obj} , {&dcpp360} , {&execpp360} } ;
-Exe execpp360 = { "CC-DEP Shape.ScrollList.cpp" , CC , {
+Target cpp366 = { "Shape.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ScrollList.cpp" } ;
+Target dcpp366 = { "Shape.ScrollList.dep" , OBJ_PATH+"/Shape.ScrollList.dep" } ;
+Rule rdcpp366 = { {&cpp366,&obj} , {&dcpp366} , {&execpp366} } ;
+Exe execpp366 = { "CC-DEP Shape.ScrollList.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9760,14 +9922,14 @@ Exe execpp360 = { "CC-DEP Shape.ScrollList.cpp" , CC , {
  ,OBJ_PATH+"/Shape.ScrollList.dep"
 } } ;
 
-Target vdcpp360 = { "Shape.ScrollList.vm.dep" , OBJ_PATH+"/Shape.ScrollList.vm.dep" } ;
-Rule rvdcpp360 = { {&dcpp360} , {&vdcpp360} , {&exedcpp360} } ;
-Exe exedcpp360 = { "CC-VM-DEP Shape.ScrollList.cpp" , VMDEP , { OBJ_PATH+"/Shape.ScrollList.dep" , OBJ_PATH+"/Shape.ScrollList.vm.dep" , '360' } } ;
+Target vdcpp366 = { "Shape.ScrollList.vm.dep" , OBJ_PATH+"/Shape.ScrollList.vm.dep" } ;
+Rule rvdcpp366 = { {&dcpp366} , {&vdcpp366} , {&exedcpp366} } ;
+Exe exedcpp366 = { "CC-VM-DEP Shape.ScrollList.cpp" , VMDEP , { OBJ_PATH+"/Shape.ScrollList.dep" , OBJ_PATH+"/Shape.ScrollList.vm.dep" , '366' } } ;
 
-Target cpp361 = { "Shape.ShiftSwitch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ShiftSwitch.cpp" } ;
-Target dcpp361 = { "Shape.ShiftSwitch.dep" , OBJ_PATH+"/Shape.ShiftSwitch.dep" } ;
-Rule rdcpp361 = { {&cpp361,&obj} , {&dcpp361} , {&execpp361} } ;
-Exe execpp361 = { "CC-DEP Shape.ShiftSwitch.cpp" , CC , {
+Target cpp367 = { "Shape.ShiftSwitch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.ShiftSwitch.cpp" } ;
+Target dcpp367 = { "Shape.ShiftSwitch.dep" , OBJ_PATH+"/Shape.ShiftSwitch.dep" } ;
+Rule rdcpp367 = { {&cpp367,&obj} , {&dcpp367} , {&execpp367} } ;
+Exe execpp367 = { "CC-DEP Shape.ShiftSwitch.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9787,14 +9949,14 @@ Exe execpp361 = { "CC-DEP Shape.ShiftSwitch.cpp" , CC , {
  ,OBJ_PATH+"/Shape.ShiftSwitch.dep"
 } } ;
 
-Target vdcpp361 = { "Shape.ShiftSwitch.vm.dep" , OBJ_PATH+"/Shape.ShiftSwitch.vm.dep" } ;
-Rule rvdcpp361 = { {&dcpp361} , {&vdcpp361} , {&exedcpp361} } ;
-Exe exedcpp361 = { "CC-VM-DEP Shape.ShiftSwitch.cpp" , VMDEP , { OBJ_PATH+"/Shape.ShiftSwitch.dep" , OBJ_PATH+"/Shape.ShiftSwitch.vm.dep" , '361' } } ;
+Target vdcpp367 = { "Shape.ShiftSwitch.vm.dep" , OBJ_PATH+"/Shape.ShiftSwitch.vm.dep" } ;
+Rule rvdcpp367 = { {&dcpp367} , {&vdcpp367} , {&exedcpp367} } ;
+Exe exedcpp367 = { "CC-VM-DEP Shape.ShiftSwitch.cpp" , VMDEP , { OBJ_PATH+"/Shape.ShiftSwitch.dep" , OBJ_PATH+"/Shape.ShiftSwitch.vm.dep" , '367' } } ;
 
-Target cpp362 = { "Shape.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.SimpleTextList.cpp" } ;
-Target dcpp362 = { "Shape.SimpleTextList.dep" , OBJ_PATH+"/Shape.SimpleTextList.dep" } ;
-Rule rdcpp362 = { {&cpp362,&obj} , {&dcpp362} , {&execpp362} } ;
-Exe execpp362 = { "CC-DEP Shape.SimpleTextList.cpp" , CC , {
+Target cpp368 = { "Shape.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.SimpleTextList.cpp" } ;
+Target dcpp368 = { "Shape.SimpleTextList.dep" , OBJ_PATH+"/Shape.SimpleTextList.dep" } ;
+Rule rdcpp368 = { {&cpp368,&obj} , {&dcpp368} , {&execpp368} } ;
+Exe execpp368 = { "CC-DEP Shape.SimpleTextList.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9814,14 +9976,14 @@ Exe execpp362 = { "CC-DEP Shape.SimpleTextList.cpp" , CC , {
  ,OBJ_PATH+"/Shape.SimpleTextList.dep"
 } } ;
 
-Target vdcpp362 = { "Shape.SimpleTextList.vm.dep" , OBJ_PATH+"/Shape.SimpleTextList.vm.dep" } ;
-Rule rvdcpp362 = { {&dcpp362} , {&vdcpp362} , {&exedcpp362} } ;
-Exe exedcpp362 = { "CC-VM-DEP Shape.SimpleTextList.cpp" , VMDEP , { OBJ_PATH+"/Shape.SimpleTextList.dep" , OBJ_PATH+"/Shape.SimpleTextList.vm.dep" , '362' } } ;
+Target vdcpp368 = { "Shape.SimpleTextList.vm.dep" , OBJ_PATH+"/Shape.SimpleTextList.vm.dep" } ;
+Rule rvdcpp368 = { {&dcpp368} , {&vdcpp368} , {&exedcpp368} } ;
+Exe exedcpp368 = { "CC-VM-DEP Shape.SimpleTextList.cpp" , VMDEP , { OBJ_PATH+"/Shape.SimpleTextList.dep" , OBJ_PATH+"/Shape.SimpleTextList.vm.dep" , '368' } } ;
 
-Target cpp363 = { "Shape.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Slider.cpp" } ;
-Target dcpp363 = { "Shape.Slider.dep" , OBJ_PATH+"/Shape.Slider.dep" } ;
-Rule rdcpp363 = { {&cpp363,&obj} , {&dcpp363} , {&execpp363} } ;
-Exe execpp363 = { "CC-DEP Shape.Slider.cpp" , CC , {
+Target cpp369 = { "Shape.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Slider.cpp" } ;
+Target dcpp369 = { "Shape.Slider.dep" , OBJ_PATH+"/Shape.Slider.dep" } ;
+Rule rdcpp369 = { {&cpp369,&obj} , {&dcpp369} , {&execpp369} } ;
+Exe execpp369 = { "CC-DEP Shape.Slider.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9841,14 +10003,14 @@ Exe execpp363 = { "CC-DEP Shape.Slider.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Slider.dep"
 } } ;
 
-Target vdcpp363 = { "Shape.Slider.vm.dep" , OBJ_PATH+"/Shape.Slider.vm.dep" } ;
-Rule rvdcpp363 = { {&dcpp363} , {&vdcpp363} , {&exedcpp363} } ;
-Exe exedcpp363 = { "CC-VM-DEP Shape.Slider.cpp" , VMDEP , { OBJ_PATH+"/Shape.Slider.dep" , OBJ_PATH+"/Shape.Slider.vm.dep" , '363' } } ;
+Target vdcpp369 = { "Shape.Slider.vm.dep" , OBJ_PATH+"/Shape.Slider.vm.dep" } ;
+Rule rvdcpp369 = { {&dcpp369} , {&vdcpp369} , {&exedcpp369} } ;
+Exe exedcpp369 = { "CC-VM-DEP Shape.Slider.cpp" , VMDEP , { OBJ_PATH+"/Shape.Slider.dep" , OBJ_PATH+"/Shape.Slider.vm.dep" , '369' } } ;
 
-Target cpp364 = { "Shape.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Spinor.cpp" } ;
-Target dcpp364 = { "Shape.Spinor.dep" , OBJ_PATH+"/Shape.Spinor.dep" } ;
-Rule rdcpp364 = { {&cpp364,&obj} , {&dcpp364} , {&execpp364} } ;
-Exe execpp364 = { "CC-DEP Shape.Spinor.cpp" , CC , {
+Target cpp370 = { "Shape.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Spinor.cpp" } ;
+Target dcpp370 = { "Shape.Spinor.dep" , OBJ_PATH+"/Shape.Spinor.dep" } ;
+Rule rdcpp370 = { {&cpp370,&obj} , {&dcpp370} , {&execpp370} } ;
+Exe execpp370 = { "CC-DEP Shape.Spinor.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9868,14 +10030,14 @@ Exe execpp364 = { "CC-DEP Shape.Spinor.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Spinor.dep"
 } } ;
 
-Target vdcpp364 = { "Shape.Spinor.vm.dep" , OBJ_PATH+"/Shape.Spinor.vm.dep" } ;
-Rule rvdcpp364 = { {&dcpp364} , {&vdcpp364} , {&exedcpp364} } ;
-Exe exedcpp364 = { "CC-VM-DEP Shape.Spinor.cpp" , VMDEP , { OBJ_PATH+"/Shape.Spinor.dep" , OBJ_PATH+"/Shape.Spinor.vm.dep" , '364' } } ;
+Target vdcpp370 = { "Shape.Spinor.vm.dep" , OBJ_PATH+"/Shape.Spinor.vm.dep" } ;
+Rule rvdcpp370 = { {&dcpp370} , {&vdcpp370} , {&exedcpp370} } ;
+Exe exedcpp370 = { "CC-VM-DEP Shape.Spinor.cpp" , VMDEP , { OBJ_PATH+"/Shape.Spinor.dep" , OBJ_PATH+"/Shape.Spinor.vm.dep" , '370' } } ;
 
-Target cpp365 = { "Shape.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Split.cpp" } ;
-Target dcpp365 = { "Shape.Split.dep" , OBJ_PATH+"/Shape.Split.dep" } ;
-Rule rdcpp365 = { {&cpp365,&obj} , {&dcpp365} , {&execpp365} } ;
-Exe execpp365 = { "CC-DEP Shape.Split.cpp" , CC , {
+Target cpp371 = { "Shape.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Split.cpp" } ;
+Target dcpp371 = { "Shape.Split.dep" , OBJ_PATH+"/Shape.Split.dep" } ;
+Rule rdcpp371 = { {&cpp371,&obj} , {&dcpp371} , {&execpp371} } ;
+Exe execpp371 = { "CC-DEP Shape.Split.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9895,14 +10057,14 @@ Exe execpp365 = { "CC-DEP Shape.Split.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Split.dep"
 } } ;
 
-Target vdcpp365 = { "Shape.Split.vm.dep" , OBJ_PATH+"/Shape.Split.vm.dep" } ;
-Rule rvdcpp365 = { {&dcpp365} , {&vdcpp365} , {&exedcpp365} } ;
-Exe exedcpp365 = { "CC-VM-DEP Shape.Split.cpp" , VMDEP , { OBJ_PATH+"/Shape.Split.dep" , OBJ_PATH+"/Shape.Split.vm.dep" , '365' } } ;
+Target vdcpp371 = { "Shape.Split.vm.dep" , OBJ_PATH+"/Shape.Split.vm.dep" } ;
+Rule rvdcpp371 = { {&dcpp371} , {&vdcpp371} , {&exedcpp371} } ;
+Exe exedcpp371 = { "CC-VM-DEP Shape.Split.cpp" , VMDEP , { OBJ_PATH+"/Shape.Split.dep" , OBJ_PATH+"/Shape.Split.vm.dep" , '371' } } ;
 
-Target cpp366 = { "Shape.Switch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Switch.cpp" } ;
-Target dcpp366 = { "Shape.Switch.dep" , OBJ_PATH+"/Shape.Switch.dep" } ;
-Rule rdcpp366 = { {&cpp366,&obj} , {&dcpp366} , {&execpp366} } ;
-Exe execpp366 = { "CC-DEP Shape.Switch.cpp" , CC , {
+Target cpp372 = { "Shape.Switch.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Switch.cpp" } ;
+Target dcpp372 = { "Shape.Switch.dep" , OBJ_PATH+"/Shape.Switch.dep" } ;
+Rule rdcpp372 = { {&cpp372,&obj} , {&dcpp372} , {&execpp372} } ;
+Exe execpp372 = { "CC-DEP Shape.Switch.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9922,14 +10084,14 @@ Exe execpp366 = { "CC-DEP Shape.Switch.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Switch.dep"
 } } ;
 
-Target vdcpp366 = { "Shape.Switch.vm.dep" , OBJ_PATH+"/Shape.Switch.vm.dep" } ;
-Rule rvdcpp366 = { {&dcpp366} , {&vdcpp366} , {&exedcpp366} } ;
-Exe exedcpp366 = { "CC-VM-DEP Shape.Switch.cpp" , VMDEP , { OBJ_PATH+"/Shape.Switch.dep" , OBJ_PATH+"/Shape.Switch.vm.dep" , '366' } } ;
+Target vdcpp372 = { "Shape.Switch.vm.dep" , OBJ_PATH+"/Shape.Switch.vm.dep" } ;
+Rule rvdcpp372 = { {&dcpp372} , {&vdcpp372} , {&exedcpp372} } ;
+Exe exedcpp372 = { "CC-VM-DEP Shape.Switch.cpp" , VMDEP , { OBJ_PATH+"/Shape.Switch.dep" , OBJ_PATH+"/Shape.Switch.vm.dep" , '372' } } ;
 
-Target cpp367 = { "Shape.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Text.cpp" } ;
-Target dcpp367 = { "Shape.Text.dep" , OBJ_PATH+"/Shape.Text.dep" } ;
-Rule rdcpp367 = { {&cpp367,&obj} , {&dcpp367} , {&execpp367} } ;
-Exe execpp367 = { "CC-DEP Shape.Text.cpp" , CC , {
+Target cpp373 = { "Shape.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.Text.cpp" } ;
+Target dcpp373 = { "Shape.Text.dep" , OBJ_PATH+"/Shape.Text.dep" } ;
+Rule rdcpp373 = { {&cpp373,&obj} , {&dcpp373} , {&execpp373} } ;
+Exe execpp373 = { "CC-DEP Shape.Text.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9949,14 +10111,14 @@ Exe execpp367 = { "CC-DEP Shape.Text.cpp" , CC , {
  ,OBJ_PATH+"/Shape.Text.dep"
 } } ;
 
-Target vdcpp367 = { "Shape.Text.vm.dep" , OBJ_PATH+"/Shape.Text.vm.dep" } ;
-Rule rvdcpp367 = { {&dcpp367} , {&vdcpp367} , {&exedcpp367} } ;
-Exe exedcpp367 = { "CC-VM-DEP Shape.Text.cpp" , VMDEP , { OBJ_PATH+"/Shape.Text.dep" , OBJ_PATH+"/Shape.Text.vm.dep" , '367' } } ;
+Target vdcpp373 = { "Shape.Text.vm.dep" , OBJ_PATH+"/Shape.Text.vm.dep" } ;
+Rule rvdcpp373 = { {&dcpp373} , {&vdcpp373} , {&exedcpp373} } ;
+Exe exedcpp373 = { "CC-VM-DEP Shape.Text.cpp" , VMDEP , { OBJ_PATH+"/Shape.Text.dep" , OBJ_PATH+"/Shape.Text.vm.dep" , '373' } } ;
 
-Target cpp368 = { "Shape.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.TextLine.cpp" } ;
-Target dcpp368 = { "Shape.TextLine.dep" , OBJ_PATH+"/Shape.TextLine.dep" } ;
-Rule rdcpp368 = { {&cpp368,&obj} , {&dcpp368} , {&execpp368} } ;
-Exe execpp368 = { "CC-DEP Shape.TextLine.cpp" , CC , {
+Target cpp374 = { "Shape.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Shape.TextLine.cpp" } ;
+Target dcpp374 = { "Shape.TextLine.dep" , OBJ_PATH+"/Shape.TextLine.dep" } ;
+Rule rdcpp374 = { {&cpp374,&obj} , {&dcpp374} , {&execpp374} } ;
+Exe execpp374 = { "CC-DEP Shape.TextLine.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -9976,14 +10138,14 @@ Exe execpp368 = { "CC-DEP Shape.TextLine.cpp" , CC , {
  ,OBJ_PATH+"/Shape.TextLine.dep"
 } } ;
 
-Target vdcpp368 = { "Shape.TextLine.vm.dep" , OBJ_PATH+"/Shape.TextLine.vm.dep" } ;
-Rule rvdcpp368 = { {&dcpp368} , {&vdcpp368} , {&exedcpp368} } ;
-Exe exedcpp368 = { "CC-VM-DEP Shape.TextLine.cpp" , VMDEP , { OBJ_PATH+"/Shape.TextLine.dep" , OBJ_PATH+"/Shape.TextLine.vm.dep" , '368' } } ;
+Target vdcpp374 = { "Shape.TextLine.vm.dep" , OBJ_PATH+"/Shape.TextLine.vm.dep" } ;
+Rule rvdcpp374 = { {&dcpp374} , {&vdcpp374} , {&exedcpp374} } ;
+Exe exedcpp374 = { "CC-VM-DEP Shape.TextLine.cpp" , VMDEP , { OBJ_PATH+"/Shape.TextLine.dep" , OBJ_PATH+"/Shape.TextLine.vm.dep" , '374' } } ;
 
-Target cpp369 = { "ShapeLib.cpp" , "../../Desktop/Lib/CCore/src/video/ShapeLib.cpp" } ;
-Target dcpp369 = { "ShapeLib.dep" , OBJ_PATH+"/ShapeLib.dep" } ;
-Rule rdcpp369 = { {&cpp369,&obj} , {&dcpp369} , {&execpp369} } ;
-Exe execpp369 = { "CC-DEP ShapeLib.cpp" , CC , {
+Target cpp375 = { "ShapeLib.cpp" , "../../Desktop/Lib/CCore/src/video/ShapeLib.cpp" } ;
+Target dcpp375 = { "ShapeLib.dep" , OBJ_PATH+"/ShapeLib.dep" } ;
+Rule rdcpp375 = { {&cpp375,&obj} , {&dcpp375} , {&execpp375} } ;
+Exe execpp375 = { "CC-DEP ShapeLib.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10003,14 +10165,14 @@ Exe execpp369 = { "CC-DEP ShapeLib.cpp" , CC , {
  ,OBJ_PATH+"/ShapeLib.dep"
 } } ;
 
-Target vdcpp369 = { "ShapeLib.vm.dep" , OBJ_PATH+"/ShapeLib.vm.dep" } ;
-Rule rvdcpp369 = { {&dcpp369} , {&vdcpp369} , {&exedcpp369} } ;
-Exe exedcpp369 = { "CC-VM-DEP ShapeLib.cpp" , VMDEP , { OBJ_PATH+"/ShapeLib.dep" , OBJ_PATH+"/ShapeLib.vm.dep" , '369' } } ;
+Target vdcpp375 = { "ShapeLib.vm.dep" , OBJ_PATH+"/ShapeLib.vm.dep" } ;
+Rule rvdcpp375 = { {&dcpp375} , {&vdcpp375} , {&exedcpp375} } ;
+Exe exedcpp375 = { "CC-VM-DEP ShapeLib.cpp" , VMDEP , { OBJ_PATH+"/ShapeLib.dep" , OBJ_PATH+"/ShapeLib.vm.dep" , '375' } } ;
 
-Target cpp370 = { "ShortSort.cpp" , "../../Fundamental/CCore/src/sort/ShortSort.cpp" } ;
-Target dcpp370 = { "ShortSort.dep" , OBJ_PATH+"/ShortSort.dep" } ;
-Rule rdcpp370 = { {&cpp370,&obj} , {&dcpp370} , {&execpp370} } ;
-Exe execpp370 = { "CC-DEP ShortSort.cpp" , CC , {
+Target cpp376 = { "ShortSort.cpp" , "../../Fundamental/CCore/src/sort/ShortSort.cpp" } ;
+Target dcpp376 = { "ShortSort.dep" , OBJ_PATH+"/ShortSort.dep" } ;
+Rule rdcpp376 = { {&cpp376,&obj} , {&dcpp376} , {&execpp376} } ;
+Exe execpp376 = { "CC-DEP ShortSort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10030,14 +10192,14 @@ Exe execpp370 = { "CC-DEP ShortSort.cpp" , CC , {
  ,OBJ_PATH+"/ShortSort.dep"
 } } ;
 
-Target vdcpp370 = { "ShortSort.vm.dep" , OBJ_PATH+"/ShortSort.vm.dep" } ;
-Rule rvdcpp370 = { {&dcpp370} , {&vdcpp370} , {&exedcpp370} } ;
-Exe exedcpp370 = { "CC-VM-DEP ShortSort.cpp" , VMDEP , { OBJ_PATH+"/ShortSort.dep" , OBJ_PATH+"/ShortSort.vm.dep" , '370' } } ;
+Target vdcpp376 = { "ShortSort.vm.dep" , OBJ_PATH+"/ShortSort.vm.dep" } ;
+Rule rvdcpp376 = { {&dcpp376} , {&vdcpp376} , {&exedcpp376} } ;
+Exe exedcpp376 = { "CC-VM-DEP ShortSort.cpp" , VMDEP , { OBJ_PATH+"/ShortSort.dep" , OBJ_PATH+"/ShortSort.vm.dep" , '376' } } ;
 
-Target cpp371 = { "Signal.cpp" , "../../Fundamental/CCore/src/Signal.cpp" } ;
-Target dcpp371 = { "Signal.dep" , OBJ_PATH+"/Signal.dep" } ;
-Rule rdcpp371 = { {&cpp371,&obj} , {&dcpp371} , {&execpp371} } ;
-Exe execpp371 = { "CC-DEP Signal.cpp" , CC , {
+Target cpp377 = { "Signal.cpp" , "../../Fundamental/CCore/src/Signal.cpp" } ;
+Target dcpp377 = { "Signal.dep" , OBJ_PATH+"/Signal.dep" } ;
+Rule rdcpp377 = { {&cpp377,&obj} , {&dcpp377} , {&execpp377} } ;
+Exe execpp377 = { "CC-DEP Signal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10057,14 +10219,14 @@ Exe execpp371 = { "CC-DEP Signal.cpp" , CC , {
  ,OBJ_PATH+"/Signal.dep"
 } } ;
 
-Target vdcpp371 = { "Signal.vm.dep" , OBJ_PATH+"/Signal.vm.dep" } ;
-Rule rvdcpp371 = { {&dcpp371} , {&vdcpp371} , {&exedcpp371} } ;
-Exe exedcpp371 = { "CC-VM-DEP Signal.cpp" , VMDEP , { OBJ_PATH+"/Signal.dep" , OBJ_PATH+"/Signal.vm.dep" , '371' } } ;
+Target vdcpp377 = { "Signal.vm.dep" , OBJ_PATH+"/Signal.vm.dep" } ;
+Rule rvdcpp377 = { {&dcpp377} , {&vdcpp377} , {&exedcpp377} } ;
+Exe exedcpp377 = { "CC-VM-DEP Signal.cpp" , VMDEP , { OBJ_PATH+"/Signal.dep" , OBJ_PATH+"/Signal.vm.dep" , '377' } } ;
 
-Target cpp372 = { "SimpleArray.cpp" , "../../Fundamental/CCore/src/array/SimpleArray.cpp" } ;
-Target dcpp372 = { "SimpleArray.dep" , OBJ_PATH+"/SimpleArray.dep" } ;
-Rule rdcpp372 = { {&cpp372,&obj} , {&dcpp372} , {&execpp372} } ;
-Exe execpp372 = { "CC-DEP SimpleArray.cpp" , CC , {
+Target cpp378 = { "SimpleArray.cpp" , "../../Fundamental/CCore/src/array/SimpleArray.cpp" } ;
+Target dcpp378 = { "SimpleArray.dep" , OBJ_PATH+"/SimpleArray.dep" } ;
+Rule rdcpp378 = { {&cpp378,&obj} , {&dcpp378} , {&execpp378} } ;
+Exe execpp378 = { "CC-DEP SimpleArray.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10084,14 +10246,14 @@ Exe execpp372 = { "CC-DEP SimpleArray.cpp" , CC , {
  ,OBJ_PATH+"/SimpleArray.dep"
 } } ;
 
-Target vdcpp372 = { "SimpleArray.vm.dep" , OBJ_PATH+"/SimpleArray.vm.dep" } ;
-Rule rvdcpp372 = { {&dcpp372} , {&vdcpp372} , {&exedcpp372} } ;
-Exe exedcpp372 = { "CC-VM-DEP SimpleArray.cpp" , VMDEP , { OBJ_PATH+"/SimpleArray.dep" , OBJ_PATH+"/SimpleArray.vm.dep" , '372' } } ;
+Target vdcpp378 = { "SimpleArray.vm.dep" , OBJ_PATH+"/SimpleArray.vm.dep" } ;
+Rule rvdcpp378 = { {&dcpp378} , {&vdcpp378} , {&exedcpp378} } ;
+Exe exedcpp378 = { "CC-VM-DEP SimpleArray.cpp" , VMDEP , { OBJ_PATH+"/SimpleArray.dep" , OBJ_PATH+"/SimpleArray.vm.dep" , '378' } } ;
 
-Target cpp373 = { "SimpleConsole.cpp" , "../../Applied/CCore/src/video/SimpleConsole.cpp" } ;
-Target dcpp373 = { "SimpleConsole.dep" , OBJ_PATH+"/SimpleConsole.dep" } ;
-Rule rdcpp373 = { {&cpp373,&obj} , {&dcpp373} , {&execpp373} } ;
-Exe execpp373 = { "CC-DEP SimpleConsole.cpp" , CC , {
+Target cpp379 = { "SimpleConsole.cpp" , "../../Applied/CCore/src/video/SimpleConsole.cpp" } ;
+Target dcpp379 = { "SimpleConsole.dep" , OBJ_PATH+"/SimpleConsole.dep" } ;
+Rule rdcpp379 = { {&cpp379,&obj} , {&dcpp379} , {&execpp379} } ;
+Exe execpp379 = { "CC-DEP SimpleConsole.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10111,14 +10273,14 @@ Exe execpp373 = { "CC-DEP SimpleConsole.cpp" , CC , {
  ,OBJ_PATH+"/SimpleConsole.dep"
 } } ;
 
-Target vdcpp373 = { "SimpleConsole.vm.dep" , OBJ_PATH+"/SimpleConsole.vm.dep" } ;
-Rule rvdcpp373 = { {&dcpp373} , {&vdcpp373} , {&exedcpp373} } ;
-Exe exedcpp373 = { "CC-VM-DEP SimpleConsole.cpp" , VMDEP , { OBJ_PATH+"/SimpleConsole.dep" , OBJ_PATH+"/SimpleConsole.vm.dep" , '373' } } ;
+Target vdcpp379 = { "SimpleConsole.vm.dep" , OBJ_PATH+"/SimpleConsole.vm.dep" } ;
+Rule rvdcpp379 = { {&dcpp379} , {&vdcpp379} , {&exedcpp379} } ;
+Exe exedcpp379 = { "CC-VM-DEP SimpleConsole.cpp" , VMDEP , { OBJ_PATH+"/SimpleConsole.dep" , OBJ_PATH+"/SimpleConsole.vm.dep" , '379' } } ;
 
-Target cpp374 = { "SimpleRotate.cpp" , "../../Fundamental/CCore/src/algon/SimpleRotate.cpp" } ;
-Target dcpp374 = { "SimpleRotate.dep" , OBJ_PATH+"/SimpleRotate.dep" } ;
-Rule rdcpp374 = { {&cpp374,&obj} , {&dcpp374} , {&execpp374} } ;
-Exe execpp374 = { "CC-DEP SimpleRotate.cpp" , CC , {
+Target cpp380 = { "SimpleRotate.cpp" , "../../Fundamental/CCore/src/algon/SimpleRotate.cpp" } ;
+Target dcpp380 = { "SimpleRotate.dep" , OBJ_PATH+"/SimpleRotate.dep" } ;
+Rule rdcpp380 = { {&cpp380,&obj} , {&dcpp380} , {&execpp380} } ;
+Exe execpp380 = { "CC-DEP SimpleRotate.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10138,14 +10300,14 @@ Exe execpp374 = { "CC-DEP SimpleRotate.cpp" , CC , {
  ,OBJ_PATH+"/SimpleRotate.dep"
 } } ;
 
-Target vdcpp374 = { "SimpleRotate.vm.dep" , OBJ_PATH+"/SimpleRotate.vm.dep" } ;
-Rule rvdcpp374 = { {&dcpp374} , {&vdcpp374} , {&exedcpp374} } ;
-Exe exedcpp374 = { "CC-VM-DEP SimpleRotate.cpp" , VMDEP , { OBJ_PATH+"/SimpleRotate.dep" , OBJ_PATH+"/SimpleRotate.vm.dep" , '374' } } ;
+Target vdcpp380 = { "SimpleRotate.vm.dep" , OBJ_PATH+"/SimpleRotate.vm.dep" } ;
+Rule rvdcpp380 = { {&dcpp380} , {&vdcpp380} , {&exedcpp380} } ;
+Exe exedcpp380 = { "CC-VM-DEP SimpleRotate.cpp" , VMDEP , { OBJ_PATH+"/SimpleRotate.dep" , OBJ_PATH+"/SimpleRotate.vm.dep" , '380' } } ;
 
-Target cpp375 = { "SingleBridge.cpp" , "../../Applied/CCore/src/net/SingleBridge.cpp" } ;
-Target dcpp375 = { "SingleBridge.dep" , OBJ_PATH+"/SingleBridge.dep" } ;
-Rule rdcpp375 = { {&cpp375,&obj} , {&dcpp375} , {&execpp375} } ;
-Exe execpp375 = { "CC-DEP SingleBridge.cpp" , CC , {
+Target cpp381 = { "SingleBridge.cpp" , "../../Applied/CCore/src/net/SingleBridge.cpp" } ;
+Target dcpp381 = { "SingleBridge.dep" , OBJ_PATH+"/SingleBridge.dep" } ;
+Rule rdcpp381 = { {&cpp381,&obj} , {&dcpp381} , {&execpp381} } ;
+Exe execpp381 = { "CC-DEP SingleBridge.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10165,14 +10327,14 @@ Exe execpp375 = { "CC-DEP SingleBridge.cpp" , CC , {
  ,OBJ_PATH+"/SingleBridge.dep"
 } } ;
 
-Target vdcpp375 = { "SingleBridge.vm.dep" , OBJ_PATH+"/SingleBridge.vm.dep" } ;
-Rule rvdcpp375 = { {&dcpp375} , {&vdcpp375} , {&exedcpp375} } ;
-Exe exedcpp375 = { "CC-VM-DEP SingleBridge.cpp" , VMDEP , { OBJ_PATH+"/SingleBridge.dep" , OBJ_PATH+"/SingleBridge.vm.dep" , '375' } } ;
+Target vdcpp381 = { "SingleBridge.vm.dep" , OBJ_PATH+"/SingleBridge.vm.dep" } ;
+Rule rvdcpp381 = { {&dcpp381} , {&vdcpp381} , {&exedcpp381} } ;
+Exe exedcpp381 = { "CC-VM-DEP SingleBridge.cpp" , VMDEP , { OBJ_PATH+"/SingleBridge.dep" , OBJ_PATH+"/SingleBridge.vm.dep" , '381' } } ;
 
-Target cpp376 = { "SingleEchoDevice.cpp" , "../../Applied/CCore/src/net/SingleEchoDevice.cpp" } ;
-Target dcpp376 = { "SingleEchoDevice.dep" , OBJ_PATH+"/SingleEchoDevice.dep" } ;
-Rule rdcpp376 = { {&cpp376,&obj} , {&dcpp376} , {&execpp376} } ;
-Exe execpp376 = { "CC-DEP SingleEchoDevice.cpp" , CC , {
+Target cpp382 = { "SingleEchoDevice.cpp" , "../../Applied/CCore/src/net/SingleEchoDevice.cpp" } ;
+Target dcpp382 = { "SingleEchoDevice.dep" , OBJ_PATH+"/SingleEchoDevice.dep" } ;
+Rule rdcpp382 = { {&cpp382,&obj} , {&dcpp382} , {&execpp382} } ;
+Exe execpp382 = { "CC-DEP SingleEchoDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10192,14 +10354,14 @@ Exe execpp376 = { "CC-DEP SingleEchoDevice.cpp" , CC , {
  ,OBJ_PATH+"/SingleEchoDevice.dep"
 } } ;
 
-Target vdcpp376 = { "SingleEchoDevice.vm.dep" , OBJ_PATH+"/SingleEchoDevice.vm.dep" } ;
-Rule rvdcpp376 = { {&dcpp376} , {&vdcpp376} , {&exedcpp376} } ;
-Exe exedcpp376 = { "CC-VM-DEP SingleEchoDevice.cpp" , VMDEP , { OBJ_PATH+"/SingleEchoDevice.dep" , OBJ_PATH+"/SingleEchoDevice.vm.dep" , '376' } } ;
+Target vdcpp382 = { "SingleEchoDevice.vm.dep" , OBJ_PATH+"/SingleEchoDevice.vm.dep" } ;
+Rule rvdcpp382 = { {&dcpp382} , {&vdcpp382} , {&exedcpp382} } ;
+Exe exedcpp382 = { "CC-VM-DEP SingleEchoDevice.cpp" , VMDEP , { OBJ_PATH+"/SingleEchoDevice.dep" , OBJ_PATH+"/SingleEchoDevice.vm.dep" , '382' } } ;
 
-Target cpp377 = { "SingleHost.cpp" , "../../Fundamental/CCore/src/SingleHost.cpp" } ;
-Target dcpp377 = { "SingleHost.dep" , OBJ_PATH+"/SingleHost.dep" } ;
-Rule rdcpp377 = { {&cpp377,&obj} , {&dcpp377} , {&execpp377} } ;
-Exe execpp377 = { "CC-DEP SingleHost.cpp" , CC , {
+Target cpp383 = { "SingleHost.cpp" , "../../Fundamental/CCore/src/SingleHost.cpp" } ;
+Target dcpp383 = { "SingleHost.dep" , OBJ_PATH+"/SingleHost.dep" } ;
+Rule rdcpp383 = { {&cpp383,&obj} , {&dcpp383} , {&execpp383} } ;
+Exe execpp383 = { "CC-DEP SingleHost.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10219,14 +10381,14 @@ Exe execpp377 = { "CC-DEP SingleHost.cpp" , CC , {
  ,OBJ_PATH+"/SingleHost.dep"
 } } ;
 
-Target vdcpp377 = { "SingleHost.vm.dep" , OBJ_PATH+"/SingleHost.vm.dep" } ;
-Rule rvdcpp377 = { {&dcpp377} , {&vdcpp377} , {&exedcpp377} } ;
-Exe exedcpp377 = { "CC-VM-DEP SingleHost.cpp" , VMDEP , { OBJ_PATH+"/SingleHost.dep" , OBJ_PATH+"/SingleHost.vm.dep" , '377' } } ;
+Target vdcpp383 = { "SingleHost.vm.dep" , OBJ_PATH+"/SingleHost.vm.dep" } ;
+Rule rvdcpp383 = { {&dcpp383} , {&vdcpp383} , {&exedcpp383} } ;
+Exe exedcpp383 = { "CC-VM-DEP SingleHost.cpp" , VMDEP , { OBJ_PATH+"/SingleHost.dep" , OBJ_PATH+"/SingleHost.vm.dep" , '383' } } ;
 
-Target cpp378 = { "SlowSem.cpp" , "../../HCore/CCore/src/task/SlowSem.cpp" } ;
-Target dcpp378 = { "SlowSem.dep" , OBJ_PATH+"/SlowSem.dep" } ;
-Rule rdcpp378 = { {&cpp378,&obj} , {&dcpp378} , {&execpp378} } ;
-Exe execpp378 = { "CC-DEP SlowSem.cpp" , CC , {
+Target cpp384 = { "SlowSem.cpp" , "../../HCore/CCore/src/task/SlowSem.cpp" } ;
+Target dcpp384 = { "SlowSem.dep" , OBJ_PATH+"/SlowSem.dep" } ;
+Rule rdcpp384 = { {&cpp384,&obj} , {&dcpp384} , {&execpp384} } ;
+Exe execpp384 = { "CC-DEP SlowSem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10246,14 +10408,14 @@ Exe execpp378 = { "CC-DEP SlowSem.cpp" , CC , {
  ,OBJ_PATH+"/SlowSem.dep"
 } } ;
 
-Target vdcpp378 = { "SlowSem.vm.dep" , OBJ_PATH+"/SlowSem.vm.dep" } ;
-Rule rvdcpp378 = { {&dcpp378} , {&vdcpp378} , {&exedcpp378} } ;
-Exe exedcpp378 = { "CC-VM-DEP SlowSem.cpp" , VMDEP , { OBJ_PATH+"/SlowSem.dep" , OBJ_PATH+"/SlowSem.vm.dep" , '378' } } ;
+Target vdcpp384 = { "SlowSem.vm.dep" , OBJ_PATH+"/SlowSem.vm.dep" } ;
+Rule rvdcpp384 = { {&dcpp384} , {&vdcpp384} , {&exedcpp384} } ;
+Exe exedcpp384 = { "CC-VM-DEP SlowSem.cpp" , VMDEP , { OBJ_PATH+"/SlowSem.dep" , OBJ_PATH+"/SlowSem.vm.dep" , '384' } } ;
 
-Target cpp379 = { "SmallPrimes.cpp" , "../../Applied/CCore/src/math/SmallPrimes.cpp" } ;
-Target dcpp379 = { "SmallPrimes.dep" , OBJ_PATH+"/SmallPrimes.dep" } ;
-Rule rdcpp379 = { {&cpp379,&obj} , {&dcpp379} , {&execpp379} } ;
-Exe execpp379 = { "CC-DEP SmallPrimes.cpp" , CC , {
+Target cpp385 = { "SmallPrimes.cpp" , "../../Applied/CCore/src/math/SmallPrimes.cpp" } ;
+Target dcpp385 = { "SmallPrimes.dep" , OBJ_PATH+"/SmallPrimes.dep" } ;
+Rule rdcpp385 = { {&cpp385,&obj} , {&dcpp385} , {&execpp385} } ;
+Exe execpp385 = { "CC-DEP SmallPrimes.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10273,14 +10435,14 @@ Exe execpp379 = { "CC-DEP SmallPrimes.cpp" , CC , {
  ,OBJ_PATH+"/SmallPrimes.dep"
 } } ;
 
-Target vdcpp379 = { "SmallPrimes.vm.dep" , OBJ_PATH+"/SmallPrimes.vm.dep" } ;
-Rule rvdcpp379 = { {&dcpp379} , {&vdcpp379} , {&exedcpp379} } ;
-Exe exedcpp379 = { "CC-VM-DEP SmallPrimes.cpp" , VMDEP , { OBJ_PATH+"/SmallPrimes.dep" , OBJ_PATH+"/SmallPrimes.vm.dep" , '379' } } ;
+Target vdcpp385 = { "SmallPrimes.vm.dep" , OBJ_PATH+"/SmallPrimes.vm.dep" } ;
+Rule rvdcpp385 = { {&dcpp385} , {&vdcpp385} , {&exedcpp385} } ;
+Exe exedcpp385 = { "CC-VM-DEP SmallPrimes.cpp" , VMDEP , { OBJ_PATH+"/SmallPrimes.dep" , OBJ_PATH+"/SmallPrimes.vm.dep" , '385' } } ;
 
-Target cpp380 = { "SmoothAlgo.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothAlgo.cpp" } ;
-Target dcpp380 = { "SmoothAlgo.dep" , OBJ_PATH+"/SmoothAlgo.dep" } ;
-Rule rdcpp380 = { {&cpp380,&obj} , {&dcpp380} , {&execpp380} } ;
-Exe execpp380 = { "CC-DEP SmoothAlgo.cpp" , CC , {
+Target cpp386 = { "SmoothAlgo.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothAlgo.cpp" } ;
+Target dcpp386 = { "SmoothAlgo.dep" , OBJ_PATH+"/SmoothAlgo.dep" } ;
+Rule rdcpp386 = { {&cpp386,&obj} , {&dcpp386} , {&execpp386} } ;
+Exe execpp386 = { "CC-DEP SmoothAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10300,14 +10462,14 @@ Exe execpp380 = { "CC-DEP SmoothAlgo.cpp" , CC , {
  ,OBJ_PATH+"/SmoothAlgo.dep"
 } } ;
 
-Target vdcpp380 = { "SmoothAlgo.vm.dep" , OBJ_PATH+"/SmoothAlgo.vm.dep" } ;
-Rule rvdcpp380 = { {&dcpp380} , {&vdcpp380} , {&exedcpp380} } ;
-Exe exedcpp380 = { "CC-VM-DEP SmoothAlgo.cpp" , VMDEP , { OBJ_PATH+"/SmoothAlgo.dep" , OBJ_PATH+"/SmoothAlgo.vm.dep" , '380' } } ;
+Target vdcpp386 = { "SmoothAlgo.vm.dep" , OBJ_PATH+"/SmoothAlgo.vm.dep" } ;
+Rule rvdcpp386 = { {&dcpp386} , {&vdcpp386} , {&exedcpp386} } ;
+Exe exedcpp386 = { "CC-VM-DEP SmoothAlgo.cpp" , VMDEP , { OBJ_PATH+"/SmoothAlgo.dep" , OBJ_PATH+"/SmoothAlgo.vm.dep" , '386' } } ;
 
-Target cpp381 = { "SmoothDrawArt.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothDrawArt.cpp" } ;
-Target dcpp381 = { "SmoothDrawArt.dep" , OBJ_PATH+"/SmoothDrawArt.dep" } ;
-Rule rdcpp381 = { {&cpp381,&obj} , {&dcpp381} , {&execpp381} } ;
-Exe execpp381 = { "CC-DEP SmoothDrawArt.cpp" , CC , {
+Target cpp387 = { "SmoothDrawArt.cpp" , "../../Desktop/Draw/CCore/src/video/SmoothDrawArt.cpp" } ;
+Target dcpp387 = { "SmoothDrawArt.dep" , OBJ_PATH+"/SmoothDrawArt.dep" } ;
+Rule rdcpp387 = { {&cpp387,&obj} , {&dcpp387} , {&execpp387} } ;
+Exe execpp387 = { "CC-DEP SmoothDrawArt.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10327,14 +10489,14 @@ Exe execpp381 = { "CC-DEP SmoothDrawArt.cpp" , CC , {
  ,OBJ_PATH+"/SmoothDrawArt.dep"
 } } ;
 
-Target vdcpp381 = { "SmoothDrawArt.vm.dep" , OBJ_PATH+"/SmoothDrawArt.vm.dep" } ;
-Rule rvdcpp381 = { {&dcpp381} , {&vdcpp381} , {&exedcpp381} } ;
-Exe exedcpp381 = { "CC-VM-DEP SmoothDrawArt.cpp" , VMDEP , { OBJ_PATH+"/SmoothDrawArt.dep" , OBJ_PATH+"/SmoothDrawArt.vm.dep" , '381' } } ;
+Target vdcpp387 = { "SmoothDrawArt.vm.dep" , OBJ_PATH+"/SmoothDrawArt.vm.dep" } ;
+Rule rvdcpp387 = { {&dcpp387} , {&vdcpp387} , {&exedcpp387} } ;
+Exe exedcpp387 = { "CC-VM-DEP SmoothDrawArt.cpp" , VMDEP , { OBJ_PATH+"/SmoothDrawArt.dep" , OBJ_PATH+"/SmoothDrawArt.vm.dep" , '387' } } ;
 
-Target cpp382 = { "Sort.cpp" , "../../Fundamental/CCore/src/Sort.cpp" } ;
-Target dcpp382 = { "Sort.dep" , OBJ_PATH+"/Sort.dep" } ;
-Rule rdcpp382 = { {&cpp382,&obj} , {&dcpp382} , {&execpp382} } ;
-Exe execpp382 = { "CC-DEP Sort.cpp" , CC , {
+Target cpp388 = { "Sort.cpp" , "../../Fundamental/CCore/src/Sort.cpp" } ;
+Target dcpp388 = { "Sort.dep" , OBJ_PATH+"/Sort.dep" } ;
+Rule rdcpp388 = { {&cpp388,&obj} , {&dcpp388} , {&execpp388} } ;
+Exe execpp388 = { "CC-DEP Sort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10354,14 +10516,14 @@ Exe execpp382 = { "CC-DEP Sort.cpp" , CC , {
  ,OBJ_PATH+"/Sort.dep"
 } } ;
 
-Target vdcpp382 = { "Sort.vm.dep" , OBJ_PATH+"/Sort.vm.dep" } ;
-Rule rvdcpp382 = { {&dcpp382} , {&vdcpp382} , {&exedcpp382} } ;
-Exe exedcpp382 = { "CC-VM-DEP Sort.cpp" , VMDEP , { OBJ_PATH+"/Sort.dep" , OBJ_PATH+"/Sort.vm.dep" , '382' } } ;
+Target vdcpp388 = { "Sort.vm.dep" , OBJ_PATH+"/Sort.vm.dep" } ;
+Rule rvdcpp388 = { {&dcpp388} , {&vdcpp388} , {&exedcpp388} } ;
+Exe exedcpp388 = { "CC-VM-DEP Sort.cpp" , VMDEP , { OBJ_PATH+"/Sort.dep" , OBJ_PATH+"/Sort.vm.dep" , '388' } } ;
 
-Target cpp383 = { "SortUnique.cpp" , "../../Fundamental/CCore/src/algon/SortUnique.cpp" } ;
-Target dcpp383 = { "SortUnique.dep" , OBJ_PATH+"/SortUnique.dep" } ;
-Rule rdcpp383 = { {&cpp383,&obj} , {&dcpp383} , {&execpp383} } ;
-Exe execpp383 = { "CC-DEP SortUnique.cpp" , CC , {
+Target cpp389 = { "SortUnique.cpp" , "../../Fundamental/CCore/src/algon/SortUnique.cpp" } ;
+Target dcpp389 = { "SortUnique.dep" , OBJ_PATH+"/SortUnique.dep" } ;
+Rule rdcpp389 = { {&cpp389,&obj} , {&dcpp389} , {&execpp389} } ;
+Exe execpp389 = { "CC-DEP SortUnique.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10381,14 +10543,14 @@ Exe execpp383 = { "CC-DEP SortUnique.cpp" , CC , {
  ,OBJ_PATH+"/SortUnique.dep"
 } } ;
 
-Target vdcpp383 = { "SortUnique.vm.dep" , OBJ_PATH+"/SortUnique.vm.dep" } ;
-Rule rvdcpp383 = { {&dcpp383} , {&vdcpp383} , {&exedcpp383} } ;
-Exe exedcpp383 = { "CC-VM-DEP SortUnique.cpp" , VMDEP , { OBJ_PATH+"/SortUnique.dep" , OBJ_PATH+"/SortUnique.vm.dep" , '383' } } ;
+Target vdcpp389 = { "SortUnique.vm.dep" , OBJ_PATH+"/SortUnique.vm.dep" } ;
+Rule rvdcpp389 = { {&dcpp389} , {&vdcpp389} , {&exedcpp389} } ;
+Exe exedcpp389 = { "CC-VM-DEP SortUnique.cpp" , VMDEP , { OBJ_PATH+"/SortUnique.dep" , OBJ_PATH+"/SortUnique.vm.dep" , '389' } } ;
 
-Target cpp384 = { "Space.cpp" , "../../Simple/CCore/src/gadget/Space.cpp" } ;
-Target dcpp384 = { "Space.dep" , OBJ_PATH+"/Space.dep" } ;
-Rule rdcpp384 = { {&cpp384,&obj} , {&dcpp384} , {&execpp384} } ;
-Exe execpp384 = { "CC-DEP Space.cpp" , CC , {
+Target cpp390 = { "Space.cpp" , "../../Simple/CCore/src/gadget/Space.cpp" } ;
+Target dcpp390 = { "Space.dep" , OBJ_PATH+"/Space.dep" } ;
+Rule rdcpp390 = { {&cpp390,&obj} , {&dcpp390} , {&execpp390} } ;
+Exe execpp390 = { "CC-DEP Space.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10408,14 +10570,14 @@ Exe execpp384 = { "CC-DEP Space.cpp" , CC , {
  ,OBJ_PATH+"/Space.dep"
 } } ;
 
-Target vdcpp384 = { "Space.vm.dep" , OBJ_PATH+"/Space.vm.dep" } ;
-Rule rvdcpp384 = { {&dcpp384} , {&vdcpp384} , {&exedcpp384} } ;
-Exe exedcpp384 = { "CC-VM-DEP Space.cpp" , VMDEP , { OBJ_PATH+"/Space.dep" , OBJ_PATH+"/Space.vm.dep" , '384' } } ;
+Target vdcpp390 = { "Space.vm.dep" , OBJ_PATH+"/Space.vm.dep" } ;
+Rule rvdcpp390 = { {&dcpp390} , {&vdcpp390} , {&exedcpp390} } ;
+Exe exedcpp390 = { "CC-VM-DEP Space.cpp" , VMDEP , { OBJ_PATH+"/Space.dep" , OBJ_PATH+"/Space.vm.dep" , '390' } } ;
 
-Target cpp385 = { "SpanLenEngine.cpp" , "../../Desktop/Lib/CCore/src/video/book/SpanLenEngine.cpp" } ;
-Target dcpp385 = { "SpanLenEngine.dep" , OBJ_PATH+"/SpanLenEngine.dep" } ;
-Rule rdcpp385 = { {&cpp385,&obj} , {&dcpp385} , {&execpp385} } ;
-Exe execpp385 = { "CC-DEP SpanLenEngine.cpp" , CC , {
+Target cpp391 = { "SpanLenEngine.cpp" , "../../Desktop/Lib/CCore/src/video/book/SpanLenEngine.cpp" } ;
+Target dcpp391 = { "SpanLenEngine.dep" , OBJ_PATH+"/SpanLenEngine.dep" } ;
+Rule rdcpp391 = { {&cpp391,&obj} , {&dcpp391} , {&execpp391} } ;
+Exe execpp391 = { "CC-DEP SpanLenEngine.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10435,14 +10597,14 @@ Exe execpp385 = { "CC-DEP SpanLenEngine.cpp" , CC , {
  ,OBJ_PATH+"/SpanLenEngine.dep"
 } } ;
 
-Target vdcpp385 = { "SpanLenEngine.vm.dep" , OBJ_PATH+"/SpanLenEngine.vm.dep" } ;
-Rule rvdcpp385 = { {&dcpp385} , {&vdcpp385} , {&exedcpp385} } ;
-Exe exedcpp385 = { "CC-VM-DEP SpanLenEngine.cpp" , VMDEP , { OBJ_PATH+"/SpanLenEngine.dep" , OBJ_PATH+"/SpanLenEngine.vm.dep" , '385' } } ;
+Target vdcpp391 = { "SpanLenEngine.vm.dep" , OBJ_PATH+"/SpanLenEngine.vm.dep" } ;
+Rule rvdcpp391 = { {&dcpp391} , {&vdcpp391} , {&exedcpp391} } ;
+Exe exedcpp391 = { "CC-VM-DEP SpanLenEngine.cpp" , VMDEP , { OBJ_PATH+"/SpanLenEngine.dep" , OBJ_PATH+"/SpanLenEngine.vm.dep" , '391' } } ;
 
-Target cpp386 = { "SpawnProcess.cpp" , "../../HCore/CCore/src/SpawnProcess.cpp" } ;
-Target dcpp386 = { "SpawnProcess.dep" , OBJ_PATH+"/SpawnProcess.dep" } ;
-Rule rdcpp386 = { {&cpp386,&obj} , {&dcpp386} , {&execpp386} } ;
-Exe execpp386 = { "CC-DEP SpawnProcess.cpp" , CC , {
+Target cpp392 = { "SpawnProcess.cpp" , "../../HCore/CCore/src/SpawnProcess.cpp" } ;
+Target dcpp392 = { "SpawnProcess.dep" , OBJ_PATH+"/SpawnProcess.dep" } ;
+Rule rdcpp392 = { {&cpp392,&obj} , {&dcpp392} , {&execpp392} } ;
+Exe execpp392 = { "CC-DEP SpawnProcess.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10462,14 +10624,14 @@ Exe execpp386 = { "CC-DEP SpawnProcess.cpp" , CC , {
  ,OBJ_PATH+"/SpawnProcess.dep"
 } } ;
 
-Target vdcpp386 = { "SpawnProcess.vm.dep" , OBJ_PATH+"/SpawnProcess.vm.dep" } ;
-Rule rvdcpp386 = { {&dcpp386} , {&vdcpp386} , {&exedcpp386} } ;
-Exe exedcpp386 = { "CC-VM-DEP SpawnProcess.cpp" , VMDEP , { OBJ_PATH+"/SpawnProcess.dep" , OBJ_PATH+"/SpawnProcess.vm.dep" , '386' } } ;
+Target vdcpp392 = { "SpawnProcess.vm.dep" , OBJ_PATH+"/SpawnProcess.vm.dep" } ;
+Rule rvdcpp392 = { {&dcpp392} , {&vdcpp392} , {&exedcpp392} } ;
+Exe exedcpp392 = { "CC-VM-DEP SpawnProcess.cpp" , VMDEP , { OBJ_PATH+"/SpawnProcess.dep" , OBJ_PATH+"/SpawnProcess.vm.dep" , '392' } } ;
 
-Target cpp387 = { "StartStop.cpp" , "../../Simple/CCore/src/StartStop.cpp" } ;
-Target dcpp387 = { "StartStop.dep" , OBJ_PATH+"/StartStop.dep" } ;
-Rule rdcpp387 = { {&cpp387,&obj} , {&dcpp387} , {&execpp387} } ;
-Exe execpp387 = { "CC-DEP StartStop.cpp" , CC , {
+Target cpp393 = { "StartStop.cpp" , "../../Simple/CCore/src/StartStop.cpp" } ;
+Target dcpp393 = { "StartStop.dep" , OBJ_PATH+"/StartStop.dep" } ;
+Rule rdcpp393 = { {&cpp393,&obj} , {&dcpp393} , {&execpp393} } ;
+Exe execpp393 = { "CC-DEP StartStop.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10489,14 +10651,14 @@ Exe execpp387 = { "CC-DEP StartStop.cpp" , CC , {
  ,OBJ_PATH+"/StartStop.dep"
 } } ;
 
-Target vdcpp387 = { "StartStop.vm.dep" , OBJ_PATH+"/StartStop.vm.dep" } ;
-Rule rvdcpp387 = { {&dcpp387} , {&vdcpp387} , {&exedcpp387} } ;
-Exe exedcpp387 = { "CC-VM-DEP StartStop.cpp" , VMDEP , { OBJ_PATH+"/StartStop.dep" , OBJ_PATH+"/StartStop.vm.dep" , '387' } } ;
+Target vdcpp393 = { "StartStop.vm.dep" , OBJ_PATH+"/StartStop.vm.dep" } ;
+Rule rvdcpp393 = { {&dcpp393} , {&vdcpp393} , {&exedcpp393} } ;
+Exe exedcpp393 = { "CC-VM-DEP StartStop.cpp" , VMDEP , { OBJ_PATH+"/StartStop.dep" , OBJ_PATH+"/StartStop.vm.dep" , '393' } } ;
 
-Target cpp388 = { "Starter.cpp" , "../../Fundamental/CCore/src/Starter.cpp" } ;
-Target dcpp388 = { "Starter.dep" , OBJ_PATH+"/Starter.dep" } ;
-Rule rdcpp388 = { {&cpp388,&obj} , {&dcpp388} , {&execpp388} } ;
-Exe execpp388 = { "CC-DEP Starter.cpp" , CC , {
+Target cpp394 = { "Starter.cpp" , "../../Fundamental/CCore/src/Starter.cpp" } ;
+Target dcpp394 = { "Starter.dep" , OBJ_PATH+"/Starter.dep" } ;
+Rule rdcpp394 = { {&cpp394,&obj} , {&dcpp394} , {&execpp394} } ;
+Exe execpp394 = { "CC-DEP Starter.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10516,14 +10678,14 @@ Exe execpp388 = { "CC-DEP Starter.cpp" , CC , {
  ,OBJ_PATH+"/Starter.dep"
 } } ;
 
-Target vdcpp388 = { "Starter.vm.dep" , OBJ_PATH+"/Starter.vm.dep" } ;
-Rule rvdcpp388 = { {&dcpp388} , {&vdcpp388} , {&exedcpp388} } ;
-Exe exedcpp388 = { "CC-VM-DEP Starter.cpp" , VMDEP , { OBJ_PATH+"/Starter.dep" , OBJ_PATH+"/Starter.vm.dep" , '388' } } ;
+Target vdcpp394 = { "Starter.vm.dep" , OBJ_PATH+"/Starter.vm.dep" } ;
+Rule rvdcpp394 = { {&dcpp394} , {&vdcpp394} , {&exedcpp394} } ;
+Exe exedcpp394 = { "CC-VM-DEP Starter.cpp" , VMDEP , { OBJ_PATH+"/Starter.dep" , OBJ_PATH+"/Starter.vm.dep" , '394' } } ;
 
-Target cpp389 = { "StepEval.cpp" , "../../Fundamental/CCore/src/StepEval.cpp" } ;
-Target dcpp389 = { "StepEval.dep" , OBJ_PATH+"/StepEval.dep" } ;
-Rule rdcpp389 = { {&cpp389,&obj} , {&dcpp389} , {&execpp389} } ;
-Exe execpp389 = { "CC-DEP StepEval.cpp" , CC , {
+Target cpp395 = { "StepEval.cpp" , "../../Fundamental/CCore/src/StepEval.cpp" } ;
+Target dcpp395 = { "StepEval.dep" , OBJ_PATH+"/StepEval.dep" } ;
+Rule rdcpp395 = { {&cpp395,&obj} , {&dcpp395} , {&execpp395} } ;
+Exe execpp395 = { "CC-DEP StepEval.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10543,14 +10705,14 @@ Exe execpp389 = { "CC-DEP StepEval.cpp" , CC , {
  ,OBJ_PATH+"/StepEval.dep"
 } } ;
 
-Target vdcpp389 = { "StepEval.vm.dep" , OBJ_PATH+"/StepEval.vm.dep" } ;
-Rule rvdcpp389 = { {&dcpp389} , {&vdcpp389} , {&exedcpp389} } ;
-Exe exedcpp389 = { "CC-VM-DEP StepEval.cpp" , VMDEP , { OBJ_PATH+"/StepEval.dep" , OBJ_PATH+"/StepEval.vm.dep" , '389' } } ;
+Target vdcpp395 = { "StepEval.vm.dep" , OBJ_PATH+"/StepEval.vm.dep" } ;
+Rule rvdcpp395 = { {&dcpp395} , {&vdcpp395} , {&exedcpp395} } ;
+Exe exedcpp395 = { "CC-VM-DEP StepEval.cpp" , VMDEP , { OBJ_PATH+"/StepEval.dep" , OBJ_PATH+"/StepEval.vm.dep" , '395' } } ;
 
-Target cpp390 = { "StrKey.cpp" , "../../Simple/CCore/src/StrKey.cpp" } ;
-Target dcpp390 = { "StrKey.dep" , OBJ_PATH+"/StrKey.dep" } ;
-Rule rdcpp390 = { {&cpp390,&obj} , {&dcpp390} , {&execpp390} } ;
-Exe execpp390 = { "CC-DEP StrKey.cpp" , CC , {
+Target cpp396 = { "StrKey.cpp" , "../../Simple/CCore/src/StrKey.cpp" } ;
+Target dcpp396 = { "StrKey.dep" , OBJ_PATH+"/StrKey.dep" } ;
+Rule rdcpp396 = { {&cpp396,&obj} , {&dcpp396} , {&execpp396} } ;
+Exe execpp396 = { "CC-DEP StrKey.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10570,14 +10732,14 @@ Exe execpp390 = { "CC-DEP StrKey.cpp" , CC , {
  ,OBJ_PATH+"/StrKey.dep"
 } } ;
 
-Target vdcpp390 = { "StrKey.vm.dep" , OBJ_PATH+"/StrKey.vm.dep" } ;
-Rule rvdcpp390 = { {&dcpp390} , {&vdcpp390} , {&exedcpp390} } ;
-Exe exedcpp390 = { "CC-VM-DEP StrKey.cpp" , VMDEP , { OBJ_PATH+"/StrKey.dep" , OBJ_PATH+"/StrKey.vm.dep" , '390' } } ;
+Target vdcpp396 = { "StrKey.vm.dep" , OBJ_PATH+"/StrKey.vm.dep" } ;
+Rule rvdcpp396 = { {&dcpp396} , {&vdcpp396} , {&exedcpp396} } ;
+Exe exedcpp396 = { "CC-VM-DEP StrKey.cpp" , VMDEP , { OBJ_PATH+"/StrKey.dep" , OBJ_PATH+"/StrKey.vm.dep" , '396' } } ;
 
-Target cpp391 = { "StrMap.cpp" , "../../Fundamental/CCore/src/StrMap.cpp" } ;
-Target dcpp391 = { "StrMap.dep" , OBJ_PATH+"/StrMap.dep" } ;
-Rule rdcpp391 = { {&cpp391,&obj} , {&dcpp391} , {&execpp391} } ;
-Exe execpp391 = { "CC-DEP StrMap.cpp" , CC , {
+Target cpp397 = { "StrMap.cpp" , "../../Fundamental/CCore/src/StrMap.cpp" } ;
+Target dcpp397 = { "StrMap.dep" , OBJ_PATH+"/StrMap.dep" } ;
+Rule rdcpp397 = { {&cpp397,&obj} , {&dcpp397} , {&execpp397} } ;
+Exe execpp397 = { "CC-DEP StrMap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10597,14 +10759,14 @@ Exe execpp391 = { "CC-DEP StrMap.cpp" , CC , {
  ,OBJ_PATH+"/StrMap.dep"
 } } ;
 
-Target vdcpp391 = { "StrMap.vm.dep" , OBJ_PATH+"/StrMap.vm.dep" } ;
-Rule rvdcpp391 = { {&dcpp391} , {&vdcpp391} , {&exedcpp391} } ;
-Exe exedcpp391 = { "CC-VM-DEP StrMap.cpp" , VMDEP , { OBJ_PATH+"/StrMap.dep" , OBJ_PATH+"/StrMap.vm.dep" , '391' } } ;
+Target vdcpp397 = { "StrMap.vm.dep" , OBJ_PATH+"/StrMap.vm.dep" } ;
+Rule rvdcpp397 = { {&dcpp397} , {&vdcpp397} , {&exedcpp397} } ;
+Exe exedcpp397 = { "CC-VM-DEP StrMap.cpp" , VMDEP , { OBJ_PATH+"/StrMap.dep" , OBJ_PATH+"/StrMap.vm.dep" , '397' } } ;
 
-Target cpp392 = { "StrParse.cpp" , "../../Fundamental/CCore/src/StrParse.cpp" } ;
-Target dcpp392 = { "StrParse.dep" , OBJ_PATH+"/StrParse.dep" } ;
-Rule rdcpp392 = { {&cpp392,&obj} , {&dcpp392} , {&execpp392} } ;
-Exe execpp392 = { "CC-DEP StrParse.cpp" , CC , {
+Target cpp398 = { "StrParse.cpp" , "../../Fundamental/CCore/src/StrParse.cpp" } ;
+Target dcpp398 = { "StrParse.dep" , OBJ_PATH+"/StrParse.dep" } ;
+Rule rdcpp398 = { {&cpp398,&obj} , {&dcpp398} , {&execpp398} } ;
+Exe execpp398 = { "CC-DEP StrParse.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10624,14 +10786,14 @@ Exe execpp392 = { "CC-DEP StrParse.cpp" , CC , {
  ,OBJ_PATH+"/StrParse.dep"
 } } ;
 
-Target vdcpp392 = { "StrParse.vm.dep" , OBJ_PATH+"/StrParse.vm.dep" } ;
-Rule rvdcpp392 = { {&dcpp392} , {&vdcpp392} , {&exedcpp392} } ;
-Exe exedcpp392 = { "CC-VM-DEP StrParse.cpp" , VMDEP , { OBJ_PATH+"/StrParse.dep" , OBJ_PATH+"/StrParse.vm.dep" , '392' } } ;
+Target vdcpp398 = { "StrParse.vm.dep" , OBJ_PATH+"/StrParse.vm.dep" } ;
+Rule rvdcpp398 = { {&dcpp398} , {&vdcpp398} , {&exedcpp398} } ;
+Exe exedcpp398 = { "CC-VM-DEP StrParse.cpp" , VMDEP , { OBJ_PATH+"/StrParse.dep" , OBJ_PATH+"/StrParse.vm.dep" , '398' } } ;
 
-Target cpp393 = { "StrPrint.cpp" , "../../Fundamental/CCore/src/printf/StrPrint.cpp" } ;
-Target dcpp393 = { "StrPrint.dep" , OBJ_PATH+"/StrPrint.dep" } ;
-Rule rdcpp393 = { {&cpp393,&obj} , {&dcpp393} , {&execpp393} } ;
-Exe execpp393 = { "CC-DEP StrPrint.cpp" , CC , {
+Target cpp399 = { "StrPrint.cpp" , "../../Fundamental/CCore/src/printf/StrPrint.cpp" } ;
+Target dcpp399 = { "StrPrint.dep" , OBJ_PATH+"/StrPrint.dep" } ;
+Rule rdcpp399 = { {&cpp399,&obj} , {&dcpp399} , {&execpp399} } ;
+Exe execpp399 = { "CC-DEP StrPrint.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10651,14 +10813,14 @@ Exe execpp393 = { "CC-DEP StrPrint.cpp" , CC , {
  ,OBJ_PATH+"/StrPrint.dep"
 } } ;
 
-Target vdcpp393 = { "StrPrint.vm.dep" , OBJ_PATH+"/StrPrint.vm.dep" } ;
-Rule rvdcpp393 = { {&dcpp393} , {&vdcpp393} , {&exedcpp393} } ;
-Exe exedcpp393 = { "CC-VM-DEP StrPrint.cpp" , VMDEP , { OBJ_PATH+"/StrPrint.dep" , OBJ_PATH+"/StrPrint.vm.dep" , '393' } } ;
+Target vdcpp399 = { "StrPrint.vm.dep" , OBJ_PATH+"/StrPrint.vm.dep" } ;
+Rule rvdcpp399 = { {&dcpp399} , {&vdcpp399} , {&exedcpp399} } ;
+Exe exedcpp399 = { "CC-VM-DEP StrPrint.cpp" , VMDEP , { OBJ_PATH+"/StrPrint.dep" , OBJ_PATH+"/StrPrint.vm.dep" , '399' } } ;
 
-Target cpp394 = { "StrToChar.cpp" , "../../Applied/CCore/src/StrToChar.cpp" } ;
-Target dcpp394 = { "StrToChar.dep" , OBJ_PATH+"/StrToChar.dep" } ;
-Rule rdcpp394 = { {&cpp394,&obj} , {&dcpp394} , {&execpp394} } ;
-Exe execpp394 = { "CC-DEP StrToChar.cpp" , CC , {
+Target cpp400 = { "StrToChar.cpp" , "../../Applied/CCore/src/StrToChar.cpp" } ;
+Target dcpp400 = { "StrToChar.dep" , OBJ_PATH+"/StrToChar.dep" } ;
+Rule rdcpp400 = { {&cpp400,&obj} , {&dcpp400} , {&execpp400} } ;
+Exe execpp400 = { "CC-DEP StrToChar.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10678,14 +10840,14 @@ Exe execpp394 = { "CC-DEP StrToChar.cpp" , CC , {
  ,OBJ_PATH+"/StrToChar.dep"
 } } ;
 
-Target vdcpp394 = { "StrToChar.vm.dep" , OBJ_PATH+"/StrToChar.vm.dep" } ;
-Rule rvdcpp394 = { {&dcpp394} , {&vdcpp394} , {&exedcpp394} } ;
-Exe exedcpp394 = { "CC-VM-DEP StrToChar.cpp" , VMDEP , { OBJ_PATH+"/StrToChar.dep" , OBJ_PATH+"/StrToChar.vm.dep" , '394' } } ;
+Target vdcpp400 = { "StrToChar.vm.dep" , OBJ_PATH+"/StrToChar.vm.dep" } ;
+Rule rvdcpp400 = { {&dcpp400} , {&vdcpp400} , {&exedcpp400} } ;
+Exe exedcpp400 = { "CC-VM-DEP StrToChar.cpp" , VMDEP , { OBJ_PATH+"/StrToChar.dep" , OBJ_PATH+"/StrToChar.vm.dep" , '400' } } ;
 
-Target cpp395 = { "String.cpp" , "../../Fundamental/CCore/src/String.cpp" } ;
-Target dcpp395 = { "String.dep" , OBJ_PATH+"/String.dep" } ;
-Rule rdcpp395 = { {&cpp395,&obj} , {&dcpp395} , {&execpp395} } ;
-Exe execpp395 = { "CC-DEP String.cpp" , CC , {
+Target cpp401 = { "String.cpp" , "../../Fundamental/CCore/src/String.cpp" } ;
+Target dcpp401 = { "String.dep" , OBJ_PATH+"/String.dep" } ;
+Rule rdcpp401 = { {&cpp401,&obj} , {&dcpp401} , {&execpp401} } ;
+Exe execpp401 = { "CC-DEP String.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10705,14 +10867,14 @@ Exe execpp395 = { "CC-DEP String.cpp" , CC , {
  ,OBJ_PATH+"/String.dep"
 } } ;
 
-Target vdcpp395 = { "String.vm.dep" , OBJ_PATH+"/String.vm.dep" } ;
-Rule rvdcpp395 = { {&dcpp395} , {&vdcpp395} , {&exedcpp395} } ;
-Exe exedcpp395 = { "CC-VM-DEP String.cpp" , VMDEP , { OBJ_PATH+"/String.dep" , OBJ_PATH+"/String.vm.dep" , '395' } } ;
+Target vdcpp401 = { "String.vm.dep" , OBJ_PATH+"/String.vm.dep" } ;
+Rule rvdcpp401 = { {&dcpp401} , {&vdcpp401} , {&exedcpp401} } ;
+Exe exedcpp401 = { "CC-VM-DEP String.cpp" , VMDEP , { OBJ_PATH+"/String.dep" , OBJ_PATH+"/String.vm.dep" , '401' } } ;
 
-Target cpp396 = { "StringScan.cpp" , "../../Fundamental/CCore/src/scanf/StringScan.cpp" } ;
-Target dcpp396 = { "StringScan.dep" , OBJ_PATH+"/StringScan.dep" } ;
-Rule rdcpp396 = { {&cpp396,&obj} , {&dcpp396} , {&execpp396} } ;
-Exe execpp396 = { "CC-DEP StringScan.cpp" , CC , {
+Target cpp402 = { "StringScan.cpp" , "../../Fundamental/CCore/src/scanf/StringScan.cpp" } ;
+Target dcpp402 = { "StringScan.dep" , OBJ_PATH+"/StringScan.dep" } ;
+Rule rdcpp402 = { {&cpp402,&obj} , {&dcpp402} , {&execpp402} } ;
+Exe execpp402 = { "CC-DEP StringScan.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10732,14 +10894,14 @@ Exe execpp396 = { "CC-DEP StringScan.cpp" , CC , {
  ,OBJ_PATH+"/StringScan.dep"
 } } ;
 
-Target vdcpp396 = { "StringScan.vm.dep" , OBJ_PATH+"/StringScan.vm.dep" } ;
-Rule rvdcpp396 = { {&dcpp396} , {&vdcpp396} , {&exedcpp396} } ;
-Exe exedcpp396 = { "CC-VM-DEP StringScan.cpp" , VMDEP , { OBJ_PATH+"/StringScan.dep" , OBJ_PATH+"/StringScan.vm.dep" , '396' } } ;
+Target vdcpp402 = { "StringScan.vm.dep" , OBJ_PATH+"/StringScan.vm.dep" } ;
+Rule rvdcpp402 = { {&dcpp402} , {&vdcpp402} , {&exedcpp402} } ;
+Exe exedcpp402 = { "CC-VM-DEP StringScan.cpp" , VMDEP , { OBJ_PATH+"/StringScan.dep" , OBJ_PATH+"/StringScan.vm.dep" , '402' } } ;
 
-Target cpp397 = { "SubWindow.cpp" , "../../Desktop/Core/CCore/src/video/SubWindow.cpp" } ;
-Target dcpp397 = { "SubWindow.dep" , OBJ_PATH+"/SubWindow.dep" } ;
-Rule rdcpp397 = { {&cpp397,&obj} , {&dcpp397} , {&execpp397} } ;
-Exe execpp397 = { "CC-DEP SubWindow.cpp" , CC , {
+Target cpp403 = { "SubWindow.cpp" , "../../Desktop/Core/CCore/src/video/SubWindow.cpp" } ;
+Target dcpp403 = { "SubWindow.dep" , OBJ_PATH+"/SubWindow.dep" } ;
+Rule rdcpp403 = { {&cpp403,&obj} , {&dcpp403} , {&execpp403} } ;
+Exe execpp403 = { "CC-DEP SubWindow.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10759,14 +10921,14 @@ Exe execpp397 = { "CC-DEP SubWindow.cpp" , CC , {
  ,OBJ_PATH+"/SubWindow.dep"
 } } ;
 
-Target vdcpp397 = { "SubWindow.vm.dep" , OBJ_PATH+"/SubWindow.vm.dep" } ;
-Rule rvdcpp397 = { {&dcpp397} , {&vdcpp397} , {&exedcpp397} } ;
-Exe exedcpp397 = { "CC-VM-DEP SubWindow.cpp" , VMDEP , { OBJ_PATH+"/SubWindow.dep" , OBJ_PATH+"/SubWindow.vm.dep" , '397' } } ;
+Target vdcpp403 = { "SubWindow.vm.dep" , OBJ_PATH+"/SubWindow.vm.dep" } ;
+Rule rvdcpp403 = { {&dcpp403} , {&vdcpp403} , {&exedcpp403} } ;
+Exe exedcpp403 = { "CC-VM-DEP SubWindow.cpp" , VMDEP , { OBJ_PATH+"/SubWindow.dep" , OBJ_PATH+"/SubWindow.vm.dep" , '403' } } ;
 
-Target cpp398 = { "Swap.cpp" , "../../Simple/CCore/src/Swap.cpp" } ;
-Target dcpp398 = { "Swap.dep" , OBJ_PATH+"/Swap.dep" } ;
-Rule rdcpp398 = { {&cpp398,&obj} , {&dcpp398} , {&execpp398} } ;
-Exe execpp398 = { "CC-DEP Swap.cpp" , CC , {
+Target cpp404 = { "Swap.cpp" , "../../Simple/CCore/src/Swap.cpp" } ;
+Target dcpp404 = { "Swap.dep" , OBJ_PATH+"/Swap.dep" } ;
+Rule rdcpp404 = { {&cpp404,&obj} , {&dcpp404} , {&execpp404} } ;
+Exe execpp404 = { "CC-DEP Swap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10786,14 +10948,14 @@ Exe execpp398 = { "CC-DEP Swap.cpp" , CC , {
  ,OBJ_PATH+"/Swap.dep"
 } } ;
 
-Target vdcpp398 = { "Swap.vm.dep" , OBJ_PATH+"/Swap.vm.dep" } ;
-Rule rvdcpp398 = { {&dcpp398} , {&vdcpp398} , {&exedcpp398} } ;
-Exe exedcpp398 = { "CC-VM-DEP Swap.cpp" , VMDEP , { OBJ_PATH+"/Swap.dep" , OBJ_PATH+"/Swap.vm.dep" , '398' } } ;
+Target vdcpp404 = { "Swap.vm.dep" , OBJ_PATH+"/Swap.vm.dep" } ;
+Rule rvdcpp404 = { {&dcpp404} , {&vdcpp404} , {&exedcpp404} } ;
+Exe exedcpp404 = { "CC-VM-DEP Swap.cpp" , VMDEP , { OBJ_PATH+"/Swap.dep" , OBJ_PATH+"/Swap.vm.dep" , '404' } } ;
 
-Target cpp399 = { "SymCount.cpp" , "../../Simple/CCore/src/SymCount.cpp" } ;
-Target dcpp399 = { "SymCount.dep" , OBJ_PATH+"/SymCount.dep" } ;
-Rule rdcpp399 = { {&cpp399,&obj} , {&dcpp399} , {&execpp399} } ;
-Exe execpp399 = { "CC-DEP SymCount.cpp" , CC , {
+Target cpp405 = { "SymCount.cpp" , "../../Simple/CCore/src/SymCount.cpp" } ;
+Target dcpp405 = { "SymCount.dep" , OBJ_PATH+"/SymCount.dep" } ;
+Rule rdcpp405 = { {&cpp405,&obj} , {&dcpp405} , {&execpp405} } ;
+Exe execpp405 = { "CC-DEP SymCount.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10813,14 +10975,14 @@ Exe execpp399 = { "CC-DEP SymCount.cpp" , CC , {
  ,OBJ_PATH+"/SymCount.dep"
 } } ;
 
-Target vdcpp399 = { "SymCount.vm.dep" , OBJ_PATH+"/SymCount.vm.dep" } ;
-Rule rvdcpp399 = { {&dcpp399} , {&vdcpp399} , {&exedcpp399} } ;
-Exe exedcpp399 = { "CC-VM-DEP SymCount.cpp" , VMDEP , { OBJ_PATH+"/SymCount.dep" , OBJ_PATH+"/SymCount.vm.dep" , '399' } } ;
+Target vdcpp405 = { "SymCount.vm.dep" , OBJ_PATH+"/SymCount.vm.dep" } ;
+Rule rvdcpp405 = { {&dcpp405} , {&vdcpp405} , {&exedcpp405} } ;
+Exe exedcpp405 = { "CC-VM-DEP SymCount.cpp" , VMDEP , { OBJ_PATH+"/SymCount.dep" , OBJ_PATH+"/SymCount.vm.dep" , '405' } } ;
 
-Target cpp400 = { "SymPart.cpp" , "../../Simple/CCore/src/SymPart.cpp" } ;
-Target dcpp400 = { "SymPart.dep" , OBJ_PATH+"/SymPart.dep" } ;
-Rule rdcpp400 = { {&cpp400,&obj} , {&dcpp400} , {&execpp400} } ;
-Exe execpp400 = { "CC-DEP SymPart.cpp" , CC , {
+Target cpp406 = { "SymPart.cpp" , "../../Simple/CCore/src/SymPart.cpp" } ;
+Target dcpp406 = { "SymPart.dep" , OBJ_PATH+"/SymPart.dep" } ;
+Rule rdcpp406 = { {&cpp406,&obj} , {&dcpp406} , {&execpp406} } ;
+Exe execpp406 = { "CC-DEP SymPart.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10840,14 +11002,14 @@ Exe execpp400 = { "CC-DEP SymPart.cpp" , CC , {
  ,OBJ_PATH+"/SymPart.dep"
 } } ;
 
-Target vdcpp400 = { "SymPart.vm.dep" , OBJ_PATH+"/SymPart.vm.dep" } ;
-Rule rvdcpp400 = { {&dcpp400} , {&vdcpp400} , {&exedcpp400} } ;
-Exe exedcpp400 = { "CC-VM-DEP SymPart.cpp" , VMDEP , { OBJ_PATH+"/SymPart.dep" , OBJ_PATH+"/SymPart.vm.dep" , '400' } } ;
+Target vdcpp406 = { "SymPart.vm.dep" , OBJ_PATH+"/SymPart.vm.dep" } ;
+Rule rvdcpp406 = { {&dcpp406} , {&vdcpp406} , {&exedcpp406} } ;
+Exe exedcpp406 = { "CC-VM-DEP SymPart.cpp" , VMDEP , { OBJ_PATH+"/SymPart.dep" , OBJ_PATH+"/SymPart.vm.dep" , '406' } } ;
 
-Target cpp401 = { "Symbol.cpp" , "../../Simple/CCore/src/Symbol.cpp" } ;
-Target dcpp401 = { "Symbol.dep" , OBJ_PATH+"/Symbol.dep" } ;
-Rule rdcpp401 = { {&cpp401,&obj} , {&dcpp401} , {&execpp401} } ;
-Exe execpp401 = { "CC-DEP Symbol.cpp" , CC , {
+Target cpp407 = { "Symbol.cpp" , "../../Simple/CCore/src/Symbol.cpp" } ;
+Target dcpp407 = { "Symbol.dep" , OBJ_PATH+"/Symbol.dep" } ;
+Rule rdcpp407 = { {&cpp407,&obj} , {&dcpp407} , {&execpp407} } ;
+Exe execpp407 = { "CC-DEP Symbol.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10867,14 +11029,14 @@ Exe execpp401 = { "CC-DEP Symbol.cpp" , CC , {
  ,OBJ_PATH+"/Symbol.dep"
 } } ;
 
-Target vdcpp401 = { "Symbol.vm.dep" , OBJ_PATH+"/Symbol.vm.dep" } ;
-Rule rvdcpp401 = { {&dcpp401} , {&vdcpp401} , {&exedcpp401} } ;
-Exe exedcpp401 = { "CC-VM-DEP Symbol.cpp" , VMDEP , { OBJ_PATH+"/Symbol.dep" , OBJ_PATH+"/Symbol.vm.dep" , '401' } } ;
+Target vdcpp407 = { "Symbol.vm.dep" , OBJ_PATH+"/Symbol.vm.dep" } ;
+Rule rvdcpp407 = { {&dcpp407} , {&vdcpp407} , {&exedcpp407} } ;
+Exe exedcpp407 = { "CC-VM-DEP Symbol.cpp" , VMDEP , { OBJ_PATH+"/Symbol.dep" , OBJ_PATH+"/Symbol.vm.dep" , '407' } } ;
 
-Target cpp402 = { "SysAbort.cpp" , "CCore/src/sys/SysAbort.cpp" } ;
-Target dcpp402 = { "SysAbort.dep" , OBJ_PATH+"/SysAbort.dep" } ;
-Rule rdcpp402 = { {&cpp402,&obj} , {&dcpp402} , {&execpp402} } ;
-Exe execpp402 = { "CC-DEP SysAbort.cpp" , CC , {
+Target cpp408 = { "SysAbort.cpp" , "CCore/src/sys/SysAbort.cpp" } ;
+Target dcpp408 = { "SysAbort.dep" , OBJ_PATH+"/SysAbort.dep" } ;
+Rule rdcpp408 = { {&cpp408,&obj} , {&dcpp408} , {&execpp408} } ;
+Exe execpp408 = { "CC-DEP SysAbort.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10894,14 +11056,14 @@ Exe execpp402 = { "CC-DEP SysAbort.cpp" , CC , {
  ,OBJ_PATH+"/SysAbort.dep"
 } } ;
 
-Target vdcpp402 = { "SysAbort.vm.dep" , OBJ_PATH+"/SysAbort.vm.dep" } ;
-Rule rvdcpp402 = { {&dcpp402} , {&vdcpp402} , {&exedcpp402} } ;
-Exe exedcpp402 = { "CC-VM-DEP SysAbort.cpp" , VMDEP , { OBJ_PATH+"/SysAbort.dep" , OBJ_PATH+"/SysAbort.vm.dep" , '402' } } ;
+Target vdcpp408 = { "SysAbort.vm.dep" , OBJ_PATH+"/SysAbort.vm.dep" } ;
+Rule rvdcpp408 = { {&dcpp408} , {&vdcpp408} , {&exedcpp408} } ;
+Exe exedcpp408 = { "CC-VM-DEP SysAbort.cpp" , VMDEP , { OBJ_PATH+"/SysAbort.dep" , OBJ_PATH+"/SysAbort.vm.dep" , '408' } } ;
 
-Target cpp403 = { "SysAsyncFile.cpp" , "../../Applied/CCore/src/sys/SysAsyncFile.cpp" } ;
-Target dcpp403 = { "SysAsyncFile.dep" , OBJ_PATH+"/SysAsyncFile.dep" } ;
-Rule rdcpp403 = { {&cpp403,&obj} , {&dcpp403} , {&execpp403} } ;
-Exe execpp403 = { "CC-DEP SysAsyncFile.cpp" , CC , {
+Target cpp409 = { "SysAsyncFile.cpp" , "../../Applied/CCore/src/sys/SysAsyncFile.cpp" } ;
+Target dcpp409 = { "SysAsyncFile.dep" , OBJ_PATH+"/SysAsyncFile.dep" } ;
+Rule rdcpp409 = { {&cpp409,&obj} , {&dcpp409} , {&execpp409} } ;
+Exe execpp409 = { "CC-DEP SysAsyncFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10921,14 +11083,14 @@ Exe execpp403 = { "CC-DEP SysAsyncFile.cpp" , CC , {
  ,OBJ_PATH+"/SysAsyncFile.dep"
 } } ;
 
-Target vdcpp403 = { "SysAsyncFile.vm.dep" , OBJ_PATH+"/SysAsyncFile.vm.dep" } ;
-Rule rvdcpp403 = { {&dcpp403} , {&vdcpp403} , {&exedcpp403} } ;
-Exe exedcpp403 = { "CC-VM-DEP SysAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/SysAsyncFile.dep" , OBJ_PATH+"/SysAsyncFile.vm.dep" , '403' } } ;
+Target vdcpp409 = { "SysAsyncFile.vm.dep" , OBJ_PATH+"/SysAsyncFile.vm.dep" } ;
+Rule rvdcpp409 = { {&dcpp409} , {&vdcpp409} , {&exedcpp409} } ;
+Exe exedcpp409 = { "CC-VM-DEP SysAsyncFile.cpp" , VMDEP , { OBJ_PATH+"/SysAsyncFile.dep" , OBJ_PATH+"/SysAsyncFile.vm.dep" , '409' } } ;
 
-Target cpp404 = { "SysAsyncFileSystem.cpp" , "../../Applied/CCore/src/sys/SysAsyncFileSystem.cpp" } ;
-Target dcpp404 = { "SysAsyncFileSystem.dep" , OBJ_PATH+"/SysAsyncFileSystem.dep" } ;
-Rule rdcpp404 = { {&cpp404,&obj} , {&dcpp404} , {&execpp404} } ;
-Exe execpp404 = { "CC-DEP SysAsyncFileSystem.cpp" , CC , {
+Target cpp410 = { "SysAsyncFileSystem.cpp" , "../../Applied/CCore/src/sys/SysAsyncFileSystem.cpp" } ;
+Target dcpp410 = { "SysAsyncFileSystem.dep" , OBJ_PATH+"/SysAsyncFileSystem.dep" } ;
+Rule rdcpp410 = { {&cpp410,&obj} , {&dcpp410} , {&execpp410} } ;
+Exe execpp410 = { "CC-DEP SysAsyncFileSystem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10948,14 +11110,14 @@ Exe execpp404 = { "CC-DEP SysAsyncFileSystem.cpp" , CC , {
  ,OBJ_PATH+"/SysAsyncFileSystem.dep"
 } } ;
 
-Target vdcpp404 = { "SysAsyncFileSystem.vm.dep" , OBJ_PATH+"/SysAsyncFileSystem.vm.dep" } ;
-Rule rvdcpp404 = { {&dcpp404} , {&vdcpp404} , {&exedcpp404} } ;
-Exe exedcpp404 = { "CC-VM-DEP SysAsyncFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysAsyncFileSystem.dep" , OBJ_PATH+"/SysAsyncFileSystem.vm.dep" , '404' } } ;
+Target vdcpp410 = { "SysAsyncFileSystem.vm.dep" , OBJ_PATH+"/SysAsyncFileSystem.vm.dep" } ;
+Rule rvdcpp410 = { {&dcpp410} , {&vdcpp410} , {&exedcpp410} } ;
+Exe exedcpp410 = { "CC-VM-DEP SysAsyncFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysAsyncFileSystem.dep" , OBJ_PATH+"/SysAsyncFileSystem.vm.dep" , '410' } } ;
 
-Target cpp405 = { "SysAtomic.cpp" , "CCore/src/sys/SysAtomic.cpp" } ;
-Target dcpp405 = { "SysAtomic.dep" , OBJ_PATH+"/SysAtomic.dep" } ;
-Rule rdcpp405 = { {&cpp405,&obj} , {&dcpp405} , {&execpp405} } ;
-Exe execpp405 = { "CC-DEP SysAtomic.cpp" , CC , {
+Target cpp411 = { "SysAtomic.cpp" , "CCore/src/sys/SysAtomic.cpp" } ;
+Target dcpp411 = { "SysAtomic.dep" , OBJ_PATH+"/SysAtomic.dep" } ;
+Rule rdcpp411 = { {&cpp411,&obj} , {&dcpp411} , {&execpp411} } ;
+Exe execpp411 = { "CC-DEP SysAtomic.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -10975,14 +11137,14 @@ Exe execpp405 = { "CC-DEP SysAtomic.cpp" , CC , {
  ,OBJ_PATH+"/SysAtomic.dep"
 } } ;
 
-Target vdcpp405 = { "SysAtomic.vm.dep" , OBJ_PATH+"/SysAtomic.vm.dep" } ;
-Rule rvdcpp405 = { {&dcpp405} , {&vdcpp405} , {&exedcpp405} } ;
-Exe exedcpp405 = { "CC-VM-DEP SysAtomic.cpp" , VMDEP , { OBJ_PATH+"/SysAtomic.dep" , OBJ_PATH+"/SysAtomic.vm.dep" , '405' } } ;
+Target vdcpp411 = { "SysAtomic.vm.dep" , OBJ_PATH+"/SysAtomic.vm.dep" } ;
+Rule rvdcpp411 = { {&dcpp411} , {&vdcpp411} , {&exedcpp411} } ;
+Exe exedcpp411 = { "CC-VM-DEP SysAtomic.cpp" , VMDEP , { OBJ_PATH+"/SysAtomic.dep" , OBJ_PATH+"/SysAtomic.vm.dep" , '411' } } ;
 
-Target cpp406 = { "SysCon.cpp" , "CCore/src/sys/SysCon.cpp" } ;
-Target dcpp406 = { "SysCon.dep" , OBJ_PATH+"/SysCon.dep" } ;
-Rule rdcpp406 = { {&cpp406,&obj} , {&dcpp406} , {&execpp406} } ;
-Exe execpp406 = { "CC-DEP SysCon.cpp" , CC , {
+Target cpp412 = { "SysCon.cpp" , "CCore/src/sys/SysCon.cpp" } ;
+Target dcpp412 = { "SysCon.dep" , OBJ_PATH+"/SysCon.dep" } ;
+Rule rdcpp412 = { {&cpp412,&obj} , {&dcpp412} , {&execpp412} } ;
+Exe execpp412 = { "CC-DEP SysCon.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11002,14 +11164,14 @@ Exe execpp406 = { "CC-DEP SysCon.cpp" , CC , {
  ,OBJ_PATH+"/SysCon.dep"
 } } ;
 
-Target vdcpp406 = { "SysCon.vm.dep" , OBJ_PATH+"/SysCon.vm.dep" } ;
-Rule rvdcpp406 = { {&dcpp406} , {&vdcpp406} , {&exedcpp406} } ;
-Exe exedcpp406 = { "CC-VM-DEP SysCon.cpp" , VMDEP , { OBJ_PATH+"/SysCon.dep" , OBJ_PATH+"/SysCon.vm.dep" , '406' } } ;
+Target vdcpp412 = { "SysCon.vm.dep" , OBJ_PATH+"/SysCon.vm.dep" } ;
+Rule rvdcpp412 = { {&dcpp412} , {&vdcpp412} , {&exedcpp412} } ;
+Exe exedcpp412 = { "CC-VM-DEP SysCon.cpp" , VMDEP , { OBJ_PATH+"/SysCon.dep" , OBJ_PATH+"/SysCon.vm.dep" , '412' } } ;
 
-Target cpp407 = { "SysError.cpp" , "CCore/src/sys/SysError.cpp" } ;
-Target dcpp407 = { "SysError.dep" , OBJ_PATH+"/SysError.dep" } ;
-Rule rdcpp407 = { {&cpp407,&obj} , {&dcpp407} , {&execpp407} } ;
-Exe execpp407 = { "CC-DEP SysError.cpp" , CC , {
+Target cpp413 = { "SysError.cpp" , "CCore/src/sys/SysError.cpp" } ;
+Target dcpp413 = { "SysError.dep" , OBJ_PATH+"/SysError.dep" } ;
+Rule rdcpp413 = { {&cpp413,&obj} , {&dcpp413} , {&execpp413} } ;
+Exe execpp413 = { "CC-DEP SysError.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11029,14 +11191,14 @@ Exe execpp407 = { "CC-DEP SysError.cpp" , CC , {
  ,OBJ_PATH+"/SysError.dep"
 } } ;
 
-Target vdcpp407 = { "SysError.vm.dep" , OBJ_PATH+"/SysError.vm.dep" } ;
-Rule rvdcpp407 = { {&dcpp407} , {&vdcpp407} , {&exedcpp407} } ;
-Exe exedcpp407 = { "CC-VM-DEP SysError.cpp" , VMDEP , { OBJ_PATH+"/SysError.dep" , OBJ_PATH+"/SysError.vm.dep" , '407' } } ;
+Target vdcpp413 = { "SysError.vm.dep" , OBJ_PATH+"/SysError.vm.dep" } ;
+Rule rvdcpp413 = { {&dcpp413} , {&vdcpp413} , {&exedcpp413} } ;
+Exe exedcpp413 = { "CC-VM-DEP SysError.cpp" , VMDEP , { OBJ_PATH+"/SysError.dep" , OBJ_PATH+"/SysError.vm.dep" , '413' } } ;
 
-Target cpp408 = { "SysFile.cpp" , "CCore/src/sys/SysFile.cpp" } ;
-Target dcpp408 = { "SysFile.dep" , OBJ_PATH+"/SysFile.dep" } ;
-Rule rdcpp408 = { {&cpp408,&obj} , {&dcpp408} , {&execpp408} } ;
-Exe execpp408 = { "CC-DEP SysFile.cpp" , CC , {
+Target cpp414 = { "SysFile.cpp" , "CCore/src/sys/SysFile.cpp" } ;
+Target dcpp414 = { "SysFile.dep" , OBJ_PATH+"/SysFile.dep" } ;
+Rule rdcpp414 = { {&cpp414,&obj} , {&dcpp414} , {&execpp414} } ;
+Exe execpp414 = { "CC-DEP SysFile.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11056,14 +11218,14 @@ Exe execpp408 = { "CC-DEP SysFile.cpp" , CC , {
  ,OBJ_PATH+"/SysFile.dep"
 } } ;
 
-Target vdcpp408 = { "SysFile.vm.dep" , OBJ_PATH+"/SysFile.vm.dep" } ;
-Rule rvdcpp408 = { {&dcpp408} , {&vdcpp408} , {&exedcpp408} } ;
-Exe exedcpp408 = { "CC-VM-DEP SysFile.cpp" , VMDEP , { OBJ_PATH+"/SysFile.dep" , OBJ_PATH+"/SysFile.vm.dep" , '408' } } ;
+Target vdcpp414 = { "SysFile.vm.dep" , OBJ_PATH+"/SysFile.vm.dep" } ;
+Rule rvdcpp414 = { {&dcpp414} , {&vdcpp414} , {&exedcpp414} } ;
+Exe exedcpp414 = { "CC-VM-DEP SysFile.cpp" , VMDEP , { OBJ_PATH+"/SysFile.dep" , OBJ_PATH+"/SysFile.vm.dep" , '414' } } ;
 
-Target cpp409 = { "SysFileInternal.cpp" , "CCore/src/sys/SysFileInternal.cpp" } ;
-Target dcpp409 = { "SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.dep" } ;
-Rule rdcpp409 = { {&cpp409,&obj} , {&dcpp409} , {&execpp409} } ;
-Exe execpp409 = { "CC-DEP SysFileInternal.cpp" , CC , {
+Target cpp415 = { "SysFileInternal.cpp" , "CCore/src/sys/SysFileInternal.cpp" } ;
+Target dcpp415 = { "SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.dep" } ;
+Rule rdcpp415 = { {&cpp415,&obj} , {&dcpp415} , {&execpp415} } ;
+Exe execpp415 = { "CC-DEP SysFileInternal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11083,14 +11245,14 @@ Exe execpp409 = { "CC-DEP SysFileInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysFileInternal.dep"
 } } ;
 
-Target vdcpp409 = { "SysFileInternal.vm.dep" , OBJ_PATH+"/SysFileInternal.vm.dep" } ;
-Rule rvdcpp409 = { {&dcpp409} , {&vdcpp409} , {&exedcpp409} } ;
-Exe exedcpp409 = { "CC-VM-DEP SysFileInternal.cpp" , VMDEP , { OBJ_PATH+"/SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.vm.dep" , '409' } } ;
+Target vdcpp415 = { "SysFileInternal.vm.dep" , OBJ_PATH+"/SysFileInternal.vm.dep" } ;
+Rule rvdcpp415 = { {&dcpp415} , {&vdcpp415} , {&exedcpp415} } ;
+Exe exedcpp415 = { "CC-VM-DEP SysFileInternal.cpp" , VMDEP , { OBJ_PATH+"/SysFileInternal.dep" , OBJ_PATH+"/SysFileInternal.vm.dep" , '415' } } ;
 
-Target cpp410 = { "SysFileSystem.cpp" , "CCore/src/sys/SysFileSystem.cpp" } ;
-Target dcpp410 = { "SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.dep" } ;
-Rule rdcpp410 = { {&cpp410,&obj} , {&dcpp410} , {&execpp410} } ;
-Exe execpp410 = { "CC-DEP SysFileSystem.cpp" , CC , {
+Target cpp416 = { "SysFileSystem.cpp" , "CCore/src/sys/SysFileSystem.cpp" } ;
+Target dcpp416 = { "SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.dep" } ;
+Rule rdcpp416 = { {&cpp416,&obj} , {&dcpp416} , {&execpp416} } ;
+Exe execpp416 = { "CC-DEP SysFileSystem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11110,14 +11272,14 @@ Exe execpp410 = { "CC-DEP SysFileSystem.cpp" , CC , {
  ,OBJ_PATH+"/SysFileSystem.dep"
 } } ;
 
-Target vdcpp410 = { "SysFileSystem.vm.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" } ;
-Rule rvdcpp410 = { {&dcpp410} , {&vdcpp410} , {&exedcpp410} } ;
-Exe exedcpp410 = { "CC-VM-DEP SysFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" , '410' } } ;
+Target vdcpp416 = { "SysFileSystem.vm.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" } ;
+Rule rvdcpp416 = { {&dcpp416} , {&vdcpp416} , {&exedcpp416} } ;
+Exe exedcpp416 = { "CC-VM-DEP SysFileSystem.cpp" , VMDEP , { OBJ_PATH+"/SysFileSystem.dep" , OBJ_PATH+"/SysFileSystem.vm.dep" , '416' } } ;
 
-Target cpp411 = { "SysLaunchPath.cpp" , "CCore/src/sys/SysLaunchPath.cpp" } ;
-Target dcpp411 = { "SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.dep" } ;
-Rule rdcpp411 = { {&cpp411,&obj} , {&dcpp411} , {&execpp411} } ;
-Exe execpp411 = { "CC-DEP SysLaunchPath.cpp" , CC , {
+Target cpp417 = { "SysLaunchPath.cpp" , "CCore/src/sys/SysLaunchPath.cpp" } ;
+Target dcpp417 = { "SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.dep" } ;
+Rule rdcpp417 = { {&cpp417,&obj} , {&dcpp417} , {&execpp417} } ;
+Exe execpp417 = { "CC-DEP SysLaunchPath.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11137,14 +11299,14 @@ Exe execpp411 = { "CC-DEP SysLaunchPath.cpp" , CC , {
  ,OBJ_PATH+"/SysLaunchPath.dep"
 } } ;
 
-Target vdcpp411 = { "SysLaunchPath.vm.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" } ;
-Rule rvdcpp411 = { {&dcpp411} , {&vdcpp411} , {&exedcpp411} } ;
-Exe exedcpp411 = { "CC-VM-DEP SysLaunchPath.cpp" , VMDEP , { OBJ_PATH+"/SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" , '411' } } ;
+Target vdcpp417 = { "SysLaunchPath.vm.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" } ;
+Rule rvdcpp417 = { {&dcpp417} , {&vdcpp417} , {&exedcpp417} } ;
+Exe exedcpp417 = { "CC-VM-DEP SysLaunchPath.cpp" , VMDEP , { OBJ_PATH+"/SysLaunchPath.dep" , OBJ_PATH+"/SysLaunchPath.vm.dep" , '417' } } ;
 
-Target cpp412 = { "SysMemPage.cpp" , "CCore/src/sys/SysMemPage.cpp" } ;
-Target dcpp412 = { "SysMemPage.dep" , OBJ_PATH+"/SysMemPage.dep" } ;
-Rule rdcpp412 = { {&cpp412,&obj} , {&dcpp412} , {&execpp412} } ;
-Exe execpp412 = { "CC-DEP SysMemPage.cpp" , CC , {
+Target cpp418 = { "SysMemPage.cpp" , "CCore/src/sys/SysMemPage.cpp" } ;
+Target dcpp418 = { "SysMemPage.dep" , OBJ_PATH+"/SysMemPage.dep" } ;
+Rule rdcpp418 = { {&cpp418,&obj} , {&dcpp418} , {&execpp418} } ;
+Exe execpp418 = { "CC-DEP SysMemPage.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11164,14 +11326,14 @@ Exe execpp412 = { "CC-DEP SysMemPage.cpp" , CC , {
  ,OBJ_PATH+"/SysMemPage.dep"
 } } ;
 
-Target vdcpp412 = { "SysMemPage.vm.dep" , OBJ_PATH+"/SysMemPage.vm.dep" } ;
-Rule rvdcpp412 = { {&dcpp412} , {&vdcpp412} , {&exedcpp412} } ;
-Exe exedcpp412 = { "CC-VM-DEP SysMemPage.cpp" , VMDEP , { OBJ_PATH+"/SysMemPage.dep" , OBJ_PATH+"/SysMemPage.vm.dep" , '412' } } ;
+Target vdcpp418 = { "SysMemPage.vm.dep" , OBJ_PATH+"/SysMemPage.vm.dep" } ;
+Rule rvdcpp418 = { {&dcpp418} , {&vdcpp418} , {&exedcpp418} } ;
+Exe exedcpp418 = { "CC-VM-DEP SysMemPage.cpp" , VMDEP , { OBJ_PATH+"/SysMemPage.dep" , OBJ_PATH+"/SysMemPage.vm.dep" , '418' } } ;
 
-Target cpp413 = { "SysNet.cpp" , "CCore/src/sys/SysNet.cpp" } ;
-Target dcpp413 = { "SysNet.dep" , OBJ_PATH+"/SysNet.dep" } ;
-Rule rdcpp413 = { {&cpp413,&obj} , {&dcpp413} , {&execpp413} } ;
-Exe execpp413 = { "CC-DEP SysNet.cpp" , CC , {
+Target cpp419 = { "SysNet.cpp" , "CCore/src/sys/SysNet.cpp" } ;
+Target dcpp419 = { "SysNet.dep" , OBJ_PATH+"/SysNet.dep" } ;
+Rule rdcpp419 = { {&cpp419,&obj} , {&dcpp419} , {&execpp419} } ;
+Exe execpp419 = { "CC-DEP SysNet.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11191,14 +11353,14 @@ Exe execpp413 = { "CC-DEP SysNet.cpp" , CC , {
  ,OBJ_PATH+"/SysNet.dep"
 } } ;
 
-Target vdcpp413 = { "SysNet.vm.dep" , OBJ_PATH+"/SysNet.vm.dep" } ;
-Rule rvdcpp413 = { {&dcpp413} , {&vdcpp413} , {&exedcpp413} } ;
-Exe exedcpp413 = { "CC-VM-DEP SysNet.cpp" , VMDEP , { OBJ_PATH+"/SysNet.dep" , OBJ_PATH+"/SysNet.vm.dep" , '413' } } ;
+Target vdcpp419 = { "SysNet.vm.dep" , OBJ_PATH+"/SysNet.vm.dep" } ;
+Rule rvdcpp419 = { {&dcpp419} , {&vdcpp419} , {&exedcpp419} } ;
+Exe exedcpp419 = { "CC-VM-DEP SysNet.cpp" , VMDEP , { OBJ_PATH+"/SysNet.dep" , OBJ_PATH+"/SysNet.vm.dep" , '419' } } ;
 
-Target cpp414 = { "SysPlanInit.cpp" , "CCore/src/sys/SysPlanInit.cpp" } ;
-Target dcpp414 = { "SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.dep" } ;
-Rule rdcpp414 = { {&cpp414,&obj} , {&dcpp414} , {&execpp414} } ;
-Exe execpp414 = { "CC-DEP SysPlanInit.cpp" , CC , {
+Target cpp420 = { "SysPlanInit.cpp" , "CCore/src/sys/SysPlanInit.cpp" } ;
+Target dcpp420 = { "SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.dep" } ;
+Rule rdcpp420 = { {&cpp420,&obj} , {&dcpp420} , {&execpp420} } ;
+Exe execpp420 = { "CC-DEP SysPlanInit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11218,14 +11380,14 @@ Exe execpp414 = { "CC-DEP SysPlanInit.cpp" , CC , {
  ,OBJ_PATH+"/SysPlanInit.dep"
 } } ;
 
-Target vdcpp414 = { "SysPlanInit.vm.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" } ;
-Rule rvdcpp414 = { {&dcpp414} , {&vdcpp414} , {&exedcpp414} } ;
-Exe exedcpp414 = { "CC-VM-DEP SysPlanInit.cpp" , VMDEP , { OBJ_PATH+"/SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" , '414' } } ;
+Target vdcpp420 = { "SysPlanInit.vm.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" } ;
+Rule rvdcpp420 = { {&dcpp420} , {&vdcpp420} , {&exedcpp420} } ;
+Exe exedcpp420 = { "CC-VM-DEP SysPlanInit.cpp" , VMDEP , { OBJ_PATH+"/SysPlanInit.dep" , OBJ_PATH+"/SysPlanInit.vm.dep" , '420' } } ;
 
-Target cpp415 = { "SysProp.cpp" , "CCore/src/sys/SysProp.cpp" } ;
-Target dcpp415 = { "SysProp.dep" , OBJ_PATH+"/SysProp.dep" } ;
-Rule rdcpp415 = { {&cpp415,&obj} , {&dcpp415} , {&execpp415} } ;
-Exe execpp415 = { "CC-DEP SysProp.cpp" , CC , {
+Target cpp421 = { "SysProp.cpp" , "CCore/src/sys/SysProp.cpp" } ;
+Target dcpp421 = { "SysProp.dep" , OBJ_PATH+"/SysProp.dep" } ;
+Rule rdcpp421 = { {&cpp421,&obj} , {&dcpp421} , {&execpp421} } ;
+Exe execpp421 = { "CC-DEP SysProp.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11245,14 +11407,14 @@ Exe execpp415 = { "CC-DEP SysProp.cpp" , CC , {
  ,OBJ_PATH+"/SysProp.dep"
 } } ;
 
-Target vdcpp415 = { "SysProp.vm.dep" , OBJ_PATH+"/SysProp.vm.dep" } ;
-Rule rvdcpp415 = { {&dcpp415} , {&vdcpp415} , {&exedcpp415} } ;
-Exe exedcpp415 = { "CC-VM-DEP SysProp.cpp" , VMDEP , { OBJ_PATH+"/SysProp.dep" , OBJ_PATH+"/SysProp.vm.dep" , '415' } } ;
+Target vdcpp421 = { "SysProp.vm.dep" , OBJ_PATH+"/SysProp.vm.dep" } ;
+Rule rvdcpp421 = { {&dcpp421} , {&vdcpp421} , {&exedcpp421} } ;
+Exe exedcpp421 = { "CC-VM-DEP SysProp.cpp" , VMDEP , { OBJ_PATH+"/SysProp.dep" , OBJ_PATH+"/SysProp.vm.dep" , '421' } } ;
 
-Target cpp416 = { "SysSem.cpp" , "CCore/src/sys/SysSem.cpp" } ;
-Target dcpp416 = { "SysSem.dep" , OBJ_PATH+"/SysSem.dep" } ;
-Rule rdcpp416 = { {&cpp416,&obj} , {&dcpp416} , {&execpp416} } ;
-Exe execpp416 = { "CC-DEP SysSem.cpp" , CC , {
+Target cpp422 = { "SysSem.cpp" , "CCore/src/sys/SysSem.cpp" } ;
+Target dcpp422 = { "SysSem.dep" , OBJ_PATH+"/SysSem.dep" } ;
+Rule rdcpp422 = { {&cpp422,&obj} , {&dcpp422} , {&execpp422} } ;
+Exe execpp422 = { "CC-DEP SysSem.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11272,14 +11434,14 @@ Exe execpp416 = { "CC-DEP SysSem.cpp" , CC , {
  ,OBJ_PATH+"/SysSem.dep"
 } } ;
 
-Target vdcpp416 = { "SysSem.vm.dep" , OBJ_PATH+"/SysSem.vm.dep" } ;
-Rule rvdcpp416 = { {&dcpp416} , {&vdcpp416} , {&exedcpp416} } ;
-Exe exedcpp416 = { "CC-VM-DEP SysSem.cpp" , VMDEP , { OBJ_PATH+"/SysSem.dep" , OBJ_PATH+"/SysSem.vm.dep" , '416' } } ;
+Target vdcpp422 = { "SysSem.vm.dep" , OBJ_PATH+"/SysSem.vm.dep" } ;
+Rule rvdcpp422 = { {&dcpp422} , {&vdcpp422} , {&exedcpp422} } ;
+Exe exedcpp422 = { "CC-VM-DEP SysSem.cpp" , VMDEP , { OBJ_PATH+"/SysSem.dep" , OBJ_PATH+"/SysSem.vm.dep" , '422' } } ;
 
-Target cpp417 = { "SysSpawn.cpp" , "CCore/src/sys/SysSpawn.cpp" } ;
-Target dcpp417 = { "SysSpawn.dep" , OBJ_PATH+"/SysSpawn.dep" } ;
-Rule rdcpp417 = { {&cpp417,&obj} , {&dcpp417} , {&execpp417} } ;
-Exe execpp417 = { "CC-DEP SysSpawn.cpp" , CC , {
+Target cpp423 = { "SysSpawn.cpp" , "CCore/src/sys/SysSpawn.cpp" } ;
+Target dcpp423 = { "SysSpawn.dep" , OBJ_PATH+"/SysSpawn.dep" } ;
+Rule rdcpp423 = { {&cpp423,&obj} , {&dcpp423} , {&execpp423} } ;
+Exe execpp423 = { "CC-DEP SysSpawn.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11299,14 +11461,14 @@ Exe execpp417 = { "CC-DEP SysSpawn.cpp" , CC , {
  ,OBJ_PATH+"/SysSpawn.dep"
 } } ;
 
-Target vdcpp417 = { "SysSpawn.vm.dep" , OBJ_PATH+"/SysSpawn.vm.dep" } ;
-Rule rvdcpp417 = { {&dcpp417} , {&vdcpp417} , {&exedcpp417} } ;
-Exe exedcpp417 = { "CC-VM-DEP SysSpawn.cpp" , VMDEP , { OBJ_PATH+"/SysSpawn.dep" , OBJ_PATH+"/SysSpawn.vm.dep" , '417' } } ;
+Target vdcpp423 = { "SysSpawn.vm.dep" , OBJ_PATH+"/SysSpawn.vm.dep" } ;
+Rule rvdcpp423 = { {&dcpp423} , {&vdcpp423} , {&exedcpp423} } ;
+Exe exedcpp423 = { "CC-VM-DEP SysSpawn.cpp" , VMDEP , { OBJ_PATH+"/SysSpawn.dep" , OBJ_PATH+"/SysSpawn.vm.dep" , '423' } } ;
 
-Target cpp418 = { "SysSpawnInternal.cpp" , "CCore/src/sys/SysSpawnInternal.cpp" } ;
-Target dcpp418 = { "SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.dep" } ;
-Rule rdcpp418 = { {&cpp418,&obj} , {&dcpp418} , {&execpp418} } ;
-Exe execpp418 = { "CC-DEP SysSpawnInternal.cpp" , CC , {
+Target cpp424 = { "SysSpawnInternal.cpp" , "CCore/src/sys/SysSpawnInternal.cpp" } ;
+Target dcpp424 = { "SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.dep" } ;
+Rule rdcpp424 = { {&cpp424,&obj} , {&dcpp424} , {&execpp424} } ;
+Exe execpp424 = { "CC-DEP SysSpawnInternal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11326,14 +11488,14 @@ Exe execpp418 = { "CC-DEP SysSpawnInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysSpawnInternal.dep"
 } } ;
 
-Target vdcpp418 = { "SysSpawnInternal.vm.dep" , OBJ_PATH+"/SysSpawnInternal.vm.dep" } ;
-Rule rvdcpp418 = { {&dcpp418} , {&vdcpp418} , {&exedcpp418} } ;
-Exe exedcpp418 = { "CC-VM-DEP SysSpawnInternal.cpp" , VMDEP , { OBJ_PATH+"/SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.vm.dep" , '418' } } ;
+Target vdcpp424 = { "SysSpawnInternal.vm.dep" , OBJ_PATH+"/SysSpawnInternal.vm.dep" } ;
+Rule rvdcpp424 = { {&dcpp424} , {&vdcpp424} , {&exedcpp424} } ;
+Exe exedcpp424 = { "CC-VM-DEP SysSpawnInternal.cpp" , VMDEP , { OBJ_PATH+"/SysSpawnInternal.dep" , OBJ_PATH+"/SysSpawnInternal.vm.dep" , '424' } } ;
 
-Target cpp419 = { "SysTask.cpp" , "CCore/src/sys/SysTask.cpp" } ;
-Target dcpp419 = { "SysTask.dep" , OBJ_PATH+"/SysTask.dep" } ;
-Rule rdcpp419 = { {&cpp419,&obj} , {&dcpp419} , {&execpp419} } ;
-Exe execpp419 = { "CC-DEP SysTask.cpp" , CC , {
+Target cpp425 = { "SysTask.cpp" , "CCore/src/sys/SysTask.cpp" } ;
+Target dcpp425 = { "SysTask.dep" , OBJ_PATH+"/SysTask.dep" } ;
+Rule rdcpp425 = { {&cpp425,&obj} , {&dcpp425} , {&execpp425} } ;
+Exe execpp425 = { "CC-DEP SysTask.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11353,14 +11515,14 @@ Exe execpp419 = { "CC-DEP SysTask.cpp" , CC , {
  ,OBJ_PATH+"/SysTask.dep"
 } } ;
 
-Target vdcpp419 = { "SysTask.vm.dep" , OBJ_PATH+"/SysTask.vm.dep" } ;
-Rule rvdcpp419 = { {&dcpp419} , {&vdcpp419} , {&exedcpp419} } ;
-Exe exedcpp419 = { "CC-VM-DEP SysTask.cpp" , VMDEP , { OBJ_PATH+"/SysTask.dep" , OBJ_PATH+"/SysTask.vm.dep" , '419' } } ;
+Target vdcpp425 = { "SysTask.vm.dep" , OBJ_PATH+"/SysTask.vm.dep" } ;
+Rule rvdcpp425 = { {&dcpp425} , {&vdcpp425} , {&exedcpp425} } ;
+Exe exedcpp425 = { "CC-VM-DEP SysTask.cpp" , VMDEP , { OBJ_PATH+"/SysTask.dep" , OBJ_PATH+"/SysTask.vm.dep" , '425' } } ;
 
-Target cpp420 = { "SysTime.cpp" , "CCore/src/sys/SysTime.cpp" } ;
-Target dcpp420 = { "SysTime.dep" , OBJ_PATH+"/SysTime.dep" } ;
-Rule rdcpp420 = { {&cpp420,&obj} , {&dcpp420} , {&execpp420} } ;
-Exe execpp420 = { "CC-DEP SysTime.cpp" , CC , {
+Target cpp426 = { "SysTime.cpp" , "CCore/src/sys/SysTime.cpp" } ;
+Target dcpp426 = { "SysTime.dep" , OBJ_PATH+"/SysTime.dep" } ;
+Rule rdcpp426 = { {&cpp426,&obj} , {&dcpp426} , {&execpp426} } ;
+Exe execpp426 = { "CC-DEP SysTime.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11380,14 +11542,14 @@ Exe execpp420 = { "CC-DEP SysTime.cpp" , CC , {
  ,OBJ_PATH+"/SysTime.dep"
 } } ;
 
-Target vdcpp420 = { "SysTime.vm.dep" , OBJ_PATH+"/SysTime.vm.dep" } ;
-Rule rvdcpp420 = { {&dcpp420} , {&vdcpp420} , {&exedcpp420} } ;
-Exe exedcpp420 = { "CC-VM-DEP SysTime.cpp" , VMDEP , { OBJ_PATH+"/SysTime.dep" , OBJ_PATH+"/SysTime.vm.dep" , '420' } } ;
+Target vdcpp426 = { "SysTime.vm.dep" , OBJ_PATH+"/SysTime.vm.dep" } ;
+Rule rvdcpp426 = { {&dcpp426} , {&vdcpp426} , {&exedcpp426} } ;
+Exe exedcpp426 = { "CC-VM-DEP SysTime.cpp" , VMDEP , { OBJ_PATH+"/SysTime.dep" , OBJ_PATH+"/SysTime.vm.dep" , '426' } } ;
 
-Target cpp421 = { "SysTlsSlot.cpp" , "CCore/src/sys/SysTlsSlot.cpp" } ;
-Target dcpp421 = { "SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.dep" } ;
-Rule rdcpp421 = { {&cpp421,&obj} , {&dcpp421} , {&execpp421} } ;
-Exe execpp421 = { "CC-DEP SysTlsSlot.cpp" , CC , {
+Target cpp427 = { "SysTlsSlot.cpp" , "CCore/src/sys/SysTlsSlot.cpp" } ;
+Target dcpp427 = { "SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.dep" } ;
+Rule rdcpp427 = { {&cpp427,&obj} , {&dcpp427} , {&execpp427} } ;
+Exe execpp427 = { "CC-DEP SysTlsSlot.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11407,14 +11569,14 @@ Exe execpp421 = { "CC-DEP SysTlsSlot.cpp" , CC , {
  ,OBJ_PATH+"/SysTlsSlot.dep"
 } } ;
 
-Target vdcpp421 = { "SysTlsSlot.vm.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" } ;
-Rule rvdcpp421 = { {&dcpp421} , {&vdcpp421} , {&exedcpp421} } ;
-Exe exedcpp421 = { "CC-VM-DEP SysTlsSlot.cpp" , VMDEP , { OBJ_PATH+"/SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" , '421' } } ;
+Target vdcpp427 = { "SysTlsSlot.vm.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" } ;
+Rule rvdcpp427 = { {&dcpp427} , {&vdcpp427} , {&exedcpp427} } ;
+Exe exedcpp427 = { "CC-VM-DEP SysTlsSlot.cpp" , VMDEP , { OBJ_PATH+"/SysTlsSlot.dep" , OBJ_PATH+"/SysTlsSlot.vm.dep" , '427' } } ;
 
-Target cpp422 = { "SysWait.cpp" , "CCore/src/sys/SysWait.cpp" } ;
-Target dcpp422 = { "SysWait.dep" , OBJ_PATH+"/SysWait.dep" } ;
-Rule rdcpp422 = { {&cpp422,&obj} , {&dcpp422} , {&execpp422} } ;
-Exe execpp422 = { "CC-DEP SysWait.cpp" , CC , {
+Target cpp428 = { "SysWait.cpp" , "CCore/src/sys/SysWait.cpp" } ;
+Target dcpp428 = { "SysWait.dep" , OBJ_PATH+"/SysWait.dep" } ;
+Rule rdcpp428 = { {&cpp428,&obj} , {&dcpp428} , {&execpp428} } ;
+Exe execpp428 = { "CC-DEP SysWait.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11434,14 +11596,14 @@ Exe execpp422 = { "CC-DEP SysWait.cpp" , CC , {
  ,OBJ_PATH+"/SysWait.dep"
 } } ;
 
-Target vdcpp422 = { "SysWait.vm.dep" , OBJ_PATH+"/SysWait.vm.dep" } ;
-Rule rvdcpp422 = { {&dcpp422} , {&vdcpp422} , {&exedcpp422} } ;
-Exe exedcpp422 = { "CC-VM-DEP SysWait.cpp" , VMDEP , { OBJ_PATH+"/SysWait.dep" , OBJ_PATH+"/SysWait.vm.dep" , '422' } } ;
+Target vdcpp428 = { "SysWait.vm.dep" , OBJ_PATH+"/SysWait.vm.dep" } ;
+Rule rvdcpp428 = { {&dcpp428} , {&vdcpp428} , {&exedcpp428} } ;
+Exe exedcpp428 = { "CC-VM-DEP SysWait.cpp" , VMDEP , { OBJ_PATH+"/SysWait.dep" , OBJ_PATH+"/SysWait.vm.dep" , '428' } } ;
 
-Target cpp423 = { "SysWaitInternal.cpp" , "CCore/src/sys/SysWaitInternal.cpp" } ;
-Target dcpp423 = { "SysWaitInternal.dep" , OBJ_PATH+"/SysWaitInternal.dep" } ;
-Rule rdcpp423 = { {&cpp423,&obj} , {&dcpp423} , {&execpp423} } ;
-Exe execpp423 = { "CC-DEP SysWaitInternal.cpp" , CC , {
+Target cpp429 = { "SysWaitInternal.cpp" , "CCore/src/sys/SysWaitInternal.cpp" } ;
+Target dcpp429 = { "SysWaitInternal.dep" , OBJ_PATH+"/SysWaitInternal.dep" } ;
+Rule rdcpp429 = { {&cpp429,&obj} , {&dcpp429} , {&execpp429} } ;
+Exe execpp429 = { "CC-DEP SysWaitInternal.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11461,14 +11623,14 @@ Exe execpp423 = { "CC-DEP SysWaitInternal.cpp" , CC , {
  ,OBJ_PATH+"/SysWaitInternal.dep"
 } } ;
 
-Target vdcpp423 = { "SysWaitInternal.vm.dep" , OBJ_PATH+"/SysWaitInternal.vm.dep" } ;
-Rule rvdcpp423 = { {&dcpp423} , {&vdcpp423} , {&exedcpp423} } ;
-Exe exedcpp423 = { "CC-VM-DEP SysWaitInternal.cpp" , VMDEP , { OBJ_PATH+"/SysWaitInternal.dep" , OBJ_PATH+"/SysWaitInternal.vm.dep" , '423' } } ;
+Target vdcpp429 = { "SysWaitInternal.vm.dep" , OBJ_PATH+"/SysWaitInternal.vm.dep" } ;
+Rule rvdcpp429 = { {&dcpp429} , {&vdcpp429} , {&exedcpp429} } ;
+Exe exedcpp429 = { "CC-VM-DEP SysWaitInternal.cpp" , VMDEP , { OBJ_PATH+"/SysWaitInternal.dep" , OBJ_PATH+"/SysWaitInternal.vm.dep" , '429' } } ;
 
-Target cpp424 = { "Task.cpp" , "../../HCore/CCore/src/Task.cpp" } ;
-Target dcpp424 = { "Task.dep" , OBJ_PATH+"/Task.dep" } ;
-Rule rdcpp424 = { {&cpp424,&obj} , {&dcpp424} , {&execpp424} } ;
-Exe execpp424 = { "CC-DEP Task.cpp" , CC , {
+Target cpp430 = { "Task.cpp" , "../../HCore/CCore/src/Task.cpp" } ;
+Target dcpp430 = { "Task.dep" , OBJ_PATH+"/Task.dep" } ;
+Rule rdcpp430 = { {&cpp430,&obj} , {&dcpp430} , {&execpp430} } ;
+Exe execpp430 = { "CC-DEP Task.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11488,14 +11650,14 @@ Exe execpp424 = { "CC-DEP Task.cpp" , CC , {
  ,OBJ_PATH+"/Task.dep"
 } } ;
 
-Target vdcpp424 = { "Task.vm.dep" , OBJ_PATH+"/Task.vm.dep" } ;
-Rule rvdcpp424 = { {&dcpp424} , {&vdcpp424} , {&exedcpp424} } ;
-Exe exedcpp424 = { "CC-VM-DEP Task.cpp" , VMDEP , { OBJ_PATH+"/Task.dep" , OBJ_PATH+"/Task.vm.dep" , '424' } } ;
+Target vdcpp430 = { "Task.vm.dep" , OBJ_PATH+"/Task.vm.dep" } ;
+Rule rvdcpp430 = { {&dcpp430} , {&vdcpp430} , {&exedcpp430} } ;
+Exe exedcpp430 = { "CC-VM-DEP Task.cpp" , VMDEP , { OBJ_PATH+"/Task.dep" , OBJ_PATH+"/Task.vm.dep" , '430' } } ;
 
-Target cpp425 = { "TaskCore.cpp" , "../../HCore/CCore/src/task/TaskCore.cpp" } ;
-Target dcpp425 = { "TaskCore.dep" , OBJ_PATH+"/TaskCore.dep" } ;
-Rule rdcpp425 = { {&cpp425,&obj} , {&dcpp425} , {&execpp425} } ;
-Exe execpp425 = { "CC-DEP TaskCore.cpp" , CC , {
+Target cpp431 = { "TaskCore.cpp" , "../../HCore/CCore/src/task/TaskCore.cpp" } ;
+Target dcpp431 = { "TaskCore.dep" , OBJ_PATH+"/TaskCore.dep" } ;
+Rule rdcpp431 = { {&cpp431,&obj} , {&dcpp431} , {&execpp431} } ;
+Exe execpp431 = { "CC-DEP TaskCore.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11515,14 +11677,14 @@ Exe execpp425 = { "CC-DEP TaskCore.cpp" , CC , {
  ,OBJ_PATH+"/TaskCore.dep"
 } } ;
 
-Target vdcpp425 = { "TaskCore.vm.dep" , OBJ_PATH+"/TaskCore.vm.dep" } ;
-Rule rvdcpp425 = { {&dcpp425} , {&vdcpp425} , {&exedcpp425} } ;
-Exe exedcpp425 = { "CC-VM-DEP TaskCore.cpp" , VMDEP , { OBJ_PATH+"/TaskCore.dep" , OBJ_PATH+"/TaskCore.vm.dep" , '425' } } ;
+Target vdcpp431 = { "TaskCore.vm.dep" , OBJ_PATH+"/TaskCore.vm.dep" } ;
+Rule rvdcpp431 = { {&dcpp431} , {&vdcpp431} , {&exedcpp431} } ;
+Exe exedcpp431 = { "CC-VM-DEP TaskCore.cpp" , VMDEP , { OBJ_PATH+"/TaskCore.dep" , OBJ_PATH+"/TaskCore.vm.dep" , '431' } } ;
 
-Target cpp426 = { "TaskEvent.cpp" , "../../HCore/CCore/src/task/TaskEvent.cpp" } ;
-Target dcpp426 = { "TaskEvent.dep" , OBJ_PATH+"/TaskEvent.dep" } ;
-Rule rdcpp426 = { {&cpp426,&obj} , {&dcpp426} , {&execpp426} } ;
-Exe execpp426 = { "CC-DEP TaskEvent.cpp" , CC , {
+Target cpp432 = { "TaskEvent.cpp" , "../../HCore/CCore/src/task/TaskEvent.cpp" } ;
+Target dcpp432 = { "TaskEvent.dep" , OBJ_PATH+"/TaskEvent.dep" } ;
+Rule rdcpp432 = { {&cpp432,&obj} , {&dcpp432} , {&execpp432} } ;
+Exe execpp432 = { "CC-DEP TaskEvent.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11542,14 +11704,14 @@ Exe execpp426 = { "CC-DEP TaskEvent.cpp" , CC , {
  ,OBJ_PATH+"/TaskEvent.dep"
 } } ;
 
-Target vdcpp426 = { "TaskEvent.vm.dep" , OBJ_PATH+"/TaskEvent.vm.dep" } ;
-Rule rvdcpp426 = { {&dcpp426} , {&vdcpp426} , {&exedcpp426} } ;
-Exe exedcpp426 = { "CC-VM-DEP TaskEvent.cpp" , VMDEP , { OBJ_PATH+"/TaskEvent.dep" , OBJ_PATH+"/TaskEvent.vm.dep" , '426' } } ;
+Target vdcpp432 = { "TaskEvent.vm.dep" , OBJ_PATH+"/TaskEvent.vm.dep" } ;
+Rule rvdcpp432 = { {&dcpp432} , {&vdcpp432} , {&exedcpp432} } ;
+Exe exedcpp432 = { "CC-VM-DEP TaskEvent.cpp" , VMDEP , { OBJ_PATH+"/TaskEvent.dep" , OBJ_PATH+"/TaskEvent.vm.dep" , '432' } } ;
 
-Target cpp427 = { "TaskHeap.cpp" , "../../HCore/CCore/src/TaskHeap.cpp" } ;
-Target dcpp427 = { "TaskHeap.dep" , OBJ_PATH+"/TaskHeap.dep" } ;
-Rule rdcpp427 = { {&cpp427,&obj} , {&dcpp427} , {&execpp427} } ;
-Exe execpp427 = { "CC-DEP TaskHeap.cpp" , CC , {
+Target cpp433 = { "TaskHeap.cpp" , "../../HCore/CCore/src/TaskHeap.cpp" } ;
+Target dcpp433 = { "TaskHeap.dep" , OBJ_PATH+"/TaskHeap.dep" } ;
+Rule rdcpp433 = { {&cpp433,&obj} , {&dcpp433} , {&execpp433} } ;
+Exe execpp433 = { "CC-DEP TaskHeap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11569,14 +11731,14 @@ Exe execpp427 = { "CC-DEP TaskHeap.cpp" , CC , {
  ,OBJ_PATH+"/TaskHeap.dep"
 } } ;
 
-Target vdcpp427 = { "TaskHeap.vm.dep" , OBJ_PATH+"/TaskHeap.vm.dep" } ;
-Rule rvdcpp427 = { {&dcpp427} , {&vdcpp427} , {&exedcpp427} } ;
-Exe exedcpp427 = { "CC-VM-DEP TaskHeap.cpp" , VMDEP , { OBJ_PATH+"/TaskHeap.dep" , OBJ_PATH+"/TaskHeap.vm.dep" , '427' } } ;
+Target vdcpp433 = { "TaskHeap.vm.dep" , OBJ_PATH+"/TaskHeap.vm.dep" } ;
+Rule rvdcpp433 = { {&dcpp433} , {&vdcpp433} , {&exedcpp433} } ;
+Exe exedcpp433 = { "CC-VM-DEP TaskHeap.cpp" , VMDEP , { OBJ_PATH+"/TaskHeap.dep" , OBJ_PATH+"/TaskHeap.vm.dep" , '433' } } ;
 
-Target cpp428 = { "TaskMemStack.cpp" , "../../Applied/CCore/src/TaskMemStack.cpp" } ;
-Target dcpp428 = { "TaskMemStack.dep" , OBJ_PATH+"/TaskMemStack.dep" } ;
-Rule rdcpp428 = { {&cpp428,&obj} , {&dcpp428} , {&execpp428} } ;
-Exe execpp428 = { "CC-DEP TaskMemStack.cpp" , CC , {
+Target cpp434 = { "TaskMemStack.cpp" , "../../Applied/CCore/src/TaskMemStack.cpp" } ;
+Target dcpp434 = { "TaskMemStack.dep" , OBJ_PATH+"/TaskMemStack.dep" } ;
+Rule rdcpp434 = { {&cpp434,&obj} , {&dcpp434} , {&execpp434} } ;
+Exe execpp434 = { "CC-DEP TaskMemStack.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11596,14 +11758,14 @@ Exe execpp428 = { "CC-DEP TaskMemStack.cpp" , CC , {
  ,OBJ_PATH+"/TaskMemStack.dep"
 } } ;
 
-Target vdcpp428 = { "TaskMemStack.vm.dep" , OBJ_PATH+"/TaskMemStack.vm.dep" } ;
-Rule rvdcpp428 = { {&dcpp428} , {&vdcpp428} , {&exedcpp428} } ;
-Exe exedcpp428 = { "CC-VM-DEP TaskMemStack.cpp" , VMDEP , { OBJ_PATH+"/TaskMemStack.dep" , OBJ_PATH+"/TaskMemStack.vm.dep" , '428' } } ;
+Target vdcpp434 = { "TaskMemStack.vm.dep" , OBJ_PATH+"/TaskMemStack.vm.dep" } ;
+Rule rvdcpp434 = { {&dcpp434} , {&vdcpp434} , {&exedcpp434} } ;
+Exe exedcpp434 = { "CC-VM-DEP TaskMemStack.cpp" , VMDEP , { OBJ_PATH+"/TaskMemStack.dep" , OBJ_PATH+"/TaskMemStack.vm.dep" , '434' } } ;
 
-Target cpp429 = { "TempArray.cpp" , "../../Fundamental/CCore/src/array/TempArray.cpp" } ;
-Target dcpp429 = { "TempArray.dep" , OBJ_PATH+"/TempArray.dep" } ;
-Rule rdcpp429 = { {&cpp429,&obj} , {&dcpp429} , {&execpp429} } ;
-Exe execpp429 = { "CC-DEP TempArray.cpp" , CC , {
+Target cpp435 = { "TempArray.cpp" , "../../Fundamental/CCore/src/array/TempArray.cpp" } ;
+Target dcpp435 = { "TempArray.dep" , OBJ_PATH+"/TempArray.dep" } ;
+Rule rdcpp435 = { {&cpp435,&obj} , {&dcpp435} , {&execpp435} } ;
+Exe execpp435 = { "CC-DEP TempArray.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11623,14 +11785,14 @@ Exe execpp429 = { "CC-DEP TempArray.cpp" , CC , {
  ,OBJ_PATH+"/TempArray.dep"
 } } ;
 
-Target vdcpp429 = { "TempArray.vm.dep" , OBJ_PATH+"/TempArray.vm.dep" } ;
-Rule rvdcpp429 = { {&dcpp429} , {&vdcpp429} , {&exedcpp429} } ;
-Exe exedcpp429 = { "CC-VM-DEP TempArray.cpp" , VMDEP , { OBJ_PATH+"/TempArray.dep" , OBJ_PATH+"/TempArray.vm.dep" , '429' } } ;
+Target vdcpp435 = { "TempArray.vm.dep" , OBJ_PATH+"/TempArray.vm.dep" } ;
+Rule rvdcpp435 = { {&dcpp435} , {&vdcpp435} , {&exedcpp435} } ;
+Exe exedcpp435 = { "CC-VM-DEP TempArray.cpp" , VMDEP , { OBJ_PATH+"/TempArray.dep" , OBJ_PATH+"/TempArray.vm.dep" , '435' } } ;
 
-Target cpp430 = { "TextLabel.cpp" , "../../Simple/CCore/src/TextLabel.cpp" } ;
-Target dcpp430 = { "TextLabel.dep" , OBJ_PATH+"/TextLabel.dep" } ;
-Rule rdcpp430 = { {&cpp430,&obj} , {&dcpp430} , {&execpp430} } ;
-Exe execpp430 = { "CC-DEP TextLabel.cpp" , CC , {
+Target cpp436 = { "TextLabel.cpp" , "../../Simple/CCore/src/TextLabel.cpp" } ;
+Target dcpp436 = { "TextLabel.dep" , OBJ_PATH+"/TextLabel.dep" } ;
+Rule rdcpp436 = { {&cpp436,&obj} , {&dcpp436} , {&execpp436} } ;
+Exe execpp436 = { "CC-DEP TextLabel.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11650,14 +11812,14 @@ Exe execpp430 = { "CC-DEP TextLabel.cpp" , CC , {
  ,OBJ_PATH+"/TextLabel.dep"
 } } ;
 
-Target vdcpp430 = { "TextLabel.vm.dep" , OBJ_PATH+"/TextLabel.vm.dep" } ;
-Rule rvdcpp430 = { {&dcpp430} , {&vdcpp430} , {&exedcpp430} } ;
-Exe exedcpp430 = { "CC-VM-DEP TextLabel.cpp" , VMDEP , { OBJ_PATH+"/TextLabel.dep" , OBJ_PATH+"/TextLabel.vm.dep" , '430' } } ;
+Target vdcpp436 = { "TextLabel.vm.dep" , OBJ_PATH+"/TextLabel.vm.dep" } ;
+Rule rvdcpp436 = { {&dcpp436} , {&vdcpp436} , {&exedcpp436} } ;
+Exe exedcpp436 = { "CC-VM-DEP TextLabel.cpp" , VMDEP , { OBJ_PATH+"/TextLabel.dep" , OBJ_PATH+"/TextLabel.vm.dep" , '436' } } ;
 
-Target cpp431 = { "TextTools.cpp" , "../../Fundamental/CCore/src/TextTools.cpp" } ;
-Target dcpp431 = { "TextTools.dep" , OBJ_PATH+"/TextTools.dep" } ;
-Rule rdcpp431 = { {&cpp431,&obj} , {&dcpp431} , {&execpp431} } ;
-Exe execpp431 = { "CC-DEP TextTools.cpp" , CC , {
+Target cpp437 = { "TextTools.cpp" , "../../Fundamental/CCore/src/TextTools.cpp" } ;
+Target dcpp437 = { "TextTools.dep" , OBJ_PATH+"/TextTools.dep" } ;
+Rule rdcpp437 = { {&cpp437,&obj} , {&dcpp437} , {&execpp437} } ;
+Exe execpp437 = { "CC-DEP TextTools.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11677,14 +11839,14 @@ Exe execpp431 = { "CC-DEP TextTools.cpp" , CC , {
  ,OBJ_PATH+"/TextTools.dep"
 } } ;
 
-Target vdcpp431 = { "TextTools.vm.dep" , OBJ_PATH+"/TextTools.vm.dep" } ;
-Rule rvdcpp431 = { {&dcpp431} , {&vdcpp431} , {&exedcpp431} } ;
-Exe exedcpp431 = { "CC-VM-DEP TextTools.cpp" , VMDEP , { OBJ_PATH+"/TextTools.dep" , OBJ_PATH+"/TextTools.vm.dep" , '431' } } ;
+Target vdcpp437 = { "TextTools.vm.dep" , OBJ_PATH+"/TextTools.vm.dep" } ;
+Rule rvdcpp437 = { {&dcpp437} , {&vdcpp437} , {&exedcpp437} } ;
+Exe exedcpp437 = { "CC-VM-DEP TextTools.cpp" , VMDEP , { OBJ_PATH+"/TextTools.dep" , OBJ_PATH+"/TextTools.vm.dep" , '437' } } ;
 
-Target cpp432 = { "TimeScope.cpp" , "../../Simple/CCore/src/TimeScope.cpp" } ;
-Target dcpp432 = { "TimeScope.dep" , OBJ_PATH+"/TimeScope.dep" } ;
-Rule rdcpp432 = { {&cpp432,&obj} , {&dcpp432} , {&execpp432} } ;
-Exe execpp432 = { "CC-DEP TimeScope.cpp" , CC , {
+Target cpp438 = { "TimeScope.cpp" , "../../Simple/CCore/src/TimeScope.cpp" } ;
+Target dcpp438 = { "TimeScope.dep" , OBJ_PATH+"/TimeScope.dep" } ;
+Rule rdcpp438 = { {&cpp438,&obj} , {&dcpp438} , {&execpp438} } ;
+Exe execpp438 = { "CC-DEP TimeScope.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11704,14 +11866,14 @@ Exe execpp432 = { "CC-DEP TimeScope.cpp" , CC , {
  ,OBJ_PATH+"/TimeScope.dep"
 } } ;
 
-Target vdcpp432 = { "TimeScope.vm.dep" , OBJ_PATH+"/TimeScope.vm.dep" } ;
-Rule rvdcpp432 = { {&dcpp432} , {&vdcpp432} , {&exedcpp432} } ;
-Exe exedcpp432 = { "CC-VM-DEP TimeScope.cpp" , VMDEP , { OBJ_PATH+"/TimeScope.dep" , OBJ_PATH+"/TimeScope.vm.dep" , '432' } } ;
+Target vdcpp438 = { "TimeScope.vm.dep" , OBJ_PATH+"/TimeScope.vm.dep" } ;
+Rule rvdcpp438 = { {&dcpp438} , {&vdcpp438} , {&exedcpp438} } ;
+Exe exedcpp438 = { "CC-VM-DEP TimeScope.cpp" , VMDEP , { OBJ_PATH+"/TimeScope.dep" , OBJ_PATH+"/TimeScope.vm.dep" , '438' } } ;
 
-Target cpp433 = { "Timer.cpp" , "../../Simple/CCore/src/Timer.cpp" } ;
-Target dcpp433 = { "Timer.dep" , OBJ_PATH+"/Timer.dep" } ;
-Rule rdcpp433 = { {&cpp433,&obj} , {&dcpp433} , {&execpp433} } ;
-Exe execpp433 = { "CC-DEP Timer.cpp" , CC , {
+Target cpp439 = { "Timer.cpp" , "../../Simple/CCore/src/Timer.cpp" } ;
+Target dcpp439 = { "Timer.dep" , OBJ_PATH+"/Timer.dep" } ;
+Rule rdcpp439 = { {&cpp439,&obj} , {&dcpp439} , {&execpp439} } ;
+Exe execpp439 = { "CC-DEP Timer.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11731,14 +11893,14 @@ Exe execpp433 = { "CC-DEP Timer.cpp" , CC , {
  ,OBJ_PATH+"/Timer.dep"
 } } ;
 
-Target vdcpp433 = { "Timer.vm.dep" , OBJ_PATH+"/Timer.vm.dep" } ;
-Rule rvdcpp433 = { {&dcpp433} , {&vdcpp433} , {&exedcpp433} } ;
-Exe exedcpp433 = { "CC-VM-DEP Timer.cpp" , VMDEP , { OBJ_PATH+"/Timer.dep" , OBJ_PATH+"/Timer.vm.dep" , '433' } } ;
+Target vdcpp439 = { "Timer.vm.dep" , OBJ_PATH+"/Timer.vm.dep" } ;
+Rule rvdcpp439 = { {&dcpp439} , {&vdcpp439} , {&exedcpp439} } ;
+Exe exedcpp439 = { "CC-VM-DEP Timer.cpp" , VMDEP , { OBJ_PATH+"/Timer.dep" , OBJ_PATH+"/Timer.vm.dep" , '439' } } ;
 
-Target cpp434 = { "TlsSlot.cpp" , "../../Simple/CCore/src/TlsSlot.cpp" } ;
-Target dcpp434 = { "TlsSlot.dep" , OBJ_PATH+"/TlsSlot.dep" } ;
-Rule rdcpp434 = { {&cpp434,&obj} , {&dcpp434} , {&execpp434} } ;
-Exe execpp434 = { "CC-DEP TlsSlot.cpp" , CC , {
+Target cpp440 = { "TlsSlot.cpp" , "../../Simple/CCore/src/TlsSlot.cpp" } ;
+Target dcpp440 = { "TlsSlot.dep" , OBJ_PATH+"/TlsSlot.dep" } ;
+Rule rdcpp440 = { {&cpp440,&obj} , {&dcpp440} , {&execpp440} } ;
+Exe execpp440 = { "CC-DEP TlsSlot.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11758,14 +11920,14 @@ Exe execpp434 = { "CC-DEP TlsSlot.cpp" , CC , {
  ,OBJ_PATH+"/TlsSlot.dep"
 } } ;
 
-Target vdcpp434 = { "TlsSlot.vm.dep" , OBJ_PATH+"/TlsSlot.vm.dep" } ;
-Rule rvdcpp434 = { {&dcpp434} , {&vdcpp434} , {&exedcpp434} } ;
-Exe exedcpp434 = { "CC-VM-DEP TlsSlot.cpp" , VMDEP , { OBJ_PATH+"/TlsSlot.dep" , OBJ_PATH+"/TlsSlot.vm.dep" , '434' } } ;
+Target vdcpp440 = { "TlsSlot.vm.dep" , OBJ_PATH+"/TlsSlot.vm.dep" } ;
+Rule rvdcpp440 = { {&dcpp440} , {&vdcpp440} , {&exedcpp440} } ;
+Exe exedcpp440 = { "CC-VM-DEP TlsSlot.cpp" , VMDEP , { OBJ_PATH+"/TlsSlot.dep" , OBJ_PATH+"/TlsSlot.vm.dep" , '440' } } ;
 
-Target cpp435 = { "ToMemBase.cpp" , "../../Applied/CCore/src/ToMemBase.cpp" } ;
-Target dcpp435 = { "ToMemBase.dep" , OBJ_PATH+"/ToMemBase.dep" } ;
-Rule rdcpp435 = { {&cpp435,&obj} , {&dcpp435} , {&execpp435} } ;
-Exe execpp435 = { "CC-DEP ToMemBase.cpp" , CC , {
+Target cpp441 = { "ToMemBase.cpp" , "../../Applied/CCore/src/ToMemBase.cpp" } ;
+Target dcpp441 = { "ToMemBase.dep" , OBJ_PATH+"/ToMemBase.dep" } ;
+Rule rdcpp441 = { {&cpp441,&obj} , {&dcpp441} , {&execpp441} } ;
+Exe execpp441 = { "CC-DEP ToMemBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11785,14 +11947,14 @@ Exe execpp435 = { "CC-DEP ToMemBase.cpp" , CC , {
  ,OBJ_PATH+"/ToMemBase.dep"
 } } ;
 
-Target vdcpp435 = { "ToMemBase.vm.dep" , OBJ_PATH+"/ToMemBase.vm.dep" } ;
-Rule rvdcpp435 = { {&dcpp435} , {&vdcpp435} , {&exedcpp435} } ;
-Exe exedcpp435 = { "CC-VM-DEP ToMemBase.cpp" , VMDEP , { OBJ_PATH+"/ToMemBase.dep" , OBJ_PATH+"/ToMemBase.vm.dep" , '435' } } ;
+Target vdcpp441 = { "ToMemBase.vm.dep" , OBJ_PATH+"/ToMemBase.vm.dep" } ;
+Rule rvdcpp441 = { {&dcpp441} , {&vdcpp441} , {&exedcpp441} } ;
+Exe exedcpp441 = { "CC-VM-DEP ToMemBase.cpp" , VMDEP , { OBJ_PATH+"/ToMemBase.dep" , OBJ_PATH+"/ToMemBase.vm.dep" , '441' } } ;
 
-Target cpp436 = { "ToMoveCtor.cpp" , "../../Simple/CCore/src/ToMoveCtor.cpp" } ;
-Target dcpp436 = { "ToMoveCtor.dep" , OBJ_PATH+"/ToMoveCtor.dep" } ;
-Rule rdcpp436 = { {&cpp436,&obj} , {&dcpp436} , {&execpp436} } ;
-Exe execpp436 = { "CC-DEP ToMoveCtor.cpp" , CC , {
+Target cpp442 = { "ToMoveCtor.cpp" , "../../Simple/CCore/src/ToMoveCtor.cpp" } ;
+Target dcpp442 = { "ToMoveCtor.dep" , OBJ_PATH+"/ToMoveCtor.dep" } ;
+Rule rdcpp442 = { {&cpp442,&obj} , {&dcpp442} , {&execpp442} } ;
+Exe execpp442 = { "CC-DEP ToMoveCtor.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11812,14 +11974,14 @@ Exe execpp436 = { "CC-DEP ToMoveCtor.cpp" , CC , {
  ,OBJ_PATH+"/ToMoveCtor.dep"
 } } ;
 
-Target vdcpp436 = { "ToMoveCtor.vm.dep" , OBJ_PATH+"/ToMoveCtor.vm.dep" } ;
-Rule rvdcpp436 = { {&dcpp436} , {&vdcpp436} , {&exedcpp436} } ;
-Exe exedcpp436 = { "CC-VM-DEP ToMoveCtor.cpp" , VMDEP , { OBJ_PATH+"/ToMoveCtor.dep" , OBJ_PATH+"/ToMoveCtor.vm.dep" , '436' } } ;
+Target vdcpp442 = { "ToMoveCtor.vm.dep" , OBJ_PATH+"/ToMoveCtor.vm.dep" } ;
+Rule rvdcpp442 = { {&dcpp442} , {&vdcpp442} , {&exedcpp442} } ;
+Exe exedcpp442 = { "CC-VM-DEP ToMoveCtor.cpp" , VMDEP , { OBJ_PATH+"/ToMoveCtor.dep" , OBJ_PATH+"/ToMoveCtor.vm.dep" , '442' } } ;
 
-Target cpp437 = { "ToolFrame.cpp" , "../../Desktop/Lib/CCore/src/video/ToolFrame.cpp" } ;
-Target dcpp437 = { "ToolFrame.dep" , OBJ_PATH+"/ToolFrame.dep" } ;
-Rule rdcpp437 = { {&cpp437,&obj} , {&dcpp437} , {&execpp437} } ;
-Exe execpp437 = { "CC-DEP ToolFrame.cpp" , CC , {
+Target cpp443 = { "ToolFrame.cpp" , "../../Desktop/Lib/CCore/src/video/ToolFrame.cpp" } ;
+Target dcpp443 = { "ToolFrame.dep" , OBJ_PATH+"/ToolFrame.dep" } ;
+Rule rdcpp443 = { {&cpp443,&obj} , {&dcpp443} , {&execpp443} } ;
+Exe execpp443 = { "CC-DEP ToolFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11839,14 +12001,14 @@ Exe execpp437 = { "CC-DEP ToolFrame.cpp" , CC , {
  ,OBJ_PATH+"/ToolFrame.dep"
 } } ;
 
-Target vdcpp437 = { "ToolFrame.vm.dep" , OBJ_PATH+"/ToolFrame.vm.dep" } ;
-Rule rvdcpp437 = { {&dcpp437} , {&vdcpp437} , {&exedcpp437} } ;
-Exe exedcpp437 = { "CC-VM-DEP ToolFrame.cpp" , VMDEP , { OBJ_PATH+"/ToolFrame.dep" , OBJ_PATH+"/ToolFrame.vm.dep" , '437' } } ;
+Target vdcpp443 = { "ToolFrame.vm.dep" , OBJ_PATH+"/ToolFrame.vm.dep" } ;
+Rule rvdcpp443 = { {&dcpp443} , {&vdcpp443} , {&exedcpp443} } ;
+Exe exedcpp443 = { "CC-VM-DEP ToolFrame.cpp" , VMDEP , { OBJ_PATH+"/ToolFrame.dep" , OBJ_PATH+"/ToolFrame.vm.dep" , '443' } } ;
 
-Target cpp438 = { "Tree.cpp" , "../../Fundamental/CCore/src/Tree.cpp" } ;
-Target dcpp438 = { "Tree.dep" , OBJ_PATH+"/Tree.dep" } ;
-Rule rdcpp438 = { {&cpp438,&obj} , {&dcpp438} , {&execpp438} } ;
-Exe execpp438 = { "CC-DEP Tree.cpp" , CC , {
+Target cpp444 = { "Tree.cpp" , "../../Fundamental/CCore/src/Tree.cpp" } ;
+Target dcpp444 = { "Tree.dep" , OBJ_PATH+"/Tree.dep" } ;
+Rule rdcpp444 = { {&cpp444,&obj} , {&dcpp444} , {&execpp444} } ;
+Exe execpp444 = { "CC-DEP Tree.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11866,14 +12028,14 @@ Exe execpp438 = { "CC-DEP Tree.cpp" , CC , {
  ,OBJ_PATH+"/Tree.dep"
 } } ;
 
-Target vdcpp438 = { "Tree.vm.dep" , OBJ_PATH+"/Tree.vm.dep" } ;
-Rule rvdcpp438 = { {&dcpp438} , {&vdcpp438} , {&exedcpp438} } ;
-Exe exedcpp438 = { "CC-VM-DEP Tree.cpp" , VMDEP , { OBJ_PATH+"/Tree.dep" , OBJ_PATH+"/Tree.vm.dep" , '438' } } ;
+Target vdcpp444 = { "Tree.vm.dep" , OBJ_PATH+"/Tree.vm.dep" } ;
+Rule rvdcpp444 = { {&dcpp444} , {&vdcpp444} , {&exedcpp444} } ;
+Exe exedcpp444 = { "CC-VM-DEP Tree.cpp" , VMDEP , { OBJ_PATH+"/Tree.dep" , OBJ_PATH+"/Tree.vm.dep" , '444' } } ;
 
-Target cpp439 = { "TreeBase.cpp" , "../../Fundamental/CCore/src/tree/TreeBase.cpp" } ;
-Target dcpp439 = { "TreeBase.dep" , OBJ_PATH+"/TreeBase.dep" } ;
-Rule rdcpp439 = { {&cpp439,&obj} , {&dcpp439} , {&execpp439} } ;
-Exe execpp439 = { "CC-DEP TreeBase.cpp" , CC , {
+Target cpp445 = { "TreeBase.cpp" , "../../Fundamental/CCore/src/tree/TreeBase.cpp" } ;
+Target dcpp445 = { "TreeBase.dep" , OBJ_PATH+"/TreeBase.dep" } ;
+Rule rdcpp445 = { {&cpp445,&obj} , {&dcpp445} , {&execpp445} } ;
+Exe execpp445 = { "CC-DEP TreeBase.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11893,14 +12055,14 @@ Exe execpp439 = { "CC-DEP TreeBase.cpp" , CC , {
  ,OBJ_PATH+"/TreeBase.dep"
 } } ;
 
-Target vdcpp439 = { "TreeBase.vm.dep" , OBJ_PATH+"/TreeBase.vm.dep" } ;
-Rule rvdcpp439 = { {&dcpp439} , {&vdcpp439} , {&exedcpp439} } ;
-Exe exedcpp439 = { "CC-VM-DEP TreeBase.cpp" , VMDEP , { OBJ_PATH+"/TreeBase.dep" , OBJ_PATH+"/TreeBase.vm.dep" , '439' } } ;
+Target vdcpp445 = { "TreeBase.vm.dep" , OBJ_PATH+"/TreeBase.vm.dep" } ;
+Rule rvdcpp445 = { {&dcpp445} , {&vdcpp445} , {&exedcpp445} } ;
+Exe exedcpp445 = { "CC-VM-DEP TreeBase.cpp" , VMDEP , { OBJ_PATH+"/TreeBase.dep" , OBJ_PATH+"/TreeBase.vm.dep" , '445' } } ;
 
-Target cpp440 = { "TreeLink.cpp" , "../../Fundamental/CCore/src/tree/TreeLink.cpp" } ;
-Target dcpp440 = { "TreeLink.dep" , OBJ_PATH+"/TreeLink.dep" } ;
-Rule rdcpp440 = { {&cpp440,&obj} , {&dcpp440} , {&execpp440} } ;
-Exe execpp440 = { "CC-DEP TreeLink.cpp" , CC , {
+Target cpp446 = { "TreeLink.cpp" , "../../Fundamental/CCore/src/tree/TreeLink.cpp" } ;
+Target dcpp446 = { "TreeLink.dep" , OBJ_PATH+"/TreeLink.dep" } ;
+Rule rdcpp446 = { {&cpp446,&obj} , {&dcpp446} , {&execpp446} } ;
+Exe execpp446 = { "CC-DEP TreeLink.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11920,14 +12082,14 @@ Exe execpp440 = { "CC-DEP TreeLink.cpp" , CC , {
  ,OBJ_PATH+"/TreeLink.dep"
 } } ;
 
-Target vdcpp440 = { "TreeLink.vm.dep" , OBJ_PATH+"/TreeLink.vm.dep" } ;
-Rule rvdcpp440 = { {&dcpp440} , {&vdcpp440} , {&exedcpp440} } ;
-Exe exedcpp440 = { "CC-VM-DEP TreeLink.cpp" , VMDEP , { OBJ_PATH+"/TreeLink.dep" , OBJ_PATH+"/TreeLink.vm.dep" , '440' } } ;
+Target vdcpp446 = { "TreeLink.vm.dep" , OBJ_PATH+"/TreeLink.vm.dep" } ;
+Rule rvdcpp446 = { {&dcpp446} , {&vdcpp446} , {&exedcpp446} } ;
+Exe exedcpp446 = { "CC-VM-DEP TreeLink.cpp" , VMDEP , { OBJ_PATH+"/TreeLink.dep" , OBJ_PATH+"/TreeLink.vm.dep" , '446' } } ;
 
-Target cpp441 = { "TreeMap.cpp" , "../../Fundamental/CCore/src/TreeMap.cpp" } ;
-Target dcpp441 = { "TreeMap.dep" , OBJ_PATH+"/TreeMap.dep" } ;
-Rule rdcpp441 = { {&cpp441,&obj} , {&dcpp441} , {&execpp441} } ;
-Exe execpp441 = { "CC-DEP TreeMap.cpp" , CC , {
+Target cpp447 = { "TreeMap.cpp" , "../../Fundamental/CCore/src/TreeMap.cpp" } ;
+Target dcpp447 = { "TreeMap.dep" , OBJ_PATH+"/TreeMap.dep" } ;
+Rule rdcpp447 = { {&cpp447,&obj} , {&dcpp447} , {&execpp447} } ;
+Exe execpp447 = { "CC-DEP TreeMap.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11947,14 +12109,14 @@ Exe execpp441 = { "CC-DEP TreeMap.cpp" , CC , {
  ,OBJ_PATH+"/TreeMap.dep"
 } } ;
 
-Target vdcpp441 = { "TreeMap.vm.dep" , OBJ_PATH+"/TreeMap.vm.dep" } ;
-Rule rvdcpp441 = { {&dcpp441} , {&vdcpp441} , {&exedcpp441} } ;
-Exe exedcpp441 = { "CC-VM-DEP TreeMap.cpp" , VMDEP , { OBJ_PATH+"/TreeMap.dep" , OBJ_PATH+"/TreeMap.vm.dep" , '441' } } ;
+Target vdcpp447 = { "TreeMap.vm.dep" , OBJ_PATH+"/TreeMap.vm.dep" } ;
+Rule rvdcpp447 = { {&dcpp447} , {&vdcpp447} , {&exedcpp447} } ;
+Exe exedcpp447 = { "CC-VM-DEP TreeMap.cpp" , VMDEP , { OBJ_PATH+"/TreeMap.dep" , OBJ_PATH+"/TreeMap.vm.dep" , '447' } } ;
 
-Target cpp442 = { "TreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/TreeUpLink.cpp" } ;
-Target dcpp442 = { "TreeUpLink.dep" , OBJ_PATH+"/TreeUpLink.dep" } ;
-Rule rdcpp442 = { {&cpp442,&obj} , {&dcpp442} , {&execpp442} } ;
-Exe execpp442 = { "CC-DEP TreeUpLink.cpp" , CC , {
+Target cpp448 = { "TreeUpLink.cpp" , "../../Fundamental/CCore/src/tree/TreeUpLink.cpp" } ;
+Target dcpp448 = { "TreeUpLink.dep" , OBJ_PATH+"/TreeUpLink.dep" } ;
+Rule rdcpp448 = { {&cpp448,&obj} , {&dcpp448} , {&execpp448} } ;
+Exe execpp448 = { "CC-DEP TreeUpLink.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -11974,14 +12136,14 @@ Exe execpp442 = { "CC-DEP TreeUpLink.cpp" , CC , {
  ,OBJ_PATH+"/TreeUpLink.dep"
 } } ;
 
-Target vdcpp442 = { "TreeUpLink.vm.dep" , OBJ_PATH+"/TreeUpLink.vm.dep" } ;
-Rule rvdcpp442 = { {&dcpp442} , {&vdcpp442} , {&exedcpp442} } ;
-Exe exedcpp442 = { "CC-VM-DEP TreeUpLink.cpp" , VMDEP , { OBJ_PATH+"/TreeUpLink.dep" , OBJ_PATH+"/TreeUpLink.vm.dep" , '442' } } ;
+Target vdcpp448 = { "TreeUpLink.vm.dep" , OBJ_PATH+"/TreeUpLink.vm.dep" } ;
+Rule rvdcpp448 = { {&dcpp448} , {&vdcpp448} , {&exedcpp448} } ;
+Exe exedcpp448 = { "CC-VM-DEP TreeUpLink.cpp" , VMDEP , { OBJ_PATH+"/TreeUpLink.dep" , OBJ_PATH+"/TreeUpLink.vm.dep" , '448' } } ;
 
-Target cpp443 = { "Tuple.cpp" , "../../Simple/CCore/src/Tuple.cpp" } ;
-Target dcpp443 = { "Tuple.dep" , OBJ_PATH+"/Tuple.dep" } ;
-Rule rdcpp443 = { {&cpp443,&obj} , {&dcpp443} , {&execpp443} } ;
-Exe execpp443 = { "CC-DEP Tuple.cpp" , CC , {
+Target cpp449 = { "Tuple.cpp" , "../../Simple/CCore/src/Tuple.cpp" } ;
+Target dcpp449 = { "Tuple.dep" , OBJ_PATH+"/Tuple.dep" } ;
+Rule rdcpp449 = { {&cpp449,&obj} , {&dcpp449} , {&execpp449} } ;
+Exe execpp449 = { "CC-DEP Tuple.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12001,14 +12163,14 @@ Exe execpp443 = { "CC-DEP Tuple.cpp" , CC , {
  ,OBJ_PATH+"/Tuple.dep"
 } } ;
 
-Target vdcpp443 = { "Tuple.vm.dep" , OBJ_PATH+"/Tuple.vm.dep" } ;
-Rule rvdcpp443 = { {&dcpp443} , {&vdcpp443} , {&exedcpp443} } ;
-Exe exedcpp443 = { "CC-VM-DEP Tuple.cpp" , VMDEP , { OBJ_PATH+"/Tuple.dep" , OBJ_PATH+"/Tuple.vm.dep" , '443' } } ;
+Target vdcpp449 = { "Tuple.vm.dep" , OBJ_PATH+"/Tuple.vm.dep" } ;
+Rule rvdcpp449 = { {&dcpp449} , {&vdcpp449} , {&exedcpp449} } ;
+Exe exedcpp449 = { "CC-VM-DEP Tuple.cpp" , VMDEP , { OBJ_PATH+"/Tuple.dep" , OBJ_PATH+"/Tuple.vm.dep" , '449' } } ;
 
-Target cpp444 = { "TypeNumber.cpp" , "../../Fundamental/CCore/src/TypeNumber.cpp" } ;
-Target dcpp444 = { "TypeNumber.dep" , OBJ_PATH+"/TypeNumber.dep" } ;
-Rule rdcpp444 = { {&cpp444,&obj} , {&dcpp444} , {&execpp444} } ;
-Exe execpp444 = { "CC-DEP TypeNumber.cpp" , CC , {
+Target cpp450 = { "TypeNumber.cpp" , "../../Fundamental/CCore/src/TypeNumber.cpp" } ;
+Target dcpp450 = { "TypeNumber.dep" , OBJ_PATH+"/TypeNumber.dep" } ;
+Rule rdcpp450 = { {&cpp450,&obj} , {&dcpp450} , {&execpp450} } ;
+Exe execpp450 = { "CC-DEP TypeNumber.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12028,14 +12190,14 @@ Exe execpp444 = { "CC-DEP TypeNumber.cpp" , CC , {
  ,OBJ_PATH+"/TypeNumber.dep"
 } } ;
 
-Target vdcpp444 = { "TypeNumber.vm.dep" , OBJ_PATH+"/TypeNumber.vm.dep" } ;
-Rule rvdcpp444 = { {&dcpp444} , {&vdcpp444} , {&exedcpp444} } ;
-Exe exedcpp444 = { "CC-VM-DEP TypeNumber.cpp" , VMDEP , { OBJ_PATH+"/TypeNumber.dep" , OBJ_PATH+"/TypeNumber.vm.dep" , '444' } } ;
+Target vdcpp450 = { "TypeNumber.vm.dep" , OBJ_PATH+"/TypeNumber.vm.dep" } ;
+Rule rvdcpp450 = { {&dcpp450} , {&vdcpp450} , {&exedcpp450} } ;
+Exe exedcpp450 = { "CC-VM-DEP TypeNumber.cpp" , VMDEP , { OBJ_PATH+"/TypeNumber.dep" , OBJ_PATH+"/TypeNumber.vm.dep" , '450' } } ;
 
-Target cpp445 = { "TypeSwitch.cpp" , "../../Simple/CCore/src/TypeSwitch.cpp" } ;
-Target dcpp445 = { "TypeSwitch.dep" , OBJ_PATH+"/TypeSwitch.dep" } ;
-Rule rdcpp445 = { {&cpp445,&obj} , {&dcpp445} , {&execpp445} } ;
-Exe execpp445 = { "CC-DEP TypeSwitch.cpp" , CC , {
+Target cpp451 = { "TypeSwitch.cpp" , "../../Simple/CCore/src/TypeSwitch.cpp" } ;
+Target dcpp451 = { "TypeSwitch.dep" , OBJ_PATH+"/TypeSwitch.dep" } ;
+Rule rdcpp451 = { {&cpp451,&obj} , {&dcpp451} , {&execpp451} } ;
+Exe execpp451 = { "CC-DEP TypeSwitch.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12055,14 +12217,14 @@ Exe execpp445 = { "CC-DEP TypeSwitch.cpp" , CC , {
  ,OBJ_PATH+"/TypeSwitch.dep"
 } } ;
 
-Target vdcpp445 = { "TypeSwitch.vm.dep" , OBJ_PATH+"/TypeSwitch.vm.dep" } ;
-Rule rvdcpp445 = { {&dcpp445} , {&vdcpp445} , {&exedcpp445} } ;
-Exe exedcpp445 = { "CC-VM-DEP TypeSwitch.cpp" , VMDEP , { OBJ_PATH+"/TypeSwitch.dep" , OBJ_PATH+"/TypeSwitch.vm.dep" , '445' } } ;
+Target vdcpp451 = { "TypeSwitch.vm.dep" , OBJ_PATH+"/TypeSwitch.vm.dep" } ;
+Rule rvdcpp451 = { {&dcpp451} , {&vdcpp451} , {&exedcpp451} } ;
+Exe exedcpp451 = { "CC-VM-DEP TypeSwitch.cpp" , VMDEP , { OBJ_PATH+"/TypeSwitch.dep" , OBJ_PATH+"/TypeSwitch.vm.dep" , '451' } } ;
 
-Target cpp446 = { "UDPDevice.cpp" , "../../HCore/CCore/src/net/UDPDevice.cpp" } ;
-Target dcpp446 = { "UDPDevice.dep" , OBJ_PATH+"/UDPDevice.dep" } ;
-Rule rdcpp446 = { {&cpp446,&obj} , {&dcpp446} , {&execpp446} } ;
-Exe execpp446 = { "CC-DEP UDPDevice.cpp" , CC , {
+Target cpp452 = { "UDPDevice.cpp" , "../../HCore/CCore/src/net/UDPDevice.cpp" } ;
+Target dcpp452 = { "UDPDevice.dep" , OBJ_PATH+"/UDPDevice.dep" } ;
+Rule rdcpp452 = { {&cpp452,&obj} , {&dcpp452} , {&execpp452} } ;
+Exe execpp452 = { "CC-DEP UDPDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12082,14 +12244,14 @@ Exe execpp446 = { "CC-DEP UDPDevice.cpp" , CC , {
  ,OBJ_PATH+"/UDPDevice.dep"
 } } ;
 
-Target vdcpp446 = { "UDPDevice.vm.dep" , OBJ_PATH+"/UDPDevice.vm.dep" } ;
-Rule rvdcpp446 = { {&dcpp446} , {&vdcpp446} , {&exedcpp446} } ;
-Exe exedcpp446 = { "CC-VM-DEP UDPDevice.cpp" , VMDEP , { OBJ_PATH+"/UDPDevice.dep" , OBJ_PATH+"/UDPDevice.vm.dep" , '446' } } ;
+Target vdcpp452 = { "UDPDevice.vm.dep" , OBJ_PATH+"/UDPDevice.vm.dep" } ;
+Rule rvdcpp452 = { {&dcpp452} , {&vdcpp452} , {&exedcpp452} } ;
+Exe exedcpp452 = { "CC-VM-DEP UDPDevice.cpp" , VMDEP , { OBJ_PATH+"/UDPDevice.dep" , OBJ_PATH+"/UDPDevice.vm.dep" , '452' } } ;
 
-Target cpp447 = { "UDPoint.cpp" , "../../Applied/CCore/src/net/UDPoint.cpp" } ;
-Target dcpp447 = { "UDPoint.dep" , OBJ_PATH+"/UDPoint.dep" } ;
-Rule rdcpp447 = { {&cpp447,&obj} , {&dcpp447} , {&execpp447} } ;
-Exe execpp447 = { "CC-DEP UDPoint.cpp" , CC , {
+Target cpp453 = { "UDPoint.cpp" , "../../Applied/CCore/src/net/UDPoint.cpp" } ;
+Target dcpp453 = { "UDPoint.dep" , OBJ_PATH+"/UDPoint.dep" } ;
+Rule rdcpp453 = { {&cpp453,&obj} , {&dcpp453} , {&execpp453} } ;
+Exe execpp453 = { "CC-DEP UDPoint.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12109,14 +12271,14 @@ Exe execpp447 = { "CC-DEP UDPoint.cpp" , CC , {
  ,OBJ_PATH+"/UDPoint.dep"
 } } ;
 
-Target vdcpp447 = { "UDPoint.vm.dep" , OBJ_PATH+"/UDPoint.vm.dep" } ;
-Rule rvdcpp447 = { {&dcpp447} , {&vdcpp447} , {&exedcpp447} } ;
-Exe exedcpp447 = { "CC-VM-DEP UDPoint.cpp" , VMDEP , { OBJ_PATH+"/UDPoint.dep" , OBJ_PATH+"/UDPoint.vm.dep" , '447' } } ;
+Target vdcpp453 = { "UDPoint.vm.dep" , OBJ_PATH+"/UDPoint.vm.dep" } ;
+Rule rvdcpp453 = { {&dcpp453} , {&vdcpp453} , {&exedcpp453} } ;
+Exe exedcpp453 = { "CC-VM-DEP UDPoint.cpp" , VMDEP , { OBJ_PATH+"/UDPoint.dep" , OBJ_PATH+"/UDPoint.vm.dep" , '453' } } ;
 
-Target cpp448 = { "UIntFunc.cpp" , "../../Simple/CCore/src/gadget/UIntFunc.cpp" } ;
-Target dcpp448 = { "UIntFunc.dep" , OBJ_PATH+"/UIntFunc.dep" } ;
-Rule rdcpp448 = { {&cpp448,&obj} , {&dcpp448} , {&execpp448} } ;
-Exe execpp448 = { "CC-DEP UIntFunc.cpp" , CC , {
+Target cpp454 = { "UIntFunc.cpp" , "../../Simple/CCore/src/gadget/UIntFunc.cpp" } ;
+Target dcpp454 = { "UIntFunc.dep" , OBJ_PATH+"/UIntFunc.dep" } ;
+Rule rdcpp454 = { {&cpp454,&obj} , {&dcpp454} , {&execpp454} } ;
+Exe execpp454 = { "CC-DEP UIntFunc.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12136,14 +12298,14 @@ Exe execpp448 = { "CC-DEP UIntFunc.cpp" , CC , {
  ,OBJ_PATH+"/UIntFunc.dep"
 } } ;
 
-Target vdcpp448 = { "UIntFunc.vm.dep" , OBJ_PATH+"/UIntFunc.vm.dep" } ;
-Rule rvdcpp448 = { {&dcpp448} , {&vdcpp448} , {&exedcpp448} } ;
-Exe exedcpp448 = { "CC-VM-DEP UIntFunc.cpp" , VMDEP , { OBJ_PATH+"/UIntFunc.dep" , OBJ_PATH+"/UIntFunc.vm.dep" , '448' } } ;
+Target vdcpp454 = { "UIntFunc.vm.dep" , OBJ_PATH+"/UIntFunc.vm.dep" } ;
+Rule rvdcpp454 = { {&dcpp454} , {&vdcpp454} , {&exedcpp454} } ;
+Exe exedcpp454 = { "CC-VM-DEP UIntFunc.cpp" , VMDEP , { OBJ_PATH+"/UIntFunc.dep" , OBJ_PATH+"/UIntFunc.vm.dep" , '454' } } ;
 
-Target cpp449 = { "UIntSat.cpp" , "../../Simple/CCore/src/gadget/UIntSat.cpp" } ;
-Target dcpp449 = { "UIntSat.dep" , OBJ_PATH+"/UIntSat.dep" } ;
-Rule rdcpp449 = { {&cpp449,&obj} , {&dcpp449} , {&execpp449} } ;
-Exe execpp449 = { "CC-DEP UIntSat.cpp" , CC , {
+Target cpp455 = { "UIntSat.cpp" , "../../Simple/CCore/src/gadget/UIntSat.cpp" } ;
+Target dcpp455 = { "UIntSat.dep" , OBJ_PATH+"/UIntSat.dep" } ;
+Rule rdcpp455 = { {&cpp455,&obj} , {&dcpp455} , {&execpp455} } ;
+Exe execpp455 = { "CC-DEP UIntSat.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12163,14 +12325,14 @@ Exe execpp449 = { "CC-DEP UIntSat.cpp" , CC , {
  ,OBJ_PATH+"/UIntSat.dep"
 } } ;
 
-Target vdcpp449 = { "UIntSat.vm.dep" , OBJ_PATH+"/UIntSat.vm.dep" } ;
-Rule rvdcpp449 = { {&dcpp449} , {&vdcpp449} , {&exedcpp449} } ;
-Exe exedcpp449 = { "CC-VM-DEP UIntSat.cpp" , VMDEP , { OBJ_PATH+"/UIntSat.dep" , OBJ_PATH+"/UIntSat.vm.dep" , '449' } } ;
+Target vdcpp455 = { "UIntSat.vm.dep" , OBJ_PATH+"/UIntSat.vm.dep" } ;
+Rule rvdcpp455 = { {&dcpp455} , {&vdcpp455} , {&exedcpp455} } ;
+Exe exedcpp455 = { "CC-VM-DEP UIntSat.cpp" , VMDEP , { OBJ_PATH+"/UIntSat.dep" , OBJ_PATH+"/UIntSat.vm.dep" , '455' } } ;
 
-Target cpp450 = { "UIntSlowMulAlgo.cpp" , "../../Fundamental/CCore/src/math/UIntSlowMulAlgo.cpp" } ;
-Target dcpp450 = { "UIntSlowMulAlgo.dep" , OBJ_PATH+"/UIntSlowMulAlgo.dep" } ;
-Rule rdcpp450 = { {&cpp450,&obj} , {&dcpp450} , {&execpp450} } ;
-Exe execpp450 = { "CC-DEP UIntSlowMulAlgo.cpp" , CC , {
+Target cpp456 = { "UIntSlowMulAlgo.cpp" , "../../Fundamental/CCore/src/math/UIntSlowMulAlgo.cpp" } ;
+Target dcpp456 = { "UIntSlowMulAlgo.dep" , OBJ_PATH+"/UIntSlowMulAlgo.dep" } ;
+Rule rdcpp456 = { {&cpp456,&obj} , {&dcpp456} , {&execpp456} } ;
+Exe execpp456 = { "CC-DEP UIntSlowMulAlgo.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12190,14 +12352,14 @@ Exe execpp450 = { "CC-DEP UIntSlowMulAlgo.cpp" , CC , {
  ,OBJ_PATH+"/UIntSlowMulAlgo.dep"
 } } ;
 
-Target vdcpp450 = { "UIntSlowMulAlgo.vm.dep" , OBJ_PATH+"/UIntSlowMulAlgo.vm.dep" } ;
-Rule rvdcpp450 = { {&dcpp450} , {&vdcpp450} , {&exedcpp450} } ;
-Exe exedcpp450 = { "CC-VM-DEP UIntSlowMulAlgo.cpp" , VMDEP , { OBJ_PATH+"/UIntSlowMulAlgo.dep" , OBJ_PATH+"/UIntSlowMulAlgo.vm.dep" , '450' } } ;
+Target vdcpp456 = { "UIntSlowMulAlgo.vm.dep" , OBJ_PATH+"/UIntSlowMulAlgo.vm.dep" } ;
+Rule rvdcpp456 = { {&dcpp456} , {&vdcpp456} , {&exedcpp456} } ;
+Exe exedcpp456 = { "CC-VM-DEP UIntSlowMulAlgo.cpp" , VMDEP , { OBJ_PATH+"/UIntSlowMulAlgo.dep" , OBJ_PATH+"/UIntSlowMulAlgo.vm.dep" , '456' } } ;
 
-Target cpp451 = { "UIntSplit.cpp" , "../../Simple/CCore/src/UIntSplit.cpp" } ;
-Target dcpp451 = { "UIntSplit.dep" , OBJ_PATH+"/UIntSplit.dep" } ;
-Rule rdcpp451 = { {&cpp451,&obj} , {&dcpp451} , {&execpp451} } ;
-Exe execpp451 = { "CC-DEP UIntSplit.cpp" , CC , {
+Target cpp457 = { "UIntSplit.cpp" , "../../Simple/CCore/src/UIntSplit.cpp" } ;
+Target dcpp457 = { "UIntSplit.dep" , OBJ_PATH+"/UIntSplit.dep" } ;
+Rule rdcpp457 = { {&cpp457,&obj} , {&dcpp457} , {&execpp457} } ;
+Exe execpp457 = { "CC-DEP UIntSplit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12217,14 +12379,14 @@ Exe execpp451 = { "CC-DEP UIntSplit.cpp" , CC , {
  ,OBJ_PATH+"/UIntSplit.dep"
 } } ;
 
-Target vdcpp451 = { "UIntSplit.vm.dep" , OBJ_PATH+"/UIntSplit.vm.dep" } ;
-Rule rvdcpp451 = { {&dcpp451} , {&vdcpp451} , {&exedcpp451} } ;
-Exe exedcpp451 = { "CC-VM-DEP UIntSplit.cpp" , VMDEP , { OBJ_PATH+"/UIntSplit.dep" , OBJ_PATH+"/UIntSplit.vm.dep" , '451' } } ;
+Target vdcpp457 = { "UIntSplit.vm.dep" , OBJ_PATH+"/UIntSplit.vm.dep" } ;
+Rule rvdcpp457 = { {&dcpp457} , {&vdcpp457} , {&exedcpp457} } ;
+Exe exedcpp457 = { "CC-VM-DEP UIntSplit.cpp" , VMDEP , { OBJ_PATH+"/UIntSplit.dep" , OBJ_PATH+"/UIntSplit.vm.dep" , '457' } } ;
 
-Target cpp452 = { "Unid.cpp" , "../../Fundamental/CCore/src/Unid.cpp" } ;
-Target dcpp452 = { "Unid.dep" , OBJ_PATH+"/Unid.dep" } ;
-Rule rdcpp452 = { {&cpp452,&obj} , {&dcpp452} , {&execpp452} } ;
-Exe execpp452 = { "CC-DEP Unid.cpp" , CC , {
+Target cpp458 = { "Unid.cpp" , "../../Fundamental/CCore/src/Unid.cpp" } ;
+Target dcpp458 = { "Unid.dep" , OBJ_PATH+"/Unid.dep" } ;
+Rule rdcpp458 = { {&cpp458,&obj} , {&dcpp458} , {&execpp458} } ;
+Exe execpp458 = { "CC-DEP Unid.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12244,14 +12406,14 @@ Exe execpp452 = { "CC-DEP Unid.cpp" , CC , {
  ,OBJ_PATH+"/Unid.dep"
 } } ;
 
-Target vdcpp452 = { "Unid.vm.dep" , OBJ_PATH+"/Unid.vm.dep" } ;
-Rule rvdcpp452 = { {&dcpp452} , {&vdcpp452} , {&exedcpp452} } ;
-Exe exedcpp452 = { "CC-VM-DEP Unid.cpp" , VMDEP , { OBJ_PATH+"/Unid.dep" , OBJ_PATH+"/Unid.vm.dep" , '452' } } ;
+Target vdcpp458 = { "Unid.vm.dep" , OBJ_PATH+"/Unid.vm.dep" } ;
+Rule rvdcpp458 = { {&dcpp458} , {&vdcpp458} , {&exedcpp458} } ;
+Exe exedcpp458 = { "CC-VM-DEP Unid.cpp" , VMDEP , { OBJ_PATH+"/Unid.dep" , OBJ_PATH+"/Unid.vm.dep" , '458' } } ;
 
-Target cpp453 = { "UserAction.cpp" , "../../Desktop/Core/CCore/src/video/UserAction.cpp" } ;
-Target dcpp453 = { "UserAction.dep" , OBJ_PATH+"/UserAction.dep" } ;
-Rule rdcpp453 = { {&cpp453,&obj} , {&dcpp453} , {&execpp453} } ;
-Exe execpp453 = { "CC-DEP UserAction.cpp" , CC , {
+Target cpp459 = { "UserAction.cpp" , "../../Desktop/Core/CCore/src/video/UserAction.cpp" } ;
+Target dcpp459 = { "UserAction.dep" , OBJ_PATH+"/UserAction.dep" } ;
+Rule rdcpp459 = { {&cpp459,&obj} , {&dcpp459} , {&execpp459} } ;
+Exe execpp459 = { "CC-DEP UserAction.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12271,14 +12433,14 @@ Exe execpp453 = { "CC-DEP UserAction.cpp" , CC , {
  ,OBJ_PATH+"/UserAction.dep"
 } } ;
 
-Target vdcpp453 = { "UserAction.vm.dep" , OBJ_PATH+"/UserAction.vm.dep" } ;
-Rule rvdcpp453 = { {&dcpp453} , {&vdcpp453} , {&exedcpp453} } ;
-Exe exedcpp453 = { "CC-VM-DEP UserAction.cpp" , VMDEP , { OBJ_PATH+"/UserAction.dep" , OBJ_PATH+"/UserAction.vm.dep" , '453' } } ;
+Target vdcpp459 = { "UserAction.vm.dep" , OBJ_PATH+"/UserAction.vm.dep" } ;
+Rule rvdcpp459 = { {&dcpp459} , {&vdcpp459} , {&exedcpp459} } ;
+Exe exedcpp459 = { "CC-VM-DEP UserAction.cpp" , VMDEP , { OBJ_PATH+"/UserAction.dep" , OBJ_PATH+"/UserAction.vm.dep" , '459' } } ;
 
-Target cpp454 = { "UserPreference.cpp" , "../../Desktop/Lib/CCore/src/video/UserPreference.cpp" } ;
-Target dcpp454 = { "UserPreference.dep" , OBJ_PATH+"/UserPreference.dep" } ;
-Rule rdcpp454 = { {&cpp454,&obj} , {&dcpp454} , {&execpp454} } ;
-Exe execpp454 = { "CC-DEP UserPreference.cpp" , CC , {
+Target cpp460 = { "UserPreference.cpp" , "../../Desktop/Lib/CCore/src/video/UserPreference.cpp" } ;
+Target dcpp460 = { "UserPreference.dep" , OBJ_PATH+"/UserPreference.dep" } ;
+Rule rdcpp460 = { {&cpp460,&obj} , {&dcpp460} , {&execpp460} } ;
+Exe execpp460 = { "CC-DEP UserPreference.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12298,14 +12460,14 @@ Exe execpp454 = { "CC-DEP UserPreference.cpp" , CC , {
  ,OBJ_PATH+"/UserPreference.dep"
 } } ;
 
-Target vdcpp454 = { "UserPreference.vm.dep" , OBJ_PATH+"/UserPreference.vm.dep" } ;
-Rule rvdcpp454 = { {&dcpp454} , {&vdcpp454} , {&exedcpp454} } ;
-Exe exedcpp454 = { "CC-VM-DEP UserPreference.cpp" , VMDEP , { OBJ_PATH+"/UserPreference.dep" , OBJ_PATH+"/UserPreference.vm.dep" , '454' } } ;
+Target vdcpp460 = { "UserPreference.vm.dep" , OBJ_PATH+"/UserPreference.vm.dep" } ;
+Rule rvdcpp460 = { {&dcpp460} , {&vdcpp460} , {&exedcpp460} } ;
+Exe exedcpp460 = { "CC-VM-DEP UserPreference.cpp" , VMDEP , { OBJ_PATH+"/UserPreference.dep" , OBJ_PATH+"/UserPreference.vm.dep" , '460' } } ;
 
-Target cpp455 = { "Utf8.cpp" , "../../Simple/CCore/src/Utf8.cpp" } ;
-Target dcpp455 = { "Utf8.dep" , OBJ_PATH+"/Utf8.dep" } ;
-Rule rdcpp455 = { {&cpp455,&obj} , {&dcpp455} , {&execpp455} } ;
-Exe execpp455 = { "CC-DEP Utf8.cpp" , CC , {
+Target cpp461 = { "Utf8.cpp" , "../../Simple/CCore/src/Utf8.cpp" } ;
+Target dcpp461 = { "Utf8.dep" , OBJ_PATH+"/Utf8.dep" } ;
+Rule rdcpp461 = { {&cpp461,&obj} , {&dcpp461} , {&execpp461} } ;
+Exe execpp461 = { "CC-DEP Utf8.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12325,14 +12487,14 @@ Exe execpp455 = { "CC-DEP Utf8.cpp" , CC , {
  ,OBJ_PATH+"/Utf8.dep"
 } } ;
 
-Target vdcpp455 = { "Utf8.vm.dep" , OBJ_PATH+"/Utf8.vm.dep" } ;
-Rule rvdcpp455 = { {&dcpp455} , {&vdcpp455} , {&exedcpp455} } ;
-Exe exedcpp455 = { "CC-VM-DEP Utf8.cpp" , VMDEP , { OBJ_PATH+"/Utf8.dep" , OBJ_PATH+"/Utf8.vm.dep" , '455' } } ;
+Target vdcpp461 = { "Utf8.vm.dep" , OBJ_PATH+"/Utf8.vm.dep" } ;
+Rule rvdcpp461 = { {&dcpp461} , {&vdcpp461} , {&exedcpp461} } ;
+Exe exedcpp461 = { "CC-VM-DEP Utf8.cpp" , VMDEP , { OBJ_PATH+"/Utf8.dep" , OBJ_PATH+"/Utf8.vm.dep" , '461' } } ;
 
-Target cpp456 = { "UtilFunc.cpp" , "../../Simple/CCore/src/gadget/UtilFunc.cpp" } ;
-Target dcpp456 = { "UtilFunc.dep" , OBJ_PATH+"/UtilFunc.dep" } ;
-Rule rdcpp456 = { {&cpp456,&obj} , {&dcpp456} , {&execpp456} } ;
-Exe execpp456 = { "CC-DEP UtilFunc.cpp" , CC , {
+Target cpp462 = { "UtilFunc.cpp" , "../../Simple/CCore/src/gadget/UtilFunc.cpp" } ;
+Target dcpp462 = { "UtilFunc.dep" , OBJ_PATH+"/UtilFunc.dep" } ;
+Rule rdcpp462 = { {&cpp462,&obj} , {&dcpp462} , {&execpp462} } ;
+Exe execpp462 = { "CC-DEP UtilFunc.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12352,14 +12514,14 @@ Exe execpp456 = { "CC-DEP UtilFunc.cpp" , CC , {
  ,OBJ_PATH+"/UtilFunc.dep"
 } } ;
 
-Target vdcpp456 = { "UtilFunc.vm.dep" , OBJ_PATH+"/UtilFunc.vm.dep" } ;
-Rule rvdcpp456 = { {&dcpp456} , {&vdcpp456} , {&exedcpp456} } ;
-Exe exedcpp456 = { "CC-VM-DEP UtilFunc.cpp" , VMDEP , { OBJ_PATH+"/UtilFunc.dep" , OBJ_PATH+"/UtilFunc.vm.dep" , '456' } } ;
+Target vdcpp462 = { "UtilFunc.vm.dep" , OBJ_PATH+"/UtilFunc.vm.dep" } ;
+Rule rvdcpp462 = { {&dcpp462} , {&vdcpp462} , {&exedcpp462} } ;
+Exe exedcpp462 = { "CC-VM-DEP UtilFunc.cpp" , VMDEP , { OBJ_PATH+"/UtilFunc.dep" , OBJ_PATH+"/UtilFunc.vm.dep" , '462' } } ;
 
-Target cpp457 = { "VideoConsole.cpp" , "../../Applied/CCore/src/video/VideoConsole.cpp" } ;
-Target dcpp457 = { "VideoConsole.dep" , OBJ_PATH+"/VideoConsole.dep" } ;
-Rule rdcpp457 = { {&cpp457,&obj} , {&dcpp457} , {&execpp457} } ;
-Exe execpp457 = { "CC-DEP VideoConsole.cpp" , CC , {
+Target cpp463 = { "VideoConsole.cpp" , "../../Applied/CCore/src/video/VideoConsole.cpp" } ;
+Target dcpp463 = { "VideoConsole.dep" , OBJ_PATH+"/VideoConsole.dep" } ;
+Rule rdcpp463 = { {&cpp463,&obj} , {&dcpp463} , {&execpp463} } ;
+Exe execpp463 = { "CC-DEP VideoConsole.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12379,14 +12541,14 @@ Exe execpp457 = { "CC-DEP VideoConsole.cpp" , CC , {
  ,OBJ_PATH+"/VideoConsole.dep"
 } } ;
 
-Target vdcpp457 = { "VideoConsole.vm.dep" , OBJ_PATH+"/VideoConsole.vm.dep" } ;
-Rule rvdcpp457 = { {&dcpp457} , {&vdcpp457} , {&exedcpp457} } ;
-Exe exedcpp457 = { "CC-VM-DEP VideoConsole.cpp" , VMDEP , { OBJ_PATH+"/VideoConsole.dep" , OBJ_PATH+"/VideoConsole.vm.dep" , '457' } } ;
+Target vdcpp463 = { "VideoConsole.vm.dep" , OBJ_PATH+"/VideoConsole.vm.dep" } ;
+Rule rvdcpp463 = { {&dcpp463} , {&vdcpp463} , {&exedcpp463} } ;
+Exe exedcpp463 = { "CC-VM-DEP VideoConsole.cpp" , VMDEP , { OBJ_PATH+"/VideoConsole.dep" , OBJ_PATH+"/VideoConsole.vm.dep" , '463' } } ;
 
-Target cpp458 = { "VideoDevice.cpp" , "../../Applied/CCore/src/video/VideoDevice.cpp" } ;
-Target dcpp458 = { "VideoDevice.dep" , OBJ_PATH+"/VideoDevice.dep" } ;
-Rule rdcpp458 = { {&cpp458,&obj} , {&dcpp458} , {&execpp458} } ;
-Exe execpp458 = { "CC-DEP VideoDevice.cpp" , CC , {
+Target cpp464 = { "VideoDevice.cpp" , "../../Applied/CCore/src/video/VideoDevice.cpp" } ;
+Target dcpp464 = { "VideoDevice.dep" , OBJ_PATH+"/VideoDevice.dep" } ;
+Rule rdcpp464 = { {&cpp464,&obj} , {&dcpp464} , {&execpp464} } ;
+Exe execpp464 = { "CC-DEP VideoDevice.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12406,14 +12568,14 @@ Exe execpp458 = { "CC-DEP VideoDevice.cpp" , CC , {
  ,OBJ_PATH+"/VideoDevice.dep"
 } } ;
 
-Target vdcpp458 = { "VideoDevice.vm.dep" , OBJ_PATH+"/VideoDevice.vm.dep" } ;
-Rule rvdcpp458 = { {&dcpp458} , {&vdcpp458} , {&exedcpp458} } ;
-Exe exedcpp458 = { "CC-VM-DEP VideoDevice.cpp" , VMDEP , { OBJ_PATH+"/VideoDevice.dep" , OBJ_PATH+"/VideoDevice.vm.dep" , '458' } } ;
+Target vdcpp464 = { "VideoDevice.vm.dep" , OBJ_PATH+"/VideoDevice.vm.dep" } ;
+Rule rvdcpp464 = { {&dcpp464} , {&vdcpp464} , {&exedcpp464} } ;
+Exe exedcpp464 = { "CC-VM-DEP VideoDevice.cpp" , VMDEP , { OBJ_PATH+"/VideoDevice.dep" , OBJ_PATH+"/VideoDevice.vm.dep" , '464' } } ;
 
-Target cpp459 = { "Volume.cpp" , "../../Fundamental/CCore/src/Volume.cpp" } ;
-Target dcpp459 = { "Volume.dep" , OBJ_PATH+"/Volume.dep" } ;
-Rule rdcpp459 = { {&cpp459,&obj} , {&dcpp459} , {&execpp459} } ;
-Exe execpp459 = { "CC-DEP Volume.cpp" , CC , {
+Target cpp465 = { "Volume.cpp" , "../../Fundamental/CCore/src/Volume.cpp" } ;
+Target dcpp465 = { "Volume.dep" , OBJ_PATH+"/Volume.dep" } ;
+Rule rdcpp465 = { {&cpp465,&obj} , {&dcpp465} , {&execpp465} } ;
+Exe execpp465 = { "CC-DEP Volume.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12433,14 +12595,14 @@ Exe execpp459 = { "CC-DEP Volume.cpp" , CC , {
  ,OBJ_PATH+"/Volume.dep"
 } } ;
 
-Target vdcpp459 = { "Volume.vm.dep" , OBJ_PATH+"/Volume.vm.dep" } ;
-Rule rvdcpp459 = { {&dcpp459} , {&vdcpp459} , {&exedcpp459} } ;
-Exe exedcpp459 = { "CC-VM-DEP Volume.cpp" , VMDEP , { OBJ_PATH+"/Volume.dep" , OBJ_PATH+"/Volume.vm.dep" , '459' } } ;
+Target vdcpp465 = { "Volume.vm.dep" , OBJ_PATH+"/Volume.vm.dep" } ;
+Rule rvdcpp465 = { {&dcpp465} , {&vdcpp465} , {&exedcpp465} } ;
+Exe exedcpp465 = { "CC-VM-DEP Volume.cpp" , VMDEP , { OBJ_PATH+"/Volume.dep" , OBJ_PATH+"/Volume.vm.dep" , '465' } } ;
 
-Target cpp460 = { "Window.Blank.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Blank.cpp" } ;
-Target dcpp460 = { "Window.Blank.dep" , OBJ_PATH+"/Window.Blank.dep" } ;
-Rule rdcpp460 = { {&cpp460,&obj} , {&dcpp460} , {&execpp460} } ;
-Exe execpp460 = { "CC-DEP Window.Blank.cpp" , CC , {
+Target cpp466 = { "Window.Blank.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Blank.cpp" } ;
+Target dcpp466 = { "Window.Blank.dep" , OBJ_PATH+"/Window.Blank.dep" } ;
+Rule rdcpp466 = { {&cpp466,&obj} , {&dcpp466} , {&execpp466} } ;
+Exe execpp466 = { "CC-DEP Window.Blank.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12460,14 +12622,14 @@ Exe execpp460 = { "CC-DEP Window.Blank.cpp" , CC , {
  ,OBJ_PATH+"/Window.Blank.dep"
 } } ;
 
-Target vdcpp460 = { "Window.Blank.vm.dep" , OBJ_PATH+"/Window.Blank.vm.dep" } ;
-Rule rvdcpp460 = { {&dcpp460} , {&vdcpp460} , {&exedcpp460} } ;
-Exe exedcpp460 = { "CC-VM-DEP Window.Blank.cpp" , VMDEP , { OBJ_PATH+"/Window.Blank.dep" , OBJ_PATH+"/Window.Blank.vm.dep" , '460' } } ;
+Target vdcpp466 = { "Window.Blank.vm.dep" , OBJ_PATH+"/Window.Blank.vm.dep" } ;
+Rule rvdcpp466 = { {&dcpp466} , {&vdcpp466} , {&exedcpp466} } ;
+Exe exedcpp466 = { "CC-VM-DEP Window.Blank.cpp" , VMDEP , { OBJ_PATH+"/Window.Blank.dep" , OBJ_PATH+"/Window.Blank.vm.dep" , '466' } } ;
 
-Target cpp461 = { "Window.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Button.cpp" } ;
-Target dcpp461 = { "Window.Button.dep" , OBJ_PATH+"/Window.Button.dep" } ;
-Rule rdcpp461 = { {&cpp461,&obj} , {&dcpp461} , {&execpp461} } ;
-Exe execpp461 = { "CC-DEP Window.Button.cpp" , CC , {
+Target cpp467 = { "Window.Button.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Button.cpp" } ;
+Target dcpp467 = { "Window.Button.dep" , OBJ_PATH+"/Window.Button.dep" } ;
+Rule rdcpp467 = { {&cpp467,&obj} , {&dcpp467} , {&execpp467} } ;
+Exe execpp467 = { "CC-DEP Window.Button.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12487,14 +12649,14 @@ Exe execpp461 = { "CC-DEP Window.Button.cpp" , CC , {
  ,OBJ_PATH+"/Window.Button.dep"
 } } ;
 
-Target vdcpp461 = { "Window.Button.vm.dep" , OBJ_PATH+"/Window.Button.vm.dep" } ;
-Rule rvdcpp461 = { {&dcpp461} , {&vdcpp461} , {&exedcpp461} } ;
-Exe exedcpp461 = { "CC-VM-DEP Window.Button.cpp" , VMDEP , { OBJ_PATH+"/Window.Button.dep" , OBJ_PATH+"/Window.Button.vm.dep" , '461' } } ;
+Target vdcpp467 = { "Window.Button.vm.dep" , OBJ_PATH+"/Window.Button.vm.dep" } ;
+Rule rvdcpp467 = { {&dcpp467} , {&vdcpp467} , {&exedcpp467} } ;
+Exe exedcpp467 = { "CC-VM-DEP Window.Button.cpp" , VMDEP , { OBJ_PATH+"/Window.Button.dep" , OBJ_PATH+"/Window.Button.vm.dep" , '467' } } ;
 
-Target cpp462 = { "Window.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Check.cpp" } ;
-Target dcpp462 = { "Window.Check.dep" , OBJ_PATH+"/Window.Check.dep" } ;
-Rule rdcpp462 = { {&cpp462,&obj} , {&dcpp462} , {&execpp462} } ;
-Exe execpp462 = { "CC-DEP Window.Check.cpp" , CC , {
+Target cpp468 = { "Window.Check.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Check.cpp" } ;
+Target dcpp468 = { "Window.Check.dep" , OBJ_PATH+"/Window.Check.dep" } ;
+Rule rdcpp468 = { {&cpp468,&obj} , {&dcpp468} , {&execpp468} } ;
+Exe execpp468 = { "CC-DEP Window.Check.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12514,14 +12676,14 @@ Exe execpp462 = { "CC-DEP Window.Check.cpp" , CC , {
  ,OBJ_PATH+"/Window.Check.dep"
 } } ;
 
-Target vdcpp462 = { "Window.Check.vm.dep" , OBJ_PATH+"/Window.Check.vm.dep" } ;
-Rule rvdcpp462 = { {&dcpp462} , {&vdcpp462} , {&exedcpp462} } ;
-Exe exedcpp462 = { "CC-VM-DEP Window.Check.cpp" , VMDEP , { OBJ_PATH+"/Window.Check.dep" , OBJ_PATH+"/Window.Check.vm.dep" , '462' } } ;
+Target vdcpp468 = { "Window.Check.vm.dep" , OBJ_PATH+"/Window.Check.vm.dep" } ;
+Rule rvdcpp468 = { {&dcpp468} , {&vdcpp468} , {&exedcpp468} } ;
+Exe exedcpp468 = { "CC-VM-DEP Window.Check.cpp" , VMDEP , { OBJ_PATH+"/Window.Check.dep" , OBJ_PATH+"/Window.Check.vm.dep" , '468' } } ;
 
-Target cpp463 = { "Window.Decor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Decor.cpp" } ;
-Target dcpp463 = { "Window.Decor.dep" , OBJ_PATH+"/Window.Decor.dep" } ;
-Rule rdcpp463 = { {&cpp463,&obj} , {&dcpp463} , {&execpp463} } ;
-Exe execpp463 = { "CC-DEP Window.Decor.cpp" , CC , {
+Target cpp469 = { "Window.Decor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Decor.cpp" } ;
+Target dcpp469 = { "Window.Decor.dep" , OBJ_PATH+"/Window.Decor.dep" } ;
+Rule rdcpp469 = { {&cpp469,&obj} , {&dcpp469} , {&execpp469} } ;
+Exe execpp469 = { "CC-DEP Window.Decor.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12541,14 +12703,14 @@ Exe execpp463 = { "CC-DEP Window.Decor.cpp" , CC , {
  ,OBJ_PATH+"/Window.Decor.dep"
 } } ;
 
-Target vdcpp463 = { "Window.Decor.vm.dep" , OBJ_PATH+"/Window.Decor.vm.dep" } ;
-Rule rvdcpp463 = { {&dcpp463} , {&vdcpp463} , {&exedcpp463} } ;
-Exe exedcpp463 = { "CC-VM-DEP Window.Decor.cpp" , VMDEP , { OBJ_PATH+"/Window.Decor.dep" , OBJ_PATH+"/Window.Decor.vm.dep" , '463' } } ;
+Target vdcpp469 = { "Window.Decor.vm.dep" , OBJ_PATH+"/Window.Decor.vm.dep" } ;
+Rule rvdcpp469 = { {&dcpp469} , {&vdcpp469} , {&exedcpp469} } ;
+Exe exedcpp469 = { "CC-VM-DEP Window.Decor.cpp" , VMDEP , { OBJ_PATH+"/Window.Decor.dep" , OBJ_PATH+"/Window.Decor.vm.dep" , '469' } } ;
 
-Target cpp464 = { "Window.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.DragFrame.cpp" } ;
-Target dcpp464 = { "Window.DragFrame.dep" , OBJ_PATH+"/Window.DragFrame.dep" } ;
-Rule rdcpp464 = { {&cpp464,&obj} , {&dcpp464} , {&execpp464} } ;
-Exe execpp464 = { "CC-DEP Window.DragFrame.cpp" , CC , {
+Target cpp470 = { "Window.DragFrame.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.DragFrame.cpp" } ;
+Target dcpp470 = { "Window.DragFrame.dep" , OBJ_PATH+"/Window.DragFrame.dep" } ;
+Rule rdcpp470 = { {&cpp470,&obj} , {&dcpp470} , {&execpp470} } ;
+Exe execpp470 = { "CC-DEP Window.DragFrame.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12568,14 +12730,14 @@ Exe execpp464 = { "CC-DEP Window.DragFrame.cpp" , CC , {
  ,OBJ_PATH+"/Window.DragFrame.dep"
 } } ;
 
-Target vdcpp464 = { "Window.DragFrame.vm.dep" , OBJ_PATH+"/Window.DragFrame.vm.dep" } ;
-Rule rvdcpp464 = { {&dcpp464} , {&vdcpp464} , {&exedcpp464} } ;
-Exe exedcpp464 = { "CC-VM-DEP Window.DragFrame.cpp" , VMDEP , { OBJ_PATH+"/Window.DragFrame.dep" , OBJ_PATH+"/Window.DragFrame.vm.dep" , '464' } } ;
+Target vdcpp470 = { "Window.DragFrame.vm.dep" , OBJ_PATH+"/Window.DragFrame.vm.dep" } ;
+Rule rvdcpp470 = { {&dcpp470} , {&vdcpp470} , {&exedcpp470} } ;
+Exe exedcpp470 = { "CC-VM-DEP Window.DragFrame.cpp" , VMDEP , { OBJ_PATH+"/Window.DragFrame.dep" , OBJ_PATH+"/Window.DragFrame.vm.dep" , '470' } } ;
 
-Target cpp465 = { "Window.FireButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.FireButton.cpp" } ;
-Target dcpp465 = { "Window.FireButton.dep" , OBJ_PATH+"/Window.FireButton.dep" } ;
-Rule rdcpp465 = { {&cpp465,&obj} , {&dcpp465} , {&execpp465} } ;
-Exe execpp465 = { "CC-DEP Window.FireButton.cpp" , CC , {
+Target cpp471 = { "Window.FireButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.FireButton.cpp" } ;
+Target dcpp471 = { "Window.FireButton.dep" , OBJ_PATH+"/Window.FireButton.dep" } ;
+Rule rdcpp471 = { {&cpp471,&obj} , {&dcpp471} , {&execpp471} } ;
+Exe execpp471 = { "CC-DEP Window.FireButton.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12595,14 +12757,14 @@ Exe execpp465 = { "CC-DEP Window.FireButton.cpp" , CC , {
  ,OBJ_PATH+"/Window.FireButton.dep"
 } } ;
 
-Target vdcpp465 = { "Window.FireButton.vm.dep" , OBJ_PATH+"/Window.FireButton.vm.dep" } ;
-Rule rvdcpp465 = { {&dcpp465} , {&vdcpp465} , {&exedcpp465} } ;
-Exe exedcpp465 = { "CC-VM-DEP Window.FireButton.cpp" , VMDEP , { OBJ_PATH+"/Window.FireButton.dep" , OBJ_PATH+"/Window.FireButton.vm.dep" , '465' } } ;
+Target vdcpp471 = { "Window.FireButton.vm.dep" , OBJ_PATH+"/Window.FireButton.vm.dep" } ;
+Rule rvdcpp471 = { {&dcpp471} , {&vdcpp471} , {&exedcpp471} } ;
+Exe exedcpp471 = { "CC-VM-DEP Window.FireButton.cpp" , VMDEP , { OBJ_PATH+"/Window.FireButton.dep" , OBJ_PATH+"/Window.FireButton.vm.dep" , '471' } } ;
 
-Target cpp466 = { "Window.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Info.cpp" } ;
-Target dcpp466 = { "Window.Info.dep" , OBJ_PATH+"/Window.Info.dep" } ;
-Rule rdcpp466 = { {&cpp466,&obj} , {&dcpp466} , {&execpp466} } ;
-Exe execpp466 = { "CC-DEP Window.Info.cpp" , CC , {
+Target cpp472 = { "Window.Info.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Info.cpp" } ;
+Target dcpp472 = { "Window.Info.dep" , OBJ_PATH+"/Window.Info.dep" } ;
+Rule rdcpp472 = { {&cpp472,&obj} , {&dcpp472} , {&execpp472} } ;
+Exe execpp472 = { "CC-DEP Window.Info.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12622,14 +12784,14 @@ Exe execpp466 = { "CC-DEP Window.Info.cpp" , CC , {
  ,OBJ_PATH+"/Window.Info.dep"
 } } ;
 
-Target vdcpp466 = { "Window.Info.vm.dep" , OBJ_PATH+"/Window.Info.vm.dep" } ;
-Rule rvdcpp466 = { {&dcpp466} , {&vdcpp466} , {&exedcpp466} } ;
-Exe exedcpp466 = { "CC-VM-DEP Window.Info.cpp" , VMDEP , { OBJ_PATH+"/Window.Info.dep" , OBJ_PATH+"/Window.Info.vm.dep" , '466' } } ;
+Target vdcpp472 = { "Window.Info.vm.dep" , OBJ_PATH+"/Window.Info.vm.dep" } ;
+Rule rvdcpp472 = { {&dcpp472} , {&vdcpp472} , {&exedcpp472} } ;
+Exe exedcpp472 = { "CC-VM-DEP Window.Info.cpp" , VMDEP , { OBJ_PATH+"/Window.Info.dep" , OBJ_PATH+"/Window.Info.vm.dep" , '472' } } ;
 
-Target cpp467 = { "Window.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Light.cpp" } ;
-Target dcpp467 = { "Window.Light.dep" , OBJ_PATH+"/Window.Light.dep" } ;
-Rule rdcpp467 = { {&cpp467,&obj} , {&dcpp467} , {&execpp467} } ;
-Exe execpp467 = { "CC-DEP Window.Light.cpp" , CC , {
+Target cpp473 = { "Window.Light.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Light.cpp" } ;
+Target dcpp473 = { "Window.Light.dep" , OBJ_PATH+"/Window.Light.dep" } ;
+Rule rdcpp473 = { {&cpp473,&obj} , {&dcpp473} , {&execpp473} } ;
+Exe execpp473 = { "CC-DEP Window.Light.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12649,14 +12811,14 @@ Exe execpp467 = { "CC-DEP Window.Light.cpp" , CC , {
  ,OBJ_PATH+"/Window.Light.dep"
 } } ;
 
-Target vdcpp467 = { "Window.Light.vm.dep" , OBJ_PATH+"/Window.Light.vm.dep" } ;
-Rule rvdcpp467 = { {&dcpp467} , {&vdcpp467} , {&exedcpp467} } ;
-Exe exedcpp467 = { "CC-VM-DEP Window.Light.cpp" , VMDEP , { OBJ_PATH+"/Window.Light.dep" , OBJ_PATH+"/Window.Light.vm.dep" , '467' } } ;
+Target vdcpp473 = { "Window.Light.vm.dep" , OBJ_PATH+"/Window.Light.vm.dep" } ;
+Rule rvdcpp473 = { {&dcpp473} , {&vdcpp473} , {&exedcpp473} } ;
+Exe exedcpp473 = { "CC-VM-DEP Window.Light.cpp" , VMDEP , { OBJ_PATH+"/Window.Light.dep" , OBJ_PATH+"/Window.Light.vm.dep" , '473' } } ;
 
-Target cpp468 = { "Window.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.LineEdit.cpp" } ;
-Target dcpp468 = { "Window.LineEdit.dep" , OBJ_PATH+"/Window.LineEdit.dep" } ;
-Rule rdcpp468 = { {&cpp468,&obj} , {&dcpp468} , {&execpp468} } ;
-Exe execpp468 = { "CC-DEP Window.LineEdit.cpp" , CC , {
+Target cpp474 = { "Window.LineEdit.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.LineEdit.cpp" } ;
+Target dcpp474 = { "Window.LineEdit.dep" , OBJ_PATH+"/Window.LineEdit.dep" } ;
+Rule rdcpp474 = { {&cpp474,&obj} , {&dcpp474} , {&execpp474} } ;
+Exe execpp474 = { "CC-DEP Window.LineEdit.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12676,14 +12838,14 @@ Exe execpp468 = { "CC-DEP Window.LineEdit.cpp" , CC , {
  ,OBJ_PATH+"/Window.LineEdit.dep"
 } } ;
 
-Target vdcpp468 = { "Window.LineEdit.vm.dep" , OBJ_PATH+"/Window.LineEdit.vm.dep" } ;
-Rule rvdcpp468 = { {&dcpp468} , {&vdcpp468} , {&exedcpp468} } ;
-Exe exedcpp468 = { "CC-VM-DEP Window.LineEdit.cpp" , VMDEP , { OBJ_PATH+"/Window.LineEdit.dep" , OBJ_PATH+"/Window.LineEdit.vm.dep" , '468' } } ;
+Target vdcpp474 = { "Window.LineEdit.vm.dep" , OBJ_PATH+"/Window.LineEdit.vm.dep" } ;
+Rule rvdcpp474 = { {&dcpp474} , {&vdcpp474} , {&exedcpp474} } ;
+Exe exedcpp474 = { "CC-VM-DEP Window.LineEdit.cpp" , VMDEP , { OBJ_PATH+"/Window.LineEdit.dep" , OBJ_PATH+"/Window.LineEdit.vm.dep" , '474' } } ;
 
-Target cpp469 = { "Window.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Progress.cpp" } ;
-Target dcpp469 = { "Window.Progress.dep" , OBJ_PATH+"/Window.Progress.dep" } ;
-Rule rdcpp469 = { {&cpp469,&obj} , {&dcpp469} , {&execpp469} } ;
-Exe execpp469 = { "CC-DEP Window.Progress.cpp" , CC , {
+Target cpp475 = { "Window.Progress.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Progress.cpp" } ;
+Target dcpp475 = { "Window.Progress.dep" , OBJ_PATH+"/Window.Progress.dep" } ;
+Rule rdcpp475 = { {&cpp475,&obj} , {&dcpp475} , {&execpp475} } ;
+Exe execpp475 = { "CC-DEP Window.Progress.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12703,14 +12865,14 @@ Exe execpp469 = { "CC-DEP Window.Progress.cpp" , CC , {
  ,OBJ_PATH+"/Window.Progress.dep"
 } } ;
 
-Target vdcpp469 = { "Window.Progress.vm.dep" , OBJ_PATH+"/Window.Progress.vm.dep" } ;
-Rule rvdcpp469 = { {&dcpp469} , {&vdcpp469} , {&exedcpp469} } ;
-Exe exedcpp469 = { "CC-VM-DEP Window.Progress.cpp" , VMDEP , { OBJ_PATH+"/Window.Progress.dep" , OBJ_PATH+"/Window.Progress.vm.dep" , '469' } } ;
+Target vdcpp475 = { "Window.Progress.vm.dep" , OBJ_PATH+"/Window.Progress.vm.dep" } ;
+Rule rvdcpp475 = { {&dcpp475} , {&vdcpp475} , {&exedcpp475} } ;
+Exe exedcpp475 = { "CC-VM-DEP Window.Progress.cpp" , VMDEP , { OBJ_PATH+"/Window.Progress.dep" , OBJ_PATH+"/Window.Progress.vm.dep" , '475' } } ;
 
-Target cpp470 = { "Window.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Radio.cpp" } ;
-Target dcpp470 = { "Window.Radio.dep" , OBJ_PATH+"/Window.Radio.dep" } ;
-Rule rdcpp470 = { {&cpp470,&obj} , {&dcpp470} , {&execpp470} } ;
-Exe execpp470 = { "CC-DEP Window.Radio.cpp" , CC , {
+Target cpp476 = { "Window.Radio.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Radio.cpp" } ;
+Target dcpp476 = { "Window.Radio.dep" , OBJ_PATH+"/Window.Radio.dep" } ;
+Rule rdcpp476 = { {&cpp476,&obj} , {&dcpp476} , {&execpp476} } ;
+Exe execpp476 = { "CC-DEP Window.Radio.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12730,14 +12892,14 @@ Exe execpp470 = { "CC-DEP Window.Radio.cpp" , CC , {
  ,OBJ_PATH+"/Window.Radio.dep"
 } } ;
 
-Target vdcpp470 = { "Window.Radio.vm.dep" , OBJ_PATH+"/Window.Radio.vm.dep" } ;
-Rule rvdcpp470 = { {&dcpp470} , {&vdcpp470} , {&exedcpp470} } ;
-Exe exedcpp470 = { "CC-VM-DEP Window.Radio.cpp" , VMDEP , { OBJ_PATH+"/Window.Radio.dep" , OBJ_PATH+"/Window.Radio.vm.dep" , '470' } } ;
+Target vdcpp476 = { "Window.Radio.vm.dep" , OBJ_PATH+"/Window.Radio.vm.dep" } ;
+Rule rvdcpp476 = { {&dcpp476} , {&vdcpp476} , {&exedcpp476} } ;
+Exe exedcpp476 = { "CC-VM-DEP Window.Radio.cpp" , VMDEP , { OBJ_PATH+"/Window.Radio.dep" , OBJ_PATH+"/Window.Radio.vm.dep" , '476' } } ;
 
-Target cpp471 = { "Window.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.RunButton.cpp" } ;
-Target dcpp471 = { "Window.RunButton.dep" , OBJ_PATH+"/Window.RunButton.dep" } ;
-Rule rdcpp471 = { {&cpp471,&obj} , {&dcpp471} , {&execpp471} } ;
-Exe execpp471 = { "CC-DEP Window.RunButton.cpp" , CC , {
+Target cpp477 = { "Window.RunButton.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.RunButton.cpp" } ;
+Target dcpp477 = { "Window.RunButton.dep" , OBJ_PATH+"/Window.RunButton.dep" } ;
+Rule rdcpp477 = { {&cpp477,&obj} , {&dcpp477} , {&execpp477} } ;
+Exe execpp477 = { "CC-DEP Window.RunButton.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12757,14 +12919,14 @@ Exe execpp471 = { "CC-DEP Window.RunButton.cpp" , CC , {
  ,OBJ_PATH+"/Window.RunButton.dep"
 } } ;
 
-Target vdcpp471 = { "Window.RunButton.vm.dep" , OBJ_PATH+"/Window.RunButton.vm.dep" } ;
-Rule rvdcpp471 = { {&dcpp471} , {&vdcpp471} , {&exedcpp471} } ;
-Exe exedcpp471 = { "CC-VM-DEP Window.RunButton.cpp" , VMDEP , { OBJ_PATH+"/Window.RunButton.dep" , OBJ_PATH+"/Window.RunButton.vm.dep" , '471' } } ;
+Target vdcpp477 = { "Window.RunButton.vm.dep" , OBJ_PATH+"/Window.RunButton.vm.dep" } ;
+Rule rvdcpp477 = { {&dcpp477} , {&vdcpp477} , {&exedcpp477} } ;
+Exe exedcpp477 = { "CC-VM-DEP Window.RunButton.cpp" , VMDEP , { OBJ_PATH+"/Window.RunButton.dep" , OBJ_PATH+"/Window.RunButton.vm.dep" , '477' } } ;
 
-Target cpp472 = { "Window.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scroll.cpp" } ;
-Target dcpp472 = { "Window.Scroll.dep" , OBJ_PATH+"/Window.Scroll.dep" } ;
-Rule rdcpp472 = { {&cpp472,&obj} , {&dcpp472} , {&execpp472} } ;
-Exe execpp472 = { "CC-DEP Window.Scroll.cpp" , CC , {
+Target cpp478 = { "Window.Scroll.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scroll.cpp" } ;
+Target dcpp478 = { "Window.Scroll.dep" , OBJ_PATH+"/Window.Scroll.dep" } ;
+Rule rdcpp478 = { {&cpp478,&obj} , {&dcpp478} , {&execpp478} } ;
+Exe execpp478 = { "CC-DEP Window.Scroll.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12784,14 +12946,14 @@ Exe execpp472 = { "CC-DEP Window.Scroll.cpp" , CC , {
  ,OBJ_PATH+"/Window.Scroll.dep"
 } } ;
 
-Target vdcpp472 = { "Window.Scroll.vm.dep" , OBJ_PATH+"/Window.Scroll.vm.dep" } ;
-Rule rvdcpp472 = { {&dcpp472} , {&vdcpp472} , {&exedcpp472} } ;
-Exe exedcpp472 = { "CC-VM-DEP Window.Scroll.cpp" , VMDEP , { OBJ_PATH+"/Window.Scroll.dep" , OBJ_PATH+"/Window.Scroll.vm.dep" , '472' } } ;
+Target vdcpp478 = { "Window.Scroll.vm.dep" , OBJ_PATH+"/Window.Scroll.vm.dep" } ;
+Rule rvdcpp478 = { {&dcpp478} , {&vdcpp478} , {&exedcpp478} } ;
+Exe exedcpp478 = { "CC-VM-DEP Window.Scroll.cpp" , VMDEP , { OBJ_PATH+"/Window.Scroll.dep" , OBJ_PATH+"/Window.Scroll.vm.dep" , '478' } } ;
 
-Target cpp473 = { "Window.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.ScrollList.cpp" } ;
-Target dcpp473 = { "Window.ScrollList.dep" , OBJ_PATH+"/Window.ScrollList.dep" } ;
-Rule rdcpp473 = { {&cpp473,&obj} , {&dcpp473} , {&execpp473} } ;
-Exe execpp473 = { "CC-DEP Window.ScrollList.cpp" , CC , {
+Target cpp479 = { "Window.ScrollList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.ScrollList.cpp" } ;
+Target dcpp479 = { "Window.ScrollList.dep" , OBJ_PATH+"/Window.ScrollList.dep" } ;
+Rule rdcpp479 = { {&cpp479,&obj} , {&dcpp479} , {&execpp479} } ;
+Exe execpp479 = { "CC-DEP Window.ScrollList.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12811,14 +12973,14 @@ Exe execpp473 = { "CC-DEP Window.ScrollList.cpp" , CC , {
  ,OBJ_PATH+"/Window.ScrollList.dep"
 } } ;
 
-Target vdcpp473 = { "Window.ScrollList.vm.dep" , OBJ_PATH+"/Window.ScrollList.vm.dep" } ;
-Rule rvdcpp473 = { {&dcpp473} , {&vdcpp473} , {&exedcpp473} } ;
-Exe exedcpp473 = { "CC-VM-DEP Window.ScrollList.cpp" , VMDEP , { OBJ_PATH+"/Window.ScrollList.dep" , OBJ_PATH+"/Window.ScrollList.vm.dep" , '473' } } ;
+Target vdcpp479 = { "Window.ScrollList.vm.dep" , OBJ_PATH+"/Window.ScrollList.vm.dep" } ;
+Rule rvdcpp479 = { {&dcpp479} , {&vdcpp479} , {&exedcpp479} } ;
+Exe exedcpp479 = { "CC-VM-DEP Window.ScrollList.cpp" , VMDEP , { OBJ_PATH+"/Window.ScrollList.dep" , OBJ_PATH+"/Window.ScrollList.vm.dep" , '479' } } ;
 
-Target cpp474 = { "Window.Scrollable.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scrollable.cpp" } ;
-Target dcpp474 = { "Window.Scrollable.dep" , OBJ_PATH+"/Window.Scrollable.dep" } ;
-Rule rdcpp474 = { {&cpp474,&obj} , {&dcpp474} , {&execpp474} } ;
-Exe execpp474 = { "CC-DEP Window.Scrollable.cpp" , CC , {
+Target cpp480 = { "Window.Scrollable.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Scrollable.cpp" } ;
+Target dcpp480 = { "Window.Scrollable.dep" , OBJ_PATH+"/Window.Scrollable.dep" } ;
+Rule rdcpp480 = { {&cpp480,&obj} , {&dcpp480} , {&execpp480} } ;
+Exe execpp480 = { "CC-DEP Window.Scrollable.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12838,14 +13000,14 @@ Exe execpp474 = { "CC-DEP Window.Scrollable.cpp" , CC , {
  ,OBJ_PATH+"/Window.Scrollable.dep"
 } } ;
 
-Target vdcpp474 = { "Window.Scrollable.vm.dep" , OBJ_PATH+"/Window.Scrollable.vm.dep" } ;
-Rule rvdcpp474 = { {&dcpp474} , {&vdcpp474} , {&exedcpp474} } ;
-Exe exedcpp474 = { "CC-VM-DEP Window.Scrollable.cpp" , VMDEP , { OBJ_PATH+"/Window.Scrollable.dep" , OBJ_PATH+"/Window.Scrollable.vm.dep" , '474' } } ;
+Target vdcpp480 = { "Window.Scrollable.vm.dep" , OBJ_PATH+"/Window.Scrollable.vm.dep" } ;
+Rule rvdcpp480 = { {&dcpp480} , {&vdcpp480} , {&exedcpp480} } ;
+Exe exedcpp480 = { "CC-VM-DEP Window.Scrollable.cpp" , VMDEP , { OBJ_PATH+"/Window.Scrollable.dep" , OBJ_PATH+"/Window.Scrollable.vm.dep" , '480' } } ;
 
-Target cpp475 = { "Window.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.SimpleTextList.cpp" } ;
-Target dcpp475 = { "Window.SimpleTextList.dep" , OBJ_PATH+"/Window.SimpleTextList.dep" } ;
-Rule rdcpp475 = { {&cpp475,&obj} , {&dcpp475} , {&execpp475} } ;
-Exe execpp475 = { "CC-DEP Window.SimpleTextList.cpp" , CC , {
+Target cpp481 = { "Window.SimpleTextList.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.SimpleTextList.cpp" } ;
+Target dcpp481 = { "Window.SimpleTextList.dep" , OBJ_PATH+"/Window.SimpleTextList.dep" } ;
+Rule rdcpp481 = { {&cpp481,&obj} , {&dcpp481} , {&execpp481} } ;
+Exe execpp481 = { "CC-DEP Window.SimpleTextList.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12865,14 +13027,14 @@ Exe execpp475 = { "CC-DEP Window.SimpleTextList.cpp" , CC , {
  ,OBJ_PATH+"/Window.SimpleTextList.dep"
 } } ;
 
-Target vdcpp475 = { "Window.SimpleTextList.vm.dep" , OBJ_PATH+"/Window.SimpleTextList.vm.dep" } ;
-Rule rvdcpp475 = { {&dcpp475} , {&vdcpp475} , {&exedcpp475} } ;
-Exe exedcpp475 = { "CC-VM-DEP Window.SimpleTextList.cpp" , VMDEP , { OBJ_PATH+"/Window.SimpleTextList.dep" , OBJ_PATH+"/Window.SimpleTextList.vm.dep" , '475' } } ;
+Target vdcpp481 = { "Window.SimpleTextList.vm.dep" , OBJ_PATH+"/Window.SimpleTextList.vm.dep" } ;
+Rule rvdcpp481 = { {&dcpp481} , {&vdcpp481} , {&exedcpp481} } ;
+Exe exedcpp481 = { "CC-VM-DEP Window.SimpleTextList.cpp" , VMDEP , { OBJ_PATH+"/Window.SimpleTextList.dep" , OBJ_PATH+"/Window.SimpleTextList.vm.dep" , '481' } } ;
 
-Target cpp476 = { "Window.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Slider.cpp" } ;
-Target dcpp476 = { "Window.Slider.dep" , OBJ_PATH+"/Window.Slider.dep" } ;
-Rule rdcpp476 = { {&cpp476,&obj} , {&dcpp476} , {&execpp476} } ;
-Exe execpp476 = { "CC-DEP Window.Slider.cpp" , CC , {
+Target cpp482 = { "Window.Slider.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Slider.cpp" } ;
+Target dcpp482 = { "Window.Slider.dep" , OBJ_PATH+"/Window.Slider.dep" } ;
+Rule rdcpp482 = { {&cpp482,&obj} , {&dcpp482} , {&execpp482} } ;
+Exe execpp482 = { "CC-DEP Window.Slider.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12892,14 +13054,14 @@ Exe execpp476 = { "CC-DEP Window.Slider.cpp" , CC , {
  ,OBJ_PATH+"/Window.Slider.dep"
 } } ;
 
-Target vdcpp476 = { "Window.Slider.vm.dep" , OBJ_PATH+"/Window.Slider.vm.dep" } ;
-Rule rvdcpp476 = { {&dcpp476} , {&vdcpp476} , {&exedcpp476} } ;
-Exe exedcpp476 = { "CC-VM-DEP Window.Slider.cpp" , VMDEP , { OBJ_PATH+"/Window.Slider.dep" , OBJ_PATH+"/Window.Slider.vm.dep" , '476' } } ;
+Target vdcpp482 = { "Window.Slider.vm.dep" , OBJ_PATH+"/Window.Slider.vm.dep" } ;
+Rule rvdcpp482 = { {&dcpp482} , {&vdcpp482} , {&exedcpp482} } ;
+Exe exedcpp482 = { "CC-VM-DEP Window.Slider.cpp" , VMDEP , { OBJ_PATH+"/Window.Slider.dep" , OBJ_PATH+"/Window.Slider.vm.dep" , '482' } } ;
 
-Target cpp477 = { "Window.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Spinor.cpp" } ;
-Target dcpp477 = { "Window.Spinor.dep" , OBJ_PATH+"/Window.Spinor.dep" } ;
-Rule rdcpp477 = { {&cpp477,&obj} , {&dcpp477} , {&execpp477} } ;
-Exe execpp477 = { "CC-DEP Window.Spinor.cpp" , CC , {
+Target cpp483 = { "Window.Spinor.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Spinor.cpp" } ;
+Target dcpp483 = { "Window.Spinor.dep" , OBJ_PATH+"/Window.Spinor.dep" } ;
+Rule rdcpp483 = { {&cpp483,&obj} , {&dcpp483} , {&execpp483} } ;
+Exe execpp483 = { "CC-DEP Window.Spinor.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12919,14 +13081,14 @@ Exe execpp477 = { "CC-DEP Window.Spinor.cpp" , CC , {
  ,OBJ_PATH+"/Window.Spinor.dep"
 } } ;
 
-Target vdcpp477 = { "Window.Spinor.vm.dep" , OBJ_PATH+"/Window.Spinor.vm.dep" } ;
-Rule rvdcpp477 = { {&dcpp477} , {&vdcpp477} , {&exedcpp477} } ;
-Exe exedcpp477 = { "CC-VM-DEP Window.Spinor.cpp" , VMDEP , { OBJ_PATH+"/Window.Spinor.dep" , OBJ_PATH+"/Window.Spinor.vm.dep" , '477' } } ;
+Target vdcpp483 = { "Window.Spinor.vm.dep" , OBJ_PATH+"/Window.Spinor.vm.dep" } ;
+Rule rvdcpp483 = { {&dcpp483} , {&vdcpp483} , {&exedcpp483} } ;
+Exe exedcpp483 = { "CC-VM-DEP Window.Spinor.cpp" , VMDEP , { OBJ_PATH+"/Window.Spinor.dep" , OBJ_PATH+"/Window.Spinor.vm.dep" , '483' } } ;
 
-Target cpp478 = { "Window.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Split.cpp" } ;
-Target dcpp478 = { "Window.Split.dep" , OBJ_PATH+"/Window.Split.dep" } ;
-Rule rdcpp478 = { {&cpp478,&obj} , {&dcpp478} , {&execpp478} } ;
-Exe execpp478 = { "CC-DEP Window.Split.cpp" , CC , {
+Target cpp484 = { "Window.Split.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Split.cpp" } ;
+Target dcpp484 = { "Window.Split.dep" , OBJ_PATH+"/Window.Split.dep" } ;
+Rule rdcpp484 = { {&cpp484,&obj} , {&dcpp484} , {&execpp484} } ;
+Exe execpp484 = { "CC-DEP Window.Split.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12946,14 +13108,14 @@ Exe execpp478 = { "CC-DEP Window.Split.cpp" , CC , {
  ,OBJ_PATH+"/Window.Split.dep"
 } } ;
 
-Target vdcpp478 = { "Window.Split.vm.dep" , OBJ_PATH+"/Window.Split.vm.dep" } ;
-Rule rvdcpp478 = { {&dcpp478} , {&vdcpp478} , {&exedcpp478} } ;
-Exe exedcpp478 = { "CC-VM-DEP Window.Split.cpp" , VMDEP , { OBJ_PATH+"/Window.Split.dep" , OBJ_PATH+"/Window.Split.vm.dep" , '478' } } ;
+Target vdcpp484 = { "Window.Split.vm.dep" , OBJ_PATH+"/Window.Split.vm.dep" } ;
+Rule rvdcpp484 = { {&dcpp484} , {&vdcpp484} , {&exedcpp484} } ;
+Exe exedcpp484 = { "CC-VM-DEP Window.Split.cpp" , VMDEP , { OBJ_PATH+"/Window.Split.dep" , OBJ_PATH+"/Window.Split.vm.dep" , '484' } } ;
 
-Target cpp479 = { "Window.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Text.cpp" } ;
-Target dcpp479 = { "Window.Text.dep" , OBJ_PATH+"/Window.Text.dep" } ;
-Rule rdcpp479 = { {&cpp479,&obj} , {&dcpp479} , {&execpp479} } ;
-Exe execpp479 = { "CC-DEP Window.Text.cpp" , CC , {
+Target cpp485 = { "Window.Text.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.Text.cpp" } ;
+Target dcpp485 = { "Window.Text.dep" , OBJ_PATH+"/Window.Text.dep" } ;
+Rule rdcpp485 = { {&cpp485,&obj} , {&dcpp485} , {&execpp485} } ;
+Exe execpp485 = { "CC-DEP Window.Text.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -12973,14 +13135,14 @@ Exe execpp479 = { "CC-DEP Window.Text.cpp" , CC , {
  ,OBJ_PATH+"/Window.Text.dep"
 } } ;
 
-Target vdcpp479 = { "Window.Text.vm.dep" , OBJ_PATH+"/Window.Text.vm.dep" } ;
-Rule rvdcpp479 = { {&dcpp479} , {&vdcpp479} , {&exedcpp479} } ;
-Exe exedcpp479 = { "CC-VM-DEP Window.Text.cpp" , VMDEP , { OBJ_PATH+"/Window.Text.dep" , OBJ_PATH+"/Window.Text.vm.dep" , '479' } } ;
+Target vdcpp485 = { "Window.Text.vm.dep" , OBJ_PATH+"/Window.Text.vm.dep" } ;
+Rule rvdcpp485 = { {&dcpp485} , {&vdcpp485} , {&exedcpp485} } ;
+Exe exedcpp485 = { "CC-VM-DEP Window.Text.cpp" , VMDEP , { OBJ_PATH+"/Window.Text.dep" , OBJ_PATH+"/Window.Text.vm.dep" , '485' } } ;
 
-Target cpp480 = { "Window.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.TextLine.cpp" } ;
-Target dcpp480 = { "Window.TextLine.dep" , OBJ_PATH+"/Window.TextLine.dep" } ;
-Rule rdcpp480 = { {&cpp480,&obj} , {&dcpp480} , {&execpp480} } ;
-Exe execpp480 = { "CC-DEP Window.TextLine.cpp" , CC , {
+Target cpp486 = { "Window.TextLine.cpp" , "../../Desktop/Lib/CCore/src/video/lib/Window.TextLine.cpp" } ;
+Target dcpp486 = { "Window.TextLine.dep" , OBJ_PATH+"/Window.TextLine.dep" } ;
+Rule rdcpp486 = { {&cpp486,&obj} , {&dcpp486} , {&execpp486} } ;
+Exe execpp486 = { "CC-DEP Window.TextLine.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -13000,14 +13162,14 @@ Exe execpp480 = { "CC-DEP Window.TextLine.cpp" , CC , {
  ,OBJ_PATH+"/Window.TextLine.dep"
 } } ;
 
-Target vdcpp480 = { "Window.TextLine.vm.dep" , OBJ_PATH+"/Window.TextLine.vm.dep" } ;
-Rule rvdcpp480 = { {&dcpp480} , {&vdcpp480} , {&exedcpp480} } ;
-Exe exedcpp480 = { "CC-VM-DEP Window.TextLine.cpp" , VMDEP , { OBJ_PATH+"/Window.TextLine.dep" , OBJ_PATH+"/Window.TextLine.vm.dep" , '480' } } ;
+Target vdcpp486 = { "Window.TextLine.vm.dep" , OBJ_PATH+"/Window.TextLine.vm.dep" } ;
+Rule rvdcpp486 = { {&dcpp486} , {&vdcpp486} , {&exedcpp486} } ;
+Exe exedcpp486 = { "CC-VM-DEP Window.TextLine.cpp" , VMDEP , { OBJ_PATH+"/Window.TextLine.dep" , OBJ_PATH+"/Window.TextLine.vm.dep" , '486' } } ;
 
-Target cpp481 = { "WindowLib.cpp" , "../../Desktop/Lib/CCore/src/video/WindowLib.cpp" } ;
-Target dcpp481 = { "WindowLib.dep" , OBJ_PATH+"/WindowLib.dep" } ;
-Rule rdcpp481 = { {&cpp481,&obj} , {&dcpp481} , {&execpp481} } ;
-Exe execpp481 = { "CC-DEP WindowLib.cpp" , CC , {
+Target cpp487 = { "WindowLib.cpp" , "../../Desktop/Lib/CCore/src/video/WindowLib.cpp" } ;
+Target dcpp487 = { "WindowLib.dep" , OBJ_PATH+"/WindowLib.dep" } ;
+Rule rdcpp487 = { {&cpp487,&obj} , {&dcpp487} , {&execpp487} } ;
+Exe execpp487 = { "CC-DEP WindowLib.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -13027,14 +13189,14 @@ Exe execpp481 = { "CC-DEP WindowLib.cpp" , CC , {
  ,OBJ_PATH+"/WindowLib.dep"
 } } ;
 
-Target vdcpp481 = { "WindowLib.vm.dep" , OBJ_PATH+"/WindowLib.vm.dep" } ;
-Rule rvdcpp481 = { {&dcpp481} , {&vdcpp481} , {&exedcpp481} } ;
-Exe exedcpp481 = { "CC-VM-DEP WindowLib.cpp" , VMDEP , { OBJ_PATH+"/WindowLib.dep" , OBJ_PATH+"/WindowLib.vm.dep" , '481' } } ;
+Target vdcpp487 = { "WindowLib.vm.dep" , OBJ_PATH+"/WindowLib.vm.dep" } ;
+Rule rvdcpp487 = { {&dcpp487} , {&vdcpp487} , {&exedcpp487} } ;
+Exe exedcpp487 = { "CC-VM-DEP WindowLib.cpp" , VMDEP , { OBJ_PATH+"/WindowLib.dep" , OBJ_PATH+"/WindowLib.vm.dep" , '487' } } ;
 
-Target cpp482 = { "WindowReport.cpp" , "../../Desktop/App/CCore/src/video/WindowReport.cpp" } ;
-Target dcpp482 = { "WindowReport.dep" , OBJ_PATH+"/WindowReport.dep" } ;
-Rule rdcpp482 = { {&cpp482,&obj} , {&dcpp482} , {&execpp482} } ;
-Exe execpp482 = { "CC-DEP WindowReport.cpp" , CC , {
+Target cpp488 = { "WindowReport.cpp" , "../../Desktop/App/CCore/src/video/WindowReport.cpp" } ;
+Target dcpp488 = { "WindowReport.dep" , OBJ_PATH+"/WindowReport.dep" } ;
+Rule rdcpp488 = { {&cpp488,&obj} , {&dcpp488} , {&execpp488} } ;
+Exe execpp488 = { "CC-DEP WindowReport.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -13054,14 +13216,14 @@ Exe execpp482 = { "CC-DEP WindowReport.cpp" , CC , {
  ,OBJ_PATH+"/WindowReport.dep"
 } } ;
 
-Target vdcpp482 = { "WindowReport.vm.dep" , OBJ_PATH+"/WindowReport.vm.dep" } ;
-Rule rvdcpp482 = { {&dcpp482} , {&vdcpp482} , {&exedcpp482} } ;
-Exe exedcpp482 = { "CC-VM-DEP WindowReport.cpp" , VMDEP , { OBJ_PATH+"/WindowReport.dep" , OBJ_PATH+"/WindowReport.vm.dep" , '482' } } ;
+Target vdcpp488 = { "WindowReport.vm.dep" , OBJ_PATH+"/WindowReport.vm.dep" } ;
+Rule rvdcpp488 = { {&dcpp488} , {&vdcpp488} , {&exedcpp488} } ;
+Exe exedcpp488 = { "CC-VM-DEP WindowReport.cpp" , VMDEP , { OBJ_PATH+"/WindowReport.dep" , OBJ_PATH+"/WindowReport.vm.dep" , '488' } } ;
 
-Target cpp483 = { "XPoint.cpp" , "../../Applied/CCore/src/net/XPoint.cpp" } ;
-Target dcpp483 = { "XPoint.dep" , OBJ_PATH+"/XPoint.dep" } ;
-Rule rdcpp483 = { {&cpp483,&obj} , {&dcpp483} , {&execpp483} } ;
-Exe execpp483 = { "CC-DEP XPoint.cpp" , CC , {
+Target cpp489 = { "XPoint.cpp" , "../../Applied/CCore/src/net/XPoint.cpp" } ;
+Target dcpp489 = { "XPoint.dep" , OBJ_PATH+"/XPoint.dep" } ;
+Rule rdcpp489 = { {&cpp489,&obj} , {&dcpp489} , {&execpp489} } ;
+Exe execpp489 = { "CC-DEP XPoint.cpp" , CC , {
   "-I../../Target/WIN32"
  ,"-I../../HCore"
  ,"-I../../Simple"
@@ -13081,9 +13243,9 @@ Exe execpp483 = { "CC-DEP XPoint.cpp" , CC , {
  ,OBJ_PATH+"/XPoint.dep"
 } } ;
 
-Target vdcpp483 = { "XPoint.vm.dep" , OBJ_PATH+"/XPoint.vm.dep" } ;
-Rule rvdcpp483 = { {&dcpp483} , {&vdcpp483} , {&exedcpp483} } ;
-Exe exedcpp483 = { "CC-VM-DEP XPoint.cpp" , VMDEP , { OBJ_PATH+"/XPoint.dep" , OBJ_PATH+"/XPoint.vm.dep" , '483' } } ;
+Target vdcpp489 = { "XPoint.vm.dep" , OBJ_PATH+"/XPoint.vm.dep" } ;
+Rule rvdcpp489 = { {&dcpp489} , {&vdcpp489} , {&exedcpp489} } ;
+Exe exedcpp489 = { "CC-VM-DEP XPoint.cpp" , VMDEP , { OBJ_PATH+"/XPoint.dep" , OBJ_PATH+"/XPoint.vm.dep" , '489' } } ;
 
 Target make_dep = { 'make_dep' , DEP } ;
 
@@ -13570,7 +13732,13 @@ Rule rmkdep = { {&obj
 ,&vdcpp480
 ,&vdcpp481
 ,&vdcpp482
-,&vdcpp483} , {&make_dep} , {&intmkdep} } ; 
+,&vdcpp483
+,&vdcpp484
+,&vdcpp485
+,&vdcpp486
+,&vdcpp487
+,&vdcpp488
+,&vdcpp489} , {&make_dep} , {&intmkdep} } ; 
 
 IntCmd intmkdep = { 'CAT' , &cat1 } ;
 
@@ -14057,5 +14225,11 @@ Cat cat1 = { {
 ,vdcpp480.file
 ,vdcpp481.file
 ,vdcpp482.file
-,vdcpp483.file } , DEP } ;
+,vdcpp483.file
+,vdcpp484.file
+,vdcpp485.file
+,vdcpp486.file
+,vdcpp487.file
+,vdcpp488.file
+,vdcpp489.file } , DEP } ;
 
