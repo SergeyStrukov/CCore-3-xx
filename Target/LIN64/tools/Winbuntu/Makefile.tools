@@ -37,7 +37,7 @@ CAT = cat
 
 TOUCH = touch
 
-CC_ = g++
+CC_ = /opt/gcc-9.1.0/bin/g++-9.1.0
 
 CC = @$(ECHO) CC $< ; $(CC_)
 
@@ -81,11 +81,17 @@ CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
 
 FREETYPEOPT = -I/usr/include/freetype2
 
-CCOPT = -c -pthread -std=c++1z -fconcepts -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) $(FREETYPEOPT)
+CCCPU = -march=ivybridge -mmmx -msse -msse2
+
+CCOPT = -c -pthread -std=c++17 -fconcepts -fwrapv -O3 $(CCCPU) -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA) $(FREETYPEOPT)
 
 ASOPT =
 
 CCORELIB = $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore.a
 
-LDOPT = -Wl,-s $(LDOPT_EXTRA) $(CCORELIB) -pthread -laio -lgmp -lXcursor -lXfixes -lXrender -lX11 -lxcb -lXau -lXdmcp -ldl -lfreetype -lpng -lz
+LIBPATH=/opt/gcc-9.1.0/lib64
+
+SYSLIB = -laio -lgmp -lXcursor -lXfixes -lXrender -lX11 -lxcb -lXau -lXdmcp -ldl -lfreetype -lpng -lz
+
+LDOPT = -Wl,-s $(LDOPT_EXTRA) $(CCORELIB) -Wl,-L$(LIBPATH) -Wl,-rpath -Wl,$(LIBPATH) -pthread $(SYSLIB)
 
