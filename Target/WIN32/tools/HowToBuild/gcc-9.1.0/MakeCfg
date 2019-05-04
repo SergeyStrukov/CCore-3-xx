@@ -1,0 +1,20 @@
+# MakeCfg
+
+VER = 9.1.0
+
+CONFIGURE = ../../gcc-$(VER)/configure
+
+OPT = --program-suffix=-$(VER)                      \
+      --prefix=/opt/gcc-$(VER)                      \
+      --with-local-prefix=/opt/gcc-$(VER)           \
+      --enable-languages=c,c++                      \
+      --enable-threads=posix                        \
+      --enable-__cxa_atexit                         \
+      --enable-c99                                  \
+      --enable-long-long                            \
+      --disable-shared                              \
+      --disable-sjlj-exceptions                     \
+
+all:
+	$(CONFIGURE) $(OPT)
+
