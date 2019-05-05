@@ -88,9 +88,18 @@ auto ExpandWildcard(FileSystem &fs,StrLen path,FuncInit func_init)
 
   if( check.ok )
     {
-     WildcardCursor cur(fs,check.dir,check.file);
+     if( fs.getFileType(check.dir)==FileType_dir )
+       {
+        WildcardCursor cur(fs,check.dir,check.file);
 
-     return cur.apply(func_init);
+        return cur.apply(func_init);
+       }
+     else
+       {
+        FunctorTypeOf<FuncInit> func(func_init);
+
+        return Algon::GetResult(func);
+       }
     }
   else
     {
