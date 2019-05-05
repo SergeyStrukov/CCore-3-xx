@@ -1475,6 +1475,8 @@ void HiddenWindowHost::destroy()
 
      XDestroyWindow(disp,window);
 
+     DelFromMap(this);
+
      window=None;
     }
  }
