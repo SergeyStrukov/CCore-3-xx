@@ -150,8 +150,6 @@ int __basic_file<char>::sync()
 
 streamoff __basic_file<char>::seekoff(streamoff off,ios_base::seekdir way)
  {
-  if( off<LONG_MIN || off>LONG_MAX ) return streamoff(-1);
-
   int flag;
 
   switch( way )
@@ -162,20 +160,20 @@ streamoff __basic_file<char>::seekoff(streamoff off,ios_base::seekdir way)
      default: return streamoff(-1);
     }
 
-  if( fseek(_M_cfile,long(off),flag) ) return streamoff(-1);
+  if( fseek_ext(_M_cfile,fpos_t(off),flag) ) return streamoff(-1);
 
   return streamoff( ftell(_M_cfile) );
  }
 
 streamsize __basic_file<char>::showmanyc()
  {
-  long cur=ftell(_M_cfile);
+  fpos_t cur=ftell_ext(_M_cfile);
 
-  if( cur==-1 ) return 0;
+  if( cur==(fpos_t)-1 ) return 0;
 
-  long end=fsize(_M_cfile);
+  fpos_t end=fsize(_M_cfile);
 
-  if( end==-1 ) return 0;
+  if( end==(fpos_t)-1 ) return 0;
 
   return streamsize(end-cur);
  }

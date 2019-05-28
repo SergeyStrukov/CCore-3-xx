@@ -1,0 +1,16 @@
+# MakeCfg
+
+VER = 9.1.0
+
+CONFIGURE = ../../binutils-2.32/configure
+
+OPT = --program-prefix=arm-                        \
+      --prefix=/opt/BBB-$(VER)                     \
+      --with-sysroot=/opt/BBB-$(VER)/sysroot       \
+
+
+TARGET = arm-eabielf
+
+all:
+	$(CONFIGURE) $(OPT) --target=$(TARGET)
+

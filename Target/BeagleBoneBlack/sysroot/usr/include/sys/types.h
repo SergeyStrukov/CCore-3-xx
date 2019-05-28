@@ -19,6 +19,10 @@
 /* Unused -- required to build cross-compiler */ 
 
 typedef int pid_t;
+
+typedef int mode_t;
+
+typedef long long off_t;
  
 #endif
 

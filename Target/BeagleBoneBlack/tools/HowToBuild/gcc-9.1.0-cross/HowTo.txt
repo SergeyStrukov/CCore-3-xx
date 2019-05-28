@@ -1,0 +1,86 @@
+/* HowTo.txt */ 
+
+//
+// Patch source
+//
+
+<SRC>/gcc/config.gcc -- fix bug
+
+		# see if --with-fpu matches any of the supported FPUs
+		if [ x"$with_fpu" != x ] ; then
+		  fpu=`awk -f ${srcdir}/config/arm/parsecpu.awk \
+			-v cmd="chkfpu $with_fpu" \
+			${srcdir}/config/arm/arm-cpus.in`
+3964:           if [ "$fpu" = "error" ]
+		  then
+		    echo "Unknown target in --with-$which=$val" 1>&2
+		    exit 1
+		  fi
+		fi
+
+ insert space before ]
+
+<SRC>/libstdc++-v3/configure
+
+  gcc_no_link=no             at some place // after need_version=unknown at 10805
+
+  # at "No support for this host/target combination" 78617
+
+//-----
+
+<SRC>/libstdc++-v3/libsupc++/eh_alloc.cc   <--- replace
+
+  malloc <- malloc_int
+  free <- free_int
+
+  kill "emergency_buffer"
+
+<SRC>/libstdc++-v3/libsupc++/eh_globals.cc   <--- replace
+
+  // Single-threaded fallback buffer.
+  static __cxa_eh_globals eh_globals __attribute__((section(".context_data"))) = {} ;
+
+
+<SRC>/libstdc++-v3/libsupc++/pure.cc   <--- replace
+
+  #include <stdio.h>
+
+  #define writestr(str) fputs(str, stderr)
+
+//-----
+
+ <SRC>/gcc/tsystem.h    <--- replace
+
+  /* #include <unistd.h> */
+
+ <SRC>/libstdc++-v3/include/ext/stdio_sync_filebuf.h  <--- replace
+
+   //#include <unistd.h>
+
+ <SRC>/libstdc++-v3/config/io/basic_file_stdio.cc   <--- replace
+
+//-----
+
+Fix Makefile in the root build dir after configuration.
+
+# -----------------------------------------------
+# Programs producing files for the TARGET machine
+# -----------------------------------------------
+
+CCCPU = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3 -mno-unaligned-access 
+
+ASOPT = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3
+
+AR_FOR_TARGET=/opt/BBB-9.1.0/arm-eabielf/bin/ar
+AS_FOR_TARGET=/opt/BBB-9.1.0/arm-eabielf/bin/as $(ASOPT)
+CC_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -B$$r/$(HOST_SUBDIR)/gcc/ $(CCCPU)
+
+# If GCC_FOR_TARGET is not overriden on the command line, then this
+# variable is passed down to the gcc Makefile, where it is used to
+# build libgcc2.a.  We define it here so that it can itself be
+# overridden on the command line.
+GCC_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -B$$r/$(HOST_SUBDIR)/gcc/ $(CCCPU)
+CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xg++ -B$$r/$(HOST_SUBDIR)/gcc/ $(CCCPU) -nostdinc++ `if test -f $$r/$(TARGET_SUBDIR)/libstdc++-v3/scripts/testsuite_flags; then $(SHELL) $$r/$(TARGET_SUBDIR)/libstdc++-v3/scripts/testsuite_flags --build-includes; else echo -funconfigured-libstdc++-v3 ; fi` -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src/.libs -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/libsupc++/.libs
+RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -shared-libgcc -B$$r/$(HOST_SUBDIR)/gcc $(CCCPU) -nostdinc++ -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src/.libs -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/libsupc++/.libs
+
+

@@ -29,17 +29,17 @@ CAT = /usr/bin/cat
 
 TOUCH = /usr/bin/touch
 
-CC_ = /opt/BBB-7.1.0/bin/arm-g++.exe
+CC_ = /opt/BBB-9.1.0/bin/arm-g++.exe
 
 CC = @$(ECHO) CC $< ; $(CC_)
 
 LD = @$(ECHO) LD $@ ; $(CC_)
 
-AS_ = /opt/BBB-7.1.0/bin/arm-as.exe
+AS_ = /opt/BBB-9.1.0/bin/arm-as.exe
 
 AS = @$(ECHO) AS $< ; $(AS_)
 
-AR_ = /opt/BBB-7.1.0/bin/arm-ar.exe
+AR_ = /opt/BBB-9.1.0/bin/arm-ar.exe
 
 AR = @$(ECHO) AR $@ ; $(AR_)
 
@@ -57,23 +57,21 @@ NOWARN = -Wno-non-virtual-dtor \
          -Wno-delete-non-virtual-dtor \
          -Wno-misleading-indentation \
 
-
 CCINC = -I$(CCORE_ROOT)/Target/$(CCORE_TARGET) \
         -I$(CCORE_ROOT)/XCore \
         -I$(CCORE_ROOT)/Simple \
         -I$(CCORE_ROOT)/Fundamental \
         -I$(CCORE_ROOT)/Applied \
 
+CCCPU = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3 -mno-unaligned-access 
 
-CPUOPT = -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard -mno-unaligned-access
+CCOPT = -c -std=c++17 -fconcepts -fwrapv -O3 $(CCCPU) -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
 
-CCOPT = -c -std=c++1z -fconcepts $(CPUOPT) -fwrapv -O3 -Wall -Wextra $(NOWARN) $(CCINC) $(CCOPT_EXTRA)
-
-ASOPT = -march=armv7-a -mfpu=vfpv3 -mfloat-abi=hard
+ASOPT = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3
 
 CCORELIB = $(CCORE_ROOT)/Target/$(CCORE_TARGET)/CCore.a
 
-LDOPT = $(CPUOPT) -fno-use-linker-plugin -Wl,-s $(LDOPT_EXTRA) $(CCORELIB) 
+LDOPT = $(CCCPU) -fno-use-linker-plugin -Wl,-s $(LDOPT_EXTRA) $(CCORELIB) 
 
 
 

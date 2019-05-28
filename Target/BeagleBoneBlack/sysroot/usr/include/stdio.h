@@ -22,6 +22,7 @@
 #else
 #include <stddef.h>
 #include <stdarg.h>
+#include <sys/types.h>
 #endif
 
 #ifdef __cplusplus

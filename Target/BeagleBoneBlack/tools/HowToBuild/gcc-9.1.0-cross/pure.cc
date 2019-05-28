@@ -1,5 +1,5 @@
 // -*- C++ -*- 
-// Copyright (C) 2000-2013 Free Software Foundation, Inc.
+// Copyright (C) 2000-2019 Free Software Foundation, Inc.
 //
 // This file is part of GCC.
 //
@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#define writestr(str)   fputs(str, stderr)
+#define writestr(str) fputs(str, stderr)
 
 extern "C" void
 __cxxabiv1::__cxa_pure_virtual (void)

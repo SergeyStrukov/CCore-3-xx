@@ -1,6 +1,6 @@
 # MakeCfg
 
-VER = 8.1.0
+VER = 9.1.0
 
 CONFIGURE = ../../gcc-$(VER)-cross/configure
 
@@ -16,6 +16,7 @@ OPT = --program-prefix=arm-                                         \
       --enable-long-long                                            \
       --disable-shared                                              \
       --disable-libssp                                              \
+      --disable-multilib                                            \
 
 
 TARGET = arm-eabielf
@@ -23,3 +24,5 @@ TARGET = arm-eabielf
 all:
 	$(CONFIGURE) $(OPT) --target=$(TARGET) 
 
+help:
+	$(CONFIGURE) --help
