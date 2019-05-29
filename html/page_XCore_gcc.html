@@ -31,19 +31,21 @@
 <p>
 <b>XCore</b> cross-toolchain is combined from two major parts: <b>binutils</b> and <b>gcc</b>. 
 To build them you have to provide the proper <b>sysroot</b> directory, modify some source code and configure sources. 
-The whole process is tricky.
+The whole process is tricky. Below is a description of the building <b>gcc-9.1.0</b> toolchain for the <b>BeagleBoneBlack</b> target.
+It can be found in the <b>CCORE_ROOT/Target/BeagleBoneBlack/tools/HowToBuild</b> directory in the HowTo-files.
 </p>
 
 <p>
 First, you have to choose the location to install the cross-toolchain. The usual choice is <b>/opt/TARGET</b>. 
-For example, <b>/opt/BeagleBoneBlack</b>. 
+For example, <b>/opt/BBB-9.1.0</b>. 
 You have to copy the <b>sysroot</b> directory there (headers only on this stage).
+This directory is located in the <b>CCORE_ROOT/Target/BeagleBoneBlack</b>.
 </p>
 
 <p>
 The you need a directory for the source code, like <b>~/Downloads</b>. 
 When you have downloaded the source code of the <b>binutils</b> and <b>gcc</b>, unpack it here. 
-You got two directories like <b>binutils-2.25.1</b> and <b>gcc-7.1.0-cross</b>.
+You got two directories like <b>binutils-2.32</b> and <b>gcc-9.1.0-cross</b>.
 Then create a directory <b>Build</b> and inside two directories with the same names. 
 They serve as build locations.
 </p>
@@ -58,11 +60,13 @@ Building <b>binutils</b> is simple enough. Create the file <b>MakeCfg</b> in the
 
 # MakeCfg
 
-CONFIGURE = ../../binutils-2.25.1/configure
+VER = 9.1.0
 
-OPT = --program-prefix=arm-                              \
-      --prefix=/opt/BeagleBoneBlack                      \
-      --with-sysroot=/opt/BeagleBoneBlack/sysroot        \
+CONFIGURE = ../../binutils-2.32/configure
+
+OPT = --program-prefix=arm-                        \
+      --prefix=/opt/BBB-$(VER)                     \
+      --with-sysroot=/opt/BBB-$(VER)/sysroot       \
 
 
 TARGET = arm-eabielf
@@ -131,6 +135,12 @@ The size of this block is defined by the symbol <b>__std_mem_size</b> from the s
 </p>
 
 <p>
+To modify the source you may replace two files as described in the 
+<b>CCORE_ROOT/Target/BeagleBoneBlack/tools/HowToBuild/binutils-2.32/HowTo.txt</b>.
+You can find updated files there too.
+</p>
+
+<p>
 Once you finished with the source code modification issue the following command <b>make -f MakeCfg</b> in the build directory.
 It starts the configuration process. After that use the command <b>make</b> to perform the actual build and <b>make install</b> to install the tools.
 </p>
@@ -149,12 +159,14 @@ The first step is the configuration. Create the file <b>MakeCfg</b> in the build
 
 # MakeCfg
 
-CONFIGURE = ../../gcc-7.1.0-cross/configure
+VER = 9.1.0
+
+CONFIGURE = ../../gcc-$(VER)-cross/configure
 
 OPT = --program-prefix=arm-                                         \
-      --prefix=/opt/BeagleBoneBlack                                 \
-      --with-local-prefix=/opt/BeagleBoneBlack/arm-eabielf          \
-      --with-sysroot=/opt/BeagleBoneBlack/sysroot                   \
+      --prefix=/opt/BBB-$(VER)                                      \
+      --with-local-prefix=/opt/BBB-$(VER)/arm-eabielf               \
+      --with-sysroot=/opt/BBB-$(VER)/sysroot                        \
       --with-arch=armv7-a                                           \
       --with-fpu=vfpv3                                              \
       --with-float-abi=hard                                         \
@@ -163,12 +175,16 @@ OPT = --program-prefix=arm-                                         \
       --enable-long-long                                            \
       --disable-shared                                              \
       --disable-libssp                                              \
+      --disable-multilib                                            \
 
 
 TARGET = arm-eabielf
 
 all:
         $(CONFIGURE) $(OPT) --target=$(TARGET) 
+
+help:
+        $(CONFIGURE) --help
 
 </pre>
 
@@ -179,7 +195,9 @@ We have to correct four source files and configuration script from the C++ suppo
 
 <pre>
 
-libstdc++-v3/config/io/basic_file_stdio.cc
+gcc/config.gcc
+
+gcc/tsystem.h
 
 libstdc++-v3/libsupc++/eh_alloc.cc
 
@@ -187,9 +205,9 @@ libstdc++-v3/libsupc++/eh_globals.cc
 
 libstdc++-v3/libsupc++/pure.cc
 
-libstdc++-v3/src/c++11/random.cc
+libstdc++-v3/config/io/basic_file_stdio.cc
 
-libstdc++-v3/include/std/type_traits
+libstdc++-v3/include/ext/stdio_sync_filebuf.h
 
 libstdc++-v3/configure
 
@@ -227,24 +245,13 @@ static __cxa_eh_globals eh_globals <b>__attribute__((section(".context_data")))<
 </p>
 
 <p>
-In <b>random.cc</b> the following sections must be switched off: 
+Two files, <b>gcc/tsystem.h</b> and <b>libstdc++-v3/include/ext/stdio_sync_filebuf.h</b>, must be modified, 
+they try to include <b>unistd.h</b>, these include directives must be removed.
 </p>
-
-<pre>
-
-#if 0 // def _GLIBCXX_HAVE_UNISTD_H
-
-</pre>
 
 <p>
-In <b>type_traits</b> the following sections must be switched off: 
+<b>gcc/config.gcc</b> have a bug on the line 3964. The space must be added before <b>']'</b>.
 </p>
-
-<pre>
-
-# if 0 // defined (__UINT_LEAST16_TYPE__) &amp;&amp; defined(__UINT_LEAST32_TYPE__)
-
-</pre>
 
 <p>
 <b>configure</b> script have two problems. It emits error for unknown OS. So we have to disable it.
@@ -252,7 +259,7 @@ In <b>type_traits</b> the following sections must be switched off:
 
 <pre>
 
-    <b>#</b> as_fn_error "No support for this host/target combination." "$LINENO" 5 // line 78196
+    <b>#</b> as_fn_error "No support for this host/target combination." "$LINENO" 5 // line 78617
 
 </pre>
 
@@ -262,13 +269,45 @@ The second problem is to disable attempts to link target applications. It can be
 
 <pre>
 
-gcc_no_link=no // line 10556
+gcc_no_link=no // after the line 10805
 
 </pre>
 
 <p>
 Once you finished with the source code modification issue the following command <b>make -f MakeCfg</b> in the build directory.
-It starts the configuration process. After that use the command <b>make</b> to perform the actual build and <b>make install</b> to install the tools.
+It starts the configuration process. 
+</p>
+
+<p>
+The last step is to fix the generated <b>Makefile</b>. We have to manually add compiler options for the building support libraries.
+</p>
+
+<pre>
+
+# -----------------------------------------------
+# Programs producing files for the TARGET machine
+# -----------------------------------------------
+
+CCCPU = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3 -mno-unaligned-access 
+
+ASOPT = -march=armv7-a -mfloat-abi=hard -mfpu=vfpv3
+
+AR_FOR_TARGET=/opt/BBB-9.1.0/arm-eabielf/bin/ar
+AS_FOR_TARGET=/opt/BBB-9.1.0/arm-eabielf/bin/as $(ASOPT)
+CC_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -B$$r/$(HOST_SUBDIR)/gcc/ <b>$(CCCPU)</b>
+
+# If GCC_FOR_TARGET is not overriden on the command line, then this
+# variable is passed down to the gcc Makefile, where it is used to
+# build libgcc2.a.  We define it here so that it can itself be
+# overridden on the command line.
+GCC_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -B$$r/$(HOST_SUBDIR)/gcc/ <b>$(CCCPU)</b>
+CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xg++ -B$$r/$(HOST_SUBDIR)/gcc/ <b>$(CCCPU)</b> -nostdinc++ `if test -f $$r/$(TARGET_SUBDIR)/libstdc++-v3/scripts/testsuite_flags; then $(SHELL) $$r/$(TARGET_SUBDIR)/libstdc++-v3/scripts/testsuite_flags --build-includes; else echo -funconfigured-libstdc++-v3 ; fi` -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src/.libs -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/libsupc++/.libs
+RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) $$r/$(HOST_SUBDIR)/gcc/xgcc -shared-libgcc -B$$r/$(HOST_SUBDIR)/gcc <b>$(CCCPU)</b> -nostdinc++ -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/src/.libs -L$$r/$(TARGET_SUBDIR)/libstdc++-v3/libsupc++/.libs
+
+</pre>
+
+<p>
+After that use the command <b>make</b> to perform the actual build and <b>make install</b> to install the tools.
 </p>
 
 <p>

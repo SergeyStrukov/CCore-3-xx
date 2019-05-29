@@ -81,6 +81,13 @@ void TransformInput::amp()
      return;
     }
 
+  if( text.equal("copy"_c) )
+    {
+     Putobj(out,"©"_c);
+
+     return;
+    }
+
   out.put('&');
 
   Putobj(out,text);
