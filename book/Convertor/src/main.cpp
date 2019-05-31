@@ -380,7 +380,7 @@ int main(int argc,const char *argv[])
 
       if( argc==1 )
         {
-         ret=CCoreBook("../../../html"_c,"../../../book/files/CCore.bookinc.ddl"_c);
+         ret=CCoreBook("../../html"_c,"../files/CCore.bookinc.ddl"_c);
         }
       else if( argc==3 )
         {
