@@ -21,6 +21,7 @@ project = 'CCore'
 copyright = '2019, Sergey Strukov'
 author = 'Sergey Strukov'
 
+highlight_language = 'c'
 
 # -- General configuration ---------------------------------------------------
 

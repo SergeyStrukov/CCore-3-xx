@@ -56,6 +56,59 @@
 </ol>
 <div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}Пусть\ a \in \mathbb{Z} ,\ p \nmid a . Положим\\G\left(\frac{a}{p}\right):=\sum_{0 \leqslant x &lt; p}^{} e^{ \displaystyle 2 \pi i \frac{a x^2}{p} }\end{aligned}\end{align} \]</div>
+<p>code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">CursorType</span> <span class="n">R</span><span class="p">,</span><span class="n">class</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">requires</span> <span class="p">(</span> <span class="n">CursorOverType</span><span class="o">&lt;</span><span class="n">R</span><span class="p">,</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">)</span>
+<span class="n">class</span> <span class="nl">PrintSet</span> <span class="p">:</span> <span class="n">public</span> <span class="n">PrintOptAdapter</span><span class="o">&lt;</span> <span class="n">Meta</span><span class="o">::</span><span class="n">UnConst</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&gt;</span>
+ <span class="p">{</span>
+   <span class="n">R</span> <span class="n">range</span><span class="p">;</span>
+
+  <span class="nl">private</span><span class="p">:</span>
+
+   <span class="n">template</span> <span class="o">&lt;</span><span class="n">class</span> <span class="n">S</span><span class="o">&gt;</span>
+   <span class="k">static</span> <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span> <span class="n">Cast</span><span class="p">(</span><span class="k">const</span> <span class="n">S</span> <span class="o">&amp;</span><span class="n">obj</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">obj</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">explicit</span> <span class="n">PrintSet</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span> <span class="o">&amp;</span><span class="n">range_</span><span class="p">)</span> <span class="o">:</span> <span class="n">range</span><span class="p">(</span><span class="n">range_</span><span class="p">)</span> <span class="p">{}</span>
+
+   <span class="kt">void</span> <span class="n">print</span><span class="p">(</span><span class="n">PrinterType</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+     <span class="n">R</span> <span class="n">r</span><span class="o">=</span><span class="n">range</span><span class="p">;</span>
+
+     <span class="k">if</span><span class="p">(</span> <span class="o">+</span><span class="n">r</span> <span class="p">)</span>
+       <span class="p">{</span>
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot;{ &quot;</span><span class="n">_c</span><span class="p">,</span><span class="n">Cast</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">));</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="o">++</span><span class="n">r</span><span class="p">;</span> <span class="o">+</span><span class="n">r</span> <span class="p">;</span><span class="o">++</span><span class="n">r</span><span class="p">)</span> <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot; , &quot;</span><span class="n">_c</span><span class="p">,</span><span class="n">Cast</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">));</span>
+
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot; }&quot;</span><span class="n">_c</span><span class="p">);</span>
+       <span class="p">}</span>
+     <span class="k">else</span>
+       <span class="p">{</span>
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot;{ }&quot;</span><span class="n">_c</span><span class="p">);</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+
+   <span class="kt">void</span> <span class="n">print</span><span class="p">(</span><span class="n">PrinterType</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">,</span><span class="k">const</span> <span class="n">AnyType</span> <span class="o">&amp;</span><span class="n">opt</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+     <span class="n">R</span> <span class="n">r</span><span class="o">=</span><span class="n">range</span><span class="p">;</span>
+
+     <span class="k">if</span><span class="p">(</span> <span class="o">+</span><span class="n">r</span> <span class="p">)</span>
+       <span class="p">{</span>
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot;{ &quot;</span><span class="n">_c</span><span class="p">,</span><span class="n">BindOpt</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="n">Cast</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)));</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="o">++</span><span class="n">r</span><span class="p">;</span> <span class="o">+</span><span class="n">r</span> <span class="p">;</span><span class="o">++</span><span class="n">r</span><span class="p">)</span> <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot; , &quot;</span><span class="n">_c</span><span class="p">,</span><span class="n">BindOpt</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span><span class="n">Cast</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)));</span>
+
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot; }&quot;</span><span class="n">_c</span><span class="p">);</span>
+       <span class="p">}</span>
+     <span class="k">else</span>
+       <span class="p">{</span>
+        <span class="n">Putobj</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot;{ }&quot;</span><span class="n">_c</span><span class="p">);</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
 </div>
 
 
