@@ -3,7 +3,10 @@
 Sphinx test
 ===========
 
-This page is intended for testing sphinx capabilities.
+This page is intended for the testing sphinx capabilities.
+
+Text formats
+------------
 
 *Italic text*.
 
@@ -16,11 +19,17 @@ This page is intended for testing sphinx capabilities.
 
 2. List item 2.
 
+LaTex
+-----
+
 .. math::
 
    Пусть\ a \in \mathbb{Z} ,\ p \nmid a . Положим   
 
    G\left(\frac{a}{p}\right):=\sum_{0 \leqslant x < p}^{} e^{ \displaystyle 2 \pi i \frac{a x^2}{p} } 
+
+C++ code
+-------- 
 
 code::
 
