@@ -59,6 +59,40 @@ So put your hands on …</p>
 </div>
 <div class="section" id="heap">
 <span id="to-heap"></span><h2>Heap<a class="headerlink" href="#heap" title="Permalink to this headline">¶</a></h2>
+<p><strong>CCore</strong> heap has the following features:</p>
+<ol class="arabic">
+<li><p>Best fit.</p>
+<p>Heap selects a smallest available block of memory to satisfy an allocation request.</p>
+</li>
+<li><p>Fast, with real-time properties.</p></li>
+<li><p>Integrity check.</p>
+<p>If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.</p>
+</li>
+<li><p>Extended interface.</p>
+<p>Here is a list of heap functions:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="nf">TryMemAlloc</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">)</span> <span class="n">noexcept</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="o">*</span> <span class="nf">MemAlloc</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
+
+<span class="n">ulen</span> <span class="nf">MemLen</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span>       <span class="c1">// mem may == 0</span>
+
+<span class="kt">bool</span> <span class="nf">MemExtend</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
+
+<span class="kt">bool</span> <span class="nf">MemShrink</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
+
+<span class="kt">void</span> <span class="nf">MemFree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span>            <span class="c1">// mem may == 0</span>
+
+<span class="kt">void</span> <span class="nf">MemLim</span><span class="p">(</span><span class="n">ulen</span> <span class="n">limit</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can not only allocate and deallocate blocks of memory, but you can resize them in place (if possible).
+This is useful in the building of resizable arrays and other containers.</p>
+<p>You can also set a memory allocation limit.
+This feature is useful for testing.</p>
+<p>Heap has also some statistic functions, this allow to watch over the memory usage.</p>
+</li>
+</ol>
+<p>These features are highly valuable in any kind of software development.</p>
 </div>
 <div class="section" id="printf">
 <span id="to-printf"></span><h2><cite>Printf()</cite><a class="headerlink" href="#printf" title="Permalink to this headline">¶</a></h2>

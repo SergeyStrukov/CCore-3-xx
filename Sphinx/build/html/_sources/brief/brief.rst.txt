@@ -39,6 +39,46 @@ Ab ovo
 Heap
 ----
 
+**CCore** heap has the following features:
+
+1. Best fit.
+
+   Heap selects a smallest available block of memory to satisfy an allocation request.
+
+2. Fast, with real-time properties.
+
+3. Integrity check.
+
+   If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.
+
+4. Extended interface.
+
+   Here is a list of heap functions::
+   
+       void * TryMemAlloc(ulen len) noexcept;
+    
+       void * MemAlloc(ulen len);
+    
+       ulen MemLen(const void *mem);       // mem may == 0
+    
+       bool MemExtend(void *mem,ulen len); // mem may == 0
+    
+       bool MemShrink(void *mem,ulen len); // mem may == 0
+    
+       void MemFree(void *mem);            // mem may == 0
+    
+       void MemLim(ulen limit);
+       
+   You can not only allocate and deallocate blocks of memory, but you can resize them in place (if possible).
+   This is useful in the building of resizable arrays and other containers.
+    
+   You can also set a memory allocation limit. 
+   This feature is useful for testing.
+   
+   Heap has also some statistic functions, this allow to watch over the memory usage.     
+
+These features are highly valuable in any kind of software development.    
+
 .. ------------------------------------------------------------------------------------------------------------------
 
 .. _to_printf:
