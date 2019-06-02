@@ -8,12 +8,13 @@
     :keywords: C++,real-time,C++17,CCore
 
 Welcome to CCore documentation!
-=======================================
+===============================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   brief/brief
    test/test
 
 Indices and tables
