@@ -2,7 +2,7 @@
 
 .. ------------------------------------------------------------------------------------------------------------------
 
-CCore breif
+CCore brief
 ===========
 
 Many years ago I had started this project ... :ref:`to_ab_ovo`
@@ -43,13 +43,13 @@ Heap
 
 1. Best fit.
 
-   Heap selects a smallest available block of memory to satisfy an allocation request.
+      Heap selects a smallest available block of memory to satisfy an allocation request.
 
 2. Fast, with real-time properties.
 
 3. Integrity check.
 
-   If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.
+      If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.
 
 4. Extended interface.
 
@@ -225,7 +225,7 @@ Making a type printable is simple like this::
        } 
      };
 
-Or, if you need a printing options, like this::
+OR, if you need a printing options, like this::
 
     struct PrintDumpOptType
      {
@@ -262,6 +262,80 @@ Or, if you need a printing options, like this::
 
 Exceptions
 ----------
+
+**CCore** uses the special pattern to throw and catch exceptions:
+
+1. All exception are of type `CatchType`, which is an empty structure::
+
+      try
+        {
+         ....
+        }
+      catch(CatchType)
+        {
+        }
+
+2. To get exception notifications you have to define a special object::  
+
+      try
+        {
+         ReportException report;
+        
+         ....
+        }
+      catch(CatchType)
+        {
+        }
+
+3. To react on `no-exceptions` you have to call the special method `guard()`::
+
+      try
+        {
+         ReportException report;
+        
+         {
+          ....
+         } 
+         
+         report.guard();
+        }
+      catch(CatchType)
+        {
+        }
+
+4. To throw an exception use the function `Printf()`::
+
+      Printf(Exception,"Shit happened"); 
+      
+        // exception will be thrown by this call 
+      
+   OR::    
+   
+      Printf(NoException,"Shit happened, but we continue ..."); 
+      
+        // no exception will be thrown by this call
+      
+5. Event if you don't throw an exception, `report` object gets the exception text ans sets an internal flag.
+   So later, when you call `report.guard()` an exception will be eventually thown.       
+
+Using this pattern you can safely handle exceptional situations in class destructors::
+
+    PrintFile::~PrintFile()
+     {
+      if( isOpened() )
+        {
+         FileMultiError errout;
+    
+         soft_close(errout);
+    
+         if( +errout )
+           {
+            Printf(NoException,"CCore::PrintFile::~PrintFile() : #;",errout);
+           }
+        }
+     }
+
+No one glitch will be forgotten!
 
 .. ------------------------------------------------------------------------------------------------------------------
 

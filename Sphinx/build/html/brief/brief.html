@@ -41,8 +41,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="ccore-breif">
-<h1>CCore breif<a class="headerlink" href="#ccore-breif" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ccore-brief">
+<h1>CCore brief<a class="headerlink" href="#ccore-brief" title="Permalink to this headline">¶</a></h1>
 <p>Many years ago I had started this project … <a class="reference internal" href="#to-ab-ovo"><span class="std std-ref">Ab ovo</span></a></p>
 <p><strong>CCore</strong> uses an advanced memory manager … <a class="reference internal" href="#to-heap"><span class="std std-ref">Heap</span></a></p>
 <p><strong>CCore</strong> provides <cite>Printf()</cite> print facility … <a class="reference internal" href="#to-printf"><span class="std std-ref">Printf()</span></a></p>
@@ -62,11 +62,15 @@ So put your hands on …</p>
 <p><strong>CCore</strong> heap has the following features:</p>
 <ol class="arabic">
 <li><p>Best fit.</p>
-<p>Heap selects a smallest available block of memory to satisfy an allocation request.</p>
+<blockquote>
+<div><p>Heap selects a smallest available block of memory to satisfy an allocation request.</p>
+</div></blockquote>
 </li>
 <li><p>Fast, with real-time properties.</p></li>
 <li><p>Integrity check.</p>
-<p>If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.</p>
+<blockquote>
+<div><p>If you try to use an invalid pointer as a heap function argument, it will be higly likely detected and abort will be called.</p>
+</div></blockquote>
 </li>
 <li><p>Extended interface.</p>
 <p>Here is a list of heap functions:</p>
@@ -232,7 +236,7 @@ You can easily develope these kind of objects to match your particular needs.</p
  <span class="p">};</span>
 </pre></div>
 </div>
-<p>Or, if you need a printing options, like this:</p>
+<p>OR, if you need a printing options, like this:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">PrintDumpOptType</span>
  <span class="p">{</span>
   <span class="p">....</span>
@@ -267,6 +271,83 @@ You can easily develope these kind of objects to match your particular needs.</p
 </div>
 <div class="section" id="exceptions">
 <span id="to-exception"></span><h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p><strong>CCore</strong> uses the special pattern to throw and catch exceptions:</p>
+<ol class="arabic">
+<li><p>All exception are of type <cite>CatchType</cite>, which is an empty structure:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">try</span>
+  <span class="p">{</span>
+   <span class="p">....</span>
+  <span class="p">}</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">CatchType</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>To get exception notifications you have to define a special object:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">try</span>
+  <span class="p">{</span>
+   <span class="n">ReportException</span> <span class="n">report</span><span class="p">;</span>
+
+   <span class="p">....</span>
+  <span class="p">}</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">CatchType</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>To react on <cite>no-exceptions</cite> you have to call the special method <cite>guard()</cite>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">try</span>
+  <span class="p">{</span>
+   <span class="n">ReportException</span> <span class="n">report</span><span class="p">;</span>
+
+   <span class="p">{</span>
+    <span class="p">....</span>
+   <span class="p">}</span>
+
+   <span class="n">report</span><span class="p">.</span><span class="n">guard</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="n">catch</span><span class="p">(</span><span class="n">CatchType</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>To throw an exception use the function <cite>Printf()</cite>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Printf</span><span class="p">(</span><span class="n">Exception</span><span class="p">,</span><span class="s">&quot;Shit happened&quot;</span><span class="p">);</span>
+
+  <span class="c1">// exception will be thrown by this call</span>
+</pre></div>
+</div>
+<p>OR:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Printf</span><span class="p">(</span><span class="n">NoException</span><span class="p">,</span><span class="s">&quot;Shit happened, but we continue ...&quot;</span><span class="p">);</span>
+
+  <span class="c1">// no exception will be thrown by this call</span>
+</pre></div>
+</div>
+</li>
+<li><p>Event if you don’t throw an exception, <cite>report</cite> object gets the exception text ans sets an internal flag.
+So later, when you call <cite>report.guard()</cite> an exception will be eventually thown.</p></li>
+</ol>
+<p>Using this pattern you can safely handle exceptional situations in class destructors:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">PrintFile</span><span class="o">::~</span><span class="n">PrintFile</span><span class="p">()</span>
+ <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span> <span class="n">isOpened</span><span class="p">()</span> <span class="p">)</span>
+    <span class="p">{</span>
+     <span class="n">FileMultiError</span> <span class="n">errout</span><span class="p">;</span>
+
+     <span class="n">soft_close</span><span class="p">(</span><span class="n">errout</span><span class="p">);</span>
+
+     <span class="k">if</span><span class="p">(</span> <span class="o">+</span><span class="n">errout</span> <span class="p">)</span>
+       <span class="p">{</span>
+        <span class="n">Printf</span><span class="p">(</span><span class="n">NoException</span><span class="p">,</span><span class="s">&quot;CCore::PrintFile::~PrintFile() : #;&quot;</span><span class="p">,</span><span class="n">errout</span><span class="p">);</span>
+       <span class="p">}</span>
+    <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p>No one glitch will be forgotten!</p>
 </div>
 <div class="section" id="ddl">
 <span id="to-ddl"></span><h2>DDL<a class="headerlink" href="#ddl" title="Permalink to this headline">¶</a></h2>
@@ -287,7 +368,7 @@ You can easily develope these kind of objects to match your particular needs.</p
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">CCore breif</a><ul>
+<li><a class="reference internal" href="#">CCore brief</a><ul>
 <li><a class="reference internal" href="#ab-ovo">Ab ovo</a></li>
 <li><a class="reference internal" href="#heap">Heap</a></li>
 <li><a class="reference internal" href="#printf"><cite>Printf()</cite></a><ul>
