@@ -351,6 +351,236 @@ So later, when you call <cite>report.guard()</cite> an exception will be eventua
 </div>
 <div class="section" id="ddl">
 <span id="to-ddl"></span><h2>DDL<a class="headerlink" href="#ddl" title="Permalink to this headline">¶</a></h2>
+<p><strong>DDL</strong> expands as “Data Definition Language”.
+This is a textual language for representation of data.
+<strong>DDL</strong> files looks like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">type</span> <span class="n">Bool</span> <span class="o">=</span> <span class="n">uint8</span> <span class="p">;</span>
+
+<span class="n">Bool</span> <span class="n">True</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span>
+<span class="n">Bool</span> <span class="n">False</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">FavElement</span>
+ <span class="p">{</span>
+  <span class="n">text</span> <span class="n">title</span><span class="p">;</span>
+  <span class="n">text</span> <span class="n">path</span><span class="p">;</span>
+  <span class="n">Bool</span> <span class="n">section</span> <span class="o">=</span> <span class="n">False</span> <span class="p">;</span>
+  <span class="n">Bool</span> <span class="n">open</span> <span class="o">=</span> <span class="n">True</span> <span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">FavData</span>
+ <span class="p">{</span>
+  <span class="n">FavElement</span><span class="p">[]</span> <span class="n">list</span><span class="p">;</span>
+
+  <span class="n">ulen</span> <span class="n">off</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span>
+  <span class="n">ulen</span> <span class="n">cur</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>and like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">//include &lt;FavData.ddl&gt;</span>
+
+<span class="n">FavData</span> <span class="n">Data</span> <span class="o">=</span>
+ <span class="p">{</span>
+
+  <span class="p">{</span>
+   <span class="p">{</span> <span class="s">&quot;CCore&quot;</span> <span class="p">,</span> <span class="s">&quot;&quot;</span> <span class="p">,</span> <span class="n">True</span> <span class="p">,</span> <span class="n">True</span> <span class="p">},</span>
+   <span class="p">{</span> <span class="s">&quot;CCore 3-xx&quot;</span> <span class="p">,</span> <span class="s">&quot;D:/active/home/C++/CCore-3-xx/book/CCore.book.vol&quot;</span> <span class="p">,</span> <span class="n">False</span> <span class="p">,</span> <span class="n">True</span> <span class="p">},</span>
+   <span class="p">{</span> <span class="s">&quot;Sample&quot;</span> <span class="p">,</span> <span class="s">&quot;&quot;</span> <span class="p">,</span> <span class="n">True</span> <span class="p">,</span> <span class="n">False</span> <span class="p">},</span>
+   <span class="p">{</span> <span class="s">&quot;CCore 3-xx&quot;</span> <span class="p">,</span> <span class="s">&quot;D:/active/home/C++/CCore-3-xx/book/sample/CCore.book.ddl&quot;</span> <span class="p">,</span> <span class="n">False</span> <span class="p">,</span> <span class="n">False</span> <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">1</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>You can find the complete description <a class="reference external" href="https://github.com/SergeyStrukov/CCore-3-xx/blob/master/doc/DDL.pdf">here</a>.
+<strong>DDL</strong> is</p>
+<ol class="arabic simple">
+<li><p><strong>C</strong>-style,</p></li>
+<li><p>typed,</p></li>
+<li><p>commutative,</p></li>
+<li><p>flexible,</p></li>
+<li><p>polymorphe,</p></li>
+<li><p>simple.</p></li>
+</ol>
+<p>It can be conveniently used for representation of any kind of data with any level of internal connectivity.
+For example, this types are used to reprersent context-free grammars and LR1 state machines:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">type</span> <span class="n">AtomIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">SyntIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">KindIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">ElementIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">RuleIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">StateIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+<span class="n">type</span> <span class="n">FinalIndex</span> <span class="o">=</span> <span class="n">uint32</span> <span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">Lang</span>
+ <span class="p">{</span>
+  <span class="n">Atom</span><span class="p">[]</span> <span class="n">atoms</span><span class="p">;</span>
+  <span class="n">Synt</span><span class="p">[]</span> <span class="n">synts</span><span class="p">;</span>
+  <span class="n">Synt</span> <span class="o">*</span> <span class="p">[]</span> <span class="n">lang</span><span class="p">;</span>
+  <span class="n">Element</span><span class="p">[]</span> <span class="n">elements</span><span class="p">;</span>
+  <span class="n">Rule</span><span class="p">[]</span> <span class="n">rules</span><span class="p">;</span>
+  <span class="n">TopRule</span><span class="p">[]</span> <span class="n">top_rules</span><span class="p">;</span>
+  <span class="n">State</span><span class="p">[]</span> <span class="n">states</span><span class="p">;</span>
+  <span class="n">Final</span><span class="p">[]</span> <span class="n">finals</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Atom</span>
+ <span class="p">{</span>
+  <span class="n">AtomIndex</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">text</span> <span class="n">name</span><span class="p">;</span>
+
+  <span class="n">Element</span> <span class="o">*</span><span class="n">element</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Synt</span>
+ <span class="p">{</span>
+  <span class="n">SyntIndex</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">text</span> <span class="n">name</span><span class="p">;</span>
+
+  <span class="n">Kind</span><span class="p">[]</span> <span class="n">kinds</span><span class="p">;</span>
+  <span class="n">Rule</span> <span class="o">*</span> <span class="p">[]</span> <span class="n">rules</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Kind</span>
+ <span class="p">{</span>
+  <span class="n">KindIndex</span> <span class="n">kindex</span><span class="p">;</span> <span class="c1">// index among all kinds</span>
+  <span class="n">KindIndex</span> <span class="n">index</span><span class="p">;</span> <span class="c1">// index in synt array</span>
+  <span class="n">text</span> <span class="n">name</span><span class="p">;</span>
+
+  <span class="n">Synt</span> <span class="o">*</span><span class="n">synt</span><span class="p">;</span>
+
+  <span class="n">Element</span> <span class="o">*</span><span class="n">element</span><span class="p">;</span>
+
+  <span class="n">TopRule</span> <span class="o">*</span> <span class="p">[]</span> <span class="n">rules</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Element</span>
+ <span class="p">{</span>
+  <span class="n">ElementIndex</span> <span class="n">index</span><span class="p">;</span>
+
+  <span class="p">{</span><span class="n">Atom</span><span class="p">,</span><span class="n">Kind</span><span class="p">}</span> <span class="o">*</span> <span class="n">elem</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Rule</span>
+ <span class="p">{</span>
+  <span class="n">RuleIndex</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">text</span> <span class="n">name</span><span class="p">;</span>
+
+  <span class="n">Kind</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
+
+  <span class="n">type</span> <span class="n">Arg</span> <span class="o">=</span> <span class="p">{</span><span class="n">Atom</span><span class="p">,</span><span class="n">Synt</span><span class="p">}</span> <span class="o">*</span> <span class="p">;</span>
+
+  <span class="n">Arg</span><span class="p">[]</span> <span class="n">args</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">TopRule</span>
+ <span class="p">{</span>
+  <span class="n">RuleIndex</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">text</span> <span class="n">name</span><span class="p">;</span>
+
+  <span class="n">Rule</span> <span class="o">*</span><span class="n">bottom</span><span class="p">;</span>
+
+  <span class="n">Kind</span> <span class="o">*</span><span class="n">result</span><span class="p">;</span>
+
+  <span class="n">type</span> <span class="n">Arg</span> <span class="o">=</span> <span class="p">{</span><span class="n">Atom</span><span class="p">,</span><span class="n">Kind</span><span class="p">}</span> <span class="o">*</span> <span class="p">;</span>
+
+  <span class="n">Arg</span><span class="p">[]</span> <span class="n">args</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">State</span>
+ <span class="p">{</span>
+  <span class="n">StateIndex</span> <span class="n">index</span><span class="p">;</span>
+  <span class="n">Final</span> <span class="o">*</span><span class="n">final</span><span class="p">;</span>
+
+  <span class="k">struct</span> <span class="n">Transition</span>
+   <span class="p">{</span>
+    <span class="n">Element</span> <span class="o">*</span><span class="n">element</span><span class="p">;</span>
+    <span class="n">State</span> <span class="o">*</span><span class="n">state</span><span class="p">;</span>
+   <span class="p">};</span>
+
+  <span class="n">Transition</span><span class="p">[]</span> <span class="n">transitions</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Final</span>
+ <span class="p">{</span>
+  <span class="n">FinalIndex</span> <span class="n">index</span><span class="p">;</span>
+
+  <span class="k">struct</span> <span class="n">Action</span>
+   <span class="p">{</span>
+    <span class="n">Atom</span> <span class="o">*</span><span class="n">atom</span><span class="p">;</span> <span class="c1">// null for (End)</span>
+    <span class="n">Rule</span> <span class="o">*</span><span class="n">rule</span><span class="p">;</span> <span class="c1">// null for &lt;- ( STOP if atom is (END) )</span>
+   <span class="p">};</span>
+
+  <span class="n">Action</span><span class="p">[]</span> <span class="n">actions</span><span class="p">;</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>And more samples:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span> <span class="n">pa</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span> <span class="p">;</span>
+
+<span class="n">text</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="n">B</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;b1&quot;</span> <span class="p">,</span> <span class="s">&quot;b2&quot;</span> <span class="p">}</span> <span class="p">;</span>
+
+<span class="n">text</span> <span class="p">[]</span> <span class="n">C</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;c1&quot;</span> <span class="p">,</span> <span class="s">&quot;c2&quot;</span> <span class="p">}</span> <span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">S</span>
+ <span class="p">{</span>
+  <span class="n">text</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;unnamed&quot;</span> <span class="p">;</span>
+  <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="n">S</span> <span class="n">record</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;&quot;</span> <span class="p">,</span> <span class="mi">10</span> <span class="p">}</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>,:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span> <span class="n">pa</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="o">*</span><span class="n">pa</span> <span class="p">;</span> <span class="c1">// 10</span>
+
+<span class="kt">int</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">}</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span> <span class="n">pc</span> <span class="o">=</span> <span class="n">c</span><span class="o">+</span><span class="mi">5</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="o">*</span><span class="n">pc</span> <span class="p">;</span> <span class="c1">// 5</span>
+<span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="n">pc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">;</span> <span class="c1">// 7</span>
+
+<span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">pc</span> <span class="o">-</span> <span class="n">c</span> <span class="p">;</span> <span class="c1">// 5</span>
+</pre></div>
+</div>
+<p>,:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">type</span> <span class="n">Ptr</span> <span class="o">=</span> <span class="p">{</span><span class="kt">int</span><span class="p">,</span><span class="n">uint</span><span class="p">}</span> <span class="o">*</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">;</span>
+
+<span class="n">uint</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">;</span>
+
+<span class="n">Ptr</span> <span class="n">ptr_a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span> <span class="p">;</span>
+
+<span class="n">Ptr</span> <span class="n">ptr_b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>DDL</strong> is not intended for the manual data edition.
+Normally <strong>DDL</strong> files are generated by software and used by another software.
+It is a <em>Soft-to-Soft</em> language.
+You can think about it as a “universal data assembler”.
+I am lovely using <strong>DDL</strong> for many years for different purposes:</p>
+<ol class="arabic simple">
+<li><p>configuration files,</p></li>
+<li><p>complex data files, like shown above,</p></li>
+<li><p>Book files, this is a latest GUI component, developed to represent formatted text:</p></li>
+</ol>
+<img alt="../_images/Book.png" src="../_images/Book.png" />
+<p>So I advise everybody learn and use it in your projects.
+You will be loving it too!
+Printing <strong>DDL</strong> files is easy, you can do it using <cite>Printf()</cite>.
+To load data from <strong>DDL</strong> files, however, you need a library.
+<strong>CCore</strong> contains components and tools to do it, but you may develope your own,
+using <strong>CCore</strong> implementtaion as a reference design.</p>
 </div>
 <div class="section" id="synchronization">
 <span id="to-sync"></span><h2>Synchronization<a class="headerlink" href="#synchronization" title="Permalink to this headline">¶</a></h2>
