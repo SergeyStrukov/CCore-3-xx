@@ -96,6 +96,174 @@ This feature is useful for testing.</p>
 </div>
 <div class="section" id="printf">
 <span id="to-printf"></span><h2><cite>Printf()</cite><a class="headerlink" href="#printf" title="Permalink to this headline">¶</a></h2>
+<p><cite>Printf()</cite> is similar to the <strong>C</strong> <cite>printf()</cite>.
+It works as the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">12345</span> <span class="p">;</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;x = #;</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The first argument is a <em>printer</em> object. In this case it is the console.
+The second is a format string. By tradition it is a null terminated string.
+After the format string an arbitrary number of arguments of any <em>printable</em> types may follow.
+They will be printed in places of format stems.
+Each format stem is a sequence like <cite>“#…;”</cite>.
+Between the starting <cite>‘#’</cite> symbol and the ending <cite>‘;’</cite> symbol options my be specified:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #+10.5l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #+10.hi; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.hi; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12345</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12345</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">12</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f4l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f4i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f4r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2l; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2i; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;--- #10.f2r; ---</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and the output is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">---</span> <span class="mi">12345</span>      <span class="o">---</span>
+<span class="o">---</span> <span class="mo">0000012345</span> <span class="o">---</span>
+<span class="o">---</span>      <span class="mi">12345</span> <span class="o">---</span>
+<span class="o">---</span> <span class="o">+</span><span class="mi">343340</span>    <span class="o">---</span>
+<span class="o">---</span> <span class="o">+</span><span class="mo">0000303</span><span class="mi">9</span><span class="n">h</span> <span class="o">---</span>
+<span class="o">---</span> <span class="o">-</span><span class="mo">0000303</span><span class="mi">9</span><span class="n">h</span> <span class="o">---</span>
+<span class="o">---</span> <span class="mf">123.45</span>     <span class="o">---</span>
+<span class="o">---</span> <span class="mf">0000123.45</span> <span class="o">---</span>
+<span class="o">---</span>     <span class="mf">123.45</span> <span class="o">---</span>
+<span class="o">---</span> <span class="o">-</span><span class="mf">123.45</span>    <span class="o">---</span>
+<span class="o">---</span> <span class="o">-</span><span class="mf">000123.45</span> <span class="o">---</span>
+<span class="o">---</span>    <span class="o">-</span><span class="mf">123.45</span> <span class="o">---</span>
+<span class="o">---</span> <span class="o">-</span><span class="mf">0.12</span>      <span class="o">---</span>
+<span class="o">---</span> <span class="o">-</span><span class="mf">000000.12</span> <span class="o">---</span>
+<span class="o">---</span>      <span class="o">-</span><span class="mf">0.12</span> <span class="o">---</span>
+<span class="o">---</span> <span class="mf">0.0012</span>     <span class="o">---</span>
+<span class="o">---</span> <span class="mf">00000.0012</span> <span class="o">---</span>
+<span class="o">---</span>     <span class="mf">0.0012</span> <span class="o">---</span>
+<span class="o">---</span> <span class="mf">0.00</span>       <span class="o">---</span>
+<span class="o">---</span> <span class="mf">0000000.00</span> <span class="o">---</span>
+<span class="o">---</span>       <span class="mf">0.00</span> <span class="o">---</span>
+</pre></div>
+</div>
+<p><cite>Printf()</cite> ties together a printer object, a format string and printable objects.
+You can easily develope these kind of objects to match your particular needs.</p>
+<div class="section" id="printer-class">
+<h3>Printer class<a class="headerlink" href="#printer-class" title="Permalink to this headline">¶</a></h3>
+<p>In general, to make a class a printer you have to define the following class elements:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">PrintToSomething</span>
+ <span class="p">{</span>
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">using</span> <span class="n">PrintOutType</span> <span class="o">=</span> <span class="n">PrintToSomething</span> <span class="o">&amp;</span> <span class="p">;</span>
+
+   <span class="n">PrintOutType</span> <span class="nf">printRef</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span> <span class="p">}</span>
+
+   <span class="kt">void</span> <span class="nf">put</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">);</span>
+
+   <span class="kt">void</span> <span class="nf">put</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
+
+   <span class="kt">void</span> <span class="nf">put</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
+
+   <span class="kt">void</span> <span class="nf">flush</span><span class="p">();</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>In most cases, however, it’s better to inherit from the following base class for printer types:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">PrintBase</span> <span class="p">:</span> <span class="n">NoCopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+   <span class="n">virtual</span> <span class="n">PtrLen</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">do_provide</span><span class="p">(</span><span class="n">ulen</span> <span class="n">hint_len</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+   <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">do_flush</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">using</span> <span class="n">PrintOutType</span> <span class="o">=</span> <span class="n">PrintBase</span> <span class="o">&amp;</span> <span class="p">;</span>
+
+   <span class="n">PrintOutType</span> <span class="nf">printRef</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="n">this</span><span class="p">;</span> <span class="p">}</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="n">PrintBase</span><span class="p">();</span>
+
+   <span class="o">~</span><span class="n">PrintBase</span><span class="p">();</span>
+
+   <span class="c1">// methods</span>
+
+   <span class="p">....</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>You have to implement two virtual functions in a derived class to output printed characters to whatever you want.</p>
+</div>
+<div class="section" id="printable-types">
+<h3>Printable types<a class="headerlink" href="#printable-types" title="Permalink to this headline">¶</a></h3>
+<p>Making a type printable is simple like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">IntPoint</span>
+ <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+
+  <span class="p">....</span>
+
+  <span class="c1">// print object</span>
+
+  <span class="kt">void</span> <span class="n">print</span><span class="p">(</span><span class="n">PrinterType</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">)</span> <span class="k">const</span>
+   <span class="p">{</span>
+    <span class="n">Printf</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="s">&quot;(#;,#;)&quot;</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+   <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>Or, if you need a printing options, like this:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">PrintDumpOptType</span>
+ <span class="p">{</span>
+  <span class="p">....</span>
+
+  <span class="kt">void</span> <span class="n">setDefault</span><span class="p">();</span>
+
+  <span class="n">PrintDumpOptType</span><span class="p">()</span> <span class="p">{</span> <span class="n">setDefault</span><span class="p">();</span> <span class="p">}</span>
+
+  <span class="n">PrintDumpOptType</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">lim</span><span class="p">);</span>
+
+  <span class="c1">//</span>
+  <span class="c1">// [width=0][.line_len=16]</span>
+  <span class="c1">//</span>
+ <span class="p">};</span>
+
+<span class="n">template</span> <span class="o">&lt;</span><span class="n">UIntType</span> <span class="n">UInt</span><span class="o">&gt;</span>
+<span class="n">class</span> <span class="n">PrintDump</span>
+ <span class="p">{</span>
+   <span class="n">PtrLen</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">UInt</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="p">....</span>
+
+   <span class="n">using</span> <span class="n">PrintOptType</span> <span class="o">=</span> <span class="n">PrintDumpOptType</span> <span class="p">;</span>
+
+   <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">PrinterType</span> <span class="o">&amp;</span><span class="n">out</span><span class="p">,</span><span class="n">PrintOptType</span> <span class="n">opt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="exceptions">
 <span id="to-exception"></span><h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
@@ -122,7 +290,11 @@ This feature is useful for testing.</p>
 <li><a class="reference internal" href="#">CCore breif</a><ul>
 <li><a class="reference internal" href="#ab-ovo">Ab ovo</a></li>
 <li><a class="reference internal" href="#heap">Heap</a></li>
-<li><a class="reference internal" href="#printf"><cite>Printf()</cite></a></li>
+<li><a class="reference internal" href="#printf"><cite>Printf()</cite></a><ul>
+<li><a class="reference internal" href="#printer-class">Printer class</a></li>
+<li><a class="reference internal" href="#printable-types">Printable types</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#exceptions">Exceptions</a></li>
 <li><a class="reference internal" href="#ddl">DDL</a></li>
 <li><a class="reference internal" href="#synchronization">Synchronization</a></li>
