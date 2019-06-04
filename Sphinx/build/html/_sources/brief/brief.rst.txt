@@ -19,6 +19,8 @@ One of the most useful invention, implemented in **CCore**, is **DDL** ... :ref:
 
 **CCore** implements the **Packets** -- infrastructure for mass asynchonous request processing ... :ref:`to_packets`
 
+**CCore** contains number of new network protocols and components ... :ref:`to_net`
+
 and much more ...  
 
 **CCore** source contains many advanced C++ tricks, based on the latest C++ language features. 
@@ -583,6 +585,150 @@ using **CCore** implementtaion as a reference design.
 Synchronization
 ---------------
 
+To develope multi-thread applications a good set of synchronization primitives is required.
+**CCore** defines the following such set:
+
+1. Mutex,
+2. Sem(aphore),
+3. Event,
+4. MultiSem,
+5. MultiEvent,
+6. AntiSem,
+7. ResSem.
+
+**Mutex** is a usual resource lock synchronization class::
+
+    class Mutex : NoCopy
+     {
+       ....
+       
+      public:
+    
+       explicit Mutex(unsigned spin_count=MutexSpinCount());
+    
+       explicit Mutex(TextLabel name,unsigned spin_count=MutexSpinCount());
+    
+       ~Mutex();
+    
+       void lock();
+    
+       void unlock();
+    
+       unsigned getSemCount();
+    
+       using Lock = LockObject<Mutex> ;
+     };
+
+**Sem** is a usual semaphore::
+
+    class Sem : public Funchor_nocopy
+     {
+       ....
+    
+      public:
+    
+       // constructors
+    
+       explicit Sem(ulen count=0);
+    
+       explicit Sem(TextLabel name,ulen count=0);
+    
+       ~Sem();
+    
+       // give
+    
+       void give();
+    
+       void give_many(ulen dcount);
+    
+       // take
+    
+       bool try_take();
+    
+       void take();
+    
+       bool take(MSec timeout);
+    
+       bool take(TimeScope time_scope);
+    
+       // functions
+    
+       Function<void (void)> function_give() { return FunctionOf(this,&Sem::give); }
+     };
+
+**CCore** synchronization objects have two main kind of methods: giving and taking.
+Taking methods may block execution of the calling thread. 
+So they usually have several variants: without timeout, 
+with a timeout in *milliseconds*,
+with a timeout as a *TimeScope*,
+and a try variant with the "immediate" timeout.
+If a taking method with a timeout is failed, it returns **false**.
+Giving methods does not block, inversely, they may release a blocked on this synchronization object thread.
+And such methods comes with a callback. 
+So you may call these methods indirectly using a light-weight callback **Function<>**.
+
+**TimeScope** is a special method of the specifying a timeout. 
+It starts at the moment, the object of this type is created, and lasts for the given period of time::
+
+    class TimeScope
+     {
+       MSecTimer timer;
+    
+       MSec timeout;
+    
+      public:
+    
+       explicit TimeScope(MSec timeout_=Null) noexcept : timeout(timeout_) {}
+    
+       void start(MSec timeout_)
+        {
+         timer.reset();
+    
+         timeout=timeout_;
+        }
+    
+       bool nextScope();
+    
+       bool nextScope_skip();
+    
+       MSec get() const
+        {
+         auto t=timer.get();
+    
+         if( t >= +timeout ) return Null;
+    
+         return MSec(unsigned( +timeout - t ));
+        }
+     };
+
+It is very useful if you want to timed a combination of blocking calls::
+
+    void func(TimeScope time_scope)
+     {
+      op1(time_scope);
+      op2(time_scope);
+      op3(time_scope);
+     }
+    
+    void func(MSec timeout)
+     {
+      TimeScope time_scope(timeout);
+    
+      op1(time_scope);
+      op2(time_scope);
+      op3(time_scope);
+     }
+
+**Event**
+
+**MultiSem**
+
+**MultiEvent**
+
+**AntiSem**
+ 
+**ResSem**
+
 .. ------------------------------------------------------------------------------------------------------------------
 
 .. _to_packets:
@@ -590,7 +736,59 @@ Synchronization
 Packets
 -------
 
+When we design a system level services, we need to serve a massive tide of requests, 
+coming independently from multiple tasks. 
+Consider, for example, a network service stack.
+Application level tasks issue requests to send network packets, each packet has a body
+and destination address. 
+Each of this requests must be processed, address must be resolved, body must be updated,
+finally, packet comes to a network card driver, which sends it on the wire.
+To develope such subsystems some basic infrustructure is required.
+The whole subsystem is a set of processing entities, they send to each other *packets*,
+each packet is some data structure with attached *completion routine*.
+Once a packet is handled, it sends to a next processing unit, or completed.
+**CCore** contains such infrustructure, **Packets**, and number of devices, which
+provides various packet services.
+For example, **AsyncUDPMultipointDevice** sends and receives **UDP** packets::
+
+    class AsyncUDPMultipointDevice : public PacketMultipointDevice
+     {
+       ....
+       
+      public:
+    
+       // constructors
+    
+       static constexpr ulen DefaultMaxPackets = 500 ;
+    
+       explicit AsyncUDPMultipointDevice(UDPort udport,ulen max_packets=DefaultMaxPackets);
+    
+       virtual ~AsyncUDPMultipointDevice();
+    
+       // PacketMultipointDevice
+    
+       virtual StrLen toText(XPoint point,PtrLen<char> buf) const;
+    
+       virtual PacketFormat getOutboundFormat() const;
+    
+       virtual void outbound(XPoint point,Packet<uint8> packet);
+    
+       virtual ulen getMaxInboundLen() const;
+    
+       virtual void attach(InboundProc *proc);
+    
+       virtual void detach();
+    
+       ....    
+     };
+
 .. ------------------------------------------------------------------------------------------------------------------
 
+.. _to_net:
+
+Networking
+----------
+
+.. ------------------------------------------------------------------------------------------------------------------
 
 

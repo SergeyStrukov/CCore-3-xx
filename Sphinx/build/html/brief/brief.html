@@ -50,6 +50,7 @@
 <p>One of the most useful invention, implemented in <strong>CCore</strong>, is <strong>DDL</strong> … <a class="reference internal" href="#to-ddl"><span class="std std-ref">DDL</span></a></p>
 <p><strong>CCore</strong> provides advanced synchronization basis … <a class="reference internal" href="#to-sync"><span class="std std-ref">Synchronization</span></a></p>
 <p><strong>CCore</strong> implements the <strong>Packets</strong> – infrastructure for mass asynchonous request processing … <a class="reference internal" href="#to-packets"><span class="std std-ref">Packets</span></a></p>
+<p><strong>CCore</strong> contains number of new network protocols and components … <a class="reference internal" href="#to-net"><span class="std std-ref">Networking</span></a></p>
 <p>and much more …</p>
 <p><strong>CCore</strong> source contains many advanced C++ tricks, based on the latest C++ language features.
 No way I can describe all of them in this <em>brief notes</em>.
@@ -584,9 +585,196 @@ using <strong>CCore</strong> implementtaion as a reference design.</p>
 </div>
 <div class="section" id="synchronization">
 <span id="to-sync"></span><h2>Synchronization<a class="headerlink" href="#synchronization" title="Permalink to this headline">¶</a></h2>
+<p>To develope multi-thread applications a good set of synchronization primitives is required.
+<strong>CCore</strong> defines the following such set:</p>
+<ol class="arabic simple">
+<li><p>Mutex,</p></li>
+<li><p>Sem(aphore),</p></li>
+<li><p>Event,</p></li>
+<li><p>MultiSem,</p></li>
+<li><p>MultiEvent,</p></li>
+<li><p>AntiSem,</p></li>
+<li><p>ResSem.</p></li>
+</ol>
+<p><strong>Mutex</strong> is a usual resource lock synchronization class:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">Mutex</span> <span class="p">:</span> <span class="n">NoCopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">explicit</span> <span class="n">Mutex</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">spin_count</span><span class="o">=</span><span class="n">MutexSpinCount</span><span class="p">());</span>
+
+   <span class="n">explicit</span> <span class="nf">Mutex</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">,</span><span class="kt">unsigned</span> <span class="n">spin_count</span><span class="o">=</span><span class="n">MutexSpinCount</span><span class="p">());</span>
+
+   <span class="o">~</span><span class="n">Mutex</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">lock</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">unlock</span><span class="p">();</span>
+
+   <span class="kt">unsigned</span> <span class="nf">getSemCount</span><span class="p">();</span>
+
+   <span class="n">using</span> <span class="n">Lock</span> <span class="o">=</span> <span class="n">LockObject</span><span class="o">&lt;</span><span class="n">Mutex</span><span class="o">&gt;</span> <span class="p">;</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Sem</strong> is a usual semaphore:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">Sem</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="n">explicit</span> <span class="n">Sem</span><span class="p">(</span><span class="n">ulen</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+   <span class="n">explicit</span> <span class="nf">Sem</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">,</span><span class="n">ulen</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+   <span class="o">~</span><span class="n">Sem</span><span class="p">();</span>
+
+   <span class="c1">// give</span>
+
+   <span class="kt">void</span> <span class="nf">give</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">give_many</span><span class="p">(</span><span class="n">ulen</span> <span class="n">dcount</span><span class="p">);</span>
+
+   <span class="c1">// take</span>
+
+   <span class="kt">bool</span> <span class="nf">try_take</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">take</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">take</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span>
+
+   <span class="kt">bool</span> <span class="nf">take</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_give</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">Sem</span><span class="o">::</span><span class="n">give</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>CCore</strong> synchronization objects have two main kind of methods: giving and taking.
+Taking methods may block execution of the calling thread.
+So they usually have several variants: without timeout,
+with a timeout in <em>milliseconds</em>,
+with a timeout as a <em>TimeScope</em>,
+and a try variant with the “immediate” timeout.
+If a taking method with a timeout is failed, it returns <strong>false</strong>.
+Giving methods does not block, inversely, they may release a blocked on this synchronization object thread.
+And such methods comes with a callback.
+So you may call these methods indirectly using a light-weight callback <strong>Function&lt;&gt;</strong>.</p>
+<p><strong>TimeScope</strong> is a special method of the specifying a timeout.
+It starts at the moment, the object of this type is created, and lasts for the given period of time:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="n">TimeScope</span>
+ <span class="p">{</span>
+   <span class="n">MSecTimer</span> <span class="n">timer</span><span class="p">;</span>
+
+   <span class="n">MSec</span> <span class="n">timeout</span><span class="p">;</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">explicit</span> <span class="n">TimeScope</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout_</span><span class="o">=</span><span class="n">Null</span><span class="p">)</span> <span class="nl">noexcept</span> <span class="p">:</span> <span class="n">timeout</span><span class="p">(</span><span class="n">timeout_</span><span class="p">)</span> <span class="p">{}</span>
+
+   <span class="kt">void</span> <span class="n">start</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout_</span><span class="p">)</span>
+    <span class="p">{</span>
+     <span class="n">timer</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
+
+     <span class="n">timeout</span><span class="o">=</span><span class="n">timeout_</span><span class="p">;</span>
+    <span class="p">}</span>
+
+   <span class="kt">bool</span> <span class="n">nextScope</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">nextScope_skip</span><span class="p">();</span>
+
+   <span class="n">MSec</span> <span class="nf">get</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+     <span class="k">auto</span> <span class="n">t</span><span class="o">=</span><span class="n">timer</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+
+     <span class="k">if</span><span class="p">(</span> <span class="n">t</span> <span class="o">&gt;=</span> <span class="o">+</span><span class="n">timeout</span> <span class="p">)</span> <span class="k">return</span> <span class="n">Null</span><span class="p">;</span>
+
+     <span class="k">return</span> <span class="n">MSec</span><span class="p">(</span><span class="kt">unsigned</span><span class="p">(</span> <span class="o">+</span><span class="n">timeout</span> <span class="o">-</span> <span class="n">t</span> <span class="p">));</span>
+    <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>It is very useful if you want to timed a combination of blocking calls:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">)</span>
+ <span class="p">{</span>
+  <span class="n">op1</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+  <span class="n">op2</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+  <span class="n">op3</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+ <span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">)</span>
+ <span class="p">{</span>
+  <span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">(</span><span class="n">timeout</span><span class="p">);</span>
+
+  <span class="n">op1</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+  <span class="n">op2</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+  <span class="n">op3</span><span class="p">(</span><span class="n">time_scope</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Event</strong></p>
+<p><strong>MultiSem</strong></p>
+<p><strong>MultiEvent</strong></p>
+<p><strong>AntiSem</strong></p>
+<p><strong>ResSem</strong></p>
 </div>
 <div class="section" id="packets">
 <span id="to-packets"></span><h2>Packets<a class="headerlink" href="#packets" title="Permalink to this headline">¶</a></h2>
+<p>When we design a system level services, we need to serve a massive tide of requests,
+coming independently from multiple tasks.
+Consider, for example, a network service stack.
+Application level tasks issue requests to send network packets, each packet has a body
+and destination address.
+Each of this requests must be processed, address must be resolved, body must be updated,
+finally, packet comes to a network card driver, which sends it on the wire.
+To develope such subsystems some basic infrustructure is required.
+The whole subsystem is a set of processing entities, they send to each other <em>packets</em>,
+each packet is some data structure with attached <em>completion routine</em>.
+Once a packet is handled, it sends to a next processing unit, or completed.
+<strong>CCore</strong> contains such infrustructure, <strong>Packets</strong>, and number of devices, which
+provides various packet services.
+For example, <strong>AsyncUDPMultipointDevice</strong> sends and receives <strong>UDP</strong> packets:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">AsyncUDPMultipointDevice</span> <span class="p">:</span> <span class="n">public</span> <span class="n">PacketMultipointDevice</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="k">static</span> <span class="n">constexpr</span> <span class="n">ulen</span> <span class="n">DefaultMaxPackets</span> <span class="o">=</span> <span class="mi">500</span> <span class="p">;</span>
+
+   <span class="n">explicit</span> <span class="nf">AsyncUDPMultipointDevice</span><span class="p">(</span><span class="n">UDPort</span> <span class="n">udport</span><span class="p">,</span><span class="n">ulen</span> <span class="n">max_packets</span><span class="o">=</span><span class="n">DefaultMaxPackets</span><span class="p">);</span>
+
+   <span class="n">virtual</span> <span class="o">~</span><span class="n">AsyncUDPMultipointDevice</span><span class="p">();</span>
+
+   <span class="c1">// PacketMultipointDevice</span>
+
+   <span class="n">virtual</span> <span class="n">StrLen</span> <span class="nf">toText</span><span class="p">(</span><span class="n">XPoint</span> <span class="n">point</span><span class="p">,</span><span class="n">PtrLen</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">buf</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+
+   <span class="n">virtual</span> <span class="n">PacketFormat</span> <span class="nf">getOutboundFormat</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+   <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">outbound</span><span class="p">(</span><span class="n">XPoint</span> <span class="n">point</span><span class="p">,</span><span class="n">Packet</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span> <span class="n">packet</span><span class="p">);</span>
+
+   <span class="n">virtual</span> <span class="n">ulen</span> <span class="nf">getMaxInboundLen</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+
+   <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">attach</span><span class="p">(</span><span class="n">InboundProc</span> <span class="o">*</span><span class="n">proc</span><span class="p">);</span>
+
+   <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">detach</span><span class="p">();</span>
+
+   <span class="p">....</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="networking">
+<span id="to-net"></span><h2>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -610,6 +798,7 @@ using <strong>CCore</strong> implementtaion as a reference design.</p>
 <li><a class="reference internal" href="#ddl">DDL</a></li>
 <li><a class="reference internal" href="#synchronization">Synchronization</a></li>
 <li><a class="reference internal" href="#packets">Packets</a></li>
+<li><a class="reference internal" href="#networking">Networking</a></li>
 </ul>
 </li>
 </ul>
