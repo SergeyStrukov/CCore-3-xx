@@ -718,11 +718,241 @@ It starts at the moment, the object of this type is created, and lasts for the g
  <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>Event</strong></p>
-<p><strong>MultiSem</strong></p>
-<p><strong>MultiEvent</strong></p>
-<p><strong>AntiSem</strong></p>
-<p><strong>ResSem</strong></p>
+<p><strong>Event</strong> is a binary semaphore:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">Event</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="n">explicit</span> <span class="n">Event</span><span class="p">(</span><span class="kt">bool</span> <span class="n">flag</span><span class="o">=</span><span class="nb">false</span><span class="p">);</span>
+
+   <span class="n">explicit</span> <span class="nf">Event</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">,</span><span class="kt">bool</span> <span class="n">flag</span><span class="o">=</span><span class="nb">false</span><span class="p">);</span>
+
+   <span class="n">explicit</span> <span class="nf">Event</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">)</span> <span class="o">:</span> <span class="n">Event</span><span class="p">(</span><span class="n">TextLabel</span><span class="p">(</span><span class="n">name</span><span class="p">))</span> <span class="p">{}</span>
+
+   <span class="o">~</span><span class="n">Event</span><span class="p">();</span>
+
+   <span class="c1">// trigger</span>
+
+   <span class="kt">bool</span> <span class="nf">trigger</span><span class="p">();</span>
+
+   <span class="c1">// wait</span>
+
+   <span class="kt">bool</span> <span class="nf">try_wait</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">wait</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="kt">void</span> <span class="nf">trigger_void</span><span class="p">()</span> <span class="p">{</span> <span class="n">trigger</span><span class="p">();</span> <span class="p">}</span>
+
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_trigger</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">Event</span><span class="o">::</span><span class="n">trigger_void</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>MultiSem</strong> is a set of semaphors.
+This class is vital, if you need to handle events from multiple sources.
+For example, if you have to handle device interrupts and user requests in a device driver.
+Or to manage multiple networks connections. And so on:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Len</span><span class="o">&gt;</span>
+<span class="n">class</span> <span class="nl">MultiSem</span> <span class="p">:</span> <span class="n">public</span> <span class="n">MultiSemBase</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">MultiSem</span><span class="p">();</span>
+
+   <span class="n">explicit</span> <span class="nf">MultiSem</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">);</span>
+
+   <span class="o">~</span><span class="n">MultiSem</span><span class="p">();</span>
+ <span class="p">};</span>
+
+<span class="n">class</span> <span class="nl">MultiSemBase</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// give</span>
+
+   <span class="kt">void</span> <span class="n">give</span><span class="p">(</span><span class="n">ulen</span> <span class="n">index</span><span class="p">);</span> <span class="c1">// [1,Len]</span>
+
+   <span class="c1">// take</span>
+
+   <span class="n">ulen</span> <span class="nf">try_take</span><span class="p">();</span> <span class="c1">// [0,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">take</span><span class="p">();</span> <span class="c1">// [1,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">take</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span> <span class="c1">// [0,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">take</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span> <span class="c1">// [0,Len]</span>
+
+   <span class="c1">// give&lt;Index&gt;</span>
+
+   <span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Index</span><span class="o">&gt;</span> <span class="c1">// [1,Len]</span>
+   <span class="kt">void</span> <span class="n">give_index</span><span class="p">()</span> <span class="p">{</span> <span class="n">give</span><span class="p">(</span><span class="n">Index</span><span class="p">);</span> <span class="p">}</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Index</span><span class="o">&gt;</span>
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_give</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">MultiSemBase</span><span class="o">::</span><span class="n">give_index</span><span class="o">&lt;</span><span class="n">Index</span><span class="o">&gt;</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>When you use <strong>MultiSem</strong>, you give some index (of event), <cite>take()</cite> returns an available index in the round-robing manner.</p>
+<p><strong>MultiEvent</strong> is a set of events. It is similar to the <strong>MultiSem</strong>, but designed based on <strong>Events</strong>, not <strong>Sems</strong>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Len</span><span class="o">&gt;</span>
+<span class="n">class</span> <span class="nl">MultiEvent</span> <span class="p">:</span> <span class="n">public</span> <span class="n">MultiEventBase</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="n">MultiEvent</span><span class="p">();</span>
+
+   <span class="n">explicit</span> <span class="nf">MultiEvent</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">);</span>
+
+   <span class="o">~</span><span class="n">MultiEvent</span><span class="p">();</span>
+ <span class="p">};</span>
+
+<span class="n">class</span> <span class="nl">MultiEventBase</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// trigger</span>
+
+   <span class="kt">bool</span> <span class="n">trigger</span><span class="p">(</span><span class="n">ulen</span> <span class="n">index</span><span class="p">);</span> <span class="c1">// [1,Len]</span>
+
+   <span class="c1">// wait</span>
+
+   <span class="n">ulen</span> <span class="nf">try_wait</span><span class="p">();</span> <span class="c1">// [0,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">wait</span><span class="p">();</span> <span class="c1">// [1,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">wait</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span> <span class="c1">// [0,Len]</span>
+
+   <span class="n">ulen</span> <span class="nf">wait</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span> <span class="c1">// [0,Len]</span>
+
+   <span class="c1">// trigger&lt;Index&gt;</span>
+
+   <span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Index</span><span class="o">&gt;</span> <span class="c1">// [1,Len]</span>
+   <span class="kt">void</span> <span class="n">trigger_index</span><span class="p">()</span> <span class="p">{</span> <span class="n">trigger</span><span class="p">(</span><span class="n">Index</span><span class="p">);</span> <span class="p">}</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="n">template</span> <span class="o">&lt;</span><span class="n">ulen</span> <span class="n">Index</span><span class="o">&gt;</span>
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_trigger</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">MultiEventBase</span><span class="o">::</span><span class="n">trigger_index</span><span class="o">&lt;</span><span class="n">Index</span><span class="o">&gt;</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>AntiSem</strong> is a “gateway”. A thread can wait on this synchronization object until the internal counter of the
+object becomes below the defined level (0 by default).
+This synchronization object is useful for waiting of completion of multiple activities (like completion of multiple tasks)
+or releasing of number of resources:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">AntiSem</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="n">explicit</span> <span class="n">AntiSem</span><span class="p">(</span><span class="n">ulen</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+   <span class="n">explicit</span> <span class="nf">AntiSem</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">,</span><span class="n">ulen</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+   <span class="o">~</span><span class="n">AntiSem</span><span class="p">();</span>
+
+   <span class="c1">// add/sub</span>
+
+   <span class="kt">void</span> <span class="nf">add</span><span class="p">(</span><span class="n">ulen</span> <span class="n">dcount</span><span class="p">);</span>
+
+   <span class="kt">void</span> <span class="nf">sub</span><span class="p">(</span><span class="n">ulen</span> <span class="n">dcount</span><span class="p">);</span>
+
+   <span class="c1">// inc/dec</span>
+
+   <span class="kt">void</span> <span class="nf">inc</span><span class="p">()</span> <span class="p">{</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="p">}</span>
+
+   <span class="kt">void</span> <span class="nf">dec</span><span class="p">()</span> <span class="p">{</span> <span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="p">}</span>
+
+   <span class="c1">// wait</span>
+
+   <span class="kt">bool</span> <span class="nf">try_wait</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">wait</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_inc</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">AntiSem</span><span class="o">::</span><span class="n">inc</span><span class="p">);</span> <span class="p">}</span>
+
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_dec</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">AntiSem</span><span class="o">::</span><span class="n">dec</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>ResSem</strong> is a hybrid of <strong>ResSem</strong> and <strong>Sem</strong>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">class</span> <span class="nl">ResSem</span> <span class="p">:</span> <span class="n">public</span> <span class="n">Funchor_nocopy</span>
+ <span class="p">{</span>
+   <span class="p">....</span>
+
+  <span class="nl">public</span><span class="p">:</span>
+
+   <span class="c1">// constructors</span>
+
+   <span class="n">explicit</span> <span class="n">ResSem</span><span class="p">(</span><span class="n">ulen</span> <span class="n">max_count</span><span class="p">);</span>
+
+   <span class="n">ResSem</span><span class="p">(</span><span class="n">TextLabel</span> <span class="n">name</span><span class="p">,</span><span class="n">ulen</span> <span class="n">max_count</span><span class="p">);</span>
+
+   <span class="o">~</span><span class="n">ResSem</span><span class="p">();</span>
+
+   <span class="c1">// give</span>
+
+   <span class="kt">void</span> <span class="nf">give</span><span class="p">();</span>
+
+   <span class="c1">// take</span>
+
+   <span class="kt">bool</span> <span class="nf">try_take</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">take</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">take</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span>
+
+   <span class="kt">bool</span> <span class="nf">take</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span>
+
+   <span class="c1">// wait</span>
+
+   <span class="kt">bool</span> <span class="nf">try_wait</span><span class="p">();</span>
+
+   <span class="kt">void</span> <span class="nf">wait</span><span class="p">();</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">MSec</span> <span class="n">timeout</span><span class="p">);</span>
+
+   <span class="kt">bool</span> <span class="nf">wait</span><span class="p">(</span><span class="n">TimeScope</span> <span class="n">time_scope</span><span class="p">);</span>
+
+   <span class="c1">// functions</span>
+
+   <span class="n">Function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">function_give</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FunctionOf</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="o">&amp;</span><span class="n">ResSem</span><span class="o">::</span><span class="n">give</span><span class="p">);</span> <span class="p">}</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>It has an internal counter, which remains in the range <cite>[0,max_count]</cite>,
+where <strong>max_count</strong> is a <strong>ResSem</strong> counter limit.
+Initially the counter equals <strong>max_count</strong>.
+Like a usual semaphore, <strong>ResSem</strong> has <cite>take()</cite> and <cite>give()</cite> operations,
+but it has the additional “gateway” operation <cite>wait()</cite>, which blocks the calling thread until the counter gets back to its maximum value.</p>
 </div>
 <div class="section" id="packets">
 <span id="to-packets"></span><h2>Packets<a class="headerlink" href="#packets" title="Permalink to this headline">¶</a></h2>

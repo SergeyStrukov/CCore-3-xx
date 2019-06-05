@@ -719,15 +719,242 @@ It is very useful if you want to timed a combination of blocking calls::
       op3(time_scope);
      }
 
-**Event**
+**Event** is a binary semaphore::
 
-**MultiSem**
+    class Event : public Funchor_nocopy
+     {
+       ....
+       
+      public:
+    
+       // constructors
+    
+       explicit Event(bool flag=false);
+    
+       explicit Event(TextLabel name,bool flag=false);
+    
+       explicit Event(const char *name) : Event(TextLabel(name)) {}
+    
+       ~Event();
+    
+       // trigger
+    
+       bool trigger();
+    
+       // wait
+    
+       bool try_wait();
+    
+       void wait();
+    
+       bool wait(MSec timeout);
+    
+       bool wait(TimeScope time_scope);
+    
+       // functions
+    
+       void trigger_void() { trigger(); }
+    
+       Function<void (void)> function_trigger() { return FunctionOf(this,&Event::trigger_void); }
+     };
 
-**MultiEvent**
+**MultiSem** is a set of semaphors. 
+This class is vital, if you need to handle events from multiple sources.
+For example, if you have to handle device interrupts and user requests in a device driver.
+Or to manage multiple networks connections. And so on:: 
 
-**AntiSem**
+    template <ulen Len>
+    class MultiSem : public MultiSemBase
+     {
+       ....
+    
+      public:
+    
+       MultiSem();
+    
+       explicit MultiSem(TextLabel name);
+    
+       ~MultiSem();
+     };
+   
+    class MultiSemBase : public Funchor_nocopy
+     {
+       ....
+       
+      public:
+    
+       // give
+    
+       void give(ulen index); // [1,Len]
+    
+       // take
+    
+       ulen try_take(); // [0,Len]
+    
+       ulen take(); // [1,Len]
+    
+       ulen take(MSec timeout); // [0,Len]
+    
+       ulen take(TimeScope time_scope); // [0,Len]
+    
+       // give<Index>
+    
+       template <ulen Index> // [1,Len]
+       void give_index() { give(Index); }
+    
+       // functions
+    
+       template <ulen Index>
+       Function<void (void)> function_give() { return FunctionOf(this,&MultiSemBase::give_index<Index>); }
+     };
+
+When you use **MultiSem**, you give some index (of event), `take()` returns an available index in the round-robing manner.
+
+**MultiEvent** is a set of events. It is similar to the **MultiSem**, but designed based on **Events**, not **Sems**::
+
+    template <ulen Len>
+    class MultiEvent : public MultiEventBase
+     {
+       ....
+    
+      public:
+    
+       MultiEvent();
+    
+       explicit MultiEvent(TextLabel name);
+    
+       ~MultiEvent();
+     };
+     
+    class MultiEventBase : public Funchor_nocopy
+     {
+       ....
+       
+      public:
+    
+       // trigger
+    
+       bool trigger(ulen index); // [1,Len]
+    
+       // wait
+    
+       ulen try_wait(); // [0,Len]
+    
+       ulen wait(); // [1,Len]
+    
+       ulen wait(MSec timeout); // [0,Len]
+    
+       ulen wait(TimeScope time_scope); // [0,Len]
+    
+       // trigger<Index>
+    
+       template <ulen Index> // [1,Len]
+       void trigger_index() { trigger(Index); }
+    
+       // functions
+    
+       template <ulen Index>
+       Function<void (void)> function_trigger() { return FunctionOf(this,&MultiEventBase::trigger_index<Index>); }
+     };
+
+**AntiSem** is a "gateway". A thread can wait on this synchronization object until the internal counter of the 
+object becomes below the defined level (0 by default). 
+This synchronization object is useful for waiting of completion of multiple activities (like completion of multiple tasks)
+or releasing of number of resources:: 
  
-**ResSem**
+    class AntiSem : public Funchor_nocopy
+     {
+       ....
+       
+      public:
+    
+       // constructors
+    
+       explicit AntiSem(ulen level=0);
+    
+       explicit AntiSem(TextLabel name,ulen level=0);
+    
+       ~AntiSem();
+    
+       // add/sub
+    
+       void add(ulen dcount);
+    
+       void sub(ulen dcount);
+    
+       // inc/dec
+    
+       void inc() { add(1); }
+    
+       void dec() { sub(1); }
+    
+       // wait
+    
+       bool try_wait();
+    
+       void wait();
+    
+       bool wait(MSec timeout);
+    
+       bool wait(TimeScope time_scope);
+    
+       // functions
+    
+       Function<void (void)> function_inc() { return FunctionOf(this,&AntiSem::inc); }
+    
+       Function<void (void)> function_dec() { return FunctionOf(this,&AntiSem::dec); }
+     };
+ 
+**ResSem** is a hybrid of **ResSem** and **Sem**::
+
+    class ResSem : public Funchor_nocopy
+     {
+       ....
+       
+      public:
+    
+       // constructors
+    
+       explicit ResSem(ulen max_count);
+    
+       ResSem(TextLabel name,ulen max_count);
+    
+       ~ResSem();
+    
+       // give
+    
+       void give();
+    
+       // take
+    
+       bool try_take();
+    
+       void take();
+    
+       bool take(MSec timeout);
+    
+       bool take(TimeScope time_scope);
+    
+       // wait
+    
+       bool try_wait();
+    
+       void wait();
+    
+       bool wait(MSec timeout);
+    
+       bool wait(TimeScope time_scope);
+    
+       // functions
+    
+       Function<void (void)> function_give() { return FunctionOf(this,&ResSem::give); }
+     };
+
+It has an internal counter, which remains in the range `[0,max_count]`, 
+where **max_count** is a **ResSem** counter limit. 
+Initially the counter equals **max_count**. 
+Like a usual semaphore, **ResSem** has `take()` and `give()` operations, 
+but it has the additional "gateway" operation `wait()`, which blocks the calling thread until the counter gets back to its maximum value. 
 
 .. ------------------------------------------------------------------------------------------------------------------
 
