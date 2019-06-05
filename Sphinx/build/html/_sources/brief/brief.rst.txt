@@ -1016,6 +1016,80 @@ For example, **AsyncUDPMultipointDevice** sends and receives **UDP** packets::
 Networking
 ----------
 
+**CCore** implements a set of packet-processing classes for network applications.
+To work with network an abstraction layer is used.
+It is presented with two abstract classes: **PacketEndpointDevice** and **PacketMultipointDevice**::
+
+    struct PacketEndpointDevice
+     {
+      // outbound
+      
+      virtual PacketFormat getOutboundFormat() const =0;
+       
+      virtual void outbound(Packet<uint8> packet)=0;
+      
+      // inbound
+       
+      virtual ulen getMaxInboundLen() const =0;
+       
+      struct InboundProc : InterfaceHost
+       {
+        virtual void inbound(Packet<uint8> packet,PtrLen<const uint8> data)=0;
+         
+        virtual void tick()=0;
+       };
+       
+      virtual void attach(InboundProc *proc)=0;
+       
+      virtual void detach()=0;
+     };
+
+    struct PacketMultipointDevice
+     {
+      virtual StrLen toText(XPoint point,PtrLen<char> buf) const =0;
+       
+      // outbound 
+     
+      virtual PacketFormat getOutboundFormat() const =0;
+       
+      virtual void outbound(XPoint point,Packet<uint8> packet)=0;
+
+      // inbound
+       
+      virtual ulen getMaxInboundLen() const =0;
+       
+      struct InboundProc : InterfaceHost
+       {
+        static const Unid TypeUnid;
+    
+        virtual void inbound(XPoint point,Packet<uint8> packet,PtrLen<const uint8> data)=0;
+         
+        virtual void tick()=0;
+       };
+       
+      virtual void attach(InboundProc *proc)=0;
+       
+      virtual void detach()=0;
+     };
+
+First of them is used for point-to-point communications, second -- for point-to-multipoint.
+The first case is typical for client applications, but the second -- for the server ones.
+There are classes like **UDPEndpointDevice** to establish a communication using the **UDP** protocol.
+
+**CCore** implements a set of new application-level network protocols like **PTP**.
+**PTP** is the "Packet Transaction Protocol". 
+This is a packet-based, reliable, transactional, parallel point-to-point protocol. 
+It is best suited to implement an asynchronous call-type client-server interaction.   
+**PTP** defines rules for two endpoints, one is the **Server**, another is the **Client**. 
+These endpoints exchange raw data packets (byte packets). 
+**Client** issues call requests, **Server** takes call data, processes it and returns some resulting data. 
+From the **Client** perspective, it makes a function call. 
+Function arguments is a byte range. 
+**Server** "evaluates" the function and returns a result — another byte range. 
+The meaning of data is out of scope **PTP** protocol, it is defined by an upper protocol level. 
+Usually, **Server** may serve multiple **Clients**. 
+From the protocol perspective all transactions are parallel and independent.
+ 
 .. ------------------------------------------------------------------------------------------------------------------
 
 

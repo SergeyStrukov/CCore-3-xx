@@ -1005,6 +1005,78 @@ For example, <strong>AsyncUDPMultipointDevice</strong> sends and receives <stron
 </div>
 <div class="section" id="networking">
 <span id="to-net"></span><h2>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h2>
+<p><strong>CCore</strong> implements a set of packet-processing classes for network applications.
+To work with network an abstraction layer is used.
+It is presented with two abstract classes: <strong>PacketEndpointDevice</strong> and <strong>PacketMultipointDevice</strong>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">PacketEndpointDevice</span>
+ <span class="p">{</span>
+  <span class="c1">// outbound</span>
+
+  <span class="n">virtual</span> <span class="n">PacketFormat</span> <span class="n">getOutboundFormat</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">outbound</span><span class="p">(</span><span class="n">Packet</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span> <span class="n">packet</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// inbound</span>
+
+  <span class="n">virtual</span> <span class="n">ulen</span> <span class="nf">getMaxInboundLen</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">struct</span> <span class="nl">InboundProc</span> <span class="p">:</span> <span class="n">InterfaceHost</span>
+   <span class="p">{</span>
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">inbound</span><span class="p">(</span><span class="n">Packet</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span> <span class="n">packet</span><span class="p">,</span><span class="n">PtrLen</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">uint8</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">tick</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+   <span class="p">};</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">attach</span><span class="p">(</span><span class="n">InboundProc</span> <span class="o">*</span><span class="n">proc</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">detach</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">PacketMultipointDevice</span>
+ <span class="p">{</span>
+  <span class="n">virtual</span> <span class="n">StrLen</span> <span class="n">toText</span><span class="p">(</span><span class="n">XPoint</span> <span class="n">point</span><span class="p">,</span><span class="n">PtrLen</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">buf</span><span class="p">)</span> <span class="k">const</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// outbound</span>
+
+  <span class="n">virtual</span> <span class="n">PacketFormat</span> <span class="nf">getOutboundFormat</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">outbound</span><span class="p">(</span><span class="n">XPoint</span> <span class="n">point</span><span class="p">,</span><span class="n">Packet</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span> <span class="n">packet</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// inbound</span>
+
+  <span class="n">virtual</span> <span class="n">ulen</span> <span class="nf">getMaxInboundLen</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="k">struct</span> <span class="nl">InboundProc</span> <span class="p">:</span> <span class="n">InterfaceHost</span>
+   <span class="p">{</span>
+    <span class="k">static</span> <span class="k">const</span> <span class="n">Unid</span> <span class="n">TypeUnid</span><span class="p">;</span>
+
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">inbound</span><span class="p">(</span><span class="n">XPoint</span> <span class="n">point</span><span class="p">,</span><span class="n">Packet</span><span class="o">&lt;</span><span class="n">uint8</span><span class="o">&gt;</span> <span class="n">packet</span><span class="p">,</span><span class="n">PtrLen</span><span class="o">&lt;</span><span class="k">const</span> <span class="n">uint8</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">tick</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+   <span class="p">};</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">attach</span><span class="p">(</span><span class="n">InboundProc</span> <span class="o">*</span><span class="n">proc</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">virtual</span> <span class="kt">void</span> <span class="nf">detach</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>First of them is used for point-to-point communications, second – for point-to-multipoint.
+The first case is typical for client applications, but the second – for the server ones.
+There are classes like <strong>UDPEndpointDevice</strong> to establish a communication using the <strong>UDP</strong> protocol.</p>
+<p><strong>CCore</strong> implements a set of new application-level network protocols like <strong>PTP</strong>.
+<strong>PTP</strong> is the “Packet Transaction Protocol”.
+This is a packet-based, reliable, transactional, parallel point-to-point protocol.
+It is best suited to implement an asynchronous call-type client-server interaction.
+<strong>PTP</strong> defines rules for two endpoints, one is the <strong>Server</strong>, another is the <strong>Client</strong>.
+These endpoints exchange raw data packets (byte packets).
+<strong>Client</strong> issues call requests, <strong>Server</strong> takes call data, processes it and returns some resulting data.
+From the <strong>Client</strong> perspective, it makes a function call.
+Function arguments is a byte range.
+<strong>Server</strong> “evaluates” the function and returns a result — another byte range.
+The meaning of data is out of scope <strong>PTP</strong> protocol, it is defined by an upper protocol level.
+Usually, <strong>Server</strong> may serve multiple <strong>Clients</strong>.
+From the protocol perspective all transactions are parallel and independent.</p>
 </div>
 </div>
 
