@@ -94,9 +94,22 @@ Compare:</p>
 <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="mi">67890</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="p">;</span>
 </pre></div>
 </div>
-<p>Heap</p>
+<p>Both <strong>C</strong> and <strong>C++</strong> provides a support for the dynamic memory allocation.
+Unfortunately, this support lacks some important features.
+What do I need from the heap?</p>
+<ol class="arabic simple">
+<li><p>First, speed and real-time properties for embedded systems.</p></li>
+<li><p>Internal integrity check.</p></li>
+<li><p>Memory block extension and shrinking.</p></li>
+<li><p>Statistic counting.</p></li>
+</ol>
+<p>So I included in <strong>CCore</strong> such a heap feature.</p>
 <p>Net</p>
-<p>GUI</p>
+<p>The latest big extension of <strong>CCore</strong> is a GUI development support.
+This part is almost finalized, but not yet documented.</p>
+<img alt="../_images/Prime.png" src="../_images/Prime.png" />
+<img alt="../_images/Contour.png" src="../_images/Contour.png" />
+<img alt="../_images/SubLab.png" src="../_images/SubLab.png" />
 </div>
 <div class="section" id="heap">
 <span id="to-heap"></span><h2>Heap<a class="headerlink" href="#heap" title="Permalink to this headline">¶</a></h2>

@@ -73,11 +73,27 @@ and::
     
     cout << 67890 << endl ;
 
-Heap
+Both **C** and **C++** provides a support for the dynamic memory allocation.
+Unfortunately, this support lacks some important features.
+What do I need from the heap?
+
+1. First, speed and real-time properties for embedded systems.
+2. Internal integrity check.
+3. Memory block extension and shrinking.
+4. Statistic counting.
+
+So I included in **CCore** such a heap feature.  
 
 Net  
 
-GUI
+The latest big extension of **CCore** is a GUI development support. 
+This part is almost finalized, but not yet documented.
+
+.. image:: Prime.png
+
+.. image:: Contour.png
+
+.. image:: SubLab.png
 
 .. ------------------------------------------------------------------------------------------------------------------
 
