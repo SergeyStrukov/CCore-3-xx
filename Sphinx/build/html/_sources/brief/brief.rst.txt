@@ -34,6 +34,51 @@ So put your hands on ...
 Ab ovo
 ------
 
+Initially I had created a small real-time bare-metal core, mostly for experimental purpose.
+It was a kind of back-up for small tasks, where using a full-scale commercial RTS was too much expensive.
+But the core was well-made, and I decided continue development up to some extent.
+Eventually, this project become a solid platform, well suited for wide range of tasks, both host and embedded.
+I had a solid experience in software development (including embedded one) and I had a good vision, what do I want
+from a proper development platform.
+
+The main goal of **CCore** was to bring the fully-featured **C++** to the embedded development.
+Up to present time there ara many projects, written on pure **C**. 
+This is really weird situation. 
+**C** is a primitive language, not suited for large scale projects, the practical ceil of **C** is 10000 LOC. 
+Everything above this size must not be developed on pure **C**.
+In fact, **C** became a toxic language, polluting the software world.  
+So **CCore** gives a better alternative. 
+It is not only opens the door for **C++**, but provides well suited library support.
+In times **CCore** was started the standard **C++** library was not develop well enough.
+For example, you could not put a non-copyrable object in the `vector`.
+Many important things, large or small, required for the professional development, are still missing in the standard library up to present.  
+
+One of the shameful lack in the modern **C++** standard library is the absence of well developed printing tools.
+There are two options: the old-school **C** **stdio** and the **C++** **iostream**. 
+Both are crap.  
+The first is not type-safe and type-driven, neither type-extendable.
+In **iostream** format options are included in the stream object.
+This is a principal architectural mistake. 
+The printing streams itself are hard-to-use. 
+Compare::  
+
+    Printf(Con,"#8.16i;\n",12345);
+    
+    Printf(Con,"#;\n",67890);
+
+and::
+
+    cout << hex << setw(8) << setiosflags(ios::internal) << setfill('0') << 12345 << endl 
+         << dec << setiosflags(ios::right) << setfill(' ') ; // reset format flags
+    
+    cout << 67890 << endl ;
+
+Heap
+
+Net  
+
+GUI
+
 .. ------------------------------------------------------------------------------------------------------------------
 
 .. _to_heap:

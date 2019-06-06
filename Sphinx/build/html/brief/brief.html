@@ -57,6 +57,46 @@ No way I can describe all of them in this <em>brief notes</em>.
 So put your hands on …</p>
 <div class="section" id="ab-ovo">
 <span id="to-ab-ovo"></span><h2>Ab ovo<a class="headerlink" href="#ab-ovo" title="Permalink to this headline">¶</a></h2>
+<p>Initially I had created a small real-time bare-metal core, mostly for experimental purpose.
+It was a kind of back-up for small tasks, where using a full-scale commercial RTS was too much expensive.
+But the core was well-made, and I decided continue development up to some extent.
+Eventually, this project become a solid platform, well suited for wide range of tasks, both host and embedded.
+I had a solid experience in software development (including embedded one) and I had a good vision, what do I want
+from a proper development platform.</p>
+<p>The main goal of <strong>CCore</strong> was to bring the fully-featured <strong>C++</strong> to the embedded development.
+Up to present time there ara many projects, written on pure <strong>C</strong>.
+This is really weird situation.
+<strong>C</strong> is a primitive language, not suited for large scale projects, the practical ceil of <strong>C</strong> is 10000 LOC.
+Everything above this size must not be developed on pure <strong>C</strong>.
+In fact, <strong>C</strong> became a toxic language, polluting the software world.
+So <strong>CCore</strong> gives a better alternative.
+It is not only opens the door for <strong>C++</strong>, but provides well suited library support.
+In times <strong>CCore</strong> was started the standard <strong>C++</strong> library was not develop well enough.
+For example, you could not put a non-copyrable object in the <cite>vector</cite>.
+Many important things, large or small, required for the professional development, are still missing in the standard library up to present.</p>
+<p>One of the shameful lack in the modern <strong>C++</strong> standard library is the absence of well developed printing tools.
+There are two options: the old-school <strong>C</strong> <strong>stdio</strong> and the <strong>C++</strong> <strong>iostream</strong>.
+Both are crap.
+The first is not type-safe and type-driven, neither type-extendable.
+In <strong>iostream</strong> format options are included in the stream object.
+This is a principal architectural mistake.
+The printing streams itself are hard-to-use.
+Compare:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;#8.16i;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">12345</span><span class="p">);</span>
+
+<span class="n">Printf</span><span class="p">(</span><span class="n">Con</span><span class="p">,</span><span class="s">&quot;#;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">67890</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">setw</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">setiosflags</span><span class="p">(</span><span class="n">ios</span><span class="o">::</span><span class="n">internal</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">setfill</span><span class="p">(</span><span class="sc">&#39;0&#39;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">12345</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span>
+     <span class="o">&lt;&lt;</span> <span class="n">dec</span> <span class="o">&lt;&lt;</span> <span class="n">setiosflags</span><span class="p">(</span><span class="n">ios</span><span class="o">::</span><span class="n">right</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">setfill</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">)</span> <span class="p">;</span> <span class="c1">// reset format flags</span>
+
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="mi">67890</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>Heap</p>
+<p>Net</p>
+<p>GUI</p>
 </div>
 <div class="section" id="heap">
 <span id="to-heap"></span><h2>Heap<a class="headerlink" href="#heap" title="Permalink to this headline">¶</a></h2>
