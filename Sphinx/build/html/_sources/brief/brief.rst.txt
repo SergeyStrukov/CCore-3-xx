@@ -73,6 +73,8 @@ and::
     
     cout << 67890 << endl ;
 
+So **CCore** includes its own printing subsystem, much more practical.
+
 Both **C** and **C++** provides a support for the dynamic memory allocation.
 Unfortunately, this support lacks some important features.
 What do I need from the heap?
@@ -84,7 +86,10 @@ What do I need from the heap?
 
 So I included in **CCore** such a heap feature.  
 
-Net  
+Usually embedded systems havily use networks for various purposes.
+That's why a good support for network applications is required.
+**CCore** includes implementation of a proper infrastructre for that 
+as well as an implementation of a set of new network protocols.      
 
 The latest big extension of **CCore** is a GUI development support. 
 This part is almost finalized, but not yet documented.
