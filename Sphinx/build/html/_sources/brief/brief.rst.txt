@@ -11,13 +11,13 @@ Many years ago I had started this project ... :ref:`to_ab_ovo`
 
 **CCore** provides `Printf()` print facility ... :ref:`to_printf`
 
-**CCore** uses advanced exception handling pattern ... :ref:`to_exception`
+**CCore** uses an advanced exception handling pattern ... :ref:`to_exception`
 
 One of the most useful invention, implemented in **CCore**, is **DDL** ... :ref:`to_DDL`
 
-**CCore** provides advanced synchronization basis ... :ref:`to_sync`
+**CCore** provides an advanced synchronization basis ... :ref:`to_sync`
 
-**CCore** implements the **Packets** -- infrastructure for mass asynchonous request processing ... :ref:`to_packets`
+**CCore** implements the **Packets** -- infrastructure for the mass asynchonous request processing ... :ref:`to_packets`
 
 **CCore** contains number of new network protocols and components ... :ref:`to_net`
 
@@ -39,7 +39,8 @@ It was a kind of back-up for small tasks, where using a full-scale commercial RT
 But the core was well-made, and I decided continue development up to some extent.
 Eventually, this project become a solid platform, well suited for wide range of tasks, both host and embedded.
 I had a solid experience in software development (including embedded one) and I had a good vision, what do I want
-from a proper development platform.
+from a proper development platform. So far none of existing gives me even a fraction of what I want.
+So I am lovely developing **CCore** and use it for software development. 
 
 The main goal of **CCore** was to bring the fully-featured **C++** to the embedded development.
 Up to present time there ara many projects, written on pure **C**. 
