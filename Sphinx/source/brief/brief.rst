@@ -27,6 +27,8 @@ and much more ...
 No way I can describe all of them in this *brief notes*.
 So put your hands on ...  
 
+The latest development stream is `on github <https://github.com/SergeyStrukov/CCore-3-xx/releases>`_.
+
 .. ------------------------------------------------------------------------------------------------------------------
 
 .. _to_ab_ovo:
