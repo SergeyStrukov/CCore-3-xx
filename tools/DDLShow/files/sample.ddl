@@ -1,5 +1,7 @@
 /* sample.ddl */
 
+ip[] list = { FE80::1%12, 192.168.1.1 } ;
+
 scope Unicode
  {
   include <inc/Юникод.ddl>

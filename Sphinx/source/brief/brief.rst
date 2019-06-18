@@ -2,6 +2,23 @@
 
 .. ------------------------------------------------------------------------------------------------------------------
 
+Abstract
+========
+
+CCore is a development platform. 
+Its primary purpose is a real-time embedded development, 
+but it also a great platform for a usual host development. 
+
+CCore gives a more professional language support for C++ development, 
+than a standard C++ library, with greater attention to details of 
+implementation, efficiency, robustness and derivability. 
+It is also more "encyclopedic". 
+
+Another important CCore mission: it opens the power of C++ to the system development. 
+It also eliminates borders between system and application development, 
+bringing methods, custom to system development, to the application level and back. 
+It also provides a great support for the network and distributed development.
+
 CCore brief
 ===========
 
