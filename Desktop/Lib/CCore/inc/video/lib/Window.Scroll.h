@@ -254,6 +254,8 @@ class ScrollWindowOf : public SubWindow
      redraw();
     }
 
+   void setStep(ulen step) { shape.step=step; }
+
    // drawing
 
    virtual bool isGoodSize(Point size) const

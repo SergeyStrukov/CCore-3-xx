@@ -126,7 +126,13 @@ struct ScrollState : ScrollPos
   Point drag_base;
   ulen drag_pos = 0 ;
 
+  ulen step = 1 ;
+
   ScrollState() {}
+
+  void add(ulen delta) { ScrollPos::add(delta*step); }
+
+  void sub(ulen delta) { ScrollPos::sub(delta*step); }
  };
 
 /* class ScrollShape */

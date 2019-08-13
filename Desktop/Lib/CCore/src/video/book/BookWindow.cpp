@@ -660,6 +660,8 @@ DisplayBookWindow::DisplayBookWindow(SubWindowHost &host,const ConfigType &cfg,D
    hint(window.hint),
    updateReplace(window.updateReplace)
  {
+  scroll_x.setStep(10);
+  scroll_y.setStep(10);
  }
 
 DisplayBookWindow::~DisplayBookWindow()
