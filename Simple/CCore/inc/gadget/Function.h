@@ -153,7 +153,7 @@ struct ToFunctionClass<R (AA...),T> : Funchor
 
   explicit ToFunctionClass(const T &obj_) : obj(obj_) {}
 
-  R proxy(AA ... aa) { return obj(aa...); }
+  R proxy(AA ... aa) { return obj( std::forward<AA>(aa)... ); }
 
   Function<R (AA...)> function() { return FunctionOf(this,&ToFunctionClass::proxy); }
  };
