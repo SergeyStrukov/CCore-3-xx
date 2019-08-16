@@ -250,7 +250,24 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
        dx1=FreeType::RoundUp(extra);
       }
 
-    return {placement.getDelta().x,dx0,dx1};
+    Coord dx=placement.getDelta().x;
+
+    if( dx<0 || dx>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::glyph_index(...) : invalid font, bad dx");
+      }
+
+    if( dx0<0 || dx0>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::glyph_index(...) : invalid font, bad dx0");
+      }
+
+    if( dx1<0 || dx1>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::glyph_index(...) : invalid font, bad dx1");
+      }
+
+    return {dx,dx0,dx1};
    }
 
 #ifdef CCORE_UTF8
@@ -344,6 +361,25 @@ struct FreeTypeFont::Inner : AutoGlobal<Global>::Lock , CharMapHook
     Coord dy=FreeType::RoundUp(face.getMetrics().height);
     Coord by=FreeType::RoundUp(face.getMetrics().ascender);
     Coord ey=FreeType::RoundUp(-face.getMetrics().descender);
+
+    if( by<0 || by>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::updateFontSize(...) : invalid font, bad by");
+      }
+
+    if( ey<0 || ey>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::updateFontSize(...) : invalid font, bad ey");
+      }
+
+    if( dy<0 || dy>MaxCoord )
+      {
+       Printf(Exception,"CCore::Video::FreeTypeFont::Inner::updateFontSize(...) : invalid font, bad dy");
+      }
+
+    if( dy==0 ) dy=1;
+
+    if( by==0 ) by=1;
 
     if( by+ey>dy )
       {
