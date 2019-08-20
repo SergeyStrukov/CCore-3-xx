@@ -17,6 +17,7 @@
 #define CCore_inc_array_Creator_h
 
 #include <CCore/inc/Tuple.h>
+#include <CCore/inc/FunctorType.h>
 
 namespace CCore {
 
@@ -41,6 +42,8 @@ template <class T,bool no_throw> struct Creator_copy;
 template <class T,class S> struct Creator_cast;
 
 template <class T,class Algo> struct Creator_swap;
+
+template <class T,class S,FuncInitType<T,S> FuncInit,bool NoThrow=false> struct Creator_transform;
 
 /* struct Creator_default<T,bool no_throw> */
 
@@ -123,6 +126,32 @@ struct Creator_swap
    {
     return Algo::Create_swap(place,*(objs++));
    }
+ };
+
+/* struct Creator_transform<T,S,FuncInit,bool NoThrow> */
+
+template <class T,class S,FuncInitType<T,S> FuncInit,bool NoThrow_>
+struct Creator_transform
+ {
+  enum NoThrowFlagType { NoThrow = NoThrow_ };
+
+  S *src;
+  FuncInit func_init;
+
+  Creator_transform(S *src_,const FuncInit &func_init_) : src(src_),func_init(func_init_) {}
+
+  struct FunctorType : NoCopy
+   {
+    S *src;
+    FunctorTypeOf<FuncInit> func;
+
+    explicit FunctorType(Creator_transform init) : src(init.src),func(init.func_init) {}
+
+    T * operator () (Place<void> place) noexcept(NoThrow)
+     {
+      return new(place) T( func(*(src++)) );
+     }
+   };
  };
 
 } // namespace CCore

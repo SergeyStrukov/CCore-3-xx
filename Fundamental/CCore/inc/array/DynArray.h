@@ -376,6 +376,18 @@ class DynArray : DynArrayBase<T,Algo>
      return Base::Extend(provide(builder.getLen()),builder);
     }
 
+   template <class S,FuncInitType<T,S> FuncInit>
+   PtrLen<T> extend_transform(PtrLen<S> src,FuncInit func_init)
+    {
+     return extend(src.len,Creator_transform<T,S,FuncInit>(src.ptr,func_init));
+    }
+
+   template <class S,FuncInitType<T,S> FuncInit>
+   PtrLen<T> extend_transform_nothrow(PtrLen<S> src,FuncInit func_init)
+    {
+     return extend(src.len,Creator_transform<T,S,FuncInit,true>(src.ptr,func_init));
+    }
+
    // append
 
    T * append_raw()

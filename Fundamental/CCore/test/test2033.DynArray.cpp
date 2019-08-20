@@ -18,6 +18,35 @@
 
 namespace App {
 
+namespace Private_2033 {
+
+/* test1() */
+
+template <class FuncInit>
+auto trans(const int *src,FuncInit func_init)
+ {
+  return Creator_transform<int,const int,FuncInit>(src,func_init);
+ }
+
+void test1()
+ {
+  const int buf[]={1,2,3,4,5};
+
+  auto r=Range(buf);
+
+  DynArray<int> a(DoCreate(r.len),trans(r.ptr, [] (int a) { return 2*a; } ));
+
+  a.extend_transform(Range(buf), [] (int a) { return 3*a; } );
+
+  a.extend_transform_nothrow(Range(buf), [] (int a) { return 5*a; } );
+
+  Show(a);
+ }
+
+} // namespace Private_2033
+
+using namespace Private_2033;
+
 /* Testit<2033> */
 
 template<>
@@ -27,6 +56,10 @@ template<>
 bool Testit<2033>::Main()
  {
   ReportException report;
+
+  test1();
+
+  return true;
 
   const int buf[]={1,2,3,4,5};
 
