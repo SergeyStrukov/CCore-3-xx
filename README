@@ -27,3 +27,17 @@ CCore wiki on github to brief yourself about this project.
 CCore 3-xx is built using C++17. It is not fully backward compartible with 2-xx series.
 
 Online documentation is http://sergeystrukov.github.io/CCore-3-xx/ or http://sergeystrukov.github.io/CCore-3-60/.
+
+---- Status ----
+
+Currently the master branch is the "latest release".
+I keep it in a healthy condition.
+Minor changes, small improvements, bug fixes, documentation updates.
+I don't plan for major updates in this series.
+You may find CCore tool executables for the target WIN32utf8 at the following link https://1drv.ms/f/s!AOZGgZ-2_qMrgm0.
+It also contains cygwin gcc-9.1.0 compiles for supported targets.
+
+The next series will be 4-xx, it will come after the next major development tools update, past 2020.
+Stay tuned.
+
+----------------
