@@ -305,6 +305,43 @@ struct MPane
     return MPane(x+dxy,ex-dxy,y+dxy,ey-dxy);
    }
 
+  // expand
+
+  MPane expandX(MCoord dleft,MCoord dright) const
+   {
+    return MPane(x-dleft,ex+dright,y,ey);
+   }
+
+  MPane expandX(MCoord dx) const
+   {
+    return MPane(x-dx,ex+dx,y,ey);
+   }
+
+  MPane expandY(MCoord dtop,MCoord dbottom) const
+   {
+    return MPane(x,ex,y-dtop,ey+dbottom);
+   }
+
+  MPane expandY(MCoord dy) const
+   {
+    return MPane(x,ex,y-dy,ey+dy);
+   }
+
+  MPane expand(MCoord dx,MCoord dy) const
+   {
+    return MPane(x-dx,ex+dx,y-dy,ey+dy);
+   }
+
+  MPane expand(MPoint delta) const
+   {
+    return expand(delta.x,delta.y);
+   }
+
+  MPane expand(MCoord dxy) const
+   {
+    return MPane(x-dxy,ex+dxy,y-dxy,ey+dxy);
+   }
+
   // part
 
   MPane cutLeft(MCoord t) const { return MPane(x,t,y,ey); }
