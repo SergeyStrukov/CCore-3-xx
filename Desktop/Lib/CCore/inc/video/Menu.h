@@ -462,9 +462,16 @@ class SimpleTopMenuWindowOf : public SubWindow
      shape.layout();
     }
 
-   void unselect()
+   bool unselect()
     {
-     if( Change<unsigned>(shape.state,MenuNone) ) redraw();
+     if( Change<unsigned>(shape.state,MenuNone) )
+       {
+        redraw();
+
+        return true;
+       }
+
+     return false;
     }
 
    bool forwardChar(Char ch)
@@ -860,9 +867,16 @@ class SimpleCascadeMenuWindowOf : public SubWindow
      shape.layout();
     }
 
-   void unselect()
+   bool unselect()
     {
-     if( Change<unsigned>(shape.state,MenuNone) ) redraw();
+     if( Change<unsigned>(shape.state,MenuNone) )
+       {
+        redraw();
+
+        return true;
+       }
+
+     return false;
     }
 
    bool forwardChar(Char ch)
@@ -1189,7 +1203,7 @@ class SimpleCascadeMenuOf
        }
     }
 
-   void unselect() { client.unselect(); }
+   bool unselect() { return client.unselect(); }
 
    void destroy() { frame.destroy(); }
 
