@@ -123,6 +123,11 @@ class TextLineWindowOf : public SubWindow
      if( Change(shape.alert,on) ) redraw();
     }
 
+   void alertCode(auto code)
+    {
+     if( Change(shape.code,code) ) redraw();
+    }
+
    String getText() const { return shape.text; }
 
    void setText(const String &text)
@@ -281,6 +286,10 @@ class TextLineWindowOf : public SubWindow
 /* type TextLineWindow */
 
 using TextLineWindow = TextLineWindowOf<TextLineShape> ;
+
+/* type TextLineCodeWindow */
+
+using TextLineCodeWindow = TextLineWindowOf<TextLineCodeShape> ;
 
 } // namespace Video
 } // namespace CCore

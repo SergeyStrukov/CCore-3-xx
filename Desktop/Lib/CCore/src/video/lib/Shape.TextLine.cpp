@@ -20,9 +20,14 @@
 namespace CCore {
 namespace Video {
 
-/* class TextLineShape */
+/* class TextLineShapeBase */
 
-void TextLineShape::Cache::operator () (const Config &cfg,StrLen text)
+MCoord TextLineShapeBase::FigEX(Coord fdy,MCoord width)
+ {
+  return Max_cast(width, (Fraction(fdy)+2*width)/4 );
+ }
+
+void TextLineShapeBase::Cache::operator () (const ConfigBase &cfg,StrLen text)
  {
   if( !ok )
     {
@@ -47,19 +52,14 @@ void TextLineShape::Cache::operator () (const Config &cfg,StrLen text)
     }
  }
 
-MCoord TextLineShape::FigEX(Coord fdy,MCoord width)
- {
-  return Max_cast(width, (Fraction(fdy)+2*width)/4 );
- }
-
-Point TextLineShape::getMinSize() const
+Point TextLineShapeBase::getMinSize_cfg(const ConfigBase &cfg) const
  {
   cache(cfg,Range(text));
 
   return 2*Point(cache.inner_dx,cache.inner_dy)+Point(cache.text_dx,cache.text_dy)+(+cfg.space);
  }
 
-Point TextLineShape::getMinSize(StrLen text) const
+Point TextLineShapeBase::getMinSize_cfg(const ConfigBase &cfg,StrLen text) const
  {
   TextSize ts=cfg.font->text(text);
 
@@ -73,7 +73,7 @@ Point TextLineShape::getMinSize(StrLen text) const
   return 2*Point(dx,dy)+ts.getSize()+(+cfg.space);
  }
 
-void TextLineShape::layout()
+void TextLineShapeBase::layout_cfg(const ConfigBase &cfg,Coord &xoff_max,Coord &dxoff)
  {
   cache(cfg,Range(text));
 
@@ -91,7 +91,7 @@ void TextLineShape::layout()
     }
  }
 
-void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
+void TextLineShapeBase::draw_cfg(const ConfigBase &cfg,const DrawBuf &buf,Coord xoff,Coord xoff_max,bool enable,bool focus,VColor back) const
  {
   MPane p(pane);
 
@@ -120,7 +120,7 @@ void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
 
   // body
 
-  fig.curveSolid(art, alert? +cfg.alert : +cfg.back );
+  fig.curveSolid(art,back);
 
   // text
 
@@ -173,6 +173,64 @@ void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
       fig.solid(art,text);
      }
   }
+ }
+
+/* class TextLineShape */
+
+VColor TextLineShape::getBack() const { return alert? +cfg.alert : +cfg.back; }
+
+Point TextLineShape::getMinSize() const
+ {
+  return getMinSize_cfg(cfg);
+ }
+
+Point TextLineShape::getMinSize(StrLen text) const
+ {
+  return getMinSize_cfg(cfg,text);
+ }
+
+void TextLineShape::layout()
+ {
+  layout_cfg(cfg,xoff_max,dxoff);
+ }
+
+void TextLineShape::draw(const DrawBuf &buf,DrawParam) const
+ {
+  draw_cfg(cfg,buf,xoff,xoff_max,enable,focus,getBack());
+ }
+
+/* class TextLineCodeShape */
+
+VColor TextLineCodeShape::getBack() const
+ {
+  switch( code )
+    {
+     case AlertCodeYellow : return +cfg.warning;
+
+     case AlertCodeRed : return +cfg.alert;
+
+     default: return +cfg.back;
+    }
+ }
+
+Point TextLineCodeShape::getMinSize() const
+ {
+  return getMinSize_cfg(cfg);
+ }
+
+Point TextLineCodeShape::getMinSize(StrLen text) const
+ {
+  return getMinSize_cfg(cfg,text);
+ }
+
+void TextLineCodeShape::layout()
+ {
+  layout_cfg(cfg,xoff_max,dxoff);
+ }
+
+void TextLineCodeShape::draw(const DrawBuf &buf,DrawParam) const
+ {
+  draw_cfg(cfg,buf,xoff,xoff_max,enable,focus,getBack());
  }
 
 } // namespace Video

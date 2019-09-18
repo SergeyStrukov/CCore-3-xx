@@ -76,6 +76,7 @@ struct UserPreferenceBag
   VColor faceUp   =      Blue ;
   VColor mark     =     Black ;
   VColor alert    =      Pink ;
+  VColor warning  =    Yellow ;
 
   String text_Yes    = "Yes"_str ;
   String text_No     = "No"_str ;
@@ -456,6 +457,7 @@ class UserPreference : public ConfigBinder<UserPreferenceBag, // Update here
                                            SwitchWindow::ConfigType,
                                            TextWindow::ConfigType,
                                            TextLineWindow::ConfigType,
+                                           TextLineCodeWindow::ConfigType,
                                            ScrollListWindow::ConfigType,
                                            XSplitWindow::ConfigType,
                                            XSliderWindow::ConfigType,

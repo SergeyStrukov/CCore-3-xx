@@ -57,6 +57,7 @@ void UserPreferenceBag::Members(Ptr ptr,Func func) // Update here
   func("faceUp"_c,ptr->faceUp);
   func("mark"_c,ptr->mark);
   func("alert"_c,ptr->alert);
+  func("warning"_c,ptr->warning);
 
   func("text_Yes"_c,ptr->text_Yes);
   func("text_No"_c,ptr->text_No);
@@ -428,6 +429,7 @@ void UserPreferenceBag::bindItems(ConfigItemBind &binder) // Update here
    binder.item("faceUp"_str,faceUp);
    binder.item("mark"_str,mark);
    binder.item("alert"_str,alert);
+   binder.item("warning"_str,warning);
    binder.space();
    binder.item("'Yes'"_str,text_Yes);
    binder.item("'No'"_str,text_No);

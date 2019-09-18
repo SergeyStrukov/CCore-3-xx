@@ -28,7 +28,13 @@ namespace Video {
 
 struct TextLineState;
 
+struct TextLineCodeState;
+
+class TextLineShapeBase;
+
 class TextLineShape;
+
+class TextLineCodeShape;
 
 /* struct TextLineState */
 
@@ -49,15 +55,42 @@ struct TextLineState
   TextLineState() {}
  };
 
-/* class TextLineShape */
+/* struct TextLineCodeState */
 
-class TextLineShape : public TextLineState
+enum AlertCode
+ {
+  AlertCodeGreen = 0,
+
+  AlertCodeYellow,
+  AlertCodeRed
+ };
+
+struct TextLineCodeState
+ {
+  bool enable    =           true ;
+  bool focus     =          false ;
+  AlertCode code = AlertCodeGreen ;
+  Coord xoff     =              0 ;
+
+  Coord xoff_max = 0 ;
+  Coord dxoff    = 0 ;
+
+  bool drag = false ;
+  Point drag_base;
+  Coord xoff_base = 0 ;
+
+  TextLineCodeState() {}
+ };
+
+/* class TextLineShapeBase */
+
+class TextLineShapeBase
  {
    static MCoord FigEX(Coord fdy,MCoord width);
 
   public:
 
-   struct Config
+   struct ConfigBase
     {
      RefVal<Fraction> width = Fraction(6,2) ;
 
@@ -66,17 +99,16 @@ class TextLineShape : public TextLineState
      RefVal<VColor> gray     =      Gray ;
      RefVal<VColor> snow     =      Snow ;
      RefVal<VColor> inactive =      Gray ;
-     RefVal<VColor> alert    =      Pink ;
      RefVal<VColor> text     =     Black ;
 
      RefVal<Point> space = Point(6,4) ;
 
      RefVal<Font> font;
 
-     Config() noexcept {}
+     ConfigBase() noexcept {}
 
      template <class Bag>
-     void bind(const Bag &bag)
+     void bindBase(const Bag &bag)
       {
        width.bind(bag.width);
        back.bind(bag.back);
@@ -84,7 +116,6 @@ class TextLineShape : public TextLineState
        gray.bind(bag.gray);
        snow.bind(bag.snow);
        inactive.bind(bag.inactive);
-       alert.bind(bag.alert);
 
        text.bind(bag.message_text);
        space.bind(bag.message_space);
@@ -92,30 +123,21 @@ class TextLineShape : public TextLineState
       }
     };
 
-   const Config &cfg;
    String text;
    Pane pane;
    unsigned update_mask = LayoutUpdate ;
 
-   // methods
-
-   TextLineShape(const Config &cfg_,const String &text_) : cfg(cfg_),text(text_) {}
-
-   explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
-
    void update(unsigned flags) { if( flags&update_mask ) cache.ok=false; }
 
-   Point getMinSize() const;
+  protected:
 
-   Point getMinSize(StrLen text) const;
+   Point getMinSize_cfg(const ConfigBase &cfg) const;
 
-   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   Point getMinSize_cfg(const ConfigBase &cfg,StrLen text) const;
 
-   void layout();
+   void layout_cfg(const ConfigBase &cfg,Coord &xoff_max,Coord &dxoff);
 
-   void draw(const DrawBuf &buf,DrawParam draw_param) const;
-
-  private:
+   void draw_cfg(const ConfigBase &cfg,const DrawBuf &buf,Coord xoff,Coord xoff_max,bool enable,bool focus,VColor back) const;
 
    struct Cache
     {
@@ -128,10 +150,96 @@ class TextLineShape : public TextLineState
      Coord font_dx0 = 0 ;
      bool ok = false ;
 
-     void operator () (const Config &cfg,StrLen text);
+     void operator () (const ConfigBase &cfg,StrLen text);
     };
 
    mutable Cache cache;
+ };
+
+/* class TextLineShape */
+
+class TextLineShape : public TextLineState , public TextLineShapeBase
+ {
+   VColor getBack() const;
+
+  public:
+
+   struct Config : ConfigBase
+    {
+     RefVal<VColor> alert = Pink ;
+
+     Config() noexcept {}
+
+     template <class Bag>
+     void bind(const Bag &bag)
+      {
+       bindBase(bag);
+
+       alert.bind(bag.alert);
+      }
+    };
+
+   const Config &cfg;
+
+   // methods
+
+   TextLineShape(const Config &cfg_,const String &text_) : cfg(cfg_) { text=text_; }
+
+   explicit TextLineShape(const Config &cfg_) : cfg(cfg_) {}
+
+   Point getMinSize() const;
+
+   Point getMinSize(StrLen text) const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void layout();
+
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
+ };
+
+/* class TextLineCodeShape */
+
+class TextLineCodeShape : public TextLineCodeState , public TextLineShapeBase
+ {
+   VColor getBack() const;
+
+  public:
+
+   struct Config : ConfigBase
+    {
+     RefVal<VColor> alert   =   Pink ;
+     RefVal<VColor> warning = Yellow ;
+
+     Config() noexcept {}
+
+     template <class Bag>
+     void bind(const Bag &bag)
+      {
+       bindBase(bag);
+
+       alert.bind(bag.alert);
+       warning.bind(bag.warning);
+      }
+    };
+
+   const Config &cfg;
+
+   // methods
+
+   TextLineCodeShape(const Config &cfg_,const String &text_) : cfg(cfg_) { text=text_; }
+
+   explicit TextLineCodeShape(const Config &cfg_) : cfg(cfg_) {}
+
+   Point getMinSize() const;
+
+   Point getMinSize(StrLen text) const;
+
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void layout();
+
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

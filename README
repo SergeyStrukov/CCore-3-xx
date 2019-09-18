@@ -35,7 +35,7 @@ I keep it in a healthy condition.
 Minor changes, small improvements, bug fixes, documentation updates.
 I don't plan for major updates in this series.
 You may find CCore tool executables for the target WIN32utf8 at the following link https://1drv.ms/f/s!AOZGgZ-2_qMrgm0.
-It also contains cygwin gcc-9.1.0 compiles for supported targets.
+It also contains cygwin gcc-9.1.0 compilers for supported targets.
 
 The next series will be 4-xx, it will come after the next major development tools update, past 2020.
 Stay tuned.
