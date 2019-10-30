@@ -62,18 +62,50 @@ Two memory management functions sets.</p>
 <span class="kt">void</span> <span class="n">operator</span> <span class="n">delete</span><span class="p">[]</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span> <span class="c1">// for   delete[] mem;</span>
 </pre></div>
 </div>
-<p>In any sane implementation they are the same, except the <em>new</em> throws an exception, but <em>malloc</em> just returns 0.</p>
+<p>In any sane implementation they are the same, except the <strong>new</strong> throws an exception, but <strong>malloc</strong> just returns 0.</p>
 </div>
 <div class="section" id="what-is-missing">
 <h1>What is missing<a class="headerlink" href="#what-is-missing" title="Permalink to this headline">¶</a></h1>
 <p>Oh, a lot of things!</p>
+<div class="section" id="basic">
+<h2>Basic<a class="headerlink" href="#basic" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start with the basic functionality. We will discuss the global heap functions,
+but the same is relevant to heap class objects.</p>
+<p>alloc/free:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="nf">TryMemAlloc</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">)</span> <span class="n">noexcept</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="o">*</span> <span class="nf">MemAlloc</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">MemFree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span>            <span class="c1">// mem may == 0</span>
+</pre></div>
+</div>
+<p>First of all, no <strong>size_t</strong>, please. <strong>ulen</strong> is a much better name for the practicall programming,
+where the good name selection does matter.</p>
+<p>Second, we need two allocation functions. One throws an exception, and another returns <strong>null</strong>.</p>
+</div>
 <div class="section" id="protection">
 <h2>Protection<a class="headerlink" href="#protection" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
+<p>What if we pass a wrong argument to <strong>MemFree()</strong>? <em>Undefine behavior</em> ?
+No, thanks. Heap must have a <em>defined</em> behavior in this case: print a diagnostic message and then call <strong>abort()</strong>.
+Can we implement this? Yes, we can!
+Can we do it efficiently? Yes! We can do it too!
+So it must be a <strong>required property of the heap</strong>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">MemFree</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="o">:</span> <span class="k">if</span> <span class="n">mem</span> <span class="n">is</span> <span class="n">not</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">argument</span><span class="p">,</span> <span class="n">it</span> <span class="n">prints</span> <span class="n">a</span> <span class="n">diagnostic</span> <span class="n">message</span> <span class="n">and</span> <span class="n">then</span> <span class="n">call</span> <span class="n">abort</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="expand-and-shrink">
 <h2>Expand and shrink<a class="headerlink" href="#expand-and-shrink" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
+<p>expand/shrink:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="nf">MemExtend</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
+
+<span class="kt">bool</span> <span class="nf">MemShrink</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
+</pre></div>
+</div>
+<p>This two function can be used to extend or shrink an allocated block of memory <em>in-place</em>.</p>
+<p>TODO
+std::vector
+realloc()</p>
 </div>
 <div class="section" id="memory-usage-statistics">
 <h2>Memory usage statistics<a class="headerlink" href="#memory-usage-statistics" title="Permalink to this headline">¶</a></h2>
@@ -86,7 +118,7 @@ Two memory management functions sets.</p>
 </div>
 <div class="section" id="ccore-memory-management">
 <h1>CCore memory management<a class="headerlink" href="#ccore-memory-management" title="Permalink to this headline">¶</a></h1>
-<p>When I’ve started development of <em>CCore</em>, the first prioryty task was to design the proper memory management subsystem, instead of standard.
+<p>When I’ve started development of <strong>CCore</strong>, the first prioryty task was to design the proper memory management subsystem, instead of standard.
 Why? For several reasons.</p>
 <p>TODO</p>
 </div>
@@ -108,6 +140,7 @@ Why? For several reasons.</p>
 <li><a class="reference internal" href="#">Abstract</a></li>
 <li><a class="reference internal" href="#prologue">Prologue</a></li>
 <li><a class="reference internal" href="#what-is-missing">What is missing</a><ul>
+<li><a class="reference internal" href="#basic">Basic</a></li>
 <li><a class="reference internal" href="#protection">Protection</a></li>
 <li><a class="reference internal" href="#expand-and-shrink">Expand and shrink</a></li>
 <li><a class="reference internal" href="#memory-usage-statistics">Memory usage statistics</a></li>
