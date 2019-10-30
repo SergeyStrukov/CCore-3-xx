@@ -15,6 +15,23 @@ Welcome to CCore documentation!
    :caption: Contents:
 
    brief/brief
+
+Extras
+======
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Memory management:
+
+   articles/memory
+
+Test
+====
+
+.. toctree::
+   :maxdepth: 2
+   :caption: sphinx test:
+
    test/test
 
 Indices and tables
