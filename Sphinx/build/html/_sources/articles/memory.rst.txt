@@ -15,13 +15,13 @@ Prologue
 So, what's exactly SL gives us.
 Two memory management functions sets.
 
-The old C pair::
+The old **C** pair::
 
    void * malloc(size_t len);
 
    void free(void *mem);
 
-The new C++ pair::
+The new **C++** pair::
 
    void * operator new[] (size_t len); // for   char *mem=new char[len];
 
@@ -46,13 +46,14 @@ alloc/free::
 
    void * MemAlloc(ulen len);
  
-   void MemFree(void *mem);            // mem may == 0
+   void MemFree(void *mem); // mem may == 0
 
 
 First of all, no **size_t**, please. **ulen** is a much better name for the practicall programming, 
 where the good name selection does matter.
 
 Second, we need two allocation functions. One throws an exception, and another returns **null**.
+An we need functions, not operators, clean and simple.
 
 Protection
 ----------
@@ -68,7 +69,7 @@ So it must be a **required property of the heap**::
 Expand and shrink
 -----------------
 
-expand/shrink::
+extend/shrink::
 
    bool MemExtend(void *mem,ulen len); // mem may == 0
 
@@ -76,19 +77,83 @@ expand/shrink::
 
 This two function can be used to extend or shrink an allocated block of memory *in-place*.
 
-TODO
-std::vector
-realloc()
+Why these functions are required?
+
+Consider a dynamic array class, like **std::vector**.
+This class allocates a memory block, then creates a range of elements withing.
+When you append the array with a new element, it must find a memory behind the last element.
+If there is no one, it must reallocate a bigger block of memory, then move elements there. 
+This is expensive. So, why don't try to *extend* the memory block in-place? It may fall,
+and in such case we do full reallocation.
+
+Another case, if you have an array, you may have an extra memory, reserved behind the last element. 
+But if you don't need to extend the array anymore, you may *shrink* the memory block to release the extra memory.
+
+There is **C** function **realloc()**, I haven't mentioned before and for a reason. 
+This function does some memory reallocation. 
+But it does it in such a way, it cannot be used in **C++** with objects of non-trivial types.
+
+So we need a simple and clean solution like presented above.
+
+Both these functions are efficient.
+
 
 Memory usage statistics
 -----------------------
 
-TODO
+stats::
+
+   struct MemStatData
+    {
+     ulen block_count; // the count of allocated memory blocks
+     ulen len_count;   // the total allocated memory
+
+     .... // some methods
+    };
+
+   struct MemStat : MemStatData
+    {
+     MemStat();
+    };
+
+   struct MemPeak : MemStatData
+    {
+     MemPeak();
+    };
+
+These set of functions (not a functions, ofc, but a *class-functions*) returns the heap statistic information.
+
+What are they good for?
+
+For information and for memory leak detection. It can help detect memory leaks during testing.
+
+**MemStat** returns the current heap statistic.
+
+**MemPeak** returns the peak heap statistic.
+
+Both are usefull.
 
 Utilities
 ---------
 
-TODO
+utilities::
+
+   ulen MemLen(const void *mem); // mem may == 0
+
+   void MemLim(ulen limit);
+
+   void GuardNoMem(ulen len);
+
+And some utilities at last.
+
+**MemLen()** determins the length of the memory block.
+
+**MemLim()** limits the heap capacity. I's very useful for testing. 
+You can easily simulate the situation of memory exhausted.
+
+**GuardNoMem()** throws a *"no-memory"* exception. It is used by **MemAlloc()** to throw an exception, 
+and can be used in custom situations to implement the similar behavior.
+
 
 CCore memory management
 =======================

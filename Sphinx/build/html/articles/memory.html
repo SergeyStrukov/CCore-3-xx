@@ -50,13 +50,13 @@
 <h1>Prologue<a class="headerlink" href="#prologue" title="Permalink to this headline">¶</a></h1>
 <p>So, what’s exactly SL gives us.
 Two memory management functions sets.</p>
-<p>The old C pair:</p>
+<p>The old <strong>C</strong> pair:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="nf">malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">len</span><span class="p">);</span>
 
 <span class="kt">void</span> <span class="nf">free</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>The new C++ pair:</p>
+<p>The new <strong>C++</strong> pair:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="o">*</span> <span class="n">operator</span> <span class="n">new</span><span class="p">[]</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// for   char *mem=new char[len];</span>
 
 <span class="kt">void</span> <span class="n">operator</span> <span class="n">delete</span><span class="p">[]</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span> <span class="c1">// for   delete[] mem;</span>
@@ -76,12 +76,13 @@ but the same is relevant to heap class objects.</p>
 
 <span class="kt">void</span> <span class="o">*</span> <span class="nf">MemAlloc</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
 
-<span class="kt">void</span> <span class="nf">MemFree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span>            <span class="c1">// mem may == 0</span>
+<span class="kt">void</span> <span class="nf">MemFree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
 </pre></div>
 </div>
 <p>First of all, no <strong>size_t</strong>, please. <strong>ulen</strong> is a much better name for the practicall programming,
 where the good name selection does matter.</p>
-<p>Second, we need two allocation functions. One throws an exception, and another returns <strong>null</strong>.</p>
+<p>Second, we need two allocation functions. One throws an exception, and another returns <strong>null</strong>.
+An we need functions, not operators, clean and simple.</p>
 </div>
 <div class="section" id="protection">
 <h2>Protection<a class="headerlink" href="#protection" title="Permalink to this headline">¶</a></h2>
@@ -96,24 +97,73 @@ So it must be a <strong>required property of the heap</strong>:</p>
 </div>
 <div class="section" id="expand-and-shrink">
 <h2>Expand and shrink<a class="headerlink" href="#expand-and-shrink" title="Permalink to this headline">¶</a></h2>
-<p>expand/shrink:</p>
+<p>extend/shrink:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="nf">MemExtend</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
 
 <span class="kt">bool</span> <span class="nf">MemShrink</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">,</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
 </pre></div>
 </div>
 <p>This two function can be used to extend or shrink an allocated block of memory <em>in-place</em>.</p>
-<p>TODO
-std::vector
-realloc()</p>
+<p>Why these functions are required?</p>
+<p>Consider a dynamic array class, like <strong>std::vector</strong>.
+This class allocates a memory block, then creates a range of elements withing.
+When you append the array with a new element, it must find a memory behind the last element.
+If there is no one, it must reallocate a bigger block of memory, then move elements there.
+This is expensive. So, why don’t try to <em>extend</em> the memory block in-place? It may fall,
+and in such case we do full reallocation.</p>
+<p>Another case, if you have an array, you may have an extra memory, reserved behind the last element.
+But if you don’t need to extend the array anymore, you may <em>shrink</em> the memory block to release the extra memory.</p>
+<p>There is <strong>C</strong> function <strong>realloc()</strong>, I haven’t mentioned before and for a reason.
+This function does some memory reallocation.
+But it does it in such a way, it cannot be used in <strong>C++</strong> with objects of non-trivial types.</p>
+<p>So we need a simple and clean solution like presented above.</p>
+<p>Both these functions are efficient.</p>
 </div>
 <div class="section" id="memory-usage-statistics">
 <h2>Memory usage statistics<a class="headerlink" href="#memory-usage-statistics" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
+<p>stats:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">MemStatData</span>
+ <span class="p">{</span>
+  <span class="n">ulen</span> <span class="n">block_count</span><span class="p">;</span> <span class="c1">// the count of allocated memory blocks</span>
+  <span class="n">ulen</span> <span class="n">len_count</span><span class="p">;</span>   <span class="c1">// the total allocated memory</span>
+
+  <span class="p">....</span> <span class="c1">// some methods</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">MemStat</span> <span class="p">:</span> <span class="n">MemStatData</span>
+ <span class="p">{</span>
+  <span class="n">MemStat</span><span class="p">();</span>
+ <span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">MemPeak</span> <span class="p">:</span> <span class="n">MemStatData</span>
+ <span class="p">{</span>
+  <span class="n">MemPeak</span><span class="p">();</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+<p>These set of functions (not a functions, ofc, but a <em>class-functions</em>) returns the heap statistic information.</p>
+<p>What are they good for?</p>
+<p>For information and for memory leak detection. It can help detect memory leaks during testing.</p>
+<p><strong>MemStat</strong> returns the current heap statistic.</p>
+<p><strong>MemPeak</strong> returns the peak heap statistic.</p>
+<p>Both are usefull.</p>
 </div>
 <div class="section" id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
+<p>utilities:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ulen</span> <span class="nf">MemLen</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">mem</span><span class="p">);</span> <span class="c1">// mem may == 0</span>
+
+<span class="kt">void</span> <span class="nf">MemLim</span><span class="p">(</span><span class="n">ulen</span> <span class="n">limit</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">GuardNoMem</span><span class="p">(</span><span class="n">ulen</span> <span class="n">len</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And some utilities at last.</p>
+<p><strong>MemLen()</strong> determins the length of the memory block.</p>
+<p><strong>MemLim()</strong> limits the heap capacity. I’s very useful for testing.
+You can easily simulate the situation of memory exhausted.</p>
+<p><strong>GuardNoMem()</strong> throws a <em>“no-memory”</em> exception. It is used by <strong>MemAlloc()</strong> to throw an exception,
+and can be used in custom situations to implement the similar behavior.</p>
 </div>
 </div>
 <div class="section" id="ccore-memory-management">
