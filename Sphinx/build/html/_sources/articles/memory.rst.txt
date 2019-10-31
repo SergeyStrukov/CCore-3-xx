@@ -7,7 +7,7 @@ Abstract
 
 WIMSL: What I miss in the standard library.
 
-Yes. I need the *memory mangement* and need it better, than the standard library provides.
+Yes. I need the *memory management* and need it better, than the standard library provides.
 
 Prologue
 ========
