@@ -131,7 +131,7 @@ For information and for memory leak detection. It can help detect memory leaks d
 
 **MemPeak** returns the peak heap statistic.
 
-Both are usefull.
+Both values are usefull.
 
 Utilities
 ---------
@@ -161,7 +161,12 @@ CCore memory management
 When I've started development of **CCore**, the first prioryty task was to design the proper memory management subsystem, instead of standard.
 Why? For several reasons.
 
-TODO
+For real-time systems we need a real-time heap. On bare-metal, heap lives in a predefine memory region and we can make it real-time.
+On normal OS, heap makes system calls to get a huge memory regions and then split them on smaller ones. So it can be made quasi-real-time.
+
+On bare-metal, we are limited in resources, so extend and shrink functions are a big plus.
+Heap protection and statistic are also helpful in development of reliable software.
+
 
 EOF
 ===
