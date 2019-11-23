@@ -1909,6 +1909,14 @@ TextWindow::~TextWindow()
  {
  }
 
+ // special methods
+
+void TextWindow::adjustScrollPos()
+ {
+  sx.adjustPos();
+  sy.adjustPos();
+ }
+
  // methods
 
 Point TextWindow::getMinSize(Point) const
@@ -2046,9 +2054,6 @@ void TextWindow::layout()
 
   sx.total+=sx.page/8;
   sy.total+=sy.page/4;
-
-  sx.adjustPos();
-  sy.adjustPos();
  }
 
 bool TextWindow::HasSpec(BookLab::Span &span)

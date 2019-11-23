@@ -274,6 +274,8 @@ class InnerBookLabWindow : public SubWindow
 
    ScrollPos getScrollYRange() const { return sy; }
 
+   void adjustScrollPos();
+
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
      connector_posX.connect(scroll_x);

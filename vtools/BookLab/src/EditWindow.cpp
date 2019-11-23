@@ -564,6 +564,14 @@ void InnerBookLabWindow::downItem()
   if( cursor.handleMoveNext()==BookLab::HandleUpdate ) update(true);
  }
 
+ // special methods
+
+void InnerBookLabWindow::adjustScrollPos()
+ {
+  sx.adjustPos();
+  sy.adjustPos();
+ }
+
  // drawing
 
 void InnerBookLabWindow::layout()
@@ -599,9 +607,6 @@ void InnerBookLabWindow::layout()
      sy.total=(ulen)AddSize(size.y,s.y/2);
      sy.page=1;
     }
-
-  sx.adjustPos();
-  sy.adjustPos();
  }
 
 void InnerBookLabWindow::draw(DrawBuf buf,DrawParam draw_param) const

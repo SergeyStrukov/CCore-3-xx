@@ -131,6 +131,8 @@ class ScrollListShape : public ScrollListState
 
    void layout();
 
+   void adjustScrollPos() {}
+
    void initSelect();
 
    ulen getLineCount() const { return info->getLineCount(); }

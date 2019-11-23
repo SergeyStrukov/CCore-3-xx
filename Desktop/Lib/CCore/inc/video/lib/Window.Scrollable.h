@@ -71,6 +71,8 @@ class Window
 
    ScrollPos getScrollYRange() const;
 
+   void adjustScrollPos();
+
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y);
 
    // methods
@@ -143,6 +145,8 @@ class ScrollableWindow : public ComboWindow
 
    void setScroll()
     {
+     window.adjustScrollPos();
+
      if( scroll_x.isListed() ) scroll_x.setRange(window.getScrollXRange());
 
      if( scroll_y.isListed() ) scroll_y.setRange(window.getScrollYRange());

@@ -388,6 +388,14 @@ ulen InnerBookWindow::getFrameIndex() const
   return Dist(shapes.getPtr(),r.ptr);
  }
 
+ // special methods
+
+void InnerBookWindow::adjustScrollPos()
+ {
+  sx.adjustPos();
+  sy.adjustPos();
+ }
+
  // drawing
 
 void InnerBookWindow::layout()
@@ -423,9 +431,6 @@ void InnerBookWindow::layout()
      sy.total=(ulen)size.y;
      sy.page=1;
     }
-
-  sx.adjustPos();
-  sy.adjustPos();
  }
 
 void InnerBookWindow::draw(DrawBuf buf,DrawParam) const

@@ -237,6 +237,11 @@ class ScrollListInnerWindowOf : public SubWindow
      return {shape.yoff_max+shape.page,shape.page,shape.yoff};
     }
 
+   void adjustScrollPos()
+    {
+     shape.adjustScrollPos();
+    }
+
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
      connector_posX.connect(scroll_x);

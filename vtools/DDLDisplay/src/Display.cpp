@@ -1311,6 +1311,14 @@ DDLInnerWindow::~DDLInnerWindow()
  {
  }
 
+ // special methods
+
+void DDLInnerWindow::adjustScrollPos()
+ {
+  slide_x.adjustPos();
+  slide_y.adjustPos();
+ }
+
  // methods
 
 void DDLInnerWindow::update(DDL::EngineResult result)
@@ -1329,8 +1337,8 @@ void DDLInnerWindow::layout()
  {
   Point size=getSize();
 
-  slide_x.setPage(size.x);
-  slide_y.setPage(size.y);
+  slide_x.page=size.x;
+  slide_y.page=size.y;
 
   FontSize fs=cfg.font->getSize();
 

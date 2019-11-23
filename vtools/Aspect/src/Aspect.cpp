@@ -292,10 +292,6 @@ void InnerDataWindow::setMax()
   sx.page=s.x/dxy;
 
   sy.page=s.y/dxy;
-
-  sx.adjustPos();
-
-  sy.adjustPos();
  }
 
 class InnerDataWindow::DrawItem : NoCopy
@@ -822,6 +818,15 @@ InnerDataWindow::InnerDataWindow(SubWindowHost &host,const Config &cfg_,AspectDa
 
 InnerDataWindow::~InnerDataWindow()
  {
+ }
+
+ // special methods
+
+void InnerDataWindow::adjustScrollPos()
+ {
+  sx.adjustPos();
+
+  sy.adjustPos();
  }
 
  // methods

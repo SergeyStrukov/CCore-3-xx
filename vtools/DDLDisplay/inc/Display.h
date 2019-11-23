@@ -435,13 +435,6 @@ class DDLInnerWindow : public SubWindow
 
    struct Slide : ScrollPos
     {
-     void setPage(ulen page_)
-      {
-       page=page_;
-
-       adjustPos();
-      }
-
      bool move(Coord delta,ulen mul)
       {
        if( page<total )
@@ -585,6 +578,8 @@ class DDLInnerWindow : public SubWindow
    ScrollPos getScrollXRange() const { return slide_x; }
 
    ScrollPos getScrollYRange() const { return slide_y; }
+
+   void adjustScrollPos();
 
    void connect(Signal<ulen> &scroll_x,Signal<ulen> &scroll_y)
     {
