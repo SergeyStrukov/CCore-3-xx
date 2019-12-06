@@ -47,6 +47,11 @@ void DrawPoints::Solid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag so
   art.solid(dots,solid_flag,vc);
  }
 
+void DrawPoints::Solid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  art.solid(dots,solid_flag,vc,alpha);
+ }
+
 void DrawPoints::Solid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field)
  {
   art.solid(dots,solid_flag,field);
@@ -90,6 +95,11 @@ void DrawPoints::CurveLoop(SmoothDrawArt &art,PtrLen<const MPoint> dots,HalfFlag
 void DrawPoints::CurveSolid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc)
  {
   art.curveSolid(dots,solid_flag,vc);
+ }
+
+void DrawPoints::CurveSolid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  art.curveSolid(dots,solid_flag,vc,alpha);
  }
 
 void DrawPoints::CurveSolid(SmoothDrawArt &art,PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field)
@@ -137,6 +147,11 @@ void DrawDots::CurveLoop(SmoothDrawArt &art,PtrLen<const SmoothDot> dots,HalfFla
 void DrawDots::CurveSolid(SmoothDrawArt &art,PtrLen<const SmoothDot> dots,SolidFlag solid_flag,VColor vc)
  {
   art.curveSolid(dots,solid_flag,vc);
+ }
+
+void DrawDots::CurveSolid(SmoothDrawArt &art,PtrLen<const SmoothDot> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  art.curveSolid(dots,solid_flag,vc,alpha);
  }
 
 void DrawDots::CurveSolid(SmoothDrawArt &art,PtrLen<const SmoothDot> dots,SolidFlag solid_flag,const TwoField &field)

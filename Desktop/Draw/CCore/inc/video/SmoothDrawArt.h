@@ -1738,6 +1738,11 @@ class GenDrawArt
      solid_gen(dots,solid_flag,ConstantField(vc));
     }
 
+   void solid_gen(MPointRangeType dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     solid_gen(dots,solid_flag,ConstantAlphaField(vc,alpha));
+    }
+
    template <ColorFieldType Field>
    void solid_gen(MPointRangeType dots,SolidFlag solid_flag,const Field &field)
     {
@@ -1751,6 +1756,12 @@ class GenDrawArt
    void solid_gen(R dots,MPointMapType<R> map,SolidFlag solid_flag,VColor vc)
     {
      solid_gen(dots,map,solid_flag,ConstantField(vc));
+    }
+
+   template <class R>
+   void solid_gen(R dots,MPointMapType<R> map,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     solid_gen(dots,map,solid_flag,ConstantAlphaField(vc,alpha));
     }
 
    template <class R,ColorFieldType Field>
@@ -1768,9 +1779,19 @@ class GenDrawArt
      curveSolid_gen(dots,solid_flag,ConstantField(vc));
     }
 
+   void curveSolid_gen(MPointRangeType dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     curveSolid_gen(dots,solid_flag,ConstantAlphaField(vc,alpha));
+    }
+
    void curveBreakSolid_gen(DotRangeType dots,SolidFlag solid_flag,VColor vc)
     {
      curveBreakSolid_gen(dots,solid_flag,ConstantField(vc));
+    }
+
+   void curveBreakSolid_gen(DotRangeType dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     curveBreakSolid_gen(dots,solid_flag,ConstantAlphaField(vc,alpha));
     }
 
    void curveSolid_gen(MPointRangeType dots,SolidFlag solid_flag,const ColorFieldType &field)
@@ -1794,10 +1815,22 @@ class GenDrawArt
      curveSolid_gen(dots,map,solid_flag,ConstantField(vc));
     }
 
+   template <class R>
+   void curveSolid_gen(R dots,MPointMapType<R> map,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     curveSolid_gen(dots,map,solid_flag,ConstantAlphaField(vc,alpha));
+    }
+
    template <DotRangeType R>
    void curveBreakSolid_gen(R dots,MPointMapType<R> map,SolidFlag solid_flag,VColor vc)
     {
      curveBreakSolid_gen(dots,map,solid_flag,ConstantField(vc));
+    }
+
+   template <DotRangeType R>
+   void curveBreakSolid_gen(R dots,MPointMapType<R> map,SolidFlag solid_flag,VColor vc,unsigned alpha)
+    {
+     curveBreakSolid_gen(dots,map,solid_flag,ConstantAlphaField(vc,alpha));
     }
 
    template <class R>
@@ -1950,6 +1983,8 @@ class DrawArt : public GenDrawArt
 
    void solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc);
 
+   void solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha);
+
    void solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field);
 
    void solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const RadioField &field);
@@ -1962,6 +1997,8 @@ class DrawArt : public GenDrawArt
 
    void curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc);
 
+   void curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha);
+
    void curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field);
 
    void curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const RadioField &field);
@@ -1971,6 +2008,8 @@ class DrawArt : public GenDrawArt
    void curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const AbstractAlphaField &field);
 
    void curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,VColor vc);
+
+   void curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,VColor vc,unsigned alpha);
 
    void curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,const TwoField &field);
 

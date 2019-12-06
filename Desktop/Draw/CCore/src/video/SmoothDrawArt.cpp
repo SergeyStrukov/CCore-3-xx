@@ -173,6 +173,11 @@ void DrawArt::solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc)
   solid_gen(dots,solid_flag,vc);
  }
 
+void DrawArt::solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  solid_gen(dots,solid_flag,vc,alpha);
+ }
+
 void DrawArt::solid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field)
  {
   solid_gen(dots,solid_flag,field);
@@ -200,6 +205,11 @@ void DrawArt::curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor v
   curveSolid_gen(dots,solid_flag,vc);
  }
 
+void DrawArt::curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  curveSolid_gen(dots,solid_flag,vc,alpha);
+ }
+
 void DrawArt::curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const TwoField &field)
  {
   curveSolid_gen(dots,solid_flag,field);
@@ -223,6 +233,11 @@ void DrawArt::curveSolid(PtrLen<const MPoint> dots,SolidFlag solid_flag,const Ab
 void DrawArt::curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,VColor vc)
  {
   curveBreakSolid_gen(dots,solid_flag,vc);
+ }
+
+void DrawArt::curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,VColor vc,unsigned alpha)
+ {
+  curveBreakSolid_gen(dots,solid_flag,vc,alpha);
  }
 
 void DrawArt::curveSolid(PtrLen<const Dot> dots,SolidFlag solid_flag,const TwoField &field)
