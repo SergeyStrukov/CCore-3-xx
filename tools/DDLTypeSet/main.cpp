@@ -679,18 +679,19 @@ void Process(StrLen input_file_name,StrLen typedef_file_name,StrLen typeset_file
 
       Printf(outset,"         ret.set<S#;>();\n\n",node.index);
 
-      Putobj(outset,"         DDL::SetFieldOffsets(struct_node,\n");
+      Putobj(outset,"         DDL::SetFieldOffsets(struct_node");
 
       for(auto &field : node.field_list )
         {
-         Printf(outset,"                               #.q;,offsetof(S#;,#;)",field.name.getStr(),node.index,field.name.getStr());
+         Putobj(outset,",\n");
 
-         if( field.next ) Putch(outset,',');
+         Printf(outset,"                              #.q;,offsetof(S#;,#;)",field.name.getStr(),node.index,field.name.getStr());
 
-         Putch(outset,'\n');
         }
 
-      Putobj(outset,"                              );\n");
+      Putch(outset,'\n');
+
+      Putobj(outset,"                             );\n");
 
       Putobj(outset,"        }\n");
       Putobj(outset,"       return ret;\n\n");
