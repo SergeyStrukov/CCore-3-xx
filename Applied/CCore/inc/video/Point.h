@@ -335,6 +335,10 @@ struct Pane
 
   Point getLim() const { return Point(x+dx,y+dy); }
 
+  Coord getLimX() const { return x+dx; }
+
+  Coord getLimY() const { return y+dy; }
+
   AreaType getArea() const { return Area(dx,dy); }
 
   bool contains(Point point) const
