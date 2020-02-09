@@ -30,7 +30,13 @@ bool CharIsBin(OneOfTypes<char,Char> ch) { return ch=='0' || ch=='1' ; }
 
 bool CharIsDec(OneOfTypes<char,Char> ch) { return ch>='0' && ch<='9' ; }
 
-bool CharIsHex(OneOfTypes<char,Char> ch) { return CharHexValue(ch)>=0; }
+bool CharIsHex(IsType<char> ch) { return CharHexValue(ch)>=0; }
+
+#ifdef CCORE_UTF8
+
+bool CharIsHex(IsType<Char> ch) { return SymCharHexValue(ch)>=0; }
+
+#endif
 
 int CharBinValue(OneOfTypes<char,Char> ch) { if( ch>='0' && ch<='1' ) return ch-'0'; return -1; }
 
