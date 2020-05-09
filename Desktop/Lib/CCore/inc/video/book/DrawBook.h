@@ -311,6 +311,8 @@ class Draw : NoCopy
 
 class GotoBase : NoCopy
  {
+  protected:
+
    ExtMap &map;
    Coord down;
 
@@ -497,7 +499,7 @@ class Open : OpenBase
      return ret;
     }
 
-  private:
+  public:
 
    explicit Open(PtrLen<const UInt> index_list_) : index_list(index_list_) {}
 

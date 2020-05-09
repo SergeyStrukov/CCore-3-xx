@@ -196,7 +196,7 @@ auto SpawnChild::wait() noexcept -> WaitResult
 
 /* class SpawnWaitList::Engine */
 
-class SpawnWaitList::Engine : MemBase_nocopy
+class SpawnWaitList::Engine : public MemBase_nocopy
  {
    DynArray<SpawnChild::Type> list;
    DynArray<void *> arglist;

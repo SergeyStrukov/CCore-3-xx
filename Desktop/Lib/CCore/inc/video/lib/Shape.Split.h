@@ -92,26 +92,30 @@ class SplitShape : public SplitState
 
 class XSplitShape : public SplitShape
  {
-  explicit XSplitShape(const Config &cfg) : SplitShape(cfg) {}
+  public:
 
-  SizeXSpace getMinSize() const;
+   explicit XSplitShape(const Config &cfg) : SplitShape(cfg) {}
 
-  bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   SizeXSpace getMinSize() const;
 
-  void draw(const DrawBuf &buf,DrawParam draw_param) const;
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 /* class YSplitShape */
 
 class YSplitShape : public SplitShape
  {
-  explicit YSplitShape(const Config &cfg) : SplitShape(cfg) {}
+  public:
 
-  SizeYSpace getMinSize() const;
+   explicit YSplitShape(const Config &cfg) : SplitShape(cfg) {}
 
-  bool isGoodSize(Point size) const { return size>=getMinSize(); }
+   SizeYSpace getMinSize() const;
 
-  void draw(const DrawBuf &buf,DrawParam draw_param) const;
+   bool isGoodSize(Point size) const { return size>=getMinSize(); }
+
+   void draw(const DrawBuf &buf,DrawParam draw_param) const;
  };
 
 } // namespace Video

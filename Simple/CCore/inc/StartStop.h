@@ -38,11 +38,11 @@ concept bool RunableType = requires(T &obj)
 
 /* classes */
 
-template <RunableType T> class StartStopObject;
+template <class T> class StartStopObject;
 
 /* class StartStopObject<T> */
 
-template <RunableType T>
+template <class T>
 class StartStopObject : NoCopy
  {
    T &obj;
@@ -51,7 +51,7 @@ class StartStopObject : NoCopy
   public:
 
    template <class ... TT>
-   StartStopObject(T &obj_,TT ... tt)
+   StartStopObject(T &obj_,TT ... tt) requires RunableType<T>
     : obj(obj_),
       stop_sem("StartStopObject")
     {

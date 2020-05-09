@@ -25,7 +25,7 @@ namespace Sys {
 
 /* class SpawnWaitList::Engine */
 
-class SpawnWaitList::Engine : MemBase_nocopy
+class SpawnWaitList::Engine : public MemBase_nocopy
  {
    struct Rec
     {

@@ -157,12 +157,12 @@ class ConfigBinder : NoCopyBase<Bag> , public HomeSyncBase , public ConfigItemHo
 
    virtual void syncMap(ConfigMap &map)
     {
-     Bag::Members(this, [&map] (StrLen name,auto &obj) { map.sync(name,obj); } );
+     Bag::Members((Bag *)this, [&map] (StrLen name,auto &obj) { map.sync(name,obj); } );
     }
 
    virtual void updateMap(ConfigMap &map) const
     {
-     Bag::Members(this, [&map] (StrLen name,auto &obj) { map.update(name,obj); } );
+     Bag::Members((const Bag *)this, [&map] (StrLen name,auto &obj) { map.update(name,obj); } );
     }
 
    virtual void bind(ConfigItemBind &binder)
