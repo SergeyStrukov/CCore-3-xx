@@ -56,6 +56,8 @@ class SparseVector : CmpComparable<SparseVector<I,T> >
    template <class Builder>
    SparseVector(DoBuildType,Builder builder) : cellset(DoBuild,builder) {}
 
+   friend SparseVector<I,T> operator * (const SparseMatrix<I,T> &a,const SparseVector<I,T> &b);
+
   public:
 
    // constructors

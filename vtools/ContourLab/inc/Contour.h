@@ -119,7 +119,7 @@ struct Formular : Geometry
    {
     private:
 
-     class Base : MemBase_nocopy
+     class Base : public MemBase_nocopy
       {
         ulen ref_count = 1 ;
 

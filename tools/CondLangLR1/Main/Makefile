@@ -17,7 +17,7 @@ include $(CCORE_ROOT)/Makefile.host
 
 TARGET = $(HOME)/bin/CCore-CondLangLR1.exe
 
-CCOPT_EXTRA = -I.
+CCOPT_EXTRA = -I. -Wno-non-template-friend
 
 include $(CCORE_ROOT)/Target/Makefile.app
 

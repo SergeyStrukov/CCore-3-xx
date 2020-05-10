@@ -80,6 +80,8 @@ struct Geometry
 
      Real(Bin);
 
+     double getVal() const { return val; }
+
      Real operator - () const { return -val; }
 
      friend Real operator + (Real a,Real b) { return Guard(a.val+b.val); }

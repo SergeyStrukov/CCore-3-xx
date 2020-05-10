@@ -215,7 +215,7 @@ class FieldPlotBase : public DrawBuf
 
    void plot(Point p,VColor vc,unsigned alpha)
     {
-     DesktopColor::BlendTo(Blender(Clr(alpha),vc),buf.place(p));
+     buf.pixel_unsafe(p,Blender(Clr(alpha),vc));
     }
 
    // AlphaColor

@@ -350,6 +350,8 @@ class FrameBuf : protected ColorPlane
 
    void pixel_unsafe(Point p,RawColor color);
 
+   void pixel_unsafe(Point p,BlenderType blender);
+
    void block_unsafe(Pane pane,RawColor color);
 
    void block_unsafe(Pane pane,VColor vc) { block_unsafe(pane,RawColor(vc)); }
@@ -577,6 +579,12 @@ template <RawColorType RawColor>
 void FrameBuf<RawColor>::pixel_unsafe(Point p,RawColor color)
  {
   color.copyTo(place(p));
+ }
+
+template <RawColorType RawColor>
+void FrameBuf<RawColor>::pixel_unsafe(Point p,BlenderType blender)
+ {
+  RawColor::BlendTo(blender,place(p));
  }
 
 template <RawColorType RawColor>

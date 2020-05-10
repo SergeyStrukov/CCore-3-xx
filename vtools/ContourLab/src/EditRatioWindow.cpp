@@ -21,7 +21,7 @@ namespace App {
 
 Coord EditRatioWindow::ToCoord(Geometry::Real x)
  {
-  return (Coord)x.val;
+  return (Coord)x.getVal();
  }
 
 void EditRatioWindow::newValue()
