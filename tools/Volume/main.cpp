@@ -77,21 +77,26 @@ class Proc : NoCopy
 
    // proc interface
 
-   using DataType = void ;
+   using DataType = StrLen ;
 
-   DataType * dir(StrLen root)
+   DataType * dir(StrLen)
     {
-     off=root.len+2;
+     StrLen name=""_c;
 
-     return 0;
+     return pool.create<StrLen>(name);
     }
 
-   DataType * dir(StrLen,StrLen,DataType *) { return 0; }
+   DataType * dir(StrLen,StrLen name,DataType *data)
+    {
+     StrLen dir_name=pool.cat(*data,"/"_c,name);
 
-   void file(StrLen path,StrLen name,DataType *)
+     return pool.create<StrLen>(dir_name);
+    }
+
+   void file(StrLen path,StrLen name,DataType *data)
     {
      StrLen file_path=pool.cat(path,"/"_c,name);
-     StrLen file_name=pool.cat(path.part(off),"/"_c,name);
+     StrLen file_name=pool.cat(*data,"/"_c,name);
 
      files.append_copy({file_path,file_name});
     }
